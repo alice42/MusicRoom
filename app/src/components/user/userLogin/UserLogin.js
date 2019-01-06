@@ -11,6 +11,14 @@ export default class Login extends Component {
     password: "user"
   };
 
+  handleChangeEmail = event => {
+    this.setState({ email: event });
+  };
+
+  handleChangePassword = event => {
+    this.setState({ password: event });
+  };
+
   loginEmail = () => {
     const { email, password } = this.state;
     console.log(email, password, this.props.actions);
@@ -40,14 +48,14 @@ export default class Login extends Component {
         <TextInput
           style={styles.input}
           placeholder="email"
-          onChangeText={email => this.setState({ email })}
+          onChangeText={this.handleChangeEmail}
           value={email}
         />
 
         <TextInput
           style={styles.input}
           placeholder="password"
-          onChangeText={password => this.setState({ password })}
+          onChangeText={this.handleChangePassword}
           value={password}
         />
 

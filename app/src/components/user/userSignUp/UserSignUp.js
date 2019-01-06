@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as loginActions from "../../../actions/loginActions";
 
-class SignUp extends Component {
+export default class SignUp extends Component {
   example = () => {};
   render() {
     return (
@@ -30,22 +30,3 @@ const styles = StyleSheet.create({
     borderWidth: 1
   }
 });
-
-function mapStateToProps(state) {
-  const { user } = state;
-
-  return {
-    user
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(loginActions, dispatch)
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignUp);
