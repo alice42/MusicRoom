@@ -13,7 +13,7 @@ import Test from "../screens/Test";
 
 import TabBarIcon from "../components/navigation/TabBarIcon";
 
-const ProfilStack = createStackNavigator(
+const HomeStack = createStackNavigator(
   {
     Home: {
       screen: HomeScreen
@@ -24,7 +24,7 @@ const ProfilStack = createStackNavigator(
   }
 );
 
-ProfilStack.navigationOptions = {
+HomeStack.navigationOptions = {
   tabBarLabel: "Home",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -53,7 +53,7 @@ TestStack.navigationOptions = {
 };
 
 const TabNav = createBottomTabNavigator({
-  ProfilStack,
+  HomeStack,
   TestStack
 });
 
