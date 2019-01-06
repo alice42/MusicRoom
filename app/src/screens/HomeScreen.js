@@ -16,30 +16,30 @@ class HomeScreen extends Component {
     header: null
   };
 
+  titleConfig = {
+    title: "Home",
+    tintColor: "black"
+  };
+
+  logoutButtonConfig = {
+    title: "Logout",
+    handler: () => {
+      this.props.logout();
+      this.props.navigation.navigate("Main");
+    }
+  };
   render() {
     const { counter, user } = this.props;
-
-    const titleConfig = {
-      title: "Home",
-      tintColor: "black"
-    };
-
-    const logoutButtonConfig = {
-      title: "Logout",
-      handler: () => {
-        this.props.logout();
-        this.props.navigation.navigate("Main");
-      }
-    };
 
     return (
       <View style={styles.container}>
         <NavigationBar
-          title={titleConfig}
+          title={this.titleConfig}
           tintColor="#ADF8D1"
-          rightButton={logoutButtonConfig}
+          rightButton={this.logoutButtonConfig}
         />
         <Text>{JSON.stringify(user)}</Text>
+        <Text>{JSON.stringify(this.props.nav)}</Text>
         <View style={styles.center}>
           <Text>Counter: {counter}</Text>
           <Button title="+" name="plus" onPress={this.props.increment} />
