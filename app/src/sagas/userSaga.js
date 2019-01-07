@@ -2,8 +2,7 @@ import { call, put, takeEvery, all } from "redux-saga/effects";
 import { loginCall } from "../services/login";
 
 function* searchSaga(action) {
-  const email = action.email;
-  const password = action.password;
+  const { email, password } = action;
   try {
     const payload = {
       email,

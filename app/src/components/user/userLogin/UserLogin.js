@@ -11,12 +11,12 @@ export default class Login extends Component {
     password: "user"
   };
 
-  handleChangeEmail = event => {
-    this.setState({ email: event });
+  handleChangeEmail = email => {
+    this.setState({ email });
   };
 
-  handleChangePassword = event => {
-    this.setState({ password: event });
+  handleChangePassword = password => {
+    this.setState({ password });
   };
 
   loginEmail = () => {
