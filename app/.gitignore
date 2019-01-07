@@ -368,6 +368,15 @@ Icon
 !.vscode/extensions.json
 
 ### VisualStudioCode Patch ###
+
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+
 # Ignore all local history of files
 .history
 
