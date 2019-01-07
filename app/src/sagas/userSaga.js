@@ -1,48 +1,22 @@
-import React from "react";
-import { take, put, call, fork, select } from "redux-saga/effects";
-import * as types from "../actions/actionTypes";
-import { loginSuccess, loginFailure } from "../actions/loginActions";
+import { call, put, takeEvery, all } from "redux-saga/effects";
+import { loginCall } from "../services/login";
 
-const loginData = {
-  token: "token",
-  user: {
-    name: "UserName",
-    email: "user@gmail.com"
-  }
-};
-
-function loginCall({ email, password }) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email == "user@gmail.com") {
-        resolve(loginData);
-      } else {
-        reject({ status: "wrong email or password" });
-      }
-    }, 1000); // 1 second
-  });
-}
-
-function* watchLoginRequest() {
-  while (true) {
-    const { email, password } = yield take(types.LOGIN.REQUEST);
-
-    try {
-      const payload = {
-        email,
-        password
-      };
-      const response = yield call(loginCall, payload);
-
-      yield put(loginSuccess(response));
-      console.log("SAGA LOGIN SUCCESS: ", response);
-    } catch (err) {
-      console.log("SAGA LOGIN ERR: ", err);
-      yield put(loginFailure(err.status));
-    }
+function* searchSaga(action) {
+  const email = action.email;
+  const password = action.password;
+  try {
+    const payload = {
+      email,
+      password
+    };
+    const response = yield call(loginCall, payload);
+    console.log(response);
+    yield put({ type: "LOGIN_SUCCESS", response: response });
+  } catch (err) {
+    yield put({ type: "LOGIN_FAILURE", err: err });
   }
 }
 
-export default function* root() {
-  yield fork(watchLoginRequest);
+export default function* rootSaga() {
+  yield all([yield takeEvery("LOGIN_REQUEST", searchSaga)]);
 }

@@ -1,8 +1,6 @@
-import * as types from "./actionTypes";
-
 export function loginRequest(email, password) {
   return {
-    type: types.LOGIN.REQUEST,
+    type: "LOGIN_REQUEST",
     email,
     password
   };
@@ -10,7 +8,7 @@ export function loginRequest(email, password) {
 
 export function loginSuccess({ token, user }) {
   return {
-    type: types.LOGIN.SUCCESS,
+    type: "LOGIN_SUCCESS",
     token,
     user
   };
@@ -18,13 +16,13 @@ export function loginSuccess({ token, user }) {
 
 export function loginFailure(err) {
   return {
-    type: types.LOGIN.FAILURE,
+    type: "LOGIN_FAILURE",
     err
   };
 }
 
 export function logout() {
   return {
-    type: types.LOGOUT
+    type: "LOGOUT"
   };
 }

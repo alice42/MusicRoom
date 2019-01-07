@@ -1,10 +1,8 @@
-import * as types from "../../actions/actionTypes";
-
 export default function counter(state = 0, action) {
   switch (action.type) {
-    case types.INCREMENT:
+    case "INCREMENT":
       return state + 1;
-    case types.DECREMENT:
+    case "DECREMENT":
       return state - 1;
     default:
       return state;

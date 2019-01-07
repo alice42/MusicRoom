@@ -1,5 +1,3 @@
-import * as types from "../../actions/actionTypes";
-
 const initialState = {
   isAuthenticated: false,
   isFetching: false,
@@ -10,30 +8,30 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case types.LOGIN.REQUEST:
+    case "LOGIN_REQUEST":
       return {
         ...state,
         isFetching: true,
         isAuthenticated: false
       };
-    case types.LOGIN.SUCCESS:
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         isFetching: false,
         isAuthenticated: true,
-        token: action.token,
+        token: action.response.token,
         failure: false,
-        user: action.user
+        user: action.response.user
       };
-    case types.LOGIN.FAILURE:
+    case "LOGIN_FAILURE":
       return {
         ...state,
         isFetching: false,
         isAuthenticated: false,
         failure: true,
-        errorMessage: action.err
+        errorMessage: action.err.status
       };
-    case types.LOGOUT:
+    case "LOGOUT":
       return initialState;
     default:
       return state;
