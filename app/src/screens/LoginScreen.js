@@ -16,7 +16,10 @@ import Login from "../containers/Login";
 class LoginScreen extends Component {
   componentDidUpdate = () => {
     const { isAuthenticated } = this.props;
-    if (isAuthenticated) this.props.navigation.navigate("Home");
+    const { isGoogleAuthenticated } = this.props;
+    const { isFacebookAuthenticated } = this.props;
+    if (isAuthenticated || isGoogleAuthenticated || isFacebookAuthenticated)
+      this.props.navigation.navigate("Home");
   };
 
   render() {
@@ -41,9 +44,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function(state) {
-  const { user } = state.user;
+  const { user } = state;
+  // console.log(state);
   return {
-    isAuthenticated: user.isAuthenticated
+    isAuthenticated: user.user.isAuthenticated,
+    isGoogleAuthenticated: user.google.isAuthenticated,
+    isFacebookAuthenticated: user.facebook.isAuthenticated
   };
 };
 

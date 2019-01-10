@@ -6,6 +6,8 @@ import { bindActionCreators } from "redux";
 import * as loginActions from "../actions/loginActions";
 import UserLogin from "../components/user/userLogin";
 import UserSignUp from "../components/user/userSignUp";
+import GoogleSignUp from "../components/user/userSignUp/GoogleSignUp";
+import FacebookSignUp from "../components/user/userSignUp/FacebookSignUp";
 
 export default class Login extends Component {
   state = { isDisplaying: false };
@@ -28,6 +30,8 @@ export default class Login extends Component {
           }
           onPress={this.handleDisplayClick}
         />
+        <GoogleSignUpConnected />
+        <FacebookSignUpConnected />
       </View>
     );
   }
@@ -72,3 +76,41 @@ const UserLoginConnected = connect(
   UserLoginMapStateToProps,
   UserLoginMapDispatchToProps
 )(UserLogin);
+
+function googleLoginMapStateToProps(state) {
+  const { user } = state;
+
+  return {
+    user
+  };
+}
+
+function googleLoginMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+
+const GoogleSignUpConnected = connect(
+  googleLoginMapStateToProps,
+  googleLoginMapDispatchToProps
+)(GoogleSignUp);
+
+function facebookLoginMapStateToProps(state) {
+  const { user } = state;
+
+  return {
+    user
+  };
+}
+
+function facebookLoginMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+
+const FacebookSignUpConnected = connect(
+  facebookLoginMapStateToProps,
+  facebookLoginMapDispatchToProps
+)(FacebookSignUp);
