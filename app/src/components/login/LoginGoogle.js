@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Expo from "expo";
 import { Button } from "react-native";
 import { Text, View } from "react-native";
-import * as loginActions from "../../../actions/loginActions";
+import * as loginActions from "../../actions/loginActions";
 
 class LoginGoogle extends Component {
   onLoginPress = () => {

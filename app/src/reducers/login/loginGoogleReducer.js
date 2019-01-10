@@ -1,5 +1,5 @@
 const initialState = {
-  isAuthenticated: false,
+  isGoogleAuthenticated: false,
   isFetching: false,
   token: "",
   user: {},
@@ -12,13 +12,13 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
-        isAuthenticated: false
+        isGoogleAuthenticated: false
       };
     case "GOOGLE_LOGIN_SUCCESS":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: true,
+        isGoogleAuthenticated: true,
         token: action.response.accessToken,
         failure: false,
         user: action.response.user
@@ -27,10 +27,12 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: false,
+        isGoogleAuthenticated: false,
         failure: true,
         errorMessage: action.err.status
       };
+    case "LOGOUT":
+      return initialState;
     default:
       return state;
   }

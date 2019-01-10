@@ -1,3 +1,4 @@
+//APP
 export function loginRequest(email, password) {
   return {
     type: "LOGIN_REQUEST",
@@ -21,17 +22,16 @@ export function loginFailure(err) {
   };
 }
 
+//GOOGLE
 export function googleLoginRequest() {
   return {
     type: "GOOGLE_LOGIN_REQUEST"
   };
 }
 
-export function googleLoginSuccess({ token, user }) {
+export function googleLoginSuccess() {
   return {
-    type: "GOOGLE_LOGIN_SUCCESS",
-    token,
-    user
+    type: "GOOGLE_LOGIN_SUCCESS"
   };
 }
 
@@ -42,18 +42,16 @@ export function googleLoginFailure(err) {
   };
 }
 
+//FACEBOOK
 export function facebookLoginRequest() {
-  console.log("2");
   return {
     type: "FACEBOOK_LOGIN_REQUEST"
   };
 }
 
-export function facebookLoginSuccess({ token, user }) {
+export function facebookLoginSuccess() {
   return {
-    type: "FACEBOOK_LOGIN_SUCCESS",
-    token,
-    user
+    type: "FACEBOOK_LOGIN_SUCCESS"
   };
 }
 
@@ -64,6 +62,7 @@ export function facebookLoginFailure(err) {
   };
 }
 
+//LOGOUT
 export function logout() {
   return {
     type: "LOGOUT"

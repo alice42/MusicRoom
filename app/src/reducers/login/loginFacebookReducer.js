@@ -1,5 +1,5 @@
 const initialState = {
-  isAuthenticated: false,
+  isFacebookAuthenticated: false,
   isFetching: false,
   token: "",
   user: {},
@@ -8,26 +8,26 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "LOGIN_REQUEST":
+    case "FACEBOOK_LOGIN_REQUEST":
       return {
         ...state,
         isFetching: true,
-        isAuthenticated: false
+        isFacebookAuthenticated: false
       };
-    case "LOGIN_SUCCESS":
+    case "FACEBOOK_LOGIN_SUCCESS":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: true,
-        token: action.response.token,
+        isFacebookAuthenticated: true,
+        token: action.response.id,
         failure: false,
-        user: action.response.user
+        user: action.response.name
       };
-    case "LOGIN_FAILURE":
+    case "FACEBOOK_LOGIN_FAILURE":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: false,
+        isFacebookAuthenticated: false,
         failure: true,
         errorMessage: action.err.status
       };

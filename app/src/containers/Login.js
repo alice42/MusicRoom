@@ -1,116 +1,118 @@
 import React, { Component } from "react";
-import { View, StyleSheet, TextInput, Button } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as loginActions from "../actions/loginActions";
-import UserLogin from "../components/user/userLogin";
-import UserSignUp from "../components/user/userSignUp";
-import GoogleSignUp from "../components/user/userSignUp/GoogleSignUp";
-import FacebookSignUp from "../components/user/userSignUp/FacebookSignUp";
+import SignUpApp from "../components/login/SignUpApp";
+import LoginApp from "../components/login/LoginApp";
+import LoginGoogle from "../components/login/LoginGoogle";
+import LoginFacebook from "../components/login/LoginFacebook";
 
 export default class Login extends Component {
-  state = { isDisplaying: false };
+  state = { isRegistred: false };
 
   handleDisplayClick = () => {
-    this.setState({ isDisplaying: !this.state.isDisplaying });
+    this.setState({ isRegistred: !this.state.isRegistred });
   };
 
   render() {
-    const { isDisplaying } = this.state;
+    const { isRegistred } = this.state;
     return (
       <View>
-        {isDisplaying ? <UserLoginConnected /> : <UserSignUpConnected />}
+        {isRegistred ? <LoginAppConnected /> : <SignUpAppConnected />}
         <Button
           color="gray"
           title={
-            isDisplaying
+            isRegistred
               ? "Not register yet? Sign Up!"
               : "Already register? Log In!"
           }
           onPress={this.handleDisplayClick}
         />
-        <GoogleSignUpConnected />
-        <FacebookSignUpConnected />
+        <LoginGoogleConnected />
+        <LoginFacebookConnected />
       </View>
     );
   }
 }
 
-//Sign Up props
-function UserSignUpMapStateToProps(state) {
+//APP
+//Sign Up
+function signUpAppMapStateToProps(state) {
   const { user } = state;
-
   return {
     user
   };
 }
 
-function UserSignUpmapDispatchToProps(dispatch) {
+function signUpAppmapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(loginActions, dispatch)
   };
 }
 
-const UserSignUpConnected = connect(
-  UserSignUpMapStateToProps,
-  UserSignUpmapDispatchToProps
-)(UserSignUp);
+const SignUpAppConnected = connect(
+  signUpAppMapStateToProps,
+  signUpAppmapDispatchToProps
+)(SignUpApp);
 
-//Login props
-function UserLoginMapStateToProps(state) {
-  const { user } = state;
+//Login
+function loginAppMapStateToProps(state) {
+  const { login } = state;
 
   return {
-    user
+    loginApp: login.App
   };
 }
 
-function UserLoginMapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(loginActions, dispatch)
-  };
-}
-
-const UserLoginConnected = connect(
-  UserLoginMapStateToProps,
-  UserLoginMapDispatchToProps
-)(UserLogin);
-
-function googleLoginMapStateToProps(state) {
-  const { user } = state;
-
-  return {
-    user
-  };
-}
-
-function googleLoginMapDispatchToProps(dispatch) {
+function loginAppMapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(loginActions, dispatch)
   };
 }
 
-const GoogleSignUpConnected = connect(
-  googleLoginMapStateToProps,
-  googleLoginMapDispatchToProps
-)(GoogleSignUp);
+const LoginAppConnected = connect(
+  loginAppMapStateToProps,
+  loginAppMapDispatchToProps
+)(LoginApp);
 
-function facebookLoginMapStateToProps(state) {
-  const { user } = state;
+//GOOGLE
+function loginGoogleMapStateToProps(state) {
+  const { login } = state;
 
   return {
-    user
+    loginGoogle: login.Google
   };
 }
 
-function facebookLoginMapDispatchToProps(dispatch) {
+function loginGoogleMapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(loginActions, dispatch)
   };
 }
 
-const FacebookSignUpConnected = connect(
-  facebookLoginMapStateToProps,
-  facebookLoginMapDispatchToProps
-)(FacebookSignUp);
+const LoginGoogleConnected = connect(
+  loginGoogleMapStateToProps,
+  loginGoogleMapDispatchToProps
+)(LoginGoogle);
+
+//FACEBOOK
+function loginFacebookMapStateToProps(state) {
+  const { login } = state;
+
+  return {
+    loginFacebook: login.Facebook
+  };
+}
+
+function loginFacebookMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+
+const LoginFacebookConnected = connect(
+  loginFacebookMapStateToProps,
+  loginFacebookMapDispatchToProps
+)(LoginFacebook);

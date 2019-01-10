@@ -1,6 +1,6 @@
 import { Google } from "expo";
 
-export const signInWithGoogleAsync = async () => {
+export const loginGoogleCall = async () => {
   try {
     const result = await Google.logInAsync({
       androidClientId:

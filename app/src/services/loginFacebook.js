@@ -1,4 +1,4 @@
-export const signInWithFacebookAsync = async () => {
+export const loginFacebookCall = async () => {
   try {
     const {
       type,
@@ -15,7 +15,6 @@ export const signInWithFacebookAsync = async () => {
         `https://graph.facebook.com/me?access_token=${token}`
       );
       const result = await response.json();
-      console.log("5", result);
       alert(`Logged in!, Hi ${result.name}!`);
       return result;
     } else {

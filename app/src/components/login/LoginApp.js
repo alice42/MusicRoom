@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet, TextInput, Button, Text } from "react-native";
 import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
-import * as loginActions from "../../../actions/loginActions";
+import * as loginActions from "../../actions/loginActions";
 
 export default class Login extends Component {
   state = {
@@ -20,24 +20,21 @@ export default class Login extends Component {
 
   loginEmail = () => {
     const { email, password } = this.state;
-    console.log(email, password, this.props.actions);
     this.props.actions.loginRequest(email, password);
   };
 
   render() {
     const { email, password } = this.state;
-    const { user } = this.props;
-
+    const { loginApp } = this.props;
     const titleConfig = {
       title: "Login",
       tintColor: "black"
     };
 
     let error;
-    if (user.user.errorMessage !== "") {
-      console.log("user", user, user.user.errorMessage);
+    if (loginApp.errorMessage !== "") {
       error = (
-        <Text style={{ backgroundColor: "red" }}>{user.user.errorMessage}</Text>
+        <Text style={{ backgroundColor: "red" }}>{loginApp.errorMessage}</Text>
       );
     }
 

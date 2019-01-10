@@ -1,5 +1,5 @@
 const initialState = {
-  isAuthenticated: false,
+  isAppAuthenticated: false,
   isFetching: false,
   token: "",
   user: {},
@@ -7,31 +7,32 @@ const initialState = {
 };
 
 function reducer(state = initialState, action) {
-  console.log("3", action);
   switch (action.type) {
-    case "FACEBOOK_LOGIN_REQUEST":
+    case "LOGIN_REQUEST":
       return {
         ...state,
         isFetching: true,
-        isAuthenticated: false
+        isAppAuthenticated: false
       };
-    case "FACEBOOK_LOGIN_SUCCESS":
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: true,
-        token: action.response.id,
+        isAppAuthenticated: true,
+        token: action.response.token,
         failure: false,
-        user: action.response.name
+        user: action.response.user
       };
-    case "FACEBOOK_LOGIN_FAILURE":
+    case "LOGIN_FAILURE":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: false,
+        isAppAuthenticated: false,
         failure: true,
         errorMessage: action.err.status
       };
+    case "LOGOUT":
+      return initialState;
     default:
       return state;
   }
