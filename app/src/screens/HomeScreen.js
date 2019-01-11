@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
+  const SignUpByApp = state.login.AppSignUp.isAppAuthenticated;
   const logByApp = state.login.App.isAppAuthenticated;
   const logByGoogle = state.login.Google.isGoogleAuthenticated;
   const logByFacebook = state.login.Facebook.isFacebookAuthenticated;
@@ -78,6 +79,12 @@ function mapStateToProps(state) {
   }
   if (logByFacebook) {
     const { user } = state.login.Facebook;
+    return {
+      user
+    };
+  }
+  if (SignUpByApp) {
+    const { user } = state.login.AppSignUp;
     return {
       user
     };

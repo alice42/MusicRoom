@@ -1,4 +1,5 @@
 //APP
+//login
 export function loginRequest(email, password) {
   return {
     type: "LOGIN_REQUEST",
@@ -18,6 +19,30 @@ export function loginSuccess({ token, user }) {
 export function loginFailure(err) {
   return {
     type: "LOGIN_FAILURE",
+    err
+  };
+}
+
+//sign up
+export function signUpRequest(email, username, password) {
+  return {
+    type: "SIGN_UP_REQUEST",
+    email,
+    username,
+    password
+  };
+}
+export function signUpLoginSuccess() {
+  return {
+    type: "SIGN_UP_SUCCESS",
+    token,
+    user
+  };
+}
+
+export function signUpLoginFailure(err) {
+  return {
+    type: "SIGN_UP_FAILURE",
     err
   };
 }

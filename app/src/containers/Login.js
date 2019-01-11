@@ -40,9 +40,9 @@ export default class Login extends Component {
 //APP
 //Sign Up
 function signUpAppMapStateToProps(state) {
-  const { user } = state;
+  const { login } = state;
   return {
-    user
+    AppSignUp: login.AppSignUp
   };
 }
 

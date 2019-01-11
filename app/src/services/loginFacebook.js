@@ -10,7 +10,6 @@ export const loginFacebookCall = async () => {
       permissions: ["public_profile"]
     });
     if (type === "success") {
-      // Get the user's name using Facebook's Graph API
       const response = await fetch(
         `https://graph.facebook.com/me?access_token=${token}`
       );
@@ -18,7 +17,7 @@ export const loginFacebookCall = async () => {
       alert(`Logged in!, Hi ${result.name}!`);
       return result;
     } else {
-      // type === 'cancel'
+      return { cancelled: true };
     }
   } catch ({ message }) {
     alert(`Facebook Login Error: ${message}`);

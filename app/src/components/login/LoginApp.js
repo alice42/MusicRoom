@@ -52,6 +52,7 @@ export default class Login extends Component {
           style={styles.input}
           placeholder="password"
           onChangeText={this.handleChangePassword}
+          secureTextEntry={true}
           value={password}
         />
 

@@ -6,10 +6,21 @@ import Login from "../containers/Login";
 
 class LoginScreen extends Component {
   componentDidUpdate = () => {
-    const { isAppAuthenticated } = this.props;
-    const { isGoogleAuthenticated } = this.props;
-    const { isFacebookAuthenticated } = this.props;
-    if (isAppAuthenticated || isGoogleAuthenticated || isFacebookAuthenticated)
+    const {
+      isAppAuthenticated,
+      isGoogleAuthenticated,
+      isFacebookAuthenticated,
+      isAppSignUpAuthenticated
+    } = this.props;
+    // const { isGoogleAuthenticated } = this.props;
+    // const { isFacebookAuthenticated } = this.props;
+    // const {isAppSignUpAuthenticated }
+    if (
+      isAppAuthenticated ||
+      isGoogleAuthenticated ||
+      isFacebookAuthenticated ||
+      isAppSignUpAuthenticated
+    )
       this.props.navigation.navigate("Home");
   };
 
@@ -37,6 +48,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = function(state) {
   const { login } = state;
   return {
+    isAppSignUpAuthenticated: login.AppSignUp.isAppAuthenticated,
     isAppAuthenticated: login.App.isAppAuthenticated,
     isGoogleAuthenticated: login.Google.isGoogleAuthenticated,
     isFacebookAuthenticated: login.Facebook.isFacebookAuthenticated

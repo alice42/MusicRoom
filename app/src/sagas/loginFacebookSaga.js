@@ -4,7 +4,10 @@ import { loginFacebookCall } from "../services/loginFacebook";
 function* loginFacebookSaga(action) {
   try {
     const response = yield call(loginFacebookCall);
-    yield put({ type: "FACEBOOK_LOGIN_SUCCESS", response: response });
+    console.log(response);
+    if (!response.cancelled) {
+      yield put({ type: "FACEBOOK_LOGIN_SUCCESS", response: response });
+    }
   } catch (err) {
     yield put({ type: "FACEBOOK_LOGIN_FAILURE", err: err });
   }
