@@ -15,16 +15,10 @@ export default class SignUp extends Component {
   handleChangeEmail = email => {
     this.setState({ email });
   };
-  handleChangeUsername = username => {
-    this.setState({ username });
-  };
-  handleChangePassword = password => {
-    this.setState({ password });
-  };
 
   handleSignUp = () => {
-    const { email, password, username } = this.state;
-    this.props.actions.signUpRequest(email, username, password);
+    const { email } = this.state;
+    this.props.actions.signUpRequest(email);
   };
 
   render() {
