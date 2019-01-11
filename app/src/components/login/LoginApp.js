@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, StyleSheet, TextInput, Button, Text } from "react-native";
 import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
-import * as loginActions from "../../actions/loginActions";
 
 export default class Login extends Component {
   state = {

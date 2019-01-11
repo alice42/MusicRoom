@@ -3,7 +3,6 @@ import { View, StyleSheet, TextInput, Button, Text } from "react-native";
 import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as loginActions from "../../actions/loginActions";
 
 export default class SignUp extends Component {
   state = {
