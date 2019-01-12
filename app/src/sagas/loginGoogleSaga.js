@@ -4,7 +4,7 @@ import { loginGoogleCall } from "../services/loginGoogle";
 function* loginGoogleSaga(action) {
   try {
     const response = yield call(loginGoogleCall);
-    if (!response.error) {
+    if (!response.cancelled) {
       yield put({ type: "GOOGLE_LOGIN_SUCCESS", response: response });
     }
   } catch (err) {

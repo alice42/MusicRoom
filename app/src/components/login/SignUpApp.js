@@ -22,12 +22,10 @@ export default class SignUp extends Component {
 
   render() {
     const { AppSignUp } = this.props;
-    let error;
-    if (AppSignUp.errorMessage !== "") {
-      error = (
+    const error =
+      AppSignUp.errorMessage !== "" ? (
         <Text style={{ backgroundColor: "red" }}>{AppSignUp.errorMessage}</Text>
-      );
-    }
+      ) : null;
     return (
       <View>
         {error}

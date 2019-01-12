@@ -3,6 +3,7 @@ const initialState = {
   isFetching: false,
   token: "",
   user: {},
+  failure: false,
   errorMessage: ""
 };
 

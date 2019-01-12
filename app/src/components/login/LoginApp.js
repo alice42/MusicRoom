@@ -30,13 +30,10 @@ export default class Login extends Component {
       tintColor: "black"
     };
 
-    let error;
-    if (loginApp.errorMessage !== "") {
-      error = (
+    const error =
+      loginApp.errorMessage !== "" ? (
         <Text style={{ backgroundColor: "red" }}>{loginApp.errorMessage}</Text>
-      );
-    }
-
+      ) : null;
     return (
       <View>
         {error}

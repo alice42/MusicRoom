@@ -12,9 +12,6 @@ class LoginScreen extends Component {
       isFacebookAuthenticated,
       isAppSignUpAuthenticated
     } = this.props;
-    // const { isGoogleAuthenticated } = this.props;
-    // const { isFacebookAuthenticated } = this.props;
-    // const {isAppSignUpAuthenticated }
     if (
       isAppAuthenticated ||
       isGoogleAuthenticated ||
