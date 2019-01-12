@@ -6,9 +6,7 @@ import { bindActionCreators } from "redux";
 
 export default class SignUp extends Component {
   state = {
-    email: "",
-    username: "",
-    password: ""
+    email: ""
   };
 
   handleChangeEmail = email => {
