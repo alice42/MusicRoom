@@ -1,4 +1,5 @@
 import { Facebook } from "expo";
+
 export const loginFacebookCall = async () => {
   try {
     const {
@@ -7,7 +8,7 @@ export const loginFacebookCall = async () => {
       expires,
       permissions,
       declinedPermissions
-    } = await Expo.Facebook.logInWithReadPermissionsAsync("990282421183049", {
+    } = await Facebook.logInWithReadPermissionsAsync("990282421183049", {
       permissions: ["public_profile"]
     });
     if (type === "success") {
