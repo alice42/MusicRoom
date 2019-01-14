@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  Button
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { increment, decrement } from "../actions/counterActions";
 import { logout } from "../actions/loginActions";
 import NavigationBar from "react-native-navbar";
 
@@ -29,7 +22,7 @@ class HomeScreen extends Component {
     }
   };
   render() {
-    const { counter, user } = this.props;
+    const { user } = this.props;
 
     return (
       <View style={styles.container}>
@@ -40,16 +33,7 @@ class HomeScreen extends Component {
         />
         <Text>{JSON.stringify(user)}</Text>
         <Text>{JSON.stringify(this.props.nav)}</Text>
-        <View style={styles.center}>
-          <Text>Counter: {counter}</Text>
-          <Button title="+" name="plus" onPress={this.props.increment} />
-          <Button
-            title="-"
-            name="minus"
-            background="red"
-            onPress={this.props.decrement}
-          />
-        </View>
+        <View style={styles.center} />
       </View>
     );
   }
@@ -59,8 +43,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center"
-    // alignItems: "center",
-    // flexDirection: "row"
   },
 
   center: {
@@ -79,17 +61,37 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  const { counter, user } = state;
-
-  return {
-    counter,
-    user
-  };
+  const SignUpByApp = state.login.AppSignUp.isAppAuthenticated;
+  const logByApp = state.login.App.isAppAuthenticated;
+  const logByGoogle = state.login.Google.isGoogleAuthenticated;
+  const logByFacebook = state.login.Facebook.isFacebookAuthenticated;
+  if (logByApp) {
+    const { user } = state.login.App;
+    return {
+      user
+    };
+  }
+  if (logByGoogle) {
+    const { user } = state.login.Google;
+    return {
+      user
+    };
+  }
+  if (logByFacebook) {
+    const { user } = state.login.Facebook;
+    return {
+      user
+    };
+  }
+  if (SignUpByApp) {
+    const { user } = state.login.AppSignUp;
+    return {
+      user
+    };
+  }
 }
 
 const actions = {
-  increment,
-  decrement,
   logout
 };
 

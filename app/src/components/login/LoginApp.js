@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { View, StyleSheet, TextInput, Button, Text } from "react-native";
 import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as loginActions from "../../../actions/loginActions";
 
 export default class Login extends Component {
   state = {
@@ -21,27 +19,21 @@ export default class Login extends Component {
 
   loginEmail = () => {
     const { email, password } = this.state;
-    console.log(email, password, this.props.actions);
     this.props.actions.loginRequest(email, password);
   };
 
   render() {
     const { email, password } = this.state;
-    const { user } = this.props;
-
+    const { loginApp } = this.props;
     const titleConfig = {
       title: "Login",
       tintColor: "black"
     };
 
-    let error;
-    if (user.user.errorMessage !== "") {
-      console.log("user", user, user.user.errorMessage);
-      error = (
-        <Text style={{ backgroundColor: "red" }}>{user.user.errorMessage}</Text>
-      );
-    }
-
+    const error =
+      loginApp.errorMessage !== "" ? (
+        <Text style={{ backgroundColor: "red" }}>{loginApp.errorMessage}</Text>
+      ) : null;
     return (
       <View>
         {error}
@@ -56,6 +48,7 @@ export default class Login extends Component {
           style={styles.input}
           placeholder="password"
           onChangeText={this.handleChangePassword}
+          secureTextEntry={true}
           value={password}
         />
 

@@ -6,7 +6,7 @@ const loginData = {
   }
 };
 
-export const loginCall = ({ email, password }) => {
+export const loginAppCall = ({ email, password }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (email == "user@gmail.com") {

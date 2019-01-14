@@ -1,22 +1,24 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  TextInput,
-  Button
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as loginActions from "../actions/loginActions";
 import Login from "../containers/Login";
 
 class LoginScreen extends Component {
   componentDidUpdate = () => {
-    const { isAuthenticated } = this.props;
-    if (isAuthenticated) this.props.navigation.navigate("Home");
+    const {
+      isAppAuthenticated,
+      isGoogleAuthenticated,
+      isFacebookAuthenticated,
+      isAppSignUpAuthenticated
+    } = this.props;
+    if (
+      isAppAuthenticated ||
+      isGoogleAuthenticated ||
+      isFacebookAuthenticated ||
+      isAppSignUpAuthenticated
+    )
+      this.props.navigation.navigate("Home");
   };
 
   render() {
@@ -41,9 +43,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = function(state) {
-  const { user } = state.user;
+  const { login } = state;
   return {
-    isAuthenticated: user.isAuthenticated
+    isAppSignUpAuthenticated: login.AppSignUp.isAppAuthenticated,
+    isAppAuthenticated: login.App.isAppAuthenticated,
+    isGoogleAuthenticated: login.Google.isGoogleAuthenticated,
+    isFacebookAuthenticated: login.Facebook.isFacebookAuthenticated
   };
 };
 

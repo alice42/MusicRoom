@@ -1,33 +1,34 @@
 const initialState = {
-  isAuthenticated: false,
+  isAppAuthenticated: false,
   isFetching: false,
   token: "",
   user: {},
+  failure: false,
   errorMessage: ""
 };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "LOGIN_REQUEST":
+    case "SIGN_UP_REQUEST":
       return {
         ...state,
         isFetching: true,
-        isAuthenticated: false
+        isAppAuthenticated: false
       };
-    case "LOGIN_SUCCESS":
+    case "SIGN_UP_SUCCESS":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: true,
+        isAppAuthenticated: true,
         token: action.response.token,
         failure: false,
         user: action.response.user
       };
-    case "LOGIN_FAILURE":
+    case "SIGN_UP_FAILURE":
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: false,
+        isAppAuthenticated: false,
         failure: true,
         errorMessage: action.err.status
       };
