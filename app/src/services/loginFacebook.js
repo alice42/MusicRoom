@@ -1,3 +1,4 @@
+import { Facebook } from "expo";
 export const loginFacebookCall = async () => {
   try {
     const {
