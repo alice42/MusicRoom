@@ -1,15 +1,26 @@
 import React, { Component } from "react";
-import { Button } from "react-native";
-import { Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
 
-class LoginFacebook extends Component {
+export default class LoginFacebook extends Component {
   onLoginPress = () => {
     this.props.actions.facebookLoginRequest();
   };
 
   render() {
-    return <Button onPress={this.onLoginPress} title="Sign Up Via Facebook" />;
+    return (
+      <Button
+        style={styles.button}
+        icon={{ name: "facebook", type: "font-awesome" }}
+        onPress={this.onLoginPress}
+        title="Sign In Via Facebook"
+      />
+    );
   }
 }
 
-export default LoginFacebook;
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 15
+  }
+});

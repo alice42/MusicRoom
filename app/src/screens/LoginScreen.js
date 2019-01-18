@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
-import NavigationBar from "react-native-navbar";
 import { connect } from "react-redux";
 import Login from "../containers/Login";
+import { logout } from "../actions/loginActions";
 
 class LoginScreen extends Component {
-  componentDidUpdate = () => {
+  componentWillMount() {
     const {
       isAppAuthenticated,
       isGoogleAuthenticated,
@@ -17,19 +17,31 @@ class LoginScreen extends Component {
       isGoogleAuthenticated ||
       isFacebookAuthenticated ||
       isAppSignUpAuthenticated
-    )
-      this.props.navigation.navigate("Home");
+    ) {
+      this.props.logout();
+    }
+  }
+  componentDidUpdate = () => {
+    const {
+      isAppAuthenticated,
+      isGoogleAuthenticated,
+      isFacebookAuthenticated,
+      isAppSignUpAuthenticated
+    } = this.props;
+
+    if (
+      isAppAuthenticated ||
+      isGoogleAuthenticated ||
+      isFacebookAuthenticated ||
+      isAppSignUpAuthenticated
+    ) {
+      this.props.navigation.replace("Main");
+    }
   };
 
   render() {
-    const titleConfig = {
-      title: "Login",
-      tintColor: "black"
-    };
-
     return (
-      <View style={styles.container}>
-        <NavigationBar title={titleConfig} tintColor="#ADF8D1" />
+      <View>
         <Login />
       </View>
     );
@@ -38,7 +50,8 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    justifyContent: "center"
   }
 });
 
@@ -51,5 +64,11 @@ const mapStateToProps = function(state) {
     isFacebookAuthenticated: login.Facebook.isFacebookAuthenticated
   };
 };
+const actions = {
+  logout
+};
 
-export default connect(mapStateToProps)(LoginScreen);
+export default connect(
+  mapStateToProps,
+  actions
+)(LoginScreen);

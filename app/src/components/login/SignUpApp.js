@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, TextInput, Button, Text } from "react-native";
-import NavigationBar from "react-native-navbar";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { View, StyleSheet } from "react-native";
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Button
+} from "react-native-elements";
 
 export default class SignUp extends Component {
   state = {
@@ -20,30 +23,23 @@ export default class SignUp extends Component {
 
   render() {
     const { AppSignUp } = this.props;
-    const error =
-      AppSignUp.errorMessage !== "" ? (
-        <Text style={{ backgroundColor: "red" }}>{AppSignUp.errorMessage}</Text>
-      ) : null;
+    const error = AppSignUp.errorMessage !== "" ? AppSignUp.errorMessage : null;
     return (
       <View>
-        {error}
-        <TextInput
-          style={styles.input}
-          placeholder="email"
-          onChangeText={this.handleChangeEmail}
+        <FormLabel>Email</FormLabel>
+        <FormInput onChangeText={this.handleChangeEmail} />
+        {error ? <FormValidationMessage>{error}</FormValidationMessage> : null}
+        <Button
+          style={styles.button}
+          title="SUBMIT"
+          onPress={this.handleSignUp}
         />
-        <Button name="envelope-o" title="Sign Up" onPress={this.handleSignUp} />
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
-  input: {
-    alignSelf: "center",
-    height: 44,
-    width: 200,
-    borderColor: "gray",
-    borderWidth: 1
+  button: {
+    marginTop: 15
   }
 });

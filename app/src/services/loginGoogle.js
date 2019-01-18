@@ -10,12 +10,9 @@ export const loginGoogleCall = async () => {
       scopes: ["profile", "email"],
       behavior: "web"
     });
-    console.log("r", result);
     if (result.type === "success") {
-      console.log("test", result);
       return result;
     } else {
-      console.log("test");
       return { cancelled: true };
     }
   } catch (e) {

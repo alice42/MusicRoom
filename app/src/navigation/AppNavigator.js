@@ -1,69 +1,98 @@
 import React from "react";
 import {
-  addNavigationHelpers,
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { createStore, combineReducers } from "redux";
 import { connect } from "react-redux";
 import { Platform } from "react-native";
-import HomeScreen from "../screens/HomeScreen";
+import { Button } from "react-native-elements";
+import { FontAwesome } from "react-native-vector-icons";
 import LoginScreen from "../screens/LoginScreen";
-import Test from "../screens/Test";
+import Profile from "../containers/Profile";
+import Home from "../containers/Home";
+import Details from "../containers/Details";
+import LogoutButton from "../components/navigation/LogoutButton";
 
-import TabBarIcon from "../components/navigation/TabBarIcon";
-
-const HomeStack = createStackNavigator(
+const ProfileStack = createStackNavigator(
   {
-    Home: {
-      screen: HomeScreen
-    }
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Details: Details
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Profile"
   }
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: "Home",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : "md-information-circle"
+Details.navigationOptions = ({ navigation }) => {
+  const headerTitle = navigation.state.params.DetailsKind;
+  return {
+    headerTitle
+  };
+};
+
+ProfileStack.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+  const headerTitle = routeName;
+  return {
+    headerTitle
+  };
+};
+
+export const SignedIn = createBottomTabNavigator(
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: {
+        tabBarLabel: "Home",
+        tabBarIcon: ({ tintColor }) => (
+          <FontAwesome name="home" size={30} color={tintColor} />
+        )
       }
-    />
-  )
+    },
+    Profile: {
+      screen: ProfileStack,
+      navigationOptions: {
+        tabBarLabel: "Profile",
+        tabBarIcon: ({ tintColor }) => (
+          <FontAwesome name="user" size={30} color={tintColor} />
+        )
+      }
+    }
+  },
+  {
+    tabBarOptions: {
+      style: {
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+      }
+    }
+  }
+);
+
+SignedIn.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+  const headerTitle = routeName;
+  let headerRight = null;
+  if (routeName === "Profile") {
+    headerRight = <LogoutButton />;
+  }
+  return {
+    headerTitle,
+    headerRight
+  };
 };
-
-const TestStack = createStackNavigator({
-  Test: Test
-});
-
-TestStack.navigationOptions = {
-  tabBarLabel: "Test",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
-    />
-  )
-};
-
-const TabNav = createBottomTabNavigator({
-  HomeStack,
-  TestStack
-});
 
 export const AppNavigator = createStackNavigator(
   {
-    Main: { screen: LoginScreen },
-    Home: { screen: TabNav }
+    LogIn: { screen: LoginScreen },
+    Main: { screen: SignedIn }
   },
   {
-    initialRouteName: "Main"
+    initialRouteName: "LogIn"
   }
 );
 

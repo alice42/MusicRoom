@@ -9,10 +9,16 @@ const loginData = {
 export const loginAppCall = ({ email, password }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (email == "user@gmail.com") {
+      if (email === "user@gmail.com" && password === "user") {
         resolve(loginData);
       } else {
-        reject({ status: "wrong email or password" });
+        if (email !== "user@gmail.com") {
+          reject({ status: { email: "wrong email" } });
+        } else if (password !== "user") {
+          reject({ status: { password: "wrong password" } });
+        } else {
+          reject({ status: { unknow: "something's went wrong" } });
+        }
       }
     }, 1000);
   });

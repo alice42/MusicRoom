@@ -1,15 +1,26 @@
 import React, { Component } from "react";
-import { Button } from "react-native";
-import { Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
 
-class LoginGoogle extends Component {
+export default class LoginGoogle extends Component {
   onLoginPress = () => {
     this.props.actions.googleLoginRequest();
   };
 
   render() {
-    return <Button onPress={this.onLoginPress} title="Sign Up Via Google" />;
+    return (
+      <Button
+        style={styles.button}
+        icon={{ name: "google", type: "font-awesome" }}
+        onPress={this.onLoginPress}
+        title="Sign In Via Google"
+      />
+    );
   }
 }
 
-export default LoginGoogle;
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 15
+  }
+});

@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, TextInput, Button, Text } from "react-native";
-import NavigationBar from "react-native-navbar";
-import { connect } from "react-redux";
+import { View, StyleSheet } from "react-native";
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Button
+} from "react-native-elements";
 
 export default class Login extends Component {
   state = {
@@ -25,45 +29,39 @@ export default class Login extends Component {
   render() {
     const { email, password } = this.state;
     const { loginApp } = this.props;
-    const titleConfig = {
-      title: "Login",
-      tintColor: "black"
-    };
-
-    const error =
-      loginApp.errorMessage !== "" ? (
-        <Text style={{ backgroundColor: "red" }}>{loginApp.errorMessage}</Text>
-      ) : null;
+    const errorEmail =
+      loginApp.errorMessage.email !== "" ? loginApp.errorMessage.email : null;
+    const errorPassword =
+      loginApp.errorMessage.password !== ""
+        ? loginApp.errorMessage.password
+        : null;
     return (
       <View>
-        {error}
-        <TextInput
-          style={styles.input}
-          placeholder="email"
-          onChangeText={this.handleChangeEmail}
-          value={email}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="password"
+        <FormLabel>Email</FormLabel>
+        <FormInput onChangeText={this.handleChangeEmail} value={email} />
+        {errorEmail ? (
+          <FormValidationMessage>{errorEmail}</FormValidationMessage>
+        ) : null}
+        <FormLabel>Password</FormLabel>
+        <FormInput
           onChangeText={this.handleChangePassword}
-          secureTextEntry={true}
           value={password}
+          secureTextEntry={true}
         />
-
-        <Button name="envelope-o" title="Login" onPress={this.loginEmail} />
+        {errorPassword ? (
+          <FormValidationMessage>{errorPassword}</FormValidationMessage>
+        ) : null}
+        <Button
+          style={styles.button}
+          title="SUBMIT"
+          onPress={this.loginEmail}
+        />
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
-  input: {
-    alignSelf: "center",
-    height: 44,
-    width: 200,
-    borderColor: "gray",
-    borderWidth: 1
+  button: {
+    marginTop: 15
   }
 });
