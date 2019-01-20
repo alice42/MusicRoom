@@ -9,8 +9,8 @@ import {
 
 export default class Login extends Component {
   state = {
-    email: "user@gmail.com",
-    password: "user"
+    email: "alice",
+    password: "toto"
   };
 
   handleChangeEmail = email => {

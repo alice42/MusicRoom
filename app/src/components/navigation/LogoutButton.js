@@ -14,7 +14,7 @@ class LogoutButton extends Component {
         backgroundColor="#fff"
         onPress={this.onLogoutPress}
         title="Log out"
-        rightIcon={{ name: "sign-out", type: "font-awesome", color: "#3D6DCC" }}
+        // rightIcon={{ name: "sign-out", type: "font-awesome", color: "#3D6DCC" }}
       />
     );
   }

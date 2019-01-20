@@ -19,7 +19,7 @@ class ListMenu extends Component {
             <ListItem
               key={item.title}
               title={item.title}
-              leftIcon={{ name: item.icon }}
+              // leftIcon={{ name: item.icon }}
               onPress={() => this.handler(item.title)}
             />
           ))}

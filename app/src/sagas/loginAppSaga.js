@@ -9,9 +9,12 @@ function* loginAppSaga(action) {
       password
     };
     const response = yield call(loginAppCall, payload);
-    yield put({ type: "LOGIN_SUCCESS", response: response });
+    console.log("responsLog", response);
+    // yield put({ type: "LOGIN_SUCCESS", response: response });
   } catch (err) {
-    yield put({ type: "LOGIN_FAILURE", err: err });
+    console.error("ERROR", err);
+
+    // yield put({ type: "LOGIN_FAILURE", err: err });
   }
 }
 

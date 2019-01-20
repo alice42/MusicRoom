@@ -4,7 +4,7 @@ import {
   createBottomTabNavigator
 } from "react-navigation";
 import { connect } from "react-redux";
-import { Platform } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { Button } from "react-native-elements";
 import { FontAwesome } from "react-native-vector-icons";
 import LoginScreen from "../screens/LoginScreen";
@@ -88,7 +88,10 @@ SignedIn.navigationOptions = ({ navigation }) => {
 
 export const AppNavigator = createStackNavigator(
   {
-    LogIn: { screen: LoginScreen },
+    LogIn: {
+      screen: LoginScreen,
+      navigationOptions: { headerTitle: "MusicRoom" }
+    },
     Main: { screen: SignedIn }
   },
   {

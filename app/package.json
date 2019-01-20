@@ -7,7 +7,8 @@
     "ios": "expo start --ios",
     "eject": "expo eject",
     "clean": "rm -rf node_modules",
-    "setup": "npm run clean && npm i"
+    "setup": "npm run clean && npm i",
+    "debugger": "open rndebugger://set-debugger-loc?host=localhost&port=19001"
   },
   "jest": {
     "preset": "jest-expo"
@@ -15,6 +16,7 @@
   "dependencies": {
     "@expo/samples": "2.1.1",
     "expo": "^31.0.2",
+    "expokit": "^31.0.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-elements": "^0.19.1",

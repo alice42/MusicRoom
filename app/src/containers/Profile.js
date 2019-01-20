@@ -8,8 +8,8 @@ class Profile extends Component {
   render() {
     return (
       <View>
-        <CardProfileConnected />
-        <ListMenuConnected />
+        {/* <CardProfileConnected /> */}
+        {/* <ListMenuConnected /> */}
       </View>
     );
   }

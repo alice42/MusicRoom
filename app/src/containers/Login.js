@@ -8,6 +8,7 @@ import SignUpApp from "../components/login/SignUpApp";
 import LoginApp from "../components/login/LoginApp";
 import LoginGoogle from "../components/login/LoginGoogle";
 import LoginFacebook from "../components/login/LoginFacebook";
+import ResetPassword from "../components/login/ResetPassword";
 
 export default class Login extends Component {
   state = { isRegistred: false };
@@ -32,12 +33,21 @@ export default class Login extends Component {
         />
         <LoginGoogleConnected />
         <LoginFacebookConnected />
+        <View>
+          <ResetPasswordConnected />
+        </View>
       </View>
     );
   }
 }
 
 //APP
+// Login Actions
+function LoginActionsMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
 //Sign Up
 function signUpAppMapStateToProps(state) {
   const { login } = state;
@@ -46,35 +56,22 @@ function signUpAppMapStateToProps(state) {
   };
 }
 
-function signUpAppmapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(loginActions, dispatch)
-  };
-}
-
 const SignUpAppConnected = connect(
   signUpAppMapStateToProps,
-  signUpAppmapDispatchToProps
+  LoginActionsMapDispatchToProps
 )(SignUpApp);
 
 //Login
 function loginAppMapStateToProps(state) {
   const { login } = state;
-
   return {
     loginApp: login.App
   };
 }
 
-function loginAppMapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(loginActions, dispatch)
-  };
-}
-
 const LoginAppConnected = connect(
   loginAppMapStateToProps,
-  loginAppMapDispatchToProps
+  LoginActionsMapDispatchToProps
 )(LoginApp);
 
 //GOOGLE
@@ -86,15 +83,9 @@ function loginGoogleMapStateToProps(state) {
   };
 }
 
-function loginGoogleMapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(loginActions, dispatch)
-  };
-}
-
 const LoginGoogleConnected = connect(
   loginGoogleMapStateToProps,
-  loginGoogleMapDispatchToProps
+  LoginActionsMapDispatchToProps
 )(LoginGoogle);
 
 //FACEBOOK
@@ -106,13 +97,20 @@ function loginFacebookMapStateToProps(state) {
   };
 }
 
-function loginFacebookMapDispatchToProps(dispatch) {
+const LoginFacebookConnected = connect(
+  loginFacebookMapStateToProps,
+  LoginActionsMapDispatchToProps
+)(LoginFacebook);
+
+// RESET PASSWORD
+function ResetPasswordMapStateToProps(state) {
+  const { login } = state;
   return {
-    actions: bindActionCreators(loginActions, dispatch)
+    resetPassword: login.ResetPassword
   };
 }
 
-const LoginFacebookConnected = connect(
-  loginFacebookMapStateToProps,
-  loginFacebookMapDispatchToProps
-)(LoginFacebook);
+const ResetPasswordConnected = connect(
+  ResetPasswordMapStateToProps,
+  LoginActionsMapDispatchToProps
+)(ResetPassword);
