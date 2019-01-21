@@ -9,7 +9,7 @@ class Profile extends Component {
     return (
       <View>
         <CardProfileConnected />
-        {/* <ListMenuConnected /> */}
+        <ListMenuConnected />
       </View>
     );
   }

@@ -99,6 +99,11 @@ export function resetPassword(email, password) {
     email
   };
 }
+export function cancelResetPassword() {
+  return {
+    type: "CANCEL_RESET_PASSWORD_REQUEST"
+  };
+}
 export function resetPasswordSuccess() {
   return {
     type: "RESET_PASSWORD_SUCCESS",

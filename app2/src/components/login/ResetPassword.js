@@ -18,26 +18,35 @@ export default class ResetPassword extends Component {
     this.setState({ email });
   };
 
+  cancelAndSetModalVisible = () => {
+    this.props.actions.cancelResetPassword();
+    this.setState({ modalVisible: false, email: "" });
+  };
+
   setModalVisible = () => {
     if (this.state.modalVisible) {
       this.setState({ modalVisible: false, email: "" });
     } else {
-      this.setState({ modalVisible: true });
+      this.setState({ modalVisible: true, email: "" });
     }
   };
 
   submitEmail = () => {
-    const { email } = this.state;
+    const { email, modalVisible } = this.state;
     this.props.actions.resetPassword(email);
   };
 
   render() {
     const { resetPassword } = this.props;
+
     const error =
       resetPassword.errorMessage !== "" ? resetPassword.errorMessage : null;
-    const { failure } = resetPassword;
-    if (!failure && failure !== null) {
+    console.log(this.state.modalVisible);
+    if (resetPassword.emailFound) {
       this.state.modalVisible = false;
+      // setTimeout(() => {
+      //   Alert.alert("A Email has be send.");
+      // }, 1000);
     }
     return (
       <View>
@@ -50,17 +59,16 @@ export default class ResetPassword extends Component {
             <Icon
               type="font-awesome"
               name="times"
-              onPress={this.setModalVisible}
+              onPress={this.cancelAndSetModalVisible}
             />
           </View>
-
           <View style={styles.container}>
             <FormLabel>Email</FormLabel>
             <FormInput onChangeText={this.handleChangeEmail} />
             <FormValidationMessage>{error}</FormValidationMessage>
             <Button
               style={styles.button}
-              title="SUBMIT AND CLOSE"
+              title="SUBMIT"
               onPress={this.submitEmail}
             />
           </View>

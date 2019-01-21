@@ -8,9 +8,9 @@ export const ResetPasswordCall = email => {
     setTimeout(() => {
       if (!email) {
         reject({ status: "Required field" });
-      } else if (email !== "user@gmail.com") {
+      } else if (email !== "User@gmail.com") {
         reject({ status: "Wrong email" });
-      } else if (email === "user@gmail.com") {
+      } else if (email === "User@gmail.com") {
         resolve(loginData);
       }
     }, 1000);

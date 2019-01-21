@@ -1,8 +1,8 @@
 const initialState = {
-  email: "",
-  token: "",
-  failure: null,
-  errorMessage: ""
+  failure: false,
+  errorMessage: "",
+  cancelled: false,
+  emailFound: false
 };
 
 function reducer(state = initialState, action) {
@@ -11,18 +11,28 @@ function reducer(state = initialState, action) {
       return {
         ...state
       };
+    case "CANCEL_RESET_PASSWORD_REQUEST":
+      return {
+        ...state,
+        cancelled: true,
+        failure: false,
+        errorMessage: "",
+        emailFound: false
+      };
     case "RESET_PASSWORD_SUCCESS":
       return {
         ...state,
-        email: action.response.email,
-        token: action.response.token,
-        errorMessage: null,
-        failure: false
+        cancelled: false,
+        failure: false,
+        emailFound: true,
+        errorMessage: ""
       };
     case "RESET_PASSWORD_FAILURE":
       return {
         ...state,
         failure: true,
+        cancelled: false,
+        emailFound: false,
         errorMessage: action.err.status
       };
     default:

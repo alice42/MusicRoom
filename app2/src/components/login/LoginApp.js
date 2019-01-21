@@ -9,7 +9,7 @@ import {
 
 export default class Login extends Component {
   state = {
-    email: "user@gmail.com",
+    email: "User@gmail.com",
     password: "user"
   };
 

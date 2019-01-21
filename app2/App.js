@@ -6,7 +6,6 @@ import createSagaMiddleware from "redux-saga";
 import AppReducer from "./src/reducers/AppReducer";
 import AppWithNavigationState from "./src/navigation/AppNavigator";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { View, Text } from "react-native";
 import rootSaga from "./src/sagas/rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -22,17 +21,14 @@ sagaMiddleware.run(rootSaga);
 class App extends React.Component {
   render() {
     return (
-      <View>
-        <Text>Coucou</Text>
-      </View>
-      // <Provider store={store}>
-      //   <AppWithNavigationState
-      //     navigation={{
-      //       dispatch: this.props.dispatch,
-      //       state: this.props.nav
-      //     }}
-      //   />
-      // </Provider>
+      <Provider store={store}>
+        <AppWithNavigationState
+          navigation={{
+            dispatch: this.props.dispatch,
+            state: this.props.nav
+          }}
+        />
+      </Provider>
     );
   }
 }

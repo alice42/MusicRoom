@@ -3,7 +3,7 @@ const loginData = {
   token: "token",
   user: {
     name: "UserName",
-    email: "user@gmail.com"
+    email: "User@gmail.com"
   }
 };
 
@@ -12,10 +12,10 @@ export const loginAppCall = ({ email, password }) => {
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (email === "user@gmail.com" && password === "user") {
+      if (email === "User@gmail.com" && password === "user") {
         resolve(loginData);
       } else {
-        if (email !== "user@gmail.com") {
+        if (email !== "User@gmail.com") {
           reject({ status: { email: "wrong email" } });
         } else if (password !== "user") {
           reject({ status: { password: "wrong password" } });
