@@ -1,22 +1,13 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
-import NavBarButton from "../components/NavBarButton";
 import InputField from "../components/InputField";
 import NextArrowButton from "../components/NextArrowButton";
+import NavBarButton from "../components/NavBarButton";
 
-class LogIn extends Component {
+export default class ForgotPassword extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NavBarButton
-        handleButtonPress={() => navigation.navigate("ForgotPassword")}
-        location="right"
-        color={colors.white}
-        text="Forgot Password"
-      />
-    ),
     headerLeft: (
       <NavBarButton
         handleButtonPress={() => navigation.goBack()}
@@ -27,21 +18,19 @@ class LogIn extends Component {
     headerTransparent: true
   });
 
-  onLoginPress = () => {
-    this.props.navigation.navigate("LoggedIn");
-  };
-
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-        <View style={styles.logInWrapper}>
-          <Text style={styles.loginHeader}>Log In</Text>
+        <View style={styles.forgotWrapper}>
+          <Text style={styles.forgotPasswordHeading}>
+            Forgot your password?
+          </Text>
+          <Text style={styles.forgotPasswordSubheading}>
+            Enter your email to find your account
+          </Text>
           <InputField labelText="EMAIL" />
-          <InputField labelText="PASSWORD" />
-          <NextArrowButton handleOnPress={this.onLoginPress} />
+          <NextArrowButton />
         </View>
-
-        <View />
       </KeyboardAvoidingView>
     );
   }
@@ -53,7 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.green01
   },
-  logInWrapper: {
+  forgotWrapper: {
     flex: 1,
     display: "flex",
     justifyContent: "center",
@@ -61,12 +50,22 @@ const styles = StyleSheet.create({
     marginTop: 30,
     padding: 20
   },
-  loginHeader: {
+  forgotPasswordHeading: {
     fontSize: 30,
     color: colors.white,
-    fontWeight: "300",
-    marginBottom: 40
+    fontWeight: "300"
+  },
+  forgotPasswordSubheading: {
+    color: colors.white,
+    fontWeight: "600",
+    fontSize: 15,
+    marginTop: 10,
+    marginBottom: 60
+  },
+  notificationWrapper: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0
   }
 });
-
-export default connect()(LogIn);

@@ -9,14 +9,6 @@ import NextArrowButton from "../components/NextArrowButton";
 
 class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NavBarButton
-        handleButtonPress={() => navigation.navigate("ForgotPassword")}
-        location="right"
-        color={colors.white}
-        text="Forgot Password"
-      />
-    ),
     headerLeft: (
       <NavBarButton
         handleButtonPress={() => navigation.goBack()}
@@ -27,18 +19,14 @@ class LogIn extends Component {
     headerTransparent: true
   });
 
-  onLoginPress = () => {
-    this.props.navigation.navigate("LoggedIn");
-  };
-
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-        <View style={styles.logInWrapper}>
-          <Text style={styles.loginHeader}>Log In</Text>
+        <View style={styles.createWrapper}>
+          <Text style={styles.loginHeader}>Create account</Text>
           <InputField labelText="EMAIL" />
           <InputField labelText="PASSWORD" />
-          <NextArrowButton handleOnPress={this.onLoginPress} />
+          <NextArrowButton />
         </View>
 
         <View />
@@ -53,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.green01
   },
-  logInWrapper: {
+  createWrapper: {
     flex: 1,
     display: "flex",
     justifyContent: "center",
