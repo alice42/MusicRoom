@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
 import NavBarButton from "../components/NavBarButton";
 import InputField from "../components/InputField";
 import NextArrowButton from "../components/NextArrowButton";
+import * as loginActions from "../actions/loginActions";
 
 class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -27,8 +29,29 @@ class LogIn extends Component {
     headerTransparent: true
   });
 
+  state = {
+    email: "",
+    password: ""
+  };
+
+  handleEmailChange = email => {
+    this.setState({ email });
+  };
+
+  handlePasswordChange = password => {
+    this.setState({ password });
+  };
+
   onLoginPress = () => {
-    this.props.navigation.navigate("LoggedIn");
+    const { email, password } = this.state;
+    this.props.actions.loginRequest(email, password);
+  };
+
+  componentDidUpdate = () => {
+    const { isAppAuthenticated } = this.props.login;
+    if (isAppAuthenticated) {
+      this.props.navigation.navigate("LoggedIn");
+    }
   };
 
   render() {
@@ -36,8 +59,11 @@ class LogIn extends Component {
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.logInWrapper}>
           <Text style={styles.loginHeader}>Log In</Text>
-          <InputField labelText="EMAIL" />
-          <InputField labelText="PASSWORD" />
+          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+          <InputField
+            labelText="PASSWORD"
+            onChangeText={this.handlePasswordChange}
+          />
           <NextArrowButton handleOnPress={this.onLoginPress} />
         </View>
 
@@ -45,6 +71,17 @@ class LogIn extends Component {
       </KeyboardAvoidingView>
     );
   }
+}
+function LoginActionsMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+function loginAppMapStateToProps(state) {
+  const { login } = state;
+  return {
+    login: login
+  };
 }
 
 const styles = StyleSheet.create({
@@ -69,4 +106,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(LogIn);
+export default connect(
+  loginAppMapStateToProps,
+  LoginActionsMapDispatchToProps
+)(LogIn);

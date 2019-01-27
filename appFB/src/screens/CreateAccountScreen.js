@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
 import NavBarButton from "../components/NavBarButton";
 import InputField from "../components/InputField";
 import NextArrowButton from "../components/NextArrowButton";
+import * as loginActions from "../actions/loginActions";
 
-class LogIn extends Component {
+class SignIn extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
       <NavBarButton
@@ -18,21 +20,53 @@ class LogIn extends Component {
     ),
     headerTransparent: true
   });
+  state = {
+    email: "",
+    password: ""
+  };
+
+  handleEmailChange = email => {
+    this.setState({ email });
+  };
+
+  handlePasswordChange = password => {
+    this.setState({ password });
+  };
+
+  onLoginPress = () => {
+    const { email, password } = this.state;
+    this.props.actions.signinRequest(email, password);
+  };
 
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.createWrapper}>
           <Text style={styles.loginHeader}>Create account</Text>
-          <InputField labelText="EMAIL" />
-          <InputField labelText="PASSWORD" />
-          <NextArrowButton />
+          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+          <InputField
+            labelText="PASSWORD"
+            onChangeText={this.handlePasswordChange}
+          />
+          <NextArrowButton handleOnPress={this.onLoginPress} />
         </View>
 
         <View />
       </KeyboardAvoidingView>
     );
   }
+}
+
+function signinActionsMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+function signinAppMapStateToProps(state) {
+  const { signin } = state;
+  return {
+    signin: signin
+  };
 }
 
 const styles = StyleSheet.create({
@@ -57,4 +91,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(LogIn);
+export default connect(
+  signinAppMapStateToProps,
+  signinActionsMapDispatchToProps
+)(SignIn);

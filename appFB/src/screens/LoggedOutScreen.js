@@ -5,15 +5,16 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import RoundedButton from "../components/RoundedButton";
 import NavBarButton from "../components/NavBarButton";
-import { LoginButton } from "react-native-fbsdk";
+import { LoginButton, AccessToken } from "react-native-fbsdk";
 
 class FBLoginButton extends Component {
   render() {
     return (
       <View>
         <LoginButton
-          readPermissions={["email"]}
+          readPermissions={["public_profile", "email"]}
           onLoginFinished={(error, result) => {
+            console.log("LOG RESULT", result);
             if (error) {
               alert("Login failed with error: " + error.message);
             } else if (result.isCancelled) {
@@ -23,6 +24,9 @@ class FBLoginButton extends Component {
                 "Login was successful with permissions: " +
                   result.grantedPermissions
               );
+              AccessToken.getCurrentAccessToken().then(data => {
+                dispatch(data.accessToken.toString());
+              });
             }
           }}
           onLogoutFinished={() => alert("User logged out")}

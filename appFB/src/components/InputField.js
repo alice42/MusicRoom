@@ -10,9 +10,17 @@ import {
 import { colors } from "../constants/colors";
 
 export default class InputField extends Component {
-  render() {
-    const { placeholder, labelText } = this.props;
+  state = {
+    inputValue: this.props.defaultValue
+  };
 
+  onChangeText(text) {
+    this.props.onChangeText(text);
+    this.setState({ inputValue: text });
+  }
+  render() {
+    const { placeholder, labelText, onChangeText, defaultValue } = this.props;
+    const { inputValue } = this.state;
     return (
       <View style={styles.wrapper}>
         <Text style={styles.label}>{labelText}</Text>
@@ -20,7 +28,10 @@ export default class InputField extends Component {
           style={styles.inputField}
           autoCapitalize="none"
           autoCorrect={false}
+          onChangeText={this.props.onChangeText}
           placeholder={placeholder}
+          defaultValue={inputValue}
+          value={inputValue}
         />
       </View>
     );
