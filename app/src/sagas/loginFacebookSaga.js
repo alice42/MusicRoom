@@ -1,17 +1,15 @@
 import { call, put, takeEvery, all } from "redux-saga/effects";
-import { loginFacebookCall } from "../services/loginFacebook";
+import { loginFacebook } from "../services/apiService";
 
-function* loginFacebookSaga(action) {
+function* loginAppSaga(action) {
   try {
-    const response = yield call(loginFacebookCall);
-    if (!response.cancelled) {
-      yield put({ type: "FACEBOOK_LOGIN_SUCCESS", response: response });
-    }
+    const response = yield call(loginFacebook);
+    console.log("responsLog", response);
   } catch (err) {
-    yield put({ type: "FACEBOOK_LOGIN_FAILURE", err: err });
+    console.log("ERROR", err);
   }
 }
 
 export default function* rootSaga() {
-  yield all([yield takeEvery("FACEBOOK_LOGIN_REQUEST", loginFacebookSaga)]);
+  yield all([yield takeEvery("LOGIN_FACEBOOK_REQUEST", loginAppSaga)]);
 }

@@ -1,25 +1,4 @@
 {
-  "expo": {
-    "name": "app",
-    "slug": "app",
-    "privacy": "public",
-    "sdkVersion": "31.0.0",
-    "platforms": ["ios", "android"],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true
-    },
-    "facebookScheme": "fb990282421183049",
-    "facebookAppId": "990282421183049",
-    "facebookDisplayName": "MusicRoom"
-  }
+  "name": "app",
+  "displayName": "app"
 }

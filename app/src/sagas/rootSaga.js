@@ -1,15 +1,15 @@
 import { fork } from "redux-saga/effects";
-import signUpAppSaga from "./signUpAppSaga";
-import loginAppSaga from "./loginAppSaga";
-import loginGoogleSaga from "./loginGoogleSaga";
-import loginFacebookSaga from "./loginFacebookSaga";
+import loginApp from "./loginAppSaga";
+import loginFacebook from "./loginFacebookSaga";
+import loginGoogle from "./loginGoogleSaga";
+import signinApp from "./signinAppSaga";
 
 function* rootSaga() {
   yield [
-    fork(loginAppSaga),
-    fork(loginGoogleSaga),
-    fork(loginFacebookSaga),
-    fork(signUpAppSaga)
+    fork(loginApp),
+    fork(signinApp),
+    fork(loginFacebook),
+    fork(loginGoogle)
   ];
 }
 export default rootSaga;

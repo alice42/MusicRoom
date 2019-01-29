@@ -1,33 +1,37 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "dev": "expo start",
-    "start": "npm run dev",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject",
-    "clean": "rm -rf node_modules",
-    "setup": "npm run clean && npm i"
-  },
-  "jest": {
-    "preset": "jest-expo"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
   },
   "dependencies": {
-    "@expo/samples": "2.1.1",
-    "expo": "^31.0.2",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
-    "react-native-navbar": "^2.1.0",
+    "adm-zip": "^0.4.13",
+    "fastfall": "^1.5.1",
+    "got": "^9.6.0",
+    "plist": "^3.0.1",
+    "progress": "^2.0.3",
+    "react": "16.6.3",
+    "react-native": "0.58.1",
     "react-native-vector-icons": "^6.1.0",
     "react-navigation": "^2.18.2",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
-    "redux-saga": "^0.16.2"
+    "redux-saga": "^0.16.2",
+    "react-native-fbsdk": "^0.8.0",
+    "react-native-google-signin": "^1.0.2",
+    "xcode": "^2.0.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^31.0.0"
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "24.0.0",
+    "jest": "24.0.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-test-renderer": "16.6.3"
   },
-  "private": true
+  "jest": {
+    "preset": "react-native"
+  }
 }

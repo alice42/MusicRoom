@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import NavReducer from "./navigation";
-import loginReducer from "./login";
+import LoginReducer from "./loginAppReducer";
+import SigninReducer from "./signinAppReducer";
 
 const AppReducer = combineReducers({
   nav: NavReducer,
-  login: loginReducer
+  login: LoginReducer,
+  signin: SigninReducer
 });
 
 export default AppReducer;

@@ -23,67 +23,40 @@ export function loginFailure(err) {
   };
 }
 
-//sign up
-export function signUpRequest(email, username, password) {
+//signin
+export function signinRequest(email, password) {
   return {
-    type: "SIGN_UP_REQUEST",
+    type: "SIGNIN_REQUEST",
     email,
-    username,
     password
   };
 }
-export function signUpLoginSuccess() {
+export function signinSuccess() {
   return {
-    type: "SIGN_UP_SUCCESS",
+    type: "SIGNIN_SUCCESS",
     token,
     user
   };
 }
 
-export function signUpLoginFailure(err) {
+export function signinFailure(err) {
   return {
-    type: "SIGN_UP_FAILURE",
-    err
-  };
-}
-
-//GOOGLE
-export function googleLoginRequest() {
-  return {
-    type: "GOOGLE_LOGIN_REQUEST"
-  };
-}
-
-export function googleLoginSuccess() {
-  return {
-    type: "GOOGLE_LOGIN_SUCCESS"
-  };
-}
-
-export function googleLoginFailure(err) {
-  return {
-    type: "GOOGLE_LOGIN_FAILURE",
+    type: "SIGNIN_FAILURE",
     err
   };
 }
 
 //FACEBOOK
-export function facebookLoginRequest() {
+export function loginFacebookRequest() {
   return {
-    type: "FACEBOOK_LOGIN_REQUEST"
+    type: "LOGIN_FACEBOOK_REQUEST"
   };
 }
 
-export function facebookLoginSuccess() {
+//GOOGLE
+export function loginGoogleRequest() {
   return {
-    type: "FACEBOOK_LOGIN_SUCCESS"
-  };
-}
-
-export function facebookLoginFailure(err) {
-  return {
-    type: "FACEBOOK_LOGIN_FAILURE",
-    err
+    type: "LOGIN_GOOGLE_REQUEST"
   };
 }
 
