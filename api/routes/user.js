@@ -74,10 +74,10 @@ const checkPassword = password => {
 };
 
 // login classic ( email, password )
-router.get("/log-in", async (req, res) => {
+router.post("/log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, password } = req.query;
+    const { email, password } = req.body;
 
     const user = await isUserExists(email, database);
     if (user) {
@@ -98,10 +98,10 @@ router.get("/log-in", async (req, res) => {
 
 // login via facebook ( email, appToken, userToken )
 // https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#checktoken
-router.get("/facebook-log-in", async (req, res) => {
+router.post("/facebook-log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, appToken, userToken } = req.query;
+    const { email, appToken, userToken } = req.body;
 
     const facebookTokenValid = await isFacebookTokenValid(userToken, appToken);
     if (!facebookTokenValid) {
@@ -125,10 +125,10 @@ router.get("/facebook-log-in", async (req, res) => {
 
 // login via google ( to define )
 // https://developers.google.com/identity/sign-in/web/backend-auth
-router.get("/google-log-in", async (req, res) => {
+router.post("/google-log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, userToken } = req.query;
+    const { email, userToken } = req.body;
 
     const googleTokenValid = await isGoogleTokenValid(userToken);
     if (!googleTokenValid) {
@@ -151,7 +151,7 @@ router.get("/google-log-in", async (req, res) => {
 });
 
 // recover account ( email )
-router.get("/recover", async (req, res) => {
+router.post("/recover", async (req, res) => {
   try {
   } catch (err) {
     console.log("INTER ERROR", err);
@@ -215,7 +215,7 @@ router.post("/link-account", async (req, res) => {
 });
 
 // unlink account ( key, deezer/facebook/google )
-router.get("/unlink-account", async (req, res) => {
+router.post("/unlink-account", async (req, res) => {
   try {
   } catch (err) {
     console.log("INTER ERROR", err);
