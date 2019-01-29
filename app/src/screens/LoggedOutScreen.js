@@ -1,53 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, StyleSheet, TouchableHighlight, Text } from "react-native";
+import { bindActionCreators } from "redux";
+import { View, StyleSheet, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import RoundedButton from "../components/RoundedButton";
 import NavBarButton from "../components/NavBarButton";
-import { LoginButton, AccessToken } from "react-native-fbsdk";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes
-} from "react-native-google-signin";
+import { GoogleSignin } from "react-native-google-signin";
+import * as loginActions from "../actions/loginActions";
 
 GoogleSignin.configure();
-class FBLoginButton extends Component {
-  render() {
-    return (
-      <View>
-        <LoginButton
-          readPermissions={["public_profile", "email"]}
-          onLoginFinished={(error, result) => {
-            console.log("LOG RESULT", result);
-            if (error) {
-              alert("Login failed with error: " + error.message);
-            } else if (result.isCancelled) {
-              alert("Login was cancelled");
-            } else {
-              alert(
-                "Login was successful with permissions: " +
-                  result.grantedPermissions
-              );
-              AccessToken.getCurrentAccessToken().then(data => {
-                dispatch(data.accessToken.toString());
-              });
-            }
-          }}
-          onLogoutFinished={() => alert("User logged out")}
-        />
-      </View>
-    );
-  }
-}
-
-// module.exports = FBLoginButton;
 
 const transparentHeaderStyle = {
   borderBottomWidth: 0,
   elevation: 0
 };
+
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
@@ -61,22 +29,12 @@ class LoginScreen extends Component {
     headerTransparent: true
   });
 
-  signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      this.setState({ userInfo });
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (f.e. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
-    }
+  onLoginFacebookPress = () => {
+    this.props.actions.loginFacebookRequest();
+  };
+
+  onLoginGooglePress = () => {
+    this.props.actions.loginGoogleRequest();
   };
 
   onCreateAccountPress = () => {
@@ -87,13 +45,6 @@ class LoginScreen extends Component {
     return (
       <View style={styles.wrapper}>
         <View style={styles.welcomeWrapper}>
-          <FBLoginButton />
-          <GoogleSigninButton
-            style={{ width: 48, height: 48 }}
-            size={GoogleSigninButton.Size.Icon}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={this.signIn}
-          />
           <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
           <RoundedButton
             text="Continue with Facebook"
@@ -106,6 +57,7 @@ class LoginScreen extends Component {
                 style={styles.networkButtonIcon}
               />
             }
+            handleOnPress={this.onLoginFacebookPress}
           />
           <RoundedButton
             text="Continue with Google"
@@ -114,6 +66,7 @@ class LoginScreen extends Component {
             icon={
               <Icon name="google" size={20} style={styles.networkButtonIcon} />
             }
+            handleOnPress={this.onLoginGooglePress}
           />
           <RoundedButton
             text="Create Account"
@@ -125,6 +78,18 @@ class LoginScreen extends Component {
       </View>
     );
   }
+}
+
+function LoginActionsMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+function loginAppMapStateToProps(state) {
+  const { login } = state;
+  return {
+    login: login
+  };
 }
 
 const styles = StyleSheet.create({
@@ -155,4 +120,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(LoginScreen);
+export default connect(
+  loginAppMapStateToProps,
+  LoginActionsMapDispatchToProps
+)(LoginScreen);

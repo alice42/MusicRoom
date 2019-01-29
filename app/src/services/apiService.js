@@ -1,3 +1,6 @@
+import { AccessToken, LoginManager } from "react-native-fbsdk";
+import { statusCodes, GoogleSignin } from "react-native-google-signin";
+
 const apiUrl = "http://192.168.0.14:3001/api";
 const user = "/user";
 const login = "/log-in";
@@ -47,5 +50,45 @@ export const signinMethod = async ({ email, password }) => {
     return response;
   } catch (err) {
     throw err;
+  }
+};
+
+export const loginFacebook = async () => {
+  LoginManager.logInWithReadPermissions(["public_profile"]).then(
+    function(result) {
+      if (result.isCancelled) {
+        console.log("Login was cancelled");
+      } else {
+        console.log(
+          "Login was successful with permissions: " +
+            result.grantedPermissions.toString()
+        );
+        AccessToken.getCurrentAccessToken().then(data => {
+          dispatch(data.accessToken.toString());
+        });
+        //APPEL API??
+      }
+    },
+    function(error) {
+      console.log("Login failed with error: " + error);
+    }
+  );
+};
+
+export const loginGoogle = async () => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+  } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // user cancelled the login flow
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (f.e. sign in) is in progress already
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
+    } else {
+      console.log("User Google", userInfo);
+      // some other error happened
+    }
   }
 };

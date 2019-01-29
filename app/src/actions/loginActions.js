@@ -46,6 +46,20 @@ export function signinFailure(err) {
   };
 }
 
+//FACEBOOK
+export function loginFacebookRequest() {
+  return {
+    type: "LOGIN_FACEBOOK_REQUEST"
+  };
+}
+
+//GOOGLE
+export function loginGoogleRequest() {
+  return {
+    type: "LOGIN_GOOGLE_REQUEST"
+  };
+}
+
 //LOGOUT
 export function logout() {
   return {
