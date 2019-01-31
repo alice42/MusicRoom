@@ -3,6 +3,9 @@ const router = express.Router();
 const md5 = require("blueimp-md5");
 const sessions = {};
 
+const musicRoomFacebookAppToken = "990282421183049|pEUqJqsDhY8JHFIeeLKkqmE1vfI";
+const musicRoomGoogleAppToken = "";
+
 const createHash = () =>
   [...Array(36)].map(() => Math.random().toString(36)[3]).join("");
 
@@ -43,14 +46,13 @@ const isGoogleTokenValid = userToken => {
     .then(json => {
       console.log("calling", url);
       console.log("RESP", json);
-      return false;
+      return !json.error;
     });
 };
 
 const isFacebookTokenValid = (userToken, appToken) => {
-  const url = `https://graph.facebook.com/debug_token?
-     input_token=${userToken}
-     &access_token=${appToken}`;
+  console.log({ userToken, appToken });
+  const url = `https://graph.facebook.com/debug_token?input_token=${userToken}&access_token=${appToken}`;
   return fetch(url)
     .then(response => {
       return response.json();
@@ -96,12 +98,15 @@ router.post("/log-in", async (req, res) => {
   }
 });
 
-// login via facebook ( email, appToken, userToken )
+// @TODO CHECK MAIL
+// @TODO REGISTER WITH FACEBOOK INFO, token or whatever
+// login via facebook ( email, userToken )
 // https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#checktoken
 router.post("/facebook-log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, appToken, userToken } = req.body;
+    const { email, userToken } = req.body;
+    const appToken = musicRoomFacebookAppToken;
 
     const facebookTokenValid = await isFacebookTokenValid(userToken, appToken);
     if (!facebookTokenValid) {
@@ -159,6 +164,7 @@ router.post("/recover", async (req, res) => {
   }
 });
 
+// @TODO MAIL SEND
 // signin classic ( email, password )
 router.post("/sign-in", async (req, res) => {
   try {
