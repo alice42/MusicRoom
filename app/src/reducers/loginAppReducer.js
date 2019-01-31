@@ -8,7 +8,6 @@ const initialState = {
 };
 
 function reducer(state = initialState, action) {
-  console.log("****************************************************", action);
   switch (action.type) {
     case "LOGIN_REQUEST":
       return {
