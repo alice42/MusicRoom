@@ -41,6 +41,13 @@ class LoginScreen extends Component {
     this.props.navigation.navigate("CreateAccount");
   };
 
+  componentDidUpdate = () => {
+    const { isAppAuthenticated } = this.props.login;
+    if (isAppAuthenticated) {
+      this.props.navigation.navigate("LoggedIn");
+    }
+  };
+
   render() {
     return (
       <View style={styles.wrapper}>

@@ -1,10 +1,11 @@
-import { AccessToken, LoginManager } from "react-native-fbsdk";
 import { statusCodes, GoogleSignin } from "react-native-google-signin";
 
 const apiUrl = "http://192.168.0.14:3001/api";
 const user = "/user";
 const login = "/log-in";
 const signin = "/sign-in";
+const fbLogin = "/facebook-log-in";
+const ggLogin = "/google-log-in";
 
 const basicFetch = async (method, url, config, data) => {
   if (method === "GET") {
@@ -34,9 +35,9 @@ const basicFetch = async (method, url, config, data) => {
 };
 
 export const loginClassic = async ({ email, password }) => {
-  const url = `${apiUrl}${user}${login}?email=${email}&password=${password}`;
+  const url = `${apiUrl}${user}${login}`;
   try {
-    const response = await basicFetch("GET", url);
+    const response = await basicFetch("POST", url, {}, { email, password });
     return response;
   } catch (err) {
     throw err;
@@ -53,42 +54,24 @@ export const signinMethod = async ({ email, password }) => {
   }
 };
 
-export const loginFacebook = async () => {
-  LoginManager.logInWithReadPermissions(["public_profile"]).then(
-    function(result) {
-      if (result.isCancelled) {
-        console.log("Login was cancelled");
-      } else {
-        console.log(
-          "Login was successful with permissions: " +
-            result.grantedPermissions.toString()
-        );
-        AccessToken.getCurrentAccessToken().then(data => {
-          dispatch(data.accessToken.toString());
-        });
-        //APPEL API??
-      }
-    },
-    function(error) {
-      console.log("Login failed with error: " + error);
-    }
-  );
+export const loginFacebook = async ({ email, userToken }) => {
+  const url = `${apiUrl}${user}${fbLogin}`;
+  try {
+    const log = await basicFetch("POST", url, {}, { email, userToken });
+    return log;
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const loginGoogle = async () => {
+export const loginGoogle = async response => {
+  const { email } = response.user;
+  const userToken = response.idToken;
+  const url = `${apiUrl}${user}${ggLogin}`;
   try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
+    const log = await basicFetch("POST", url, {}, { email, userToken });
+    return log;
   } catch (error) {
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation (f.e. sign in) is in progress already
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      // play services not available or outdated
-    } else {
-      console.log("User Google", userInfo);
-      // some other error happened
-    }
+    throw error;
   }
 };
