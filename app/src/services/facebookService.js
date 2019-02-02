@@ -12,7 +12,7 @@ export const getTokenFacebook = async () => {
 const fetchFacebook = () => {
   return new Promise((resolve, reject) => {
     LoginManager.logInWithReadPermissions(["public_profile"]).then(
-      function(result) {
+      result => {
         if (result.isCancelled) {
           reject(result.isCancelled);
         } else {
@@ -37,7 +37,7 @@ const fetchFacebook = () => {
           });
         }
       },
-      function(error) {
+      error => {
         reject(error);
       }
     );

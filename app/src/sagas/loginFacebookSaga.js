@@ -5,7 +5,6 @@ import { getTokenFacebook } from "../services/facebookService";
 function* loginAppSaga(action) {
   try {
     const facebookInformation = yield call(getTokenFacebook);
-    console.log("*****************TOKEN FACEBOOK", facebookInformation);
     const response = yield call(loginFacebook, facebookInformation);
     if (response.error) {
       yield put({ type: "LOGIN_FAILURE", err: response.error });
@@ -19,7 +18,7 @@ function* loginAppSaga(action) {
       });
     }
   } catch (err) {
-    console.log("ERROR", err);
+    yield put({ type: "LOGIN_FAILURE", err });
   }
 }
 

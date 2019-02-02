@@ -18,7 +18,7 @@ function* loginGoogleSaga(action) {
       });
     }
   } catch (err) {
-    console.log("ERROR", err);
+    yield put({ type: "LOGIN_FAILURE", err });
   }
 }
 
