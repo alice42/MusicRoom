@@ -153,7 +153,12 @@ router.get("/new-password", async (req, res) => {
       const { email } = Object.values(user)[0];
       const newPassword = createHash();
       await updatetUser(
-        { email, tokenPassword: null, password: md5(newPassword) },
+        {
+          email,
+          tokenPassword: null,
+          tokenValidation: null,
+          password: md5(newPassword)
+        },
         database
       );
       await sendEmail(
