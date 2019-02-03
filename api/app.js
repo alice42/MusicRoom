@@ -2,6 +2,9 @@ const express = require("express");
 const logger = require("morgan");
 const http = require("http");
 const firebase = require("firebase");
+const sendmail = require("sendmail")({
+  silent: true
+});
 
 // https://firebase.google.com/docs/database/web/read-and-write?authuser=0
 // https://console.firebase.google.com/project/musicroom-c656a/database/musicroom-c656a/data/
@@ -29,12 +32,9 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   res.database = database;
+  res.mail = sendmail;
   return next();
 });
-
-// app.configure(() => {
-//   app.set("sessions", {});
-// });
 
 app.use(logger("dev"));
 app.use(express.json());

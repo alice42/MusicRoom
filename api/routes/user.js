@@ -1,10 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const md5 = require("blueimp-md5");
-const sessions = {};
+const {
+  sendEmail,
+  mailRecover,
+  mailWelcome,
+  mailNewPassword,
+  mailAccountValid
+} = require("../helpers/mail.helpers");
+const {
+  findUserBy,
+  isUserExists,
+  updatetUser,
+  insertUser
+} = require("../helpers/firebaseUsers.helpers");
+const { isFacebookTokenValid } = require("../helpers/facebook.helpers");
+const { isGoogleTokenValid } = require("../helpers/google.helpers");
 
-const musicRoomFacebookAppToken = "990282421183049|pEUqJqsDhY8JHFIeeLKkqmE1vfI";
-const musicRoomGoogleAppToken = "";
+const sessions = {};
 
 const createHash = () =>
   [...Array(36)].map(() => Math.random().toString(36)[3]).join("");
@@ -12,55 +25,7 @@ const createHash = () =>
 const createSession = email => {
   const sessionId = sessions[email] ? sessions[email] : createHash();
   sessions[email] = sessionId;
-  console.log(sessions);
   return sessionId;
-};
-
-const isUserExists = (email, database) => {
-  return database
-    .ref(`users/${md5(email)}`)
-    .once("value")
-    .then(snapshot => {
-      return snapshot.exists() ? snapshot.val() : false;
-    });
-};
-
-const insertUser = (payload, database) => {
-  return new Promise((resolve, reject) => {
-    database.ref(`users/${md5(payload.email)}`).set(payload, err => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-};
-
-const isGoogleTokenValid = userToken => {
-  const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${userToken}`;
-  return fetch(url)
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      console.log("calling", url);
-      console.log("RESP", json);
-      return !json.error;
-    });
-};
-
-const isFacebookTokenValid = (userToken, appToken) => {
-  console.log({ userToken, appToken });
-  const url = `https://graph.facebook.com/debug_token?input_token=${userToken}&access_token=${appToken}`;
-  return fetch(url)
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      console.log("RESP", json);
-      return !json.error;
-    });
 };
 
 const checkEmail = email => {
@@ -83,6 +48,9 @@ router.post("/log-in", async (req, res) => {
 
     const user = await isUserExists(email, database);
     if (user) {
+      if (typeof user.tokenValidation === "string") {
+        return res.status(403).send({ error: "account needs to be activated" });
+      }
       if (user.password === md5(password)) {
         const sessionId = createSession(email);
         return res.status(200).send({ sessionId });
@@ -106,17 +74,16 @@ router.post("/facebook-log-in", async (req, res) => {
   try {
     const database = res.database;
     const { email, userToken } = req.body;
-    const appToken = musicRoomFacebookAppToken;
 
-    const facebookTokenValid = await isFacebookTokenValid(userToken, appToken);
+    const facebookTokenValid = await isFacebookTokenValid(userToken);
     if (!facebookTokenValid) {
       return res.status(403).send({ error: "error with token" });
     }
     const user = await isUserExists(email, database);
     if (!user) {
       payload = {
-        email
-        // facebookId: null
+        email,
+        facebookToken: facebookTokenValid
       };
       await insertUser(payload, database);
     }
@@ -142,8 +109,8 @@ router.post("/google-log-in", async (req, res) => {
     const user = await isUserExists(email, database);
     if (!user) {
       payload = {
-        email
-        // googleId: null
+        email,
+        googleToken: googleTokenValid
       };
       await insertUser(payload, database);
     }
@@ -158,19 +125,55 @@ router.post("/google-log-in", async (req, res) => {
 // recover account ( email )
 router.post("/recover", async (req, res) => {
   try {
+    const { email } = req.body;
+    const database = res.database;
+    const user = await isUserExists(email, database);
+    if (user) {
+      const tokenPassword = `${md5(email)}${createHash()}`;
+      await updatetUser({ email, tokenPassword }, database);
+      await sendEmail(mailRecover({ email, tokenPassword }), res.mail);
+    }
+    return res.status(200).send({
+      message:
+        "if there is an account with this email, you will receive a mail to reconnect you"
+    });
   } catch (err) {
     console.log("INTER ERROR", err);
     return res.status(500).send({ error: "internal server error" });
   }
 });
 
-// @TODO MAIL SEND
+// respond new password ( token )
+router.get("/new-password", async (req, res) => {
+  try {
+    const { token } = req.query;
+    const database = res.database;
+    const user = await findUserBy("tokenPassword", token, database);
+    if (user) {
+      const { email } = Object.values(user)[0];
+      const newPassword = createHash();
+      await updatetUser(
+        { email, tokenPassword: null, password: md5(newPassword) },
+        database
+      );
+      await sendEmail(
+        mailNewPassword({ email, password: newPassword }),
+        res.mail
+      );
+    }
+    return res.status(200).send();
+  } catch (err) {
+    console.log("INTER ERROR", err);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
 // signin classic ( email, password )
 router.post("/sign-in", async (req, res) => {
   try {
     const database = res.database;
     const { email, password } = req.body;
-
+    const tokenValidation = `${md5(email)}${createHash()}`;
     checkEmail(email);
     checkPassword(password);
 
@@ -180,13 +183,34 @@ router.post("/sign-in", async (req, res) => {
     }
     const payload = {
       email,
-      password: md5(password)
+      password: md5(password),
+      tokenValidation
     };
     await insertUser(payload, database);
-    // send mail
+    await sendEmail(mailWelcome({ email, tokenValidation }), res.mail);
     return res
       .status(200)
       .send({ message: "account created, waiting for mail confirmation" });
+  } catch (err) {
+    console.log("INTER ERROR", err);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
+// account validation ( token )
+router.get("/account-validation", async (req, res) => {
+  try {
+    const { token } = req.query;
+    const database = res.database;
+    const user = await findUserBy("tokenValidation", token, database);
+    if (user) {
+      const { email } = Object.values(user)[0];
+      await updatetUser({ email, tokenValidation: null }, database);
+      await sendEmail(mailAccountValid({ email }), res.mail);
+      return res.status(200).send();
+    }
+    return res.status(400).send({ error: "no user found with this token" });
+    // throw Error("not yet implemented");
   } catch (err) {
     console.log("INTER ERROR", err);
     return res.status(500).send({ error: "internal server error" });
