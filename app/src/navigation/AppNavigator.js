@@ -10,6 +10,7 @@ import LoggedOutScreen from "../screens/LoggedOutScreen";
 import LogInScreen from "../screens/LogInScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import CreateAccountScreen from "../screens/CreateAccountScreen";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import LoggedInNavigator from "./LoggedInNavigator";
 
 export const AppNavigator = createStackNavigator({
@@ -23,7 +24,8 @@ export const AppNavigator = createStackNavigator({
   },
   CreateAccount: { screen: CreateAccountScreen },
   LogIn: { screen: LogInScreen },
-  ForgotPassword: { screen: ForgotPasswordScreen }
+  ForgotPassword: { screen: ForgotPasswordScreen },
+  ResetPassword: { screen: ResetPasswordScreen }
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => <AppNavigator />;

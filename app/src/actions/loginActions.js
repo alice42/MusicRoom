@@ -66,3 +66,20 @@ export function logout() {
     type: "LOGOUT"
   };
 }
+
+//RESET
+export function recoverPasswordRequest(email) {
+  return {
+    type: "RECOVER_PASSWORD_REQUEST",
+    email
+  };
+}
+
+export function resetPasswordRequest(token, password, passwordConfirm) {
+  return {
+    type: "RESET_PASSWORD_REQUEST",
+    token,
+    password,
+    passwordConfirm
+  };
+}
