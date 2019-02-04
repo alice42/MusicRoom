@@ -19,7 +19,13 @@ export default class InputField extends Component {
     this.setState({ inputValue: text });
   }
   render() {
-    const { placeholder, labelText, onChangeText, defaultValue } = this.props;
+    const {
+      placeholder,
+      labelText,
+      onChangeText,
+      defaultValue,
+      secureTextEntry
+    } = this.props;
     const { inputValue } = this.state;
     return (
       <View style={styles.wrapper}>
@@ -32,6 +38,7 @@ export default class InputField extends Component {
           placeholder={placeholder}
           defaultValue={inputValue}
           value={inputValue}
+          secureTextEntry={secureTextEntry}
         />
       </View>
     );

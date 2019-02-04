@@ -47,6 +47,7 @@ class SignIn extends Component {
           <InputField
             labelText="PASSWORD"
             onChangeText={this.handlePasswordChange}
+            secureTextEntry={true}
           />
           <NextArrowButton handleOnPress={this.onLoginPress} />
         </View>
