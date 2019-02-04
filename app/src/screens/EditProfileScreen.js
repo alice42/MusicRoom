@@ -11,11 +11,9 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
-
-import InputField from "../components/InputField";
-
-import RoundedButton from "../components/RoundedButton";
-import RadioInput from "../components/RadioInput";
+import InputField from "../components/input/InputField";
+import RoundedButton from "../components/button/RoundedButton";
+import RadioInput from "../components/input/RadioInput";
 
 class CreateList extends Component {
   static navigationOptions = ({ navigation }) => ({

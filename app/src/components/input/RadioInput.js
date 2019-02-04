@@ -1,14 +1,7 @@
-/**
- * Airbnb Clone App
- * @author: Andy
- * @Url: https://www.cubui.com
- */
-
 import React, { Component } from "react";
-// import { PropTypes } from "prop-types";
 import { View, Text, Easing, Animated, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors } from "../constants/colors";
+import { colors } from "../../constants/colors";
 
 export default class RadioInput extends Component {
   constructor(props) {

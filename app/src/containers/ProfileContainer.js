@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { colors } from "../constants/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
-import RoundedButton from "../components/RoundedButton";
-import ListInfos from "../components/ListInfos";
-import NavBarButton from "../components/NavBarButton";
+import RoundedButton from "../components/button/RoundedButton";
+import ListInfos from "../components/list/ListInfos";
+import NavBarButton from "../components/button/NavBarButton";
 import { infos } from "../constants/infos";
 
 export default class ProfileContainer extends Component {

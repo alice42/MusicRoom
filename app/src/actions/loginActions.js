@@ -1,5 +1,5 @@
-//APP
-//login
+///////////////LOGIN/SIGNIN///////////////////
+//LOGIN
 export function loginRequest(email, password) {
   return {
     type: "LOGIN_REQUEST",
@@ -23,7 +23,7 @@ export function loginFailure(err) {
   };
 }
 
-//signin
+//SIGNIN
 export function signinRequest(email, password) {
   return {
     type: "SIGNIN_REQUEST",
@@ -46,6 +46,14 @@ export function signinFailure(err) {
   };
 }
 
+//LOGOUT
+export function logout() {
+  return {
+    type: "LOGOUT"
+  };
+}
+
+//NETWORKS
 //FACEBOOK
 export function loginFacebookRequest() {
   return {
@@ -60,21 +68,15 @@ export function loginGoogleRequest() {
   };
 }
 
-//LOGOUT
-export function logout() {
-  return {
-    type: "LOGOUT"
-  };
-}
-
-//RESET
+///////////////PASSWORD///////////////////
+//RECOVER
 export function recoverPasswordRequest(email) {
   return {
     type: "RECOVER_PASSWORD_REQUEST",
     email
   };
 }
-
+//RESET
 export function resetPasswordRequest(token, password, passwordConfirm) {
   return {
     type: "RESET_PASSWORD_REQUEST",
