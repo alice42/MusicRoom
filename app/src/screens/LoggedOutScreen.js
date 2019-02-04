@@ -4,8 +4,8 @@ import { bindActionCreators } from "redux";
 import { View, StyleSheet, Text, Platform, Linking } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
-import RoundedButton from "../components/RoundedButton";
-import NavBarButton from "../components/NavBarButton";
+import RoundedButton from "../components/button/RoundedButton";
+import NavBarButton from "../components/button/NavBarButton";
 import { GoogleSignin } from "react-native-google-signin";
 import * as loginActions from "../actions/loginActions";
 

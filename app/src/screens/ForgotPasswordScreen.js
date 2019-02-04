@@ -4,9 +4,9 @@ import { bindActionCreators } from "redux";
 import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
-import InputField from "../components/InputField";
-import NextArrowButton from "../components/NextArrowButton";
-import NavBarButton from "../components/NavBarButton";
+import InputField from "../components/input/InputField";
+import NextArrowButton from "../components/button/NextArrowButton";
+import NavBarButton from "../components/button/NavBarButton";
 import * as loginActions from "../actions/loginActions";
 
 class ForgotPassword extends Component {

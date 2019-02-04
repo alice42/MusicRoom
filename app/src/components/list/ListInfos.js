@@ -8,7 +8,7 @@ import {
   ScrollView,
   StyleSheet
 } from "react-native";
-import { colors } from "../constants/colors";
+import { colors } from "../../constants/colors";
 
 export default class Listings extends Component {
   renderListings = () => {
