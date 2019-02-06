@@ -12,22 +12,33 @@ import { colors } from "../../constants/colors";
 export default class EditableField extends Component {
   state = {
     inputValue: this.props.defaultValue,
-    editable: false
+    editable: false,
+    validValue: false
   };
 
   handleEdit = () => {
-    const { editable } = this.state;
+    const { editable, validValue, inputValue } = this.state;
     if (!editable) {
       this.setState({ editable: true });
     } else {
-      this.setState({ editable: false });
+      if (validValue) {
+        this.setState({ editable: false });
+        this.props.onChangeText(inputValue);
+      } else {
+        this.setState({ inputValue: this.props.defaultValue });
+        this.setState({ editable: false });
+      }
     }
   };
 
-  onChangeText(text) {
-    this.props.onChangeText(text);
-    this.setState({ inputValue: text });
-  }
+  onChangeText = text => {
+    const valueCheckRegex = /(?=.*[a-zA-Z])/;
+    if (valueCheckRegex.test(text)) {
+      this.setState({ validValue: true, inputValue: text });
+    } else {
+      this.setState({ validValue: false, inputValue: text });
+    }
+  };
 
   render() {
     const { labelText, onChangeText, defaultValue, style, size } = this.props;
@@ -46,7 +57,7 @@ export default class EditableField extends Component {
                   { marginTop: -5, borderBottomColor: style.color }
                 ]
           }
-          onChangeText={this.props.onChangeText}
+          onChangeText={this.onChangeText}
           defaultValue={inputValue}
         />
         <TouchableOpacity onPress={this.handleEdit}>

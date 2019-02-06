@@ -14,10 +14,10 @@ export default class InputField extends Component {
     inputValue: this.props.defaultValue
   };
 
-  onChangeText(text) {
+  onChangeText = text => {
     this.props.onChangeText(text);
     this.setState({ inputValue: text });
-  }
+  };
   render() {
     const {
       placeholder,
@@ -34,7 +34,7 @@ export default class InputField extends Component {
           style={styles.inputField}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={this.props.onChangeText}
+          onChangeText={this.onChangeText}
           placeholder={placeholder}
           defaultValue={inputValue}
           value={inputValue}

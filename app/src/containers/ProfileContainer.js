@@ -13,7 +13,7 @@ import { colors } from "../constants/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import EditableInput from "../components/input/EditableInput";
 import RoundedButton from "../components/button/RoundedButton";
-import ListInfos from "../components/list/ListInfos";
+import ListEditableInfos from "../components/list/ListEditableInfos";
 import NavBarButton from "../components/button/NavBarButton";
 import { infos } from "../constants/infos";
 
@@ -23,7 +23,7 @@ export default class ProfileContainer extends Component {
   };
 
   renderListUserInfos = () => {
-    return <ListInfos list={infos} />;
+    return <ListEditableInfos list={infos} />;
   };
 
   handleLogOut = () => {
@@ -32,7 +32,6 @@ export default class ProfileContainer extends Component {
 
   handleUsernameEdit = username => {
     this.setState({ username });
-    //action?
   };
 
   render() {

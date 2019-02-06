@@ -11,12 +11,18 @@ import {
 import { colors } from "../../constants/colors";
 import EditableInput from "../input/EditableInput";
 
-export default class Listings extends Component {
-  handleInfoEdit = text => {
-    console.log("TEST", text);
+export default class editableListings extends Component {
+  state = {
+    defaultValue: null
   };
+
+  handleInfoEdit = text => {
+    this.setState({ defaultValue: text });
+  };
+
   renderListings = () => {
     const { list } = this.props;
+    const { defaultValue } = this.state;
     return Object.keys(list).map((info, index) => (
       <View key={`list-${index}`} style={styles.listItem}>
         <View style={{ flex: 1 }}>
@@ -25,7 +31,7 @@ export default class Listings extends Component {
         <View style={{ flex: 1 }}>
           <EditableInput
             style={styles.listValue}
-            defaultValue={list[info]}
+            defaultValue={defaultValue ? defaultValue : list[info]}
             onChangeText={this.handleInfoEdit}
             size={12}
           />
