@@ -11,37 +11,44 @@ import {
 } from "react-native";
 import { colors } from "../constants/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
+import EditableInput from "../components/input/EditableInput";
 import RoundedButton from "../components/button/RoundedButton";
 import ListInfos from "../components/list/ListInfos";
 import NavBarButton from "../components/button/NavBarButton";
 import { infos } from "../constants/infos";
 
 export default class ProfileContainer extends Component {
-  handleLogOut = () => {
-    this.props.navigation.navigate("LoggedOut");
-  };
-  handleEdit = () => {
-    this.props.navigation.navigate("EditProfile");
+  state = {
+    username: "John Doe"
   };
 
   renderListUserInfos = () => {
     return <ListInfos list={infos} />;
   };
 
+  handleLogOut = () => {
+    this.props.navigation.navigate("LoggedOut");
+  };
+
+  handleUsernameEdit = username => {
+    this.setState({ username });
+    //action?
+  };
+
   render() {
+    const { username } = this.state;
     return (
       <View style={styles.wrapper}>
         <View style={styles.header}>
           <View style={styles.headerContent}>
-            <View style={styles.headerEditButton}>
-              <NavBarButton
-                handleButtonPress={this.handleEdit}
-                location=""
-                color={colors.white}
-                text="Edit"
+            <View style={{ alignSelf: "center" }}>
+              <EditableInput
+                style={styles.name}
+                defaultValue={username}
+                onChangeText={this.handleUsernameEdit}
+                size={18}
               />
             </View>
-            <Text style={styles.name}>John Doe</Text>
             <View style={styles.textIconWrapper}>
               <Icon
                 name="map-marker"
@@ -57,7 +64,7 @@ export default class ProfileContainer extends Component {
           <View style={[styles.textIconWrapper, { marginBottom: 20 }]}>
             <Icon
               name="envelope"
-              size={20}
+              size={16}
               style={{ color: colors.green01, marginRight: 5 }}
             />
             <Text style={{ color: colors.green01 }}>JohnDoe@mail.com</Text>
@@ -104,11 +111,7 @@ const styles = StyleSheet.create({
     height: 200
   },
   headerContent: {
-    padding: 50
-  },
-  headerEditButton: {
-    alignItems: "flex-end",
-    marginRight: -30
+    padding: 80
   },
   textIconWrapper: {
     flexDirection: "row",
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
   name: {
     alignSelf: "center",
     fontSize: 22,
-    color: "#FFFFFF",
+    color: colors.white,
     fontWeight: "600"
   },
   avatar: {

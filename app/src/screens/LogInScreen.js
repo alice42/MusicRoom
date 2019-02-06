@@ -43,8 +43,9 @@ class LogIn extends Component {
   };
 
   onLoginPress = () => {
-    const { email, password } = this.state;
-    this.props.actions.loginRequest(email, password);
+    // const { email, password } = this.state;
+    this.props.navigation.navigate("LoggedIn");
+    // this.props.actions.loginRequest(email, password);
   };
 
   componentDidUpdate = () => {
