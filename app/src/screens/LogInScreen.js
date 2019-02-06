@@ -73,7 +73,7 @@ class LogIn extends Component {
     } = this.state;
     if (validEmail && validPassword) {
       this.setState({ validForm: true });
-      this.props.navigation.navigate("LoggedIn");
+      this.props.actions.loginRequest(email, password);
     } else {
       this.setState({ validForm: false });
     }
