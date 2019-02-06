@@ -7,6 +7,8 @@ const signin = "/sign-in";
 const fbLogin = "/facebook-log-in";
 const ggLogin = "/google-log-in";
 
+const recover = "/recover";
+
 const basicFetch = async (method, url, config, data) => {
   if (method === "GET") {
     try {
@@ -33,6 +35,31 @@ const basicFetch = async (method, url, config, data) => {
     }
   }
 };
+
+export const recoverPassword = async email => {
+  const url = `${apiUrl}${user}${recover}`;
+  try {
+    const response = await basicFetch("POST", url, {}, { email });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// export const resetPassword = async (token, password, passwordConfirm) => {
+//   const url = `${apiUrl}${user}${reset}`;
+//   try {
+//     const response = await basicFetch(
+//       "POST",
+//       url,
+//       {},
+//       { token, password, passwordConfirm }
+//     );
+//     return response;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 
 export const loginClassic = async ({ email, password }) => {
   const url = `${apiUrl}${user}${login}`;

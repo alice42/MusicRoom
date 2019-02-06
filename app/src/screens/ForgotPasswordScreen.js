@@ -1,12 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
-import InputField from "../components/InputField";
-import NextArrowButton from "../components/NextArrowButton";
-import NavBarButton from "../components/NavBarButton";
+import InputField from "../components/input/InputField";
+import NextArrowButton from "../components/button/NextArrowButton";
+import NavBarButton from "../components/button/NavBarButton";
+import * as loginActions from "../actions/loginActions";
 
-export default class ForgotPassword extends Component {
+class ForgotPassword extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
       <NavBarButton
@@ -18,6 +21,20 @@ export default class ForgotPassword extends Component {
     headerTransparent: true
   });
 
+  state = {
+    email: ""
+  };
+
+  handleEmailChange = email => {
+    this.setState({ email });
+  };
+
+  onRecoverPress = () => {
+    const { email } = this.state;
+
+    this.props.actions.recoverPasswordRequest(email);
+  };
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
@@ -28,12 +45,24 @@ export default class ForgotPassword extends Component {
           <Text style={styles.forgotPasswordSubheading}>
             Enter your email to find your account
           </Text>
-          <InputField labelText="EMAIL" />
-          <NextArrowButton />
+          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+          <NextArrowButton handleOnPress={this.onRecoverPress} />
         </View>
       </KeyboardAvoidingView>
     );
   }
+}
+
+function recoverPasswordActionsMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
+}
+function recoverPasswordAppMapStateToProps(state) {
+  const { recoverPassword } = state;
+  return {
+    recoverPassword: recoverPassword
+  };
 }
 
 const styles = StyleSheet.create({
@@ -69,3 +98,8 @@ const styles = StyleSheet.create({
     right: 0
   }
 });
+
+export default connect(
+  recoverPasswordAppMapStateToProps,
+  recoverPasswordActionsMapDispatchToProps
+)(ForgotPassword);

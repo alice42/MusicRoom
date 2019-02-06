@@ -11,46 +11,59 @@ import * as loginActions from "../actions/loginActions";
 
 class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NavBarButton
-        handleButtonPress={() => navigation.navigate("ForgotPassword")}
-        location="right"
-        color={colors.white}
-        text="Forgot Password"
-      />
-    ),
     headerLeft: (
       <NavBarButton
         handleButtonPress={() => navigation.goBack()}
         location="left"
-        icon={<Icon name="angle-left" color={colors.white} size={30} />}
+        icon={<Icon name="angle-left" color={colors.green01} size={30} />}
       />
     ),
     headerTransparent: true
   });
 
   state = {
-    email: "",
-    password: ""
+    token: "",
+    password: "",
+    passwordConfirm: ""
   };
 
-  handleEmailChange = email => {
-    this.setState({ email });
-  };
+  // componentDidMount() {
+  //   if (Platform.OS === "android") {
+  //     Linking.getInitialURL().then(url => {
+  //       this.navigate(url);
+  //     });
+  //   } else {
+  //     Linking.addEventListener("url", this.handleOpenURL);
+  //   }
+  // }
+  // componentWillUnmount() {
+  //   Linking.removeEventListener("url", this.handleOpenURL);
+  // }
+  // handleOpenURL = event => {
+  //   this.navigate(event.url);
+  // };
+  // navigate = url => {
+  //   const { navigate } = this.props.navigation;
+  //   const route = url.replace(/.*?:\/\//g, "");
+  //   const routeName = route.split("/")[0];
+  //  const token = route.match(/\/([^\/]+)\/?$/)[1];
+  //  this.setState({ token });
+  // };
 
   handlePasswordChange = password => {
     this.setState({ password });
   };
 
-  onLoginPress = () => {
-    const { email, password } = this.state;
-    this.props.actions.loginRequest(email, password);
+  handlePasswordConfirmChange = passwordConfirm => {
+    this.setState({ passwordConfirm });
   };
 
-  componentDidUpdate = () => {
-    const { isAppAuthenticated } = this.props.login;
-    if (isAppAuthenticated) {
-      this.props.navigation.navigate("LoggedIn");
+  onValidPress = () => {
+    const { password, passwordConfirm, token } = this.state;
+    if (password === passwordConfirm) {
+      this.props.actions.resetPasswordRequest(password, passwordConfirm, token);
+    } else {
+      return <Text>Error</Text>;
     }
   };
 
@@ -58,14 +71,16 @@ class LogIn extends Component {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.logInWrapper}>
-          <Text style={styles.loginHeader}>Log In</Text>
-          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+          <Text style={styles.loginHeader}>Reset password</Text>
           <InputField
-            labelText="PASSWORD"
+            labelText="NEW PASSWORD"
             onChangeText={this.handlePasswordChange}
-            secureTextEntry={true}
           />
-          <NextArrowButton handleOnPress={this.onLoginPress} />
+          <InputField
+            labelText="CONFIRM NEW PASSWORD"
+            onChangeText={this.handlePasswordConfirmChange}
+          />
+          <NextArrowButton handleOnPress={this.onValidPress} />
         </View>
 
         <View />

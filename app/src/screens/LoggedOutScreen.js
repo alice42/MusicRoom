@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Platform, Linking } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
-import RoundedButton from "../components/RoundedButton";
-import NavBarButton from "../components/NavBarButton";
+import RoundedButton from "../components/button/RoundedButton";
+import NavBarButton from "../components/button/NavBarButton";
 import { GoogleSignin } from "react-native-google-signin";
 import * as loginActions from "../actions/loginActions";
 
@@ -46,6 +46,27 @@ class LoginScreen extends Component {
     if (isAppAuthenticated) {
       this.props.navigation.navigate("LoggedIn");
     }
+  };
+
+  componentDidMount() {
+    if (Platform.OS === "android") {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url);
+      });
+    } else {
+      Linking.addEventListener("url", this.handleOpenURL);
+    }
+  }
+  componentWillUnmount() {
+    Linking.removeEventListener("url", this.handleOpenURL);
+  }
+  handleOpenURL = event => {
+    this.navigate(event.url);
+  };
+  navigate = url => {
+    const { navigate } = this.props.navigation;
+    const route = url.replace(/.*?:\/\//g, "");
+    const routeName = route.split("/")[0];
   };
 
   render() {

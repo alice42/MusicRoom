@@ -3,16 +3,13 @@ import { loginClassic } from "../services/apiService";
 
 function* loginAppSaga(action) {
   const { email, password } = action;
-  console.log("action", action);
   try {
     const payload = {
       email,
       password
     };
-    console.log("payload", payload);
 
     const response = yield call(loginClassic, payload);
-    console.log("responsLog", response);
     if (response.error) {
       yield put({ type: "LOGIN_FAILURE", err: response.error });
     } else {
@@ -22,7 +19,6 @@ function* loginAppSaga(action) {
       });
     }
   } catch (err) {
-    console.error("ERROR", err);
     yield put({ type: "LOGIN_FAILURE", err: err });
   }
 }

@@ -4,9 +4,9 @@ import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
-import NavBarButton from "../components/NavBarButton";
-import InputField from "../components/InputField";
-import NextArrowButton from "../components/NextArrowButton";
+import NavBarButton from "../components/button/NavBarButton";
+import InputField from "../components/input/InputField";
+import NextArrowButton from "../components/button/NextArrowButton";
 import * as loginActions from "../actions/loginActions";
 
 class SignIn extends Component {
@@ -47,6 +47,7 @@ class SignIn extends Component {
           <InputField
             labelText="PASSWORD"
             onChangeText={this.handlePasswordChange}
+            secureTextEntry={true}
           />
           <NextArrowButton handleOnPress={this.onLoginPress} />
         </View>
