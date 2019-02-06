@@ -22,20 +22,42 @@ class ForgotPassword extends Component {
   });
 
   state = {
-    email: ""
+    email: "",
+    validEmail: false,
+    validForm: true
   };
 
   handleEmailChange = email => {
+    const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const { validEmail } = this.state;
     this.setState({ email });
+
+    if (!validEmail) {
+      if (emailCheckRegex.test(email)) {
+        this.setState({ validEmail: true });
+      }
+    } else if (!emailCheckRegex.test(email)) {
+      this.setState({ validEmail: false });
+    }
   };
 
   onRecoverPress = () => {
-    const { email } = this.state;
-
-    this.props.actions.recoverPasswordRequest(email);
+    const { email, validEmail, validForm } = this.state;
+    if (validEmail) {
+      this.setState({ validForm: true });
+      this.props.actions.recoverPasswordRequest(email);
+    } else {
+      this.setState({ validForm: false });
+    }
   };
 
   render() {
+    const { validForm, validEmail } = this.state;
+    const errorEmail = validForm ? null : (
+      <Text style={styles.errorMessage}>
+        {validEmail ? null : "Please, enter a valid Email."}
+      </Text>
+    );
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.forgotWrapper}>
@@ -45,6 +67,7 @@ class ForgotPassword extends Component {
           <Text style={styles.forgotPasswordSubheading}>
             Enter your email to find your account
           </Text>
+          {errorEmail}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
           <NextArrowButton handleOnPress={this.onRecoverPress} />
         </View>
@@ -91,11 +114,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 60
   },
-  notificationWrapper: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0
+  errorMessage: {
+    color: colors.darkOrange,
+    fontWeight: "700",
+    fontSize: 15,
+    marginBottom: 5
   }
 });
 
