@@ -77,6 +77,7 @@ class LogIn extends Component {
     } else {
       this.setState({ validForm: false });
     }
+    this.props.navigation.navigate("LoggedIn");
   };
 
   componentDidUpdate = () => {
@@ -110,7 +111,11 @@ class LogIn extends Component {
             onChangeText={this.handlePasswordChange}
             secureTextEntry={true}
           />
-          <NextArrowButton handleOnPress={this.onLoginPress} />
+          <NextArrowButton
+            handleOnPress={this.onLoginPress}
+            color={colors.green01}
+            background={colors.white}
+          />
         </View>
 
         <View />

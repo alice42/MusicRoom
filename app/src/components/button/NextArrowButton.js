@@ -5,11 +5,20 @@ import { colors } from "../../constants/colors";
 
 export default class NextArrowButton extends Component {
   render() {
-    const { handleOnPress } = this.props;
+    const { handleOnPress, background, color } = this.props;
+    const backgroundColor = background || "transparent";
+    const iconColor = color || colors.black;
     return (
       <View style={styles.buttonWrapper}>
-        <TouchableHighlight style={styles.button} onPress={handleOnPress}>
-          <Icon name="angle-right" style={styles.icon} size={32} />
+        <TouchableHighlight
+          style={[styles.button, { backgroundColor: backgroundColor }]}
+          onPress={handleOnPress}
+        >
+          <Icon
+            name="angle-right"
+            style={[styles.icon, { color: iconColor }]}
+            size={32}
+          />
         </TouchableHighlight>
       </View>
     );
@@ -29,12 +38,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 60,
     height: 60,
-    backgroundColor: colors.white,
     opacity: 0.6
   },
   icon: {
     marginRight: -2,
-    marginTop: -2,
-    color: colors.green01
+    marginTop: -2
   }
 });

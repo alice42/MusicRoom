@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  geolocation,
   Alert
 } from "react-native";
 import { colors } from "../constants/colors";
@@ -19,7 +18,8 @@ import { infos } from "../constants/infos";
 
 export default class ProfileContainer extends Component {
   state = {
-    username: "John Doe"
+    username: "John Doe",
+    avatarUri: ""
   };
 
   renderListUserInfos = () => {
@@ -30,12 +30,25 @@ export default class ProfileContainer extends Component {
     this.props.navigation.navigate("LoggedOut");
   };
 
+  handleChangePicture = () => {
+    this.props.navigation.navigate("CameraRoll", {
+      getSelected: this.getSelectedAvatar
+    });
+  };
+
   handleUsernameEdit = username => {
     this.setState({ username });
   };
 
+  getSelectedAvatar = uri => {
+    this.setState({ avatarUri: uri });
+  };
+
   render() {
-    const { username } = this.state;
+    const { username, avatarUri } = this.state;
+    const source = avatarUri
+      ? { uri: avatarUri }
+      : require("../assets/avatar.png");
     return (
       <View style={styles.wrapper}>
         <View style={styles.header}>
@@ -58,7 +71,7 @@ export default class ProfileContainer extends Component {
             </View>
           </View>
         </View>
-        <Image style={styles.avatar} source={require("../assets/avatar.png")} />
+        <Image style={styles.avatar} source={source} />
         <View style={styles.containerWrapper}>
           <View style={[styles.textIconWrapper, { marginBottom: 20 }]}>
             <Icon
@@ -95,6 +108,11 @@ export default class ProfileContainer extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={this.handleChangePicture}>
+          <View style={styles.buttonTextWrapper}>
+            <Text style={styles.buttonText}>Change picture</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -69,7 +69,11 @@ class ForgotPassword extends Component {
           </Text>
           {errorEmail}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          <NextArrowButton handleOnPress={this.onRecoverPress} />
+          <NextArrowButton
+            handleOnPress={this.onRecoverPress}
+            color={colors.green01}
+            background={colors.white}
+          />
         </View>
       </KeyboardAvoidingView>
     );

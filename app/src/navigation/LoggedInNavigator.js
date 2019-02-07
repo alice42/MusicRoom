@@ -8,7 +8,7 @@ import SettingsContainer from "../containers/SettingsContainer";
 import ProfileContainer from "../containers/ProfileContainer";
 import { colors } from "../constants/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
-import EditProfileScreen from "../screens/EditProfileScreen";
+import CameraRollScreen from "../screens/CameraRollScreen";
 
 const HomeTab = createStackNavigator({
   HomeContainer: {
@@ -38,7 +38,7 @@ const ProfileTab = createStackNavigator(
         header: null
       }
     },
-    EditProfile: { screen: EditProfileScreen }
+    CameraRoll: { screen: CameraRollScreen }
   },
   {
     mode: "modal"

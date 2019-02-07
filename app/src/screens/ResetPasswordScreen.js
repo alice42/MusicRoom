@@ -80,7 +80,11 @@ class LogIn extends Component {
             labelText="CONFIRM NEW PASSWORD"
             onChangeText={this.handlePasswordConfirmChange}
           />
-          <NextArrowButton handleOnPress={this.onValidPress} />
+          <NextArrowButton
+            handleOnPress={this.onValidPress}
+            color={colors.green01}
+            background={colors.white}
+          />
         </View>
 
         <View />
