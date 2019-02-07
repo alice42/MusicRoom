@@ -1,19 +1,9 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Image,
-  Dimensions
-} from "react-native";
+import { View, Text, TouchableHighlight, Image } from "react-native";
 import { colors } from "../../constants/colors";
+import styles from "../../styles/components/list/ListCameraRoll";
 
-const { width, height } = Dimensions.get("window");
-
-export default class editableListings extends Component {
+export default class ListCameraRoll extends Component {
   selectImage = uri => {
     this.props.handleSelected(uri);
   };
@@ -45,17 +35,3 @@ export default class editableListings extends Component {
     return <View style={styles.imageGrid}>{this.renderListings()}</View>;
   }
 }
-
-const styles = StyleSheet.create({
-  imageGrid: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center"
-  },
-  image: {
-    width: width / 4,
-    height: width / 4,
-    margin: 10
-  }
-});

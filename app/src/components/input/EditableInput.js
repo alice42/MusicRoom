@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { colors } from "../../constants/colors";
+import styles from "../../styles/components/input/EditableInput";
 
-export default class EditableField extends Component {
+export default class EditableInput extends Component {
   state = {
     inputValue: this.props.defaultValue,
     editable: false,
@@ -71,18 +66,3 @@ export default class EditableField extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: "row"
-  },
-  text: {
-    marginRight: 8
-  },
-  icon: {
-    marginTop: 6
-  },
-  editableField: {
-    borderBottomWidth: 1
-  }
-});

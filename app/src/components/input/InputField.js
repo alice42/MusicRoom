@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { colors } from "../../constants/colors";
+import styles from "../../styles/components/input/InputField";
 
 export default class InputField extends Component {
   state = {
@@ -44,35 +39,3 @@ export default class InputField extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    display: "flex",
-    marginBottom: 30
-  },
-  label: {
-    marginBottom: 20,
-    fontSize: 14,
-    fontWeight: "700",
-    color: colors.white
-  },
-  inputField: {
-    borderBottomWidth: 1,
-    paddingTop: 5,
-    color: colors.white,
-    borderBottomColor: colors.white
-  },
-  showButton: {
-    position: "absolute",
-    right: 0
-  },
-  showButtonText: {
-    color: colors.white,
-    fontWeight: "700"
-  },
-  checkmarkWrapper: {
-    position: "absolute",
-    right: 0,
-    bottom: 12
-  }
-});

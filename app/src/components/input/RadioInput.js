@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, Easing, Animated, StyleSheet } from "react-native";
+import { View, Text, Easing, Animated } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../../constants/colors";
+import styles from "../../styles/components/input/RadioInput";
 
 export default class RadioInput extends Component {
   constructor(props) {
@@ -46,7 +47,7 @@ export default class RadioInput extends Component {
       <View
         style={[
           { backgroundColor: background, borderColor: border },
-          styles.wrapper
+          styles.wrapperRadio
         ]}
       >
         <Animated.View
@@ -58,26 +59,3 @@ export default class RadioInput extends Component {
     );
   }
 }
-
-// RadioInput.propTypes = {
-//   backgroundColor: PropTypes.string.isRequired,
-//   borderColor: PropTypes.string.isRequired,
-//   selectedBackgroundColor: PropTypes.string.isRequired,
-//   selectedBorderColor: PropTypes.string.isRequired,
-//   selected: PropTypes.bool.isRequired,
-//   iconColor: PropTypes.string.isRequired
-// };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    width: 30,
-    height: 30,
-    borderRadius: 30,
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  iconWrapper: {
-    marginTop: 2
-  }
-});

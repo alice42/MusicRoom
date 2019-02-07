@@ -1,17 +1,11 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet
-} from "react-native";
-import { colors } from "../../constants/colors";
+import { View, Text } from "react-native";
 import EditableInput from "../input/EditableInput";
+import { colors } from "../../constants/colors";
+import styles from "../../styles/components/list/ListEditableInfos";
 
-export default class editableListings extends Component {
+export default class ListEditableInfos extends Component {
   state = {
     defaultValue: null
   };
@@ -43,25 +37,3 @@ export default class editableListings extends Component {
     return <View style={styles.wrapper}>{this.renderListings()}</View>;
   }
 }
-const styles = StyleSheet.create({
-  wrapper: {
-    display: "flex",
-    marginBottom: 25
-  },
-  listItem: {
-    justifyContent: "space-between",
-    marginTop: 2,
-    flexDirection: "row"
-  },
-  listKey: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: colors.green01
-  },
-  listValue: {
-    minWidth: "20%",
-    fontWeight: "500",
-    fontSize: 17,
-    color: colors.grey04
-  }
-});
