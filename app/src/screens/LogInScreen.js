@@ -80,7 +80,7 @@ class LogIn extends Component {
     }
 
     //USE IN DEV
-    // this.props.navigation.navigate("LoggedIn");
+    this.props.navigation.navigate("LoggedIn");
   };
 
   componentDidUpdate = () => {

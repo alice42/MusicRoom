@@ -1,15 +1,20 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { colors } from "../constants/colors";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/Ionicons";
 import EditableInput from "../components/input/EditableInput";
 import RoundedButton from "../components/button/RoundedButton";
 import ListEditableInfos from "../components/list/ListEditableInfos";
 import NavBarButton from "../components/button/NavBarButton";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
+import NetworkLinking from "../components/NetworkLinking";
+import ProfileHeader from "../components/ProfileHeader";
+import * as loginActions from "../actions/loginActions";
 
-export default class ProfileContainer extends Component {
+class ProfileContainer extends Component {
   state = {
     username: "John Doe",
     avatarUri: ""
@@ -37,6 +42,16 @@ export default class ProfileContainer extends Component {
     this.setState({ avatarUri: uri });
   };
 
+  onLoginFacebookPress = () => {
+    console.log("FACEBOOK");
+    // this.props.actions.loginFacebookRequest();
+  };
+
+  onLoginGooglePress = () => {
+    console.log("GOOGLE");
+    // this.props.actions.loginGoogleRequest();
+  };
+
   render() {
     const { username, avatarUri } = this.state;
     const source = avatarUri
@@ -44,69 +59,35 @@ export default class ProfileContainer extends Component {
       : require("../assets/avatar.png");
     return (
       <View style={styles.wrapper}>
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <View style={{ alignSelf: "center" }}>
-              <EditableInput
-                style={styles.name}
-                defaultValue={username}
-                onChangeText={this.handleUsernameEdit}
-                size={18}
-              />
-            </View>
-            <View style={styles.textIconWrapper}>
-              <Icon
-                name="map-marker"
-                size={20}
-                style={{ color: colors.white, marginRight: 5 }}
-              />
-              <Text style={styles.location}>Paris</Text>
-            </View>
-          </View>
-        </View>
-        <Image style={styles.avatar} source={source} />
+        <ProfileHeader
+          state={this.state}
+          handleLogOut={this.handleLogOut}
+          handleUsernameEdit={this.handleUsernameEdit}
+          handleChangePicture={this.handleChangePicture}
+        />
         <View style={styles.containerWrapper}>
-          <View style={[styles.textIconWrapper, { marginBottom: 20 }]}>
-            <Icon
-              name="envelope"
-              size={15}
-              style={{ color: colors.green01, marginRight: 5 }}
-            />
-            <Text style={{ color: colors.green01 }}>JohnDoe@mail.com</Text>
-          </View>
           {this.renderListUserInfos()}
-          <RoundedButton
-            text="Facebook"
-            textColor={colors.green01}
+          <NetworkLinking
+            textColor={colors.white}
+            background={colors.green01}
             border={colors.green01}
-            icon={
-              <Icon
-                name="facebook"
-                size={20}
-                style={styles.networkButtonIcon}
-              />
-            }
+            onLoginFacebookPress={this.onLoginFacebookPress}
+            onLoginGooglePress={this.onLoginGooglePress}
           />
-          <RoundedButton
-            text="Google"
-            textColor={colors.green01}
-            border={colors.green01}
-            icon={
-              <Icon name="google" size={20} style={styles.networkButtonIcon} />
-            }
-          />
-          <TouchableOpacity onPress={this.handleLogOut}>
-            <View style={styles.buttonTextWrapper}>
-              <Text style={styles.buttonText}>Log Out</Text>
-            </View>
-          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={this.handleChangePicture}>
-          <View style={styles.buttonTextWrapper}>
-            <Text style={styles.buttonText}>Change picture</Text>
-          </View>
-        </TouchableOpacity>
       </View>
     );
   }
 }
+
+function profileActionsMapDispatchToProps(dispatch) {
+  return {};
+}
+function profileMapStateToProps(state) {
+  return {};
+}
+
+export default connect(
+  profileActionsMapDispatchToProps,
+  profileMapStateToProps
+)(ProfileContainer);

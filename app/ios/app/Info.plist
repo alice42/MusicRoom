@@ -26,6 +26,8 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>app</string>
+	<key>FacebookAppID</key>
+	<string>990282421183049</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

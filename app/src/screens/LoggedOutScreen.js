@@ -9,6 +9,7 @@ import NavBarButton from "../components/button/NavBarButton";
 import { GoogleSignin } from "react-native-google-signin";
 import * as loginActions from "../actions/loginActions";
 import styles from "../styles/screens/LoggedOutScreen";
+import NetworkLinking from "../components/NetworkLinking";
 
 GoogleSignin.configure();
 
@@ -75,27 +76,11 @@ class LoginScreen extends Component {
       <View style={styles.wrapper}>
         <View style={styles.welcomeWrapper}>
           <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
-          <RoundedButton
-            text="Continue with Facebook"
+          <NetworkLinking
             textColor={colors.green01}
             background={colors.white}
-            icon={
-              <Icon
-                name="facebook"
-                size={20}
-                style={styles.networkButtonIcon}
-              />
-            }
-            handleOnPress={this.onLoginFacebookPress}
-          />
-          <RoundedButton
-            text="Continue with Google"
-            textColor={colors.green01}
-            background={colors.white}
-            icon={
-              <Icon name="google" size={20} style={styles.networkButtonIcon} />
-            }
-            handleOnPress={this.onLoginGooglePress}
+            onLoginFacebookPress={this.onLoginFacebookPress}
+            onLoginGooglePress={this.onLoginGooglePress}
           />
           <RoundedButton
             text="Create Account"

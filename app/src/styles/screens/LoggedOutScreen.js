@@ -20,12 +20,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "300",
     marginBottom: 40
-  },
-  networkButtonIcon: {
-    color: colors.green01,
-    position: "relative",
-    left: 20,
-    zIndex: 8
   }
 });
 export default styles;
