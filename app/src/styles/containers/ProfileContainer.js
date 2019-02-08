@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     alignContent: "center",
-    marginTop: 30,
     padding: 20
   }
 });

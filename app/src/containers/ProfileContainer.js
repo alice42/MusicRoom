@@ -14,6 +14,7 @@ import styles from "../styles/containers/ProfileContainer";
 class ProfileContainer extends Component {
   state = {
     username: "John Doe",
+    email: "JohnDoe@mail.com",
     avatarUri: ""
   };
 
@@ -33,6 +34,10 @@ class ProfileContainer extends Component {
 
   handleUsernameEdit = username => {
     this.setState({ username });
+  };
+
+  handleEmailEdit = email => {
+    this.setState({ email });
   };
 
   getSelectedAvatar = uri => {
@@ -60,16 +65,18 @@ class ProfileContainer extends Component {
           state={this.state}
           handleLogOut={this.handleLogOut}
           handleUsernameEdit={this.handleUsernameEdit}
+          handleEmailEdit={this.handleEmailEdit}
           handleChangePicture={this.handleChangePicture}
         />
         <View style={styles.containerWrapper}>
           {this.renderListUserInfos()}
           <NetworkLinking
-            textColor={colors.white}
-            background={colors.green01}
+            textColor={colors.green01}
+            background={colors.white}
             border={colors.green01}
             onLoginFacebookPress={this.onLoginFacebookPress}
             onLoginGooglePress={this.onLoginGooglePress}
+            text="Link with"
           />
         </View>
       </View>

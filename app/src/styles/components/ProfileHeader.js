@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 15,
     color: colors.white,
-    paddingTop: 2
+    marginTop: 2
   },
   iconLocation: {
     color: colors.white,
@@ -35,9 +35,11 @@ const styles = StyleSheet.create({
   },
   iconEmail: {
     color: colors.green01,
-    marginRight: 5
+    marginRight: 5,
+    marginTop: 2
   },
   email: {
+    marginTop: 2,
     color: colors.green01
   },
   nameWrapper: {
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     height: 28
   },
   iconEditAvatarButton: {
+    marginTop: 2,
     color: colors.white
   },
   avatar: {

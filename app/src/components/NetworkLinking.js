@@ -10,38 +10,31 @@ import * as loginActions from "../actions/loginActions";
 import styles from "../styles/components/NetworkLinking";
 
 export default class NetworkLinking extends Component {
-  onLoginFacebookPress = () => {
-    this.props.onLoginFacebookPress();
-  };
-
-  onLoginGooglePress = () => {
-    this.props.onLoginGooglePress();
-  };
-
   render() {
-    const { textColor, background, border } = this.props;
+    const { textColor, background, border, text } = this.props;
     const borderColor = border || "transparent";
+    const textButton = text || "";
     return (
       <View>
         <RoundedButton
-          text="Continue with Facebook"
-          textColor={colors.green01}
-          background={colors.white}
+          text={`${textButton} Facebook`}
+          textColor={textColor}
+          background={background}
           border={borderColor}
           icon={
             <Icon name="facebook" size={20} style={styles.networkButtonIcon} />
           }
-          handleOnPress={this.onLoginFacebookPress}
+          handleOnPress={this.props.onLoginFacebookPress}
         />
         <RoundedButton
-          text="Continue with Google"
-          textColor={colors.green01}
-          background={colors.white}
+          text={`${textButton} Google`}
+          textColor={textColor}
+          background={background}
           border={borderColor}
           icon={
             <Icon name="google" size={20} style={styles.networkButtonIcon} />
           }
-          handleOnPress={this.onLoginGooglePress}
+          handleOnPress={this.props.onLoginGooglePress}
         />
       </View>
     );

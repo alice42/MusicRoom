@@ -4,10 +4,6 @@ import { colors } from "../../constants/colors";
 import styles from "../../styles/components/list/ListCameraRoll";
 
 export default class ListCameraRoll extends Component {
-  selectImage = uri => {
-    this.props.handleSelected(uri);
-  };
-
   renderListings = () => {
     const { photos, selectedPhoto, uri } = this.props;
 
@@ -15,7 +11,7 @@ export default class ListCameraRoll extends Component {
       <View key={`list-${index}`}>
         <TouchableHighlight
           key={index}
-          onPress={() => this.selectImage(photo.node.image.uri)}
+          onPress={() => this.props.handleSelected(photo.node.image.uri)}
           style={
             selectedPhoto && uri === photo.node.image.uri
               ? [{ borderWidth: 5, borderColor: colors.green01 }]

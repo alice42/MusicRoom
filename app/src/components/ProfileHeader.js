@@ -11,20 +11,8 @@ import { infos } from "../constants/infos";
 import styles from "../styles/components/ProfileHeader";
 
 export default class ProfileContainer extends Component {
-  handleLogOut = () => {
-    this.props.handleLogOut();
-  };
-
-  handleUsernameEdit = username => {
-    this.props.handleUsernameEdit(username);
-  };
-
-  handleChangePicture = () => {
-    this.props.handleChangePicture();
-  };
-
   render() {
-    const { username, avatarUri } = this.props.state;
+    const { username, email, avatarUri } = this.props.state;
     const source = avatarUri
       ? { uri: avatarUri }
       : require("../assets/avatar.png");
@@ -34,7 +22,7 @@ export default class ProfileContainer extends Component {
           <View style={styles.headerContent}>
             <View style={styles.headerEditButton}>
               <NavBarButton
-                handleButtonPress={this.handleLogOut}
+                handleButtonPress={this.props.handleLogOut}
                 color={colors.white}
                 text="Logout"
               />
@@ -43,7 +31,7 @@ export default class ProfileContainer extends Component {
               <EditableInput
                 style={styles.name}
                 defaultValue={username}
-                onChangeText={this.handleUsernameEdit}
+                onChangeText={this.props.handleUsernameEdit}
                 size={18}
               />
             </View>
@@ -55,7 +43,7 @@ export default class ProfileContainer extends Component {
         </View>
         <Image style={styles.avatar} source={source} />
         <TouchableOpacity
-          onPress={this.handleChangePicture}
+          onPress={this.props.handleChangePicture}
           style={styles.editAvatarButton}
         >
           <Icon
@@ -66,7 +54,12 @@ export default class ProfileContainer extends Component {
         </TouchableOpacity>
         <View style={styles.emailWrapper}>
           <FAIcon name="envelope" size={15} style={styles.iconEmail} />
-          <Text style={styles.email}>JohnDoe@mail.com</Text>
+          <EditableInput
+            style={styles.email}
+            defaultValue={email}
+            onChangeText={this.props.handleEmailEdit}
+            size={12}
+          />
         </View>
       </View>
     );
