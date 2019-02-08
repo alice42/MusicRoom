@@ -45,9 +45,16 @@ const styles = StyleSheet.create({
     color: colors.green01
   },
   footer: {
+    backgroundColor: colors.green01,
     justifyContent: "center",
     width: width,
     height: 150
+  },
+  textFooter: {
+    textAlign: "center",
+    fontSize: 30,
+    color: colors.white,
+    fontWeight: "300"
   }
 });
 export default styles;

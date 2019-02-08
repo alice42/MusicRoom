@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { colors } from "../constants/colors";
+import { View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import EditableInput from "../components/input/EditableInput";
-import RoundedButton from "../components/button/RoundedButton";
 import ListEditableInfos from "../components/list/ListEditableInfos";
-import NavBarButton from "../components/button/NavBarButton";
-import { infos } from "../constants/infos";
-import styles from "../styles/containers/ProfileContainer";
 import NetworkLinking from "../components/NetworkLinking";
 import ProfileHeader from "../components/ProfileHeader";
 import * as loginActions from "../actions/loginActions";
+import { colors } from "../constants/colors";
+import { infos } from "../constants/infos";
+import styles from "../styles/containers/ProfileContainer";
 
 class ProfileContainer extends Component {
   state = {

@@ -3,27 +3,17 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   ScrollView,
-  StyleSheet,
   CameraRoll,
-  Image,
-  Dimensions,
   NativeModules
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
-import InputField from "../components/input/InputField";
-import RoundedButton from "../components/button/RoundedButton";
 import NextArrowButton from "../components/button/NextArrowButton";
-import RadioInput from "../components/input/RadioInput";
 import ListCameraRoll from "../components/list/ListCameraRoll";
 import styles from "../styles/screens/CameraRollScreen";
-
-const { width, height } = Dimensions.get("window");
 
 class CameraRollScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -98,7 +88,6 @@ class CameraRollScreen extends Component {
   };
 
   handleValidation = () => {
-    console.log(this.state.uri);
     this.props.navigation.state.params.getSelected(this.state.uri);
     this.props.navigation.goBack();
   };
@@ -111,16 +100,16 @@ class CameraRollScreen extends Component {
         <ScrollView>{this.renderListCameraRoll()}</ScrollView>
         {selectedPhoto ? (
           <View style={styles.footer}>
-            <Text>Use this picture?</Text>
+            <Text style={styles.textFooter}>Use this picture?</Text>
             <NextArrowButton
-              color={colors.white}
-              background={colors.green01}
+              color={colors.green01}
+              background={colors.white}
               handleOnPress={this.handleValidation}
             />
           </View>
         ) : (
           <View style={styles.footer}>
-            <Text>Choose a picture</Text>
+            <Text style={styles.textFooter}>Choose a picture</Text>
           </View>
         )}
       </View>
