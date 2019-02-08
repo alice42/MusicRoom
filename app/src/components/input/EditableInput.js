@@ -27,17 +27,28 @@ export default class EditableInput extends Component {
   };
 
   onChangeText = text => {
+    const { type } = this.props;
+    const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const valueCheckRegex = /(?=.*[a-zA-Z])/;
-    if (valueCheckRegex.test(text)) {
-      this.setState({ validValue: true, inputValue: text });
+    if (type === "email") {
+      if (emailCheckRegex.test(text)) {
+        this.setState({ validValue: true, inputValue: text });
+      } else {
+        this.setState({ validValue: false, inputValue: text });
+      }
     } else {
-      this.setState({ validValue: false, inputValue: text });
+      if (valueCheckRegex.test(text)) {
+        this.setState({ validValue: true, inputValue: text });
+      } else {
+        this.setState({ validValue: false, inputValue: text });
+      }
     }
   };
 
   render() {
     const { labelText, onChangeText, defaultValue, style, size } = this.props;
     const { inputValue, editable } = this.state;
+
     return (
       <View style={styles.wrapper}>
         <TextInput

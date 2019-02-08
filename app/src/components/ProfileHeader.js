@@ -59,6 +59,7 @@ export default class ProfileContainer extends Component {
             defaultValue={email}
             onChangeText={this.props.handleEmailEdit}
             size={12}
+            type={"email"}
           />
         </View>
       </View>
