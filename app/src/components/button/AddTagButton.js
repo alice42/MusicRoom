@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity
-} from "react-native";
-import TagButton from "./TagButton";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../../constants/colors";
 import styles from "../../styles/components/button/TagsButtons";
@@ -14,7 +7,6 @@ import styles from "../../styles/components/button/TagsButtons";
 export default class AddTagButton extends React.Component {
   render() {
     const { addNewTag, inputvalue } = this.props;
-    console.log("TESTESETSESTESTESTES", addNewTag);
     return (
       <View style={styles.addContainer}>
         <TouchableOpacity onPress={this.props.onPressAdd}>

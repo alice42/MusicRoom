@@ -4,8 +4,6 @@ import { colors } from "../../constants/colors";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/Ionicons";
 import EditableInput from "../../components/input/EditableInput";
-import RoundedButton from "../../components/button/RoundedButton";
-import ListEditableInfos from "../../components/list/ListEditableInfos";
 import NavBarButton from "../../components/button/NavBarButton";
 import { infos } from "../../constants/infos";
 import styles from "../../styles/components/profileContainer/ProfileHeader";

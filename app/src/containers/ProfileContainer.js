@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, Text } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import ListEditableInfos from "../components/list/ListEditableInfos";
 import ProfileHeader from "../components/profileContainer/ProfileHeader";
 import Tags from "../components/profileContainer/Tags";

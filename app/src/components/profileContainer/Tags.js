@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity
-} from "react-native";
+import { View } from "react-native";
 import TagButton from "../button/TagButton";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../../constants/colors";

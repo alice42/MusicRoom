@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   text: {
+    marginLeft: 20,
     fontSize: 30,
     color: colors.green01,
     fontWeight: "300"
