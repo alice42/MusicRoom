@@ -60,7 +60,10 @@ export default class EditableInput extends Component {
                   style,
                   styles.text,
                   styles.editableField,
-                  { marginTop: -5, borderBottomColor: style.color }
+                  {
+                    marginTop: -5,
+                    borderBottomColor: style.color
+                  }
                 ]
           }
           onChangeText={this.onChangeText}

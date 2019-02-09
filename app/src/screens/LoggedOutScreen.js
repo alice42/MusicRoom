@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Text, Platform, Linking } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Platform,
+  Linking,
+  TouchableOpacity
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import RoundedButton from "../components/button/RoundedButton";
@@ -71,6 +78,16 @@ class LoginScreen extends Component {
     const routeName = route.split("/")[0];
   };
 
+  signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   render() {
     return (
       <View style={styles.wrapper}>
@@ -89,6 +106,9 @@ class LoginScreen extends Component {
             border={colors.white}
             handleOnPress={this.onCreateAccountPress}
           />
+          <TouchableOpacity onPress={this.signOut}>
+            <Text>delog google</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

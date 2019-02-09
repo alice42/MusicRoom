@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { View, StyleSheet, Text, Platform, Linking } from "react-native";
+import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import RoundedButton from "../components/button/RoundedButton";
-import NavBarButton from "../components/button/NavBarButton";
-import * as loginActions from "../actions/loginActions";
 import styles from "../styles/components/NetworkLinking";
 
 export default class NetworkLinking extends Component {

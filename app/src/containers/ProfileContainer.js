@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import ListEditableInfos from "../components/list/ListEditableInfos";
 import NetworkLinking from "../components/NetworkLinking";
@@ -10,12 +10,15 @@ import * as loginActions from "../actions/loginActions";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
+import InputField from "../components/input/InputField";
+import Tags from "../components/Tags";
 
 class ProfileContainer extends Component {
   state = {
     username: "John Doe",
     email: "JohnDoe@mail.com",
-    avatarUri: ""
+    avatarUri: "",
+    tags: []
   };
 
   renderListUserInfos = () => {
@@ -45,7 +48,7 @@ class ProfileContainer extends Component {
   };
 
   onLoginFacebookPress = () => {
-    console.log("FACEBOOK");
+    console.log("FACEBOOK", this.props);
     // this.props.actions.loginFacebookRequest();
   };
 
@@ -55,7 +58,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const { username, avatarUri } = this.state;
+    const { username, avatarUri, tags } = this.state;
     const source = avatarUri
       ? { uri: avatarUri }
       : require("../assets/avatar.png");
@@ -79,19 +82,34 @@ class ProfileContainer extends Component {
             text="Link with"
           />
         </View>
+        <Text
+          style={{
+            fontSize: 30,
+            color: colors.green01,
+            fontWeight: "300"
+          }}
+        >
+          Music Tastes
+        </Text>
+        <Tags all={tags} />
       </View>
     );
   }
 }
 
 function profileActionsMapDispatchToProps(dispatch) {
-  return {};
+  return {
+    actions: bindActionCreators(loginActions, dispatch)
+  };
 }
 function profileMapStateToProps(state) {
-  return {};
+  // const { login } = state;
+  return {
+    // login: login
+  };
 }
 
 export default connect(
-  profileActionsMapDispatchToProps,
-  profileMapStateToProps
+  profileMapStateToProps,
+  profileActionsMapDispatchToProps
 )(ProfileContainer);
