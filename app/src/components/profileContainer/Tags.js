@@ -6,11 +6,11 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
-import TagButton from "./button/TagButton";
+import TagButton from "../button/TagButton";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../constants/colors";
-import AddTagButton from "./button/AddTagButton";
-import styles from "../styles/components/Tags";
+import { colors } from "../../constants/colors";
+import AddTagButton from "../button/AddTagButton";
+import styles from "../../styles/components/profileContainer/Tags";
 
 export default class TagsView extends React.Component {
   state = {

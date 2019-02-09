@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import { colors } from "../constants/colors";
+import { colors } from "../../constants/colors";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/Ionicons";
-import EditableInput from "../components/input/EditableInput";
-import RoundedButton from "../components/button/RoundedButton";
-import ListEditableInfos from "../components/list/ListEditableInfos";
-import NavBarButton from "../components/button/NavBarButton";
-import { infos } from "../constants/infos";
-import styles from "../styles/components/ProfileHeader";
+import EditableInput from "../../components/input/EditableInput";
+import RoundedButton from "../../components/button/RoundedButton";
+import ListEditableInfos from "../../components/list/ListEditableInfos";
+import NavBarButton from "../../components/button/NavBarButton";
+import { infos } from "../../constants/infos";
+import styles from "../../styles/components/profileContainer/ProfileHeader";
 
 export default class ProfileContainer extends Component {
   render() {
     const { username, email, avatarUri } = this.props.state;
     const source = avatarUri
       ? { uri: avatarUri }
-      : require("../assets/avatar.png");
+      : require("../../assets/avatar.png");
     return (
       <View>
         <View style={styles.header}>

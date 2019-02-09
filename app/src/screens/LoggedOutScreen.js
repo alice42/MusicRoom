@@ -13,10 +13,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import RoundedButton from "../components/button/RoundedButton";
 import NavBarButton from "../components/button/NavBarButton";
+import NetworkLinking from "../components/link/NetworkLinking";
 import { GoogleSignin } from "react-native-google-signin";
 import * as loginActions from "../actions/loginActions";
 import styles from "../styles/screens/LoggedOutScreen";
-import NetworkLinking from "../components/NetworkLinking";
 
 GoogleSignin.configure();
 

@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
     display: "flex",
     alignContent: "center",
     padding: 20
+  },
+  text: {
+    fontSize: 30,
+    color: colors.green01,
+    fontWeight: "300"
   }
 });
 

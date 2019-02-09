@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../constants/colors";
-import RoundedButton from "../components/button/RoundedButton";
-import styles from "../styles/components/NetworkLinking";
+import { colors } from "../../constants/colors";
+import RoundedButton from "../button/RoundedButton";
+import styles from "../../styles/components/link/NetworkLinking";
 
 export default class NetworkLinking extends Component {
   render() {

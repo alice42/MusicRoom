@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, Text, TextInput } from "react-native";
+import { View, Text } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import ListEditableInfos from "../components/list/ListEditableInfos";
-import NetworkLinking from "../components/NetworkLinking";
-import ProfileHeader from "../components/ProfileHeader";
+import ProfileHeader from "../components/profileContainer/ProfileHeader";
+import Tags from "../components/profileContainer/Tags";
+import NetworkLinking from "../components/link/NetworkLinking";
 import * as loginActions from "../actions/loginActions";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
-import InputField from "../components/input/InputField";
-import Tags from "../components/Tags";
 
 class ProfileContainer extends Component {
   state = {
@@ -82,15 +81,7 @@ class ProfileContainer extends Component {
             text="Link with"
           />
         </View>
-        <Text
-          style={{
-            fontSize: 30,
-            color: colors.green01,
-            fontWeight: "300"
-          }}
-        >
-          Music Tastes
-        </Text>
+        <Text style={styles.text}>Music Tastes</Text>
         <Tags all={tags} />
       </View>
     );
