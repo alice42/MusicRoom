@@ -21,7 +21,7 @@ export default class AddTagButton extends React.Component {
             />
             <TouchableOpacity
               style={styles.touchable}
-              onPress={this.props.onPressValid}
+              onPress={this.props.onPressValidNewTag}
             >
               <Icon name="check" size={20} style={{ color: colors.white }} />
             </TouchableOpacity>

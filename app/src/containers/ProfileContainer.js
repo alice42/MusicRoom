@@ -46,6 +46,24 @@ class ProfileContainer extends Component {
     );
   };
 
+  onPressValidNewTag = newTag => {
+    const { tags } = this.props.update.user;
+    const valueCheckRegex = /(?=.*[a-zA-Z])/;
+    if (valueCheckRegex.test(newTag)) {
+      tags.push(newTag);
+      this.props.actions.updateRequest(tags, this.props.update.user, "tags");
+    }
+  };
+
+  onPressDeleteTag = tag => {
+    const { tags } = this.props.update.user;
+    const index = tags.indexOf(tag);
+    if (index > -1) {
+      tags.splice(index, 1);
+    }
+    this.props.actions.updateRequest(tags, this.props.update.user, "tags");
+  };
+
   onLoginFacebookPress = () => {
     console.log("FACEBOOK", this.props);
     // this.props.actions.loginFacebookRequest();
@@ -82,7 +100,11 @@ class ProfileContainer extends Component {
           />
         </View>
         <Text style={styles.text}>Music Tastes</Text>
-        <Tags all={tags} />
+        <Tags
+          tags={tags}
+          onPressValidNewTag={this.onPressValidNewTag}
+          onPressDeleteTag={this.onPressDeleteTag}
+        />
       </View>
     );
   }

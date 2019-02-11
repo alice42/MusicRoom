@@ -8,7 +8,6 @@ import styles from "../../styles/components/profileContainer/Tags";
 
 export default class TagsView extends React.Component {
   state = {
-    tags: this.props.all,
     inputvalue: "",
     addNewTag: false
   };
@@ -17,33 +16,22 @@ export default class TagsView extends React.Component {
     this.setState({ inputvalue: text });
   };
 
-  onPress = tag => {
-    var { tags } = this.state;
-    var index = tags.indexOf(tag);
-    if (index > -1) {
-      tags.splice(index, 1);
-    }
-    this.setState({ tags });
+  onPressDeleteTag = tag => {
+    this.props.onPressDeleteTag(tag);
   };
 
-  onPressValid = () => {
-    var { tags, inputvalue } = this.state;
-    const valueCheckRegex = /(?=.*[a-zA-Z])/;
-    if (valueCheckRegex.test(inputvalue)) {
-      tags.push(inputvalue);
-      this.setState({ tags, inputvalue: "", addNewTag: false });
-    } else {
-      this.setState({ tags, inputvalue: "", addNewTag: false });
-    }
+  onPressValidNewTag = () => {
+    const { tags, inputvalue } = this.state;
+    this.props.onPressValidNewTag(inputvalue);
+    this.setState({ tags, inputvalue: "", addNewTag: false });
   };
 
   allTags() {
-    const { tags } = this.state;
-    return tags.map((tag, i) => {
+    return this.props.tags.map((tag, i) => {
       return (
         <TagButton
-          onPress={() => {
-            this.onPress(tag);
+          onPressDeleteTag={() => {
+            this.onPressDeleteTag(tag);
           }}
           key={i}
           title={tag}
@@ -65,7 +53,7 @@ export default class TagsView extends React.Component {
           inputvalue={inputvalue}
           addNewTag={addNewTag}
           handleInput={this.handleInput}
-          onPressValid={this.onPressValid}
+          onPressValidNewTag={this.onPressValidNewTag}
           onPressAdd={this.onPressAdd}
         />
       </View>

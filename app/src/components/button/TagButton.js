@@ -9,7 +9,10 @@ export default class BackgroundButton extends React.Component {
     return (
       <View style={styles.view}>
         <Text style={styles.text}>{this.props.title}</Text>
-        <TouchableOpacity style={styles.touchable} onPress={this.props.onPress}>
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={this.props.onPressDeleteTag}
+        >
           <Icon name="close" size={20} style={{ color: colors.white }} />
         </TouchableOpacity>
       </View>

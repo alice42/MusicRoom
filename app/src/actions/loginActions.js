@@ -31,20 +31,20 @@ export function signinRequest(email, password) {
     password
   };
 }
-export function signinSuccess() {
-  return {
-    type: "SIGNIN_SUCCESS",
-    token,
-    user
-  };
-}
+// export function signinSuccess() {
+//   return {
+//     type: "SIGNIN_SUCCESS",
+//     token,
+//     user
+//   };
+// }
 
-export function signinFailure(err) {
-  return {
-    type: "SIGNIN_FAILURE",
-    err
-  };
-}
+// export function signinFailure(err) {
+//   return {
+//     type: "SIGNIN_FAILURE",
+//     err
+//   };
+// }
 
 //LOGOUT
 export function logout() {

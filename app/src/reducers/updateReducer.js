@@ -3,7 +3,7 @@ const initialState = {
     username: "John Doe",
     email: "JohnDoe@mail.com",
     avatarUri: "",
-    tags: []
+    tags: ["test"]
   },
   errorMessage: null
 };

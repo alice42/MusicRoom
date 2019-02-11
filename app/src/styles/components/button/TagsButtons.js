@@ -3,9 +3,7 @@ import { colors } from "../../../constants/colors";
 
 const styles = StyleSheet.create({
   addContainer: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap"
+    flexDirection: "row"
   },
   view: {
     marginLeft: 4,

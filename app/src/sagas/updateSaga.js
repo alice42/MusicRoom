@@ -22,6 +22,7 @@ function* updateMethod({ user, newValue, toChange }) {
 
 function* updateAppSaga(action) {
   const { newValue, user, toChange } = action;
+  console.log(newValue);
   try {
     const payload = {
       toChange,
