@@ -4,6 +4,7 @@ import loginFacebook from "./loginFacebookSaga";
 import loginGoogle from "./loginGoogleSaga";
 import signinApp from "./signinAppSaga";
 import resetPassword from "./resetPasswordSaga";
+import update from "./updateSaga";
 
 function* rootSaga() {
   yield [
@@ -11,7 +12,8 @@ function* rootSaga() {
     fork(signinApp),
     fork(loginFacebook),
     fork(loginGoogle),
-    fork(resetPassword)
+    fork(resetPassword),
+    fork(update)
   ];
 }
 export default rootSaga;

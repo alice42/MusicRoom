@@ -6,19 +6,12 @@ import ListEditableInfos from "../components/list/ListEditableInfos";
 import ProfileHeader from "../components/profileContainer/ProfileHeader";
 import Tags from "../components/profileContainer/Tags";
 import NetworkLinking from "../components/link/NetworkLinking";
-import * as loginActions from "../actions/loginActions";
+import * as updateActions from "../actions/updateActions";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
 
 class ProfileContainer extends Component {
-  state = {
-    username: "John Doe",
-    email: "JohnDoe@mail.com",
-    avatarUri: "",
-    tags: []
-  };
-
   renderListUserInfos = () => {
     return <ListEditableInfos list={infos} />;
   };
@@ -34,15 +27,23 @@ class ProfileContainer extends Component {
   };
 
   handleUsernameEdit = username => {
-    this.setState({ username });
+    this.props.actions.updateRequest(
+      username,
+      this.props.update.user,
+      "username"
+    );
   };
 
   handleEmailEdit = email => {
-    this.setState({ email });
+    this.props.actions.updateRequest(email, this.props.update.user, "email");
   };
 
-  getSelectedAvatar = uri => {
-    this.setState({ avatarUri: uri });
+  getSelectedAvatar = avatarUri => {
+    this.props.actions.updateRequest(
+      avatarUri,
+      this.props.update.user,
+      "avatarUri"
+    );
   };
 
   onLoginFacebookPress = () => {
@@ -56,14 +57,14 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const { username, avatarUri, tags } = this.state;
+    const { username, avatarUri, tags } = this.props.update.user;
     const source = avatarUri
       ? { uri: avatarUri }
       : require("../assets/avatar.png");
     return (
       <View style={styles.wrapper}>
         <ProfileHeader
-          state={this.state}
+          user={this.props.update.user}
           handleLogOut={this.handleLogOut}
           handleUsernameEdit={this.handleUsernameEdit}
           handleEmailEdit={this.handleEmailEdit}
@@ -89,13 +90,13 @@ class ProfileContainer extends Component {
 
 function profileActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(loginActions, dispatch)
+    actions: bindActionCreators(updateActions, dispatch)
   };
 }
 function profileMapStateToProps(state) {
-  // const { login } = state;
+  const { update } = state;
   return {
-    // login: login
+    update
   };
 }
 

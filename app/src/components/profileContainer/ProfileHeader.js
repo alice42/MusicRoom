@@ -10,7 +10,7 @@ import styles from "../../styles/components/profileContainer/ProfileHeader";
 
 export default class ProfileContainer extends Component {
   render() {
-    const { username, email, avatarUri } = this.props.state;
+    const { username, email, avatarUri } = this.props.user;
     const source = avatarUri
       ? { uri: avatarUri }
       : require("../../assets/avatar.png");
