@@ -7,6 +7,7 @@ import UpdateReducer from "./updateReducer";
 const AppReducer = combineReducers({
   nav: NavReducer,
   login: LoginReducer,
+  signin: SigninReducer,
   update: UpdateReducer
 });
 
