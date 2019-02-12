@@ -8,6 +8,7 @@ import NavBarButton from "../components/button/NavBarButton";
 import InputField from "../components/input/InputField";
 import NextArrowButton from "../components/button/NextArrowButton";
 import * as loginActions from "../actions/loginActions";
+import styles from "../styles/screens/LogInScreen";
 
 class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -31,20 +32,55 @@ class LogIn extends Component {
 
   state = {
     email: "",
-    password: ""
+    password: "",
+    validEmail: false,
+    validPassword: false,
+    validForm: true
   };
 
   handleEmailChange = email => {
+    const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const { validEmail } = this.state;
     this.setState({ email });
+
+    if (!validEmail) {
+      if (emailCheckRegex.test(email)) {
+        this.setState({ validEmail: true });
+      }
+    } else if (!emailCheckRegex.test(email)) {
+      this.setState({ validEmail: false });
+    }
   };
 
   handlePasswordChange = password => {
+    const { validPassword } = this.state;
     this.setState({ password });
+    if (!validPassword) {
+      if (password.length > 4) {
+        this.setState({ validPassword: true });
+      }
+    } else if (password <= 4) {
+      this.setState({ validPassword: false });
+    }
   };
 
   onLoginPress = () => {
-    const { email, password } = this.state;
-    this.props.actions.loginRequest(email, password);
+    const {
+      email,
+      password,
+      validEmail,
+      validPassword,
+      validForm
+    } = this.state;
+    if (validEmail && validPassword) {
+      this.setState({ validForm: true });
+      this.props.actions.loginRequest(email, password);
+    } else {
+      this.setState({ validForm: false });
+    }
+
+    //USE IN DEV
+    this.props.navigation.navigate("LoggedIn");
   };
 
   componentDidUpdate = () => {
@@ -55,17 +91,34 @@ class LogIn extends Component {
   };
 
   render() {
+    const { validForm, validEmail, validPassword } = this.state;
+    const errorEmail = validForm ? null : (
+      <Text style={styles.errorMessage}>
+        {validEmail ? null : "Please, enter a valid Email."}
+      </Text>
+    );
+    const errorPassword = validForm ? null : (
+      <Text style={styles.errorMessage}>
+        {validPassword ? null : "Please, enter a valid Password."}
+      </Text>
+    );
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.logInWrapper}>
           <Text style={styles.loginHeader}>Log In</Text>
+          {errorEmail}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+          {errorPassword}
           <InputField
             labelText="PASSWORD"
             onChangeText={this.handlePasswordChange}
             secureTextEntry={true}
           />
-          <NextArrowButton handleOnPress={this.onLoginPress} />
+          <NextArrowButton
+            handleOnPress={this.onLoginPress}
+            color={colors.green01}
+            background={colors.white}
+          />
         </View>
 
         <View />
@@ -84,28 +137,6 @@ function loginAppMapStateToProps(state) {
     login: login
   };
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    display: "flex",
-    flex: 1,
-    backgroundColor: colors.green01
-  },
-  logInWrapper: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignContent: "center",
-    marginTop: 30,
-    padding: 20
-  },
-  loginHeader: {
-    fontSize: 30,
-    color: colors.white,
-    fontWeight: "300",
-    marginBottom: 40
-  }
-});
 
 export default connect(
   loginAppMapStateToProps,

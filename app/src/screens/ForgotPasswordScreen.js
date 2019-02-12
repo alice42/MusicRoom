@@ -8,6 +8,7 @@ import InputField from "../components/input/InputField";
 import NextArrowButton from "../components/button/NextArrowButton";
 import NavBarButton from "../components/button/NavBarButton";
 import * as loginActions from "../actions/loginActions";
+import styles from "../styles/screens/ForgotPasswordScreen";
 
 class ForgotPassword extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -22,20 +23,42 @@ class ForgotPassword extends Component {
   });
 
   state = {
-    email: ""
+    email: "",
+    validEmail: false,
+    validForm: true
   };
 
   handleEmailChange = email => {
+    const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const { validEmail } = this.state;
     this.setState({ email });
+
+    if (!validEmail) {
+      if (emailCheckRegex.test(email)) {
+        this.setState({ validEmail: true });
+      }
+    } else if (!emailCheckRegex.test(email)) {
+      this.setState({ validEmail: false });
+    }
   };
 
   onRecoverPress = () => {
-    const { email } = this.state;
-
-    this.props.actions.recoverPasswordRequest(email);
+    const { email, validEmail, validForm } = this.state;
+    if (validEmail) {
+      this.setState({ validForm: true });
+      this.props.actions.recoverPasswordRequest(email);
+    } else {
+      this.setState({ validForm: false });
+    }
   };
 
   render() {
+    const { validForm, validEmail } = this.state;
+    const errorEmail = validForm ? null : (
+      <Text style={styles.errorMessage}>
+        {validEmail ? null : "Please, enter a valid Email."}
+      </Text>
+    );
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.forgotWrapper}>
@@ -45,8 +68,13 @@ class ForgotPassword extends Component {
           <Text style={styles.forgotPasswordSubheading}>
             Enter your email to find your account
           </Text>
+          {errorEmail}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          <NextArrowButton handleOnPress={this.onRecoverPress} />
+          <NextArrowButton
+            handleOnPress={this.onRecoverPress}
+            color={colors.green01}
+            background={colors.white}
+          />
         </View>
       </KeyboardAvoidingView>
     );
@@ -64,40 +92,6 @@ function recoverPasswordAppMapStateToProps(state) {
     recoverPassword: recoverPassword
   };
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    display: "flex",
-    flex: 1,
-    backgroundColor: colors.green01
-  },
-  forgotWrapper: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignContent: "center",
-    marginTop: 30,
-    padding: 20
-  },
-  forgotPasswordHeading: {
-    fontSize: 30,
-    color: colors.white,
-    fontWeight: "300"
-  },
-  forgotPasswordSubheading: {
-    color: colors.white,
-    fontWeight: "600",
-    fontSize: 15,
-    marginTop: 10,
-    marginBottom: 60
-  },
-  notificationWrapper: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0
-  }
-});
 
 export default connect(
   recoverPasswordAppMapStateToProps,

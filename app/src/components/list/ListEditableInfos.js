@@ -1,25 +1,34 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet
-} from "react-native";
+import { View, Text } from "react-native";
+import EditableInput from "../input/EditableInput";
 import { colors } from "../../constants/colors";
+import styles from "../../styles/components/list/ListEditableInfos";
 
-export default class Listings extends Component {
+export default class ListEditableInfos extends Component {
+  state = {
+    defaultValue: null
+  };
+
+  handleInfoEdit = text => {
+    this.setState({ defaultValue: text });
+  };
+
   renderListings = () => {
     const { list } = this.props;
+    const { defaultValue } = this.state;
     return Object.keys(list).map((info, index) => (
       <View key={`list-${index}`} style={styles.listItem}>
         <View style={{ flex: 1 }}>
           <Text style={styles.listKey}>{info} : </Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.listValue}>{list[info]}</Text>
+          <EditableInput
+            style={styles.listValue}
+            defaultValue={defaultValue ? defaultValue : list[info]}
+            onChangeText={this.handleInfoEdit}
+            size={12}
+          />
         </View>
       </View>
     ));
@@ -28,24 +37,3 @@ export default class Listings extends Component {
     return <View style={styles.wrapper}>{this.renderListings()}</View>;
   }
 }
-const styles = StyleSheet.create({
-  wrapper: {
-    display: "flex",
-    marginBottom: 25
-  },
-  listItem: {
-    justifyContent: "space-between",
-    marginTop: 2,
-    flexDirection: "row"
-  },
-  listKey: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: colors.green01
-  },
-  listValue: {
-    fontWeight: "500",
-    fontSize: 17,
-    color: colors.grey04
-  }
-});

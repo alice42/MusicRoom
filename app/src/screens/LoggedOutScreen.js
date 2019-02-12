@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Text, Platform, Linking } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Platform,
+  Linking,
+  TouchableOpacity
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import RoundedButton from "../components/button/RoundedButton";
 import NavBarButton from "../components/button/NavBarButton";
+import NetworkLinking from "../components/link/NetworkLinking";
 import { GoogleSignin } from "react-native-google-signin";
 import * as loginActions from "../actions/loginActions";
+import styles from "../styles/screens/LoggedOutScreen";
 
 GoogleSignin.configure();
 
@@ -69,32 +78,27 @@ class LoginScreen extends Component {
     const routeName = route.split("/")[0];
   };
 
+  signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   render() {
     return (
       <View style={styles.wrapper}>
         <View style={styles.welcomeWrapper}>
           <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
-          <RoundedButton
-            text="Continue with Facebook"
+          <NetworkLinking
             textColor={colors.green01}
             background={colors.white}
-            icon={
-              <Icon
-                name="facebook"
-                size={20}
-                style={styles.networkButtonIcon}
-              />
-            }
-            handleOnPress={this.onLoginFacebookPress}
-          />
-          <RoundedButton
-            text="Continue with Google"
-            textColor={colors.green01}
-            background={colors.white}
-            icon={
-              <Icon name="google" size={20} style={styles.networkButtonIcon} />
-            }
-            handleOnPress={this.onLoginGooglePress}
+            onLoginFacebookPress={this.onLoginFacebookPress}
+            onLoginGooglePress={this.onLoginGooglePress}
+            text="Continue with"
           />
           <RoundedButton
             text="Create Account"
@@ -102,6 +106,9 @@ class LoginScreen extends Component {
             border={colors.white}
             handleOnPress={this.onCreateAccountPress}
           />
+          <TouchableOpacity onPress={this.signOut}>
+            <Text>delog google</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -119,34 +126,6 @@ function loginAppMapStateToProps(state) {
     login: login
   };
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    display: "flex",
-    backgroundColor: colors.green01
-  },
-  welcomeWrapper: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignContent: "center",
-    marginTop: 30,
-    padding: 20
-  },
-  welcomeText: {
-    fontSize: 30,
-    color: colors.white,
-    fontWeight: "300",
-    marginBottom: 40
-  },
-  networkButtonIcon: {
-    color: colors.green01,
-    position: "relative",
-    left: 20,
-    zIndex: 8
-  }
-});
 
 export default connect(
   loginAppMapStateToProps,

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Camera Access Warning</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Oticons.ttf</string>
@@ -24,6 +26,8 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>app</string>
+	<key>FacebookAppID</key>
+	<string>990282421183049</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -63,8 +67,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>FacebookAppID</key>
-	<string>990282421183049</string>
 	<key>FacebookDisplayName</key>
 	<string>MusicRoom</string>
 	<key>LSApplicationQueriesSchemes</key>

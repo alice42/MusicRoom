@@ -1,162 +1,128 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  geolocation,
-  Alert
-} from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { View, Text } from "react-native";
+import ListEditableInfos from "../components/list/ListEditableInfos";
+import ProfileHeader from "../components/profileContainer/ProfileHeader";
+import Tags from "../components/profileContainer/Tags";
+import NetworkLinking from "../components/link/NetworkLinking";
+import * as updateActions from "../actions/updateActions";
 import { colors } from "../constants/colors";
-import Icon from "react-native-vector-icons/FontAwesome";
-import RoundedButton from "../components/button/RoundedButton";
-import ListInfos from "../components/list/ListInfos";
-import NavBarButton from "../components/button/NavBarButton";
 import { infos } from "../constants/infos";
+import styles from "../styles/containers/ProfileContainer";
 
-export default class ProfileContainer extends Component {
+class ProfileContainer extends Component {
+  renderListUserInfos = () => {
+    return <ListEditableInfos list={infos} />;
+  };
+
   handleLogOut = () => {
     this.props.navigation.navigate("LoggedOut");
   };
-  handleEdit = () => {
-    this.props.navigation.navigate("EditProfile");
+
+  handleChangePicture = () => {
+    this.props.navigation.navigate("CameraRoll", {
+      getSelected: this.getSelectedAvatar
+    });
   };
 
-  renderListUserInfos = () => {
-    return <ListInfos list={infos} />;
+  handleUsernameEdit = username => {
+    this.props.actions.updateRequest(
+      username,
+      this.props.update.user,
+      "username"
+    );
+  };
+
+  handleEmailEdit = email => {
+    this.props.actions.updateRequest(email, this.props.update.user, "email");
+  };
+
+  getSelectedAvatar = avatarUri => {
+    this.props.actions.updateRequest(
+      avatarUri,
+      this.props.update.user,
+      "avatarUri"
+    );
+  };
+
+  onPressValidNewTag = newTag => {
+    const { tags } = this.props.update.user;
+    const valueCheckRegex = /(?=.*[a-zA-Z])/;
+    if (valueCheckRegex.test(newTag)) {
+      tags.push(newTag);
+      this.props.actions.updateRequest(tags, this.props.update.user, "tags");
+    }
+  };
+
+  onPressDeleteTag = tag => {
+    const { tags } = this.props.update.user;
+    const index = tags.indexOf(tag);
+    if (index > -1) {
+      tags.splice(index, 1);
+    }
+    this.props.actions.updateRequest(tags, this.props.update.user, "tags");
+  };
+
+  onLoginFacebookPress = () => {
+    console.log("FACEBOOK", this.props);
+    // this.props.actions.loginFacebookRequest();
+  };
+
+  onLoginGooglePress = () => {
+    console.log("GOOGLE");
+    // this.props.actions.loginGoogleRequest();
   };
 
   render() {
+    const { username, avatarUri, tags } = this.props.update.user;
+    const source = avatarUri
+      ? { uri: avatarUri }
+      : require("../assets/avatar.png");
     return (
       <View style={styles.wrapper}>
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <View style={styles.headerEditButton}>
-              <NavBarButton
-                handleButtonPress={this.handleEdit}
-                location=""
-                color={colors.white}
-                text="Edit"
-              />
-            </View>
-            <Text style={styles.name}>John Doe</Text>
-            <View style={styles.textIconWrapper}>
-              <Icon
-                name="map-marker"
-                size={20}
-                style={{ color: colors.white, marginRight: 5 }}
-              />
-              <Text style={styles.location}>Paris</Text>
-            </View>
-          </View>
-        </View>
-        <Image style={styles.avatar} source={require("../assets/avatar.png")} />
+        <ProfileHeader
+          user={this.props.update.user}
+          handleLogOut={this.handleLogOut}
+          handleUsernameEdit={this.handleUsernameEdit}
+          handleEmailEdit={this.handleEmailEdit}
+          handleChangePicture={this.handleChangePicture}
+        />
         <View style={styles.containerWrapper}>
-          <View style={[styles.textIconWrapper, { marginBottom: 20 }]}>
-            <Icon
-              name="envelope"
-              size={20}
-              style={{ color: colors.green01, marginRight: 5 }}
-            />
-            <Text style={{ color: colors.green01 }}>JohnDoe@mail.com</Text>
-          </View>
           {this.renderListUserInfos()}
-          <RoundedButton
-            text="Facebook"
+          <NetworkLinking
             textColor={colors.green01}
+            background={colors.white}
             border={colors.green01}
-            icon={
-              <Icon
-                name="facebook"
-                size={20}
-                style={styles.networkButtonIcon}
-              />
-            }
+            onLoginFacebookPress={this.onLoginFacebookPress}
+            onLoginGooglePress={this.onLoginGooglePress}
+            text="Link with"
           />
-          <RoundedButton
-            text="Google"
-            textColor={colors.green01}
-            border={colors.green01}
-            icon={
-              <Icon name="google" size={20} style={styles.networkButtonIcon} />
-            }
-          />
-          <TouchableOpacity onPress={this.handleLogOut}>
-            <View style={styles.buttonTextWrapper}>
-              <Text style={styles.buttonText}>Log Out</Text>
-            </View>
-          </TouchableOpacity>
         </View>
+        <Text style={styles.text}>Music Tastes</Text>
+        <Tags
+          tags={tags}
+          onPressValidNewTag={this.onPressValidNewTag}
+          onPressDeleteTag={this.onPressDeleteTag}
+        />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: colors.white
-  },
-  header: {
-    backgroundColor: colors.green01,
-    height: 200
-  },
-  headerContent: {
-    padding: 50
-  },
-  headerEditButton: {
-    alignItems: "flex-end",
-    marginRight: -30
-  },
-  textIconWrapper: {
-    flexDirection: "row",
-    alignSelf: "center"
-  },
-  location: {
-    fontSize: 15,
-    color: colors.white,
-    paddingTop: 2
-  },
-  name: {
-    alignSelf: "center",
-    fontSize: 22,
-    color: "#FFFFFF",
-    fontWeight: "600"
-  },
-  avatar: {
-    width: 130,
-    height: 130,
-    borderRadius: 63,
-    borderWidth: 4,
-    borderColor: "white",
-    marginBottom: 10,
-    alignSelf: "center",
-    position: "absolute",
-    marginTop: 130
-  },
-  containerWrapper: {
-    paddingTop: 40,
-    flex: 1,
-    display: "flex",
-    alignContent: "center",
-    marginTop: 30,
-    padding: 20
-  },
-  networkButtonIcon: {
-    color: colors.green01,
-    position: "relative",
-    left: 20,
-    zIndex: 8
-  },
-  buttonTextWrapper: {
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  buttonText: {
-    width: "100%",
-    textAlign: "center",
-    color: colors.green01
-  }
-});
+function profileActionsMapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(updateActions, dispatch)
+  };
+}
+function profileMapStateToProps(state) {
+  const { update } = state;
+  return {
+    update
+  };
+}
+
+export default connect(
+  profileMapStateToProps,
+  profileActionsMapDispatchToProps
+)(ProfileContainer);

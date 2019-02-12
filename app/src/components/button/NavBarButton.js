@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from "../../styles/components/button/NavBarButton";
 
 export default class NavBarButton extends Component {
   render() {
@@ -21,9 +22,3 @@ export default class NavBarButton extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  buttonText: {
-    fontSize: 16
-  }
-});
