@@ -1,4 +1,4 @@
-export const updateMethod = () => {
+export const updateMethod = ({ user, newValue, toChange }) => {
   const err = null;
   if (toChange === "username") {
     user.username = newValue;
@@ -8,6 +8,8 @@ export const updateMethod = () => {
     user.avatarUri = newValue;
   } else if (toChange === "tags") {
     user.tags = newValue;
+  } else if (toChange === "playlist") {
+    user.playlists = newValue;
   } else {
     err = "Something went wrong";
   }

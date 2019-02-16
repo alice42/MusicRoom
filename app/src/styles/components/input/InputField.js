@@ -14,9 +14,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     borderBottomWidth: 1,
-    paddingTop: 5,
-    color: colors.white,
-    borderBottomColor: colors.white
+    paddingTop: 5
   },
   showButton: {
     position: "absolute",

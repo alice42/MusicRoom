@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, Easing, Animated } from "react-native";
+import { PropTypes } from "prop-types";
+import { View, Text, Easing, Animated, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../../constants/colors";
-import styles from "../../styles/components/input/RadioInput";
+// import styles from "../../styles/components/input/RadioInput";
 
 export default class RadioInput extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      scaleCheckmarkValue: new Animated.Value(0)
-    };
-
-    this.scaleCheckmark = this.scaleCheckmark.bind(this);
-  }
+  state = {
+    scaleCheckmarkValue: new Animated.Value(0)
+  };
 
   scaleCheckmark(value) {
     Animated.timing(this.state.scaleCheckmarkValue, {
@@ -47,7 +42,7 @@ export default class RadioInput extends Component {
       <View
         style={[
           { backgroundColor: background, borderColor: border },
-          styles.wrapperRadio
+          styles.wrapper
         ]}
       >
         <Animated.View
@@ -59,3 +54,17 @@ export default class RadioInput extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  iconWrapper: {
+    marginTop: 2
+  }
+});

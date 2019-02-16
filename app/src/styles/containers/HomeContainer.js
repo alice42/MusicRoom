@@ -9,12 +9,17 @@ const styles = StyleSheet.create({
   containerWrapper: {
     paddingTop: 80,
     flex: 1,
-    display: "flex",
-    alignContent: "center",
     marginTop: 30,
     padding: 20
   },
   heading: {
+    fontSize: 26,
+    fontWeight: "800",
+    paddingLeft: 20,
+    paddingBottom: 20,
+    color: colors.green01
+  },
+  subHeading: {
     fontSize: 22,
     fontWeight: "600",
     paddingLeft: 20,
