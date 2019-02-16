@@ -40,6 +40,12 @@
 		046FDE7621FEFA8B00E9FE6A /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046FDE6721FEFA8B00E9FE6A /* EvilIcons.ttf */; };
 		046FDE7721FEFA8B00E9FE6A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046FDE6821FEFA8B00E9FE6A /* SimpleLineIcons.ttf */; };
 		046FDE7821FEFA8B00E9FE6A /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046FDE6921FEFA8B00E9FE6A /* MaterialIcons.ttf */; };
+		0483331F22182F2E008C3F83 /* libDeezer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 048332D622182F2E008C3F83 /* libDeezer.a */; };
+		0483332022182F2E008C3F83 /* DZRResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 048332F622182F2E008C3F83 /* DZRResources.bundle */; };
+		0483332222182F97008C3F83 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332122182F97008C3F83 /* CoreAudio.framework */; };
+		0483332422182FB0008C3F83 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332322182FB0008C3F83 /* AudioToolbox.framework */; };
+		0483332622182FD2008C3F83 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332522182FD2008C3F83 /* MediaPlayer.framework */; };
+		0483332822182FEB008C3F83 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332722182FEB008C3F83 /* libicucore.tbd */; };
 		04BDCFBB220B440A001BFD1F /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BDCF98220B43F9001BFD1F /* libRCTCameraRoll.a */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -405,6 +411,42 @@
 		046FDE6721FEFA8B00E9FE6A /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		046FDE6821FEFA8B00E9FE6A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		046FDE6921FEFA8B00E9FE6A /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		048332D622182F2E008C3F83 /* libDeezer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDeezer.a; sourceTree = "<group>"; };
+		048332D822182F2E008C3F83 /* DZRPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRPlaylist.h; sourceTree = "<group>"; };
+		048332D922182F2E008C3F83 /* Deezer+Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deezer+Compatibility.h"; sourceTree = "<group>"; };
+		048332DA22182F2E008C3F83 /* DeezerConnect+Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DeezerConnect+Compatibility.h"; sourceTree = "<group>"; };
+		048332DB22182F2E008C3F83 /* DeezerRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeezerRequestDelegate.h; sourceTree = "<group>"; };
+		048332DC22182F2E008C3F83 /* DZRPodcast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRPodcast.h; sourceTree = "<group>"; };
+		048332DD22182F2E008C3F83 /* DZRArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRArtist.h; sourceTree = "<group>"; };
+		048332DE22182F2E008C3F83 /* DZREpisode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZREpisode.h; sourceTree = "<group>"; };
+		048332DF22182F2E008C3F83 /* DZRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRPlayer.h; sourceTree = "<group>"; };
+		048332E022182F2E008C3F83 /* NSBundle+DZRBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+DZRBundle.h"; sourceTree = "<group>"; };
+		048332E122182F2E008C3F83 /* DZRObject+Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DZRObject+Compatibility.h"; sourceTree = "<group>"; };
+		048332E222182F2E008C3F83 /* DZRGenericCancelable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRGenericCancelable.h; sourceTree = "<group>"; };
+		048332E322182F2E008C3F83 /* DZRModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRModel.h; sourceTree = "<group>"; };
+		048332E422182F2E008C3F83 /* DZRCancelable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRCancelable.h; sourceTree = "<group>"; };
+		048332E522182F2E008C3F83 /* DZRObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRObject.h; sourceTree = "<group>"; };
+		048332E622182F2E008C3F83 /* DZRNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRNetworkRequest.h; sourceTree = "<group>"; };
+		048332E722182F2E008C3F83 /* DZRManagedRadio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRManagedRadio.h; sourceTree = "<group>"; };
+		048332E822182F2E008C3F83 /* NSError+DZRPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+DZRPlayer.h"; sourceTree = "<group>"; };
+		048332E922182F2E008C3F83 /* DZRRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRRequestManager.h; sourceTree = "<group>"; };
+		048332EA22182F2E008C3F83 /* DZRRadio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRRadio.h; sourceTree = "<group>"; };
+		048332EB22182F2E008C3F83 /* DZRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRUser.h; sourceTree = "<group>"; };
+		048332EC22182F2E008C3F83 /* DZRTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRTrack.h; sourceTree = "<group>"; };
+		048332ED22182F2E008C3F83 /* DZRFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRFolder.h; sourceTree = "<group>"; };
+		048332EE22182F2E008C3F83 /* DZRPlayableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRPlayableArray.h; sourceTree = "<group>"; };
+		048332EF22182F2E008C3F83 /* DZRComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRComment.h; sourceTree = "<group>"; };
+		048332F022182F2E008C3F83 /* DeezerConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeezerConnect.h; sourceTree = "<group>"; };
+		048332F122182F2E008C3F83 /* DZRGenre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRGenre.h; sourceTree = "<group>"; };
+		048332F222182F2E008C3F83 /* NSError+DZRModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+DZRModel.h"; sourceTree = "<group>"; };
+		048332F322182F2E008C3F83 /* DZRAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRAlbum.h; sourceTree = "<group>"; };
+		048332F422182F2E008C3F83 /* DZREditorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZREditorial.h; sourceTree = "<group>"; };
+		048332F522182F2E008C3F83 /* DZRObjectList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRObjectList.h; sourceTree = "<group>"; };
+		048332F622182F2E008C3F83 /* DZRResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DZRResources.bundle; sourceTree = "<group>"; };
+		0483332122182F97008C3F83 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0483332322182FB0008C3F83 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0483332522182FD2008C3F83 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0483332722182FEB008C3F83 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		04BDCF8E220B43F9001BFD1F /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -442,12 +484,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0483332822182FEB008C3F83 /* libicucore.tbd in Frameworks */,
+				0483332622182FD2008C3F83 /* MediaPlayer.framework in Frameworks */,
+				046FDDD521FEEBC300E9FE6A /* SystemConfiguration.framework in Frameworks */,
+				0483332422182FB0008C3F83 /* AudioToolbox.framework in Frameworks */,
+				0483332222182F97008C3F83 /* CoreAudio.framework in Frameworks */,
 				04BDCFBB220B440A001BFD1F /* libRCTCameraRoll.a in Frameworks */,
 				046FDE1621FEF12800E9FE6A /* FBSDKLoginKit.framework in Frameworks */,
 				046FDE1721FEF12800E9FE6A /* FBSDKShareKit.framework in Frameworks */,
 				046FDE1821FEF12800E9FE6A /* FBSDKCoreKit.framework in Frameworks */,
 				046FDDD721FEEBCF00E9FE6A /* libz.tbd in Frameworks */,
-				046FDDD521FEEBC300E9FE6A /* SystemConfiguration.framework in Frameworks */,
 				046FDDD321FEEBB700E9FE6A /* SafariServices.framework in Frameworks */,
 				046FDDD121FEEBAD00E9FE6A /* AddressBook.framework in Frameworks */,
 				046FDDC921FEEB0700E9FE6A /* libRNGoogleSignin.a in Frameworks */,
@@ -462,6 +508,7 @@
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
+				0483331F22182F2E008C3F83 /* libDeezer.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
@@ -603,6 +650,53 @@
 			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
+		048332D522182F2E008C3F83 /* DeezerSDK */ = {
+			isa = PBXGroup;
+			children = (
+				048332D622182F2E008C3F83 /* libDeezer.a */,
+				048332D722182F2E008C3F83 /* include */,
+				048332F622182F2E008C3F83 /* DZRResources.bundle */,
+			);
+			path = DeezerSDK;
+			sourceTree = "<group>";
+		};
+		048332D722182F2E008C3F83 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				048332D822182F2E008C3F83 /* DZRPlaylist.h */,
+				048332D922182F2E008C3F83 /* Deezer+Compatibility.h */,
+				048332DA22182F2E008C3F83 /* DeezerConnect+Compatibility.h */,
+				048332DB22182F2E008C3F83 /* DeezerRequestDelegate.h */,
+				048332DC22182F2E008C3F83 /* DZRPodcast.h */,
+				048332DD22182F2E008C3F83 /* DZRArtist.h */,
+				048332DE22182F2E008C3F83 /* DZREpisode.h */,
+				048332DF22182F2E008C3F83 /* DZRPlayer.h */,
+				048332E022182F2E008C3F83 /* NSBundle+DZRBundle.h */,
+				048332E122182F2E008C3F83 /* DZRObject+Compatibility.h */,
+				048332E222182F2E008C3F83 /* DZRGenericCancelable.h */,
+				048332E322182F2E008C3F83 /* DZRModel.h */,
+				048332E422182F2E008C3F83 /* DZRCancelable.h */,
+				048332E522182F2E008C3F83 /* DZRObject.h */,
+				048332E622182F2E008C3F83 /* DZRNetworkRequest.h */,
+				048332E722182F2E008C3F83 /* DZRManagedRadio.h */,
+				048332E822182F2E008C3F83 /* NSError+DZRPlayer.h */,
+				048332E922182F2E008C3F83 /* DZRRequestManager.h */,
+				048332EA22182F2E008C3F83 /* DZRRadio.h */,
+				048332EB22182F2E008C3F83 /* DZRUser.h */,
+				048332EC22182F2E008C3F83 /* DZRTrack.h */,
+				048332ED22182F2E008C3F83 /* DZRFolder.h */,
+				048332EE22182F2E008C3F83 /* DZRPlayableArray.h */,
+				048332EF22182F2E008C3F83 /* DZRComment.h */,
+				048332F022182F2E008C3F83 /* DeezerConnect.h */,
+				048332F122182F2E008C3F83 /* DZRGenre.h */,
+				048332F222182F2E008C3F83 /* NSError+DZRModel.h */,
+				048332F322182F2E008C3F83 /* DZRAlbum.h */,
+				048332F422182F2E008C3F83 /* DZREditorial.h */,
+				048332F522182F2E008C3F83 /* DZRObjectList.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 		04BDCF8F220B43F9001BFD1F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -674,6 +768,10 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0483332722182FEB008C3F83 /* libicucore.tbd */,
+				0483332522182FD2008C3F83 /* MediaPlayer.framework */,
+				0483332322182FB0008C3F83 /* AudioToolbox.framework */,
+				0483332122182F97008C3F83 /* CoreAudio.framework */,
 				046FDE1521FEF12800E9FE6A /* FBSDKCoreKit.framework */,
 				046FDE1321FEF12800E9FE6A /* FBSDKLoginKit.framework */,
 				046FDE1421FEF12800E9FE6A /* FBSDKShareKit.framework */,
@@ -741,6 +839,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				048332D522182F2E008C3F83 /* DeezerSDK */,
 				046FDE5A21FEFA8B00E9FE6A /* Fonts */,
 				13B07FAE1A68108700A75B9A /* app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1261,6 +1360,7 @@
 				046FDE6C21FEFA8B00E9FE6A /* Entypo.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				046FDE6F21FEFA8B00E9FE6A /* AntDesign.ttf in Resources */,
+				0483332022182F2E008C3F83 /* DZRResources.bundle in Resources */,
 				046FDE7521FEFA8B00E9FE6A /* Zocial.ttf in Resources */,
 				046FDE7021FEFA8B00E9FE6A /* Foundation.ttf in Resources */,
 				046FDE6B21FEFA8B00E9FE6A /* Feather.ttf in Resources */,
@@ -1457,10 +1557,15 @@
 				);
 				INFOPLIST_FILE = app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DeezerSDK",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = app;
@@ -1485,10 +1590,15 @@
 				);
 				INFOPLIST_FILE = app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DeezerSDK",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = app;
