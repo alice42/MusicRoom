@@ -10,7 +10,7 @@ import * as updateActions from "../actions/updateActions";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
-import { deezerConnect } from "../services/deezerService";
+import deezerManager from "../services/deezerService";
 
 class ProfileContainer extends Component {
   renderListUserInfos = () => {
@@ -106,7 +106,7 @@ class ProfileContainer extends Component {
           onPressValidNewTag={this.onPressValidNewTag}
           onPressDeleteTag={this.onPressDeleteTag}
         />
-        <TouchableOpacity onPress={() => deezerConnect()}>
+        <TouchableOpacity onPress={() => deezerManager.connect()}>
           <Text>Deezer</Text>
         </TouchableOpacity>
       </View>

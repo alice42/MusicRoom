@@ -8,7 +8,7 @@
 #import "React/RCTBridgeModule.h"
 #import "React/RCTConvert.h"
 
-#define kDeezerAppId @"YOUR_APPLICATION_ID"
+#define kDeezerAppId @"329562"
 
 @interface DeezerSession : NSObject <DeezerSessionDelegate>
 
