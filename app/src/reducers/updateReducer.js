@@ -1,10 +1,6 @@
+import { user } from "../constants/user";
 const initialState = {
-  user: {
-    username: "John Doe",
-    email: "JohnDoe@mail.com",
-    avatarUri: "",
-    tags: ["test"]
-  },
+  user: user,
   errorMessage: null
 };
 

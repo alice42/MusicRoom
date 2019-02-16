@@ -19,14 +19,19 @@ export default class InputField extends Component {
       labelText,
       onChangeText,
       defaultValue,
-      secureTextEntry
+      secureTextEntry,
+      color
     } = this.props;
     const { inputValue } = this.state;
+    const textColor = color || colors.white;
     return (
       <View style={styles.wrapper}>
-        <Text style={styles.label}>{labelText}</Text>
+        <Text style={[styles.label, { color: textColor }]}>{labelText}</Text>
         <TextInput
-          style={styles.inputField}
+          style={[
+            styles.inputField,
+            { color: textColor, borderBottomColor: textColor }
+          ]}
           autoCapitalize="none"
           autoCorrect={false}
           onChangeText={this.onChangeText}
