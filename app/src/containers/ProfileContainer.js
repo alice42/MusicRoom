@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import ListEditableInfos from "../components/list/ListEditableInfos";
 import ProfileHeader from "../components/profileContainer/ProfileHeader";
 import Tags from "../components/profileContainer/Tags";
@@ -10,6 +10,7 @@ import * as updateActions from "../actions/updateActions";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
+import { deezerConnect } from "../services/deezerService";
 
 class ProfileContainer extends Component {
   renderListUserInfos = () => {
@@ -105,6 +106,9 @@ class ProfileContainer extends Component {
           onPressValidNewTag={this.onPressValidNewTag}
           onPressDeleteTag={this.onPressDeleteTag}
         />
+        <TouchableOpacity onPress={() => deezerConnect()}>
+          <Text>Deezer</Text>
+        </TouchableOpacity>
       </View>
     );
   }
