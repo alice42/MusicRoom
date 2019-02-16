@@ -46,6 +46,10 @@
 		0483332422182FB0008C3F83 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332322182FB0008C3F83 /* AudioToolbox.framework */; };
 		0483332622182FD2008C3F83 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332522182FD2008C3F83 /* MediaPlayer.framework */; };
 		0483332822182FEB008C3F83 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332722182FEB008C3F83 /* libicucore.tbd */; };
+		0483337322184508008C3F83 /* DeezerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0483337222184508008C3F83 /* DeezerManager.m */; };
+		0483339D22184519008C3F83 /* DeezerPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0483339C22184519008C3F83 /* DeezerPlayer.m */; };
+		0483339F2218452F008C3F83 /* DeezerSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0483339E2218452F008C3F83 /* DeezerSession.m */; };
+		048333A122184542008C3F83 /* DeezerUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 048333A022184542008C3F83 /* DeezerUser.m */; };
 		04BDCFBB220B440A001BFD1F /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BDCF98220B43F9001BFD1F /* libRCTCameraRoll.a */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -447,6 +451,14 @@
 		0483332322182FB0008C3F83 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0483332522182FD2008C3F83 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0483332722182FEB008C3F83 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		0483337222184508008C3F83 /* DeezerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeezerManager.m; sourceTree = "<group>"; };
+		0483339C22184519008C3F83 /* DeezerPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeezerPlayer.m; sourceTree = "<group>"; };
+		0483339E2218452F008C3F83 /* DeezerSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeezerSession.m; sourceTree = "<group>"; };
+		048333A022184542008C3F83 /* DeezerUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeezerUser.m; sourceTree = "<group>"; };
+		048333A222184553008C3F83 /* DeezerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeezerManager.h; sourceTree = "<group>"; };
+		048333A32218456A008C3F83 /* DeezerPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeezerPlayer.h; sourceTree = "<group>"; };
+		048333A42218457E008C3F83 /* DeezerSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeezerSession.h; sourceTree = "<group>"; };
+		048333A52218458B008C3F83 /* DeezerUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeezerUser.h; sourceTree = "<group>"; };
 		04BDCF8E220B43F9001BFD1F /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -839,6 +851,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				048333A52218458B008C3F83 /* DeezerUser.h */,
+				048333A42218457E008C3F83 /* DeezerSession.h */,
+				048333A32218456A008C3F83 /* DeezerPlayer.h */,
+				048333A222184553008C3F83 /* DeezerManager.h */,
+				048333A022184542008C3F83 /* DeezerUser.m */,
+				0483339E2218452F008C3F83 /* DeezerSession.m */,
+				0483339C22184519008C3F83 /* DeezerPlayer.m */,
+				0483337222184508008C3F83 /* DeezerManager.m */,
 				048332D522182F2E008C3F83 /* DeezerSDK */,
 				046FDE5A21FEFA8B00E9FE6A /* Fonts */,
 				13B07FAE1A68108700A75B9A /* app */,
@@ -1435,7 +1455,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				0483339F2218452F008C3F83 /* DeezerSession.m in Sources */,
+				0483339D22184519008C3F83 /* DeezerPlayer.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				0483337322184508008C3F83 /* DeezerManager.m in Sources */,
+				048333A122184542008C3F83 /* DeezerUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
