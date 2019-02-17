@@ -4,9 +4,25 @@ const {
   NativeModules: { DeezerManager: DeezerRNManager }
 } = React;
 class DeezerManager {
-  connect() {
+  getToken = cb => {
+    DeezerRNManager.getToken(cb);
+  };
+  getUserId = cb => {
+    DeezerRNManager.getUserId(cb);
+  };
+  getExpirationDate = cb => {
+    DeezerRNManager.getExpirationDate(cb);
+  };
+  connect(dispatchToken) {
     return new Promise((resolve, reject) => {
       DeezerRNManager.connect(decision => {
+        console.log("DECISION", decision);
+        if (decision) {
+          console.log("TOKEN INCOMING");
+          this.getToken(dispatchToken);
+          // this.getUserId(console.log);
+          // this.getExpirationDate(console.log);
+        }
         decision ? resolve(decision) : reject(decision);
       });
     });

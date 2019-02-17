@@ -10,7 +10,7 @@ import styles from "../../styles/components/profileContainer/ProfileHeader";
 
 export default class ProfileContainer extends Component {
   render() {
-    const { username, email, avatarUri } = this.props.user;
+    const { name, firstName, email, avatarUri } = this.props.user;
     const source = avatarUri
       ? { uri: avatarUri }
       : require("../../assets/avatar.png");
@@ -26,12 +26,22 @@ export default class ProfileContainer extends Component {
               />
             </View>
             <View style={styles.nameWrapper}>
-              <EditableInput
+              <View style={styles.emailWrapper}>
+                <FAIcon name="envelope" size={15} style={styles.iconEmail} />
+                <EditableInput
+                  style={styles.email}
+                  defaultValue={email}
+                  onChangeText={this.props.handleEmailEdit}
+                  size={12}
+                  type={"email"}
+                />
+              </View>
+              {/* <EditableInput
                 style={styles.name}
                 defaultValue={username}
                 onChangeText={this.props.handleUsernameEdit}
                 size={18}
-              />
+              /> */}
             </View>
             <View style={styles.locationWrapper}>
               <FAIcon name="map-marker" size={20} style={styles.iconLocation} />

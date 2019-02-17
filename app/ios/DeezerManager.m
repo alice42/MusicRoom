@@ -21,6 +21,18 @@ RCT_EXPORT_METHOD(connect:(RCTResponseSenderBlock)callback) {
   });
 }
 
+RCT_EXPORT_METHOD(getToken:(RCTResponseSenderBlock)callback) {
+  callback(@[[[DeezerSession sharedSession] getToken]]);
+}
+RCT_EXPORT_METHOD(getExpirationDate:(RCTResponseSenderBlock)callback) {
+  callback(@[[[DeezerSession sharedSession] getExpirationDate]]);
+}
+
+RCT_EXPORT_METHOD(getUserId:(RCTResponseSenderBlock)callback) {
+  callback(@[[[DeezerSession sharedSession] getUserId]]);
+}
+
+
 RCT_EXPORT_METHOD(isSessionValid:(RCTResponseSenderBlock)callback) {
   _globalBridge = _bridge;
   

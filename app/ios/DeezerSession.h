@@ -31,7 +31,10 @@
 - (void)connectToDeezerWithPermissions:(NSArray*)permissionsArray;
 - (void)disconnect;
 - (BOOL)isSessionValid;
+- (NSString *)getToken;
+- (NSString *)getExpirationDate;
+- (NSString *)getUserId;
 
-- (void)getCurrentUserWithCallback:(void (^)())callback;
+- (void)getCurrentUserWithCallback:(void (^)(void))callback;
 
 @end

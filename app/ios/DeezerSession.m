@@ -45,6 +45,18 @@
   return [_deezerConnect isSessionValid];
 }
 
+- (NSString *)getToken {
+  return [_deezerConnect accessToken];
+}
+
+- (NSString *)getExpirationDate {
+  return [_deezerConnect expirationDate];
+}
+
+- (NSString *)getUserId {
+  return [_deezerConnect userId];
+}
+
 #pragma mark - RTC methods
 
 - (void)getTracksWithResolver:(RCTPromiseResolveBlock)resolve andRejecter:(RCTPromiseRejectBlock)reject {

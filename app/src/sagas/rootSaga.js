@@ -5,6 +5,7 @@ import loginGoogle from "./loginGoogleSaga";
 import signinApp from "./signinAppSaga";
 import resetPassword from "./resetPasswordSaga";
 import update from "./updateSaga";
+import deezer from "./deezerSaga";
 
 function* rootSaga() {
   yield [
@@ -13,7 +14,8 @@ function* rootSaga() {
     fork(loginFacebook),
     fork(loginGoogle),
     fork(resetPassword),
-    fork(update)
+    fork(update),
+    fork(deezer)
   ];
 }
 export default rootSaga;
