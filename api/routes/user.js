@@ -1,4 +1,5 @@
 const express = require("express");
+const { findKey } = require("lodash");
 const router = express.Router();
 const md5 = require("blueimp-md5");
 const {
@@ -83,7 +84,8 @@ router.post("/facebook-log-in", async (req, res) => {
     if (!user) {
       payload = {
         email,
-        facebookToken: facebookTokenValid
+        facebookToken: facebookTokenValid,
+        signInType: "facebook"
       };
       await insertUser(payload, database);
     }
@@ -110,7 +112,8 @@ router.post("/google-log-in", async (req, res) => {
     if (!user) {
       payload = {
         email,
-        googleToken: googleTokenValid
+        googleToken: googleTokenValid,
+        signInType: "google"
       };
       await insertUser(payload, database);
     }
@@ -128,7 +131,7 @@ router.post("/recover", async (req, res) => {
     const { email } = req.body;
     const database = res.database;
     const user = await isUserExists(email, database);
-    if (user) {
+    if (user && user.signInType === "classic") {
       const tokenPassword = `${md5(email)}${createHash()}`;
       await updatetUser({ email, tokenPassword }, database);
       await sendEmail(mailRecover({ email, tokenPassword }), res.mail);
@@ -189,7 +192,8 @@ router.post("/sign-in", async (req, res) => {
     const payload = {
       email,
       password: md5(password),
-      tokenValidation
+      tokenValidation,
+      signInType: "classic"
     };
     await insertUser(payload, database);
     await sendEmail(mailWelcome({ email, tokenValidation }), res.mail);
@@ -234,6 +238,25 @@ router.post("/new-password", async (req, res) => {
 // set new information ( key, informations )
 router.post("/update-data", async (req, res) => {
   try {
+    const { token } = req.query;
+    const email = findKey(sessions, token);
+    if (!email) {
+      return res.status(500).send({ error: "token not valid" });
+    }
+    const database = res.database;
+    // not needed
+    // const user = await findUserBy("mail", userMail, database);
+    // if (!user) {
+    //   return res.status(500).send({ error: "user not found" });
+    // }
+    // const { email } = Object.values(user)[0];
+    await updatetUser(
+      {
+        email
+      },
+      database
+    );
+    return res.status(200).send();
   } catch (err) {
     console.log("INTER ERROR", err);
     return res.status(500).send({ error: "internal server error" });
