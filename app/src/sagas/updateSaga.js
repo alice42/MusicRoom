@@ -3,7 +3,6 @@ import { updateMethod } from "../services/updateService";
 
 function* updateAppSaga(action) {
   const { newValue, user, toChange } = action;
-  console.log(newValue);
   try {
     const payload = {
       toChange,

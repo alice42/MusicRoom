@@ -16,3 +16,17 @@ export function deezerGetTokenSuccess(token) {
     token
   };
 }
+
+//FACEBOOK
+export function linkFacebookRequest() {
+  return {
+    type: "LOGIN_FACEBOOK_REQUEST"
+  };
+}
+
+//GOOGLE
+export function linkGoogleRequest() {
+  return {
+    type: "LOGIN_GOOGLE_REQUEST"
+  };
+}

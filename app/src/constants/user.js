@@ -1,6 +1,6 @@
 export const user = {
   name: "Doe",
-  firstName: "John",
+  firstname: "John",
   email: "JohnDoe@mail.com",
   deezer: null,
   google: null,
