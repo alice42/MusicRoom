@@ -19,6 +19,15 @@ const isUserExists = (email, database) => {
     .then(snapshot => {
       return snapshot.exists() ? snapshot.val() : false;
     });
+  // return new Promise((resolve, reject) => {
+  //   database
+  //     .ref("users")
+  //     .orderByChild('email')
+  //     .equalTo(email)
+  //     .on("value", snapshot => {
+  //       resolve(snapshot.exists() ? Object.values(snapshot.val())[0] : false);
+  //     });
+  // });
 };
 
 const updatetUser = (payload, database) => {
