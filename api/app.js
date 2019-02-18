@@ -23,6 +23,7 @@ const database = firebase.database();
 
 const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
+const deezerRoutes = require("./routes/deezer");
 
 const app = express();
 const port = "3001";
