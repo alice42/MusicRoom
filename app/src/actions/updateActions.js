@@ -8,3 +8,11 @@ export function updateRequest(newValue, user, toChange) {
     toChange
   };
 }
+//DEEZER
+
+export function deezerGetTokenSuccess(token) {
+  return {
+    type: "DEEZER_GET_TOKEN_SUCCESS",
+    token
+  };
+}

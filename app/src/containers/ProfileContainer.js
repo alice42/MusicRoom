@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import ListEditableInfos from "../components/list/ListEditableInfos";
 import ProfileHeader from "../components/profileContainer/ProfileHeader";
 import Tags from "../components/profileContainer/Tags";
@@ -10,6 +10,7 @@ import * as updateActions from "../actions/updateActions";
 import { colors } from "../constants/colors";
 import { infos } from "../constants/infos";
 import styles from "../styles/containers/ProfileContainer";
+import deezerManager from "../services/deezerService";
 
 class ProfileContainer extends Component {
   renderListUserInfos = () => {
@@ -74,15 +75,18 @@ class ProfileContainer extends Component {
     // this.props.actions.loginGoogleRequest();
   };
 
+  handleDispatchToken = token => {
+    this.props.actions.deezerGetTokenSuccess(token);
+  };
   render() {
-    const { username, avatarUri, tags } = this.props.update.user;
-    const source = avatarUri
+    const { user } = this.props.update;
+    const source = user.avatarUri
       ? { uri: avatarUri }
       : require("../assets/avatar.png");
     return (
       <View style={styles.wrapper}>
         <ProfileHeader
-          user={this.props.update.user}
+          user={this.user}
           handleLogOut={this.handleLogOut}
           handleUsernameEdit={this.handleUsernameEdit}
           handleEmailEdit={this.handleEmailEdit}
@@ -101,10 +105,15 @@ class ProfileContainer extends Component {
         </View>
         <Text style={styles.text}>Music Tastes</Text>
         <Tags
-          tags={tags}
+          tags={user.tags}
           onPressValidNewTag={this.onPressValidNewTag}
           onPressDeleteTag={this.onPressDeleteTag}
         />
+        <TouchableOpacity
+          onPress={() => deezerManager.connect(this.handleDispatchToken)}
+        >
+          <Text>Deezer</Text>
+        </TouchableOpacity>
       </View>
     );
   }
