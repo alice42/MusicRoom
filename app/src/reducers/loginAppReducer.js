@@ -4,7 +4,8 @@ const initialState = {
   token: null,
   user: {},
   failure: false,
-  errorMessage: null
+  errorMessage: null,
+  emailSendMessage: null
 };
 
 function reducer(state = initialState, action) {
@@ -40,10 +41,15 @@ function reducer(state = initialState, action) {
         isFetching: false,
         isAppAuthenticated: false,
         failure: true,
-        errorMessage: action.err.status
+        errorMessage: action.err
       };
     case "LOGOUT":
       return initialState;
+    case "RECOVER_PASSWORD_EMAIL_SEND":
+      return {
+        ...state,
+        emailSendMessage: action.emailSendMessage
+      };
     default:
       return state;
   }

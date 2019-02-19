@@ -5,7 +5,7 @@ export const getTokenGoogle = async () => {
     const tokenGoogle = fetchGoogle();
     return tokenGoogle;
   } catch (error) {
-    throw err;
+    throw error;
   }
 };
 
@@ -15,8 +15,6 @@ const fetchGoogle = async () => {
     const userInfo = await GoogleSignin.signIn();
     return userInfo;
   } catch (error) {
-    if (error.code) {
-      return error.code;
-    }
+    throw error;
   }
 };

@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Alert
+} from "react-native";
 import { colors } from "../constants/colors";
 import NavBarButton from "../components/button/NavBarButton";
 import InputField from "../components/input/InputField";
@@ -73,6 +79,9 @@ class SignIn extends Component {
 
   render() {
     const { validForm, validEmail, validPassword } = this.state;
+    const apiError = this.props.signin.errorMessage ? (
+      <Text style={styles.errorMessage}>{this.props.signin.errorMessage}</Text>
+    ) : null;
     const errorEmail = validForm ? null : (
       <Text style={styles.errorMessage}>
         {validEmail ? null : "Please, enter a valid Email."}
@@ -83,9 +92,15 @@ class SignIn extends Component {
         {validPassword ? null : "Please, enter a valid Password."}
       </Text>
     );
+    this.props.signin.validationMessage
+      ? Alert.alert("", this.props.signin.validationMessage, [
+          { text: "OK", onPress: () => this.props.navigation.navigate("LogIn") }
+        ])
+      : null;
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.createWrapper}>
+          {apiError}
           <Text style={styles.loginHeader}>Create account</Text>
           {errorEmail}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
@@ -116,7 +131,7 @@ function signinActionsMapDispatchToProps(dispatch) {
 function signinAppMapStateToProps(state) {
   const { signin } = state;
   return {
-    signin: signin
+    signin
   };
 }
 

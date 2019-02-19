@@ -47,15 +47,7 @@ export function recoverPasswordRequest(email) {
     email
   };
 }
-//RESET
-export function resetPasswordRequest(token, password, passwordConfirm) {
-  return {
-    type: "RESET_PASSWORD_REQUEST",
-    token,
-    password,
-    passwordConfirm
-  };
-}
+
 //INIT USER
 export function initUser(user) {
   return {

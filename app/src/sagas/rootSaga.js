@@ -3,7 +3,7 @@ import loginApp from "./loginAppSaga";
 import loginFacebook from "./loginFacebookSaga";
 import loginGoogle from "./loginGoogleSaga";
 import signinApp from "./signinAppSaga";
-import resetPassword from "./resetPasswordSaga";
+import recoverPassword from "./recoverPasswordSaga";
 import update from "./updateSaga";
 import deezer from "./deezerSaga";
 
@@ -13,7 +13,7 @@ function* rootSaga() {
     fork(signinApp),
     fork(loginFacebook),
     fork(loginGoogle),
-    fork(resetPassword),
+    fork(recoverPassword),
     fork(update),
     fork(deezer)
   ];
