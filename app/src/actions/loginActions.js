@@ -56,3 +56,10 @@ export function resetPasswordRequest(token, password, passwordConfirm) {
     passwordConfirm
   };
 }
+//INIT USER
+export function initUser(user) {
+  return {
+    type: "INIT_USER",
+    user
+  };
+}

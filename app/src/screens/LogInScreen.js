@@ -86,6 +86,7 @@ class LogIn extends Component {
   componentDidUpdate = () => {
     const { isAppAuthenticated } = this.props.login;
     if (isAppAuthenticated) {
+      this.props.actions.initUser(this.props.login.user);
       this.props.navigation.navigate("LoggedIn");
     }
   };
@@ -134,7 +135,7 @@ function LoginActionsMapDispatchToProps(dispatch) {
 function loginAppMapStateToProps(state) {
   const { login } = state;
   return {
-    login: login
+    login
   };
 }
 

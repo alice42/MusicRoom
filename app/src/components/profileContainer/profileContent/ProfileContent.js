@@ -23,6 +23,7 @@ export default class ProfileContent extends React.Component {
   };
 
   render() {
+    const { facebook, google, deezer } = this.props.update.user;
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>
@@ -46,7 +47,8 @@ export default class ProfileContent extends React.Component {
             border={colors.green01}
             onLoginFacebookPress={this.onLoginFacebookPress}
             onLoginGooglePress={this.onLoginGooglePress}
-            text="Link "
+            textFB={facebook ? "Unlink " : "Link "}
+            textG={google ? "Unlink " : "Link "}
             privacyButton={true}
           />
           <RoundedButton

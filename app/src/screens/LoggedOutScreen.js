@@ -53,6 +53,7 @@ class LoginScreen extends Component {
   componentDidUpdate = () => {
     const { isAppAuthenticated } = this.props.login;
     if (isAppAuthenticated) {
+      this.props.actions.initUser(this.props.login.user);
       this.props.navigation.navigate("LoggedIn");
     }
   };
@@ -98,7 +99,8 @@ class LoginScreen extends Component {
             background={colors.white}
             onLoginFacebookPress={this.onLoginFacebookPress}
             onLoginGooglePress={this.onLoginGooglePress}
-            text="Continue with"
+            textFB="Continue with"
+            textG="Continue with"
           />
           <RoundedButton
             text="Create Account"
@@ -123,7 +125,7 @@ function LoginActionsMapDispatchToProps(dispatch) {
 function loginAppMapStateToProps(state) {
   const { login } = state;
   return {
-    login: login
+    login
   };
 }
 

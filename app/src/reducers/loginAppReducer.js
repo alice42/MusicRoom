@@ -24,7 +24,14 @@ function reducer(state = initialState, action) {
         failure: false,
         user: {
           email: action.response.email,
-          sessionId: action.response.sessionId
+          sessionId: action.response.sessionId,
+          name: action.response.name || "NAME",
+          firstname: action.response.firstname || "FIRSTNAME",
+          deezer: action.response.deezer || false,
+          google: action.response.google || false,
+          facebook: action.response.facebook || false,
+          tags: action.response.tags || [],
+          avatarUri: action.response.avatarUri || ""
         }
       };
     case "LOGIN_FAILURE":
