@@ -92,25 +92,47 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -100
+    marginTop: -100,
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
   },
   modalContent: {
     backgroundColor: colors.white,
     width: 300,
-    height: 180,
+    height: 210,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30
   },
+  modalTitle: {
+    backgroundColor: colors.green01,
+    width: 300,
+    height: 70,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 8,
+    marginBottom: 15,
+    position: "absolute"
+  },
   modalText: {
-    textAlign: "center"
+    color: colors.green02,
+    fontSize: 26,
+    fontWeight: "800"
+  },
+  modalSubtext: {
+    color: colors.gray01,
+    fontSize: 14,
+    fontWeight: "500",
+    marginBottom: 10
   },
   modalPicker: {
-    marginTop: -30
+    position: "relative",
+    marginTop: 30
   },
   modalValidationButton: {
     backgroundColor: colors.green01,
     width: 300,
-    height: 40,
+    height: 50,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     justifyContent: "center",

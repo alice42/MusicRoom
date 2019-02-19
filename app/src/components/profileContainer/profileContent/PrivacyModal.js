@@ -14,7 +14,7 @@ import styles from "../../../styles/containers/ProfileContainer";
 export default class PrivacyModal extends React.Component {
   state = {
     modalVisible: false,
-    privacy: "public"
+    privacy: "eye"
   };
 
   setModalVisible = visible => {
@@ -23,14 +23,6 @@ export default class PrivacyModal extends React.Component {
 
   render() {
     const { privacy } = this.state;
-    let iconPrivacy = null;
-    if (privacy === "public") {
-      iconPrivacy = "eye";
-    } else if (privacy === "private") {
-      iconPrivacy = "eye-slash";
-    } else if (privacy === "friends") {
-      iconPrivacy = "users";
-    }
     return (
       <View>
         <Modal
@@ -40,9 +32,9 @@ export default class PrivacyModal extends React.Component {
         >
           <View style={styles.modal}>
             <View style={styles.modalContent}>
-              <View>
+              <View style={styles.modalTitle}>
                 <Text style={styles.modalText}>PRIVACY</Text>
-                <Text style={styles.modalText}>
+                <Text style={styles.modalSubtext}>
                   choose who can see those informations
                 </Text>
               </View>
@@ -53,9 +45,9 @@ export default class PrivacyModal extends React.Component {
                   this.setState({ privacy: itemValue })
                 }
               >
-                <Picker.Item label="Private" value="private" />
-                <Picker.Item label="Public" value="public" />
-                <Picker.Item label="Friends only" value="friends" />
+                <Picker.Item label="Private" value="eye-slash" />
+                <Picker.Item label="Public" value="eye" />
+                <Picker.Item label="Friends only" value="users" />
               </Picker>
             </View>
             <View style={styles.modalValidationButton}>
@@ -64,7 +56,7 @@ export default class PrivacyModal extends React.Component {
                   this.setModalVisible(!this.state.modalVisible);
                 }}
               >
-                <Text>OK</Text>
+                <Text style={styles.modalText}>OK</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -74,7 +66,7 @@ export default class PrivacyModal extends React.Component {
             this.setModalVisible(true);
           }}
         >
-          <Icon name={iconPrivacy} size={16} style={styles.privacyIcon} />
+          <Icon name={privacy} size={16} style={styles.privacyIcon} />
         </TouchableOpacity>
       </View>
     );
