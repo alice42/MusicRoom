@@ -17,6 +17,7 @@ function reducer(state = initialState, action) {
         isAppAuthenticated: false
       };
     case "LOGIN_SUCCESS":
+      console.log("****ACTION", action);
       return {
         ...state,
         isFetching: false,
@@ -24,15 +25,14 @@ function reducer(state = initialState, action) {
         token: action.response.sessionId,
         failure: false,
         user: {
-          email: action.response.email,
-          sessionId: action.response.sessionId,
-          name: action.response.name || "NAME",
-          firstname: action.response.firstname || "FIRSTNAME",
-          deezer: action.response.deezer || false,
-          google: action.response.google || false,
-          facebook: action.response.facebook || false,
-          tags: action.response.tags || [],
-          avatarUri: action.response.avatarUri || ""
+          email: action.response.user.email,
+          name: action.response.user.name,
+          firstname: action.response.user.firstname,
+          deezer: action.response.user.deezer,
+          google: action.response.user.google,
+          facebook: action.response.user.facebook,
+          tags: action.response.user.tags,
+          avatarUri: action.response.user.avatarUri
         }
       };
     case "LOGIN_FAILURE":

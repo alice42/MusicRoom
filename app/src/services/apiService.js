@@ -4,6 +4,7 @@ const apiUrl = "http://192.168.0.10:3001/api";
 const user = "/user";
 const login = "/log-in";
 const signin = "/sign-in";
+const update = "/update-data";
 const fbLogin = "/facebook-log-in";
 const ggLogin = "/google-log-in";
 
@@ -60,6 +61,21 @@ export const recoverPassword = async email => {
 //     throw err;
 //   }
 // };
+
+export const updateMethod = async ({ token, toChange, newValue }) => {
+  const url = `${apiUrl}${user}${update}`;
+  try {
+    const response = await basicFetch(
+      "POST",
+      url,
+      {},
+      { token, toChange, newValue }
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const loginClassic = async ({ email, password }) => {
   const url = `${apiUrl}${user}${login}`;

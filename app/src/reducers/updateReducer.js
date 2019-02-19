@@ -18,12 +18,13 @@ function reducer(state = initialState, action) {
     case "UPDATE_SUCCESS":
       return {
         ...state,
-        user: action.response
+        user: action.user
       };
     case "UPDATE_FAILURE":
       return {
         ...state,
-        errorMessage: action.err.status
+        errorMessage: action.err,
+        user: action.user
       };
     default:
       return state;

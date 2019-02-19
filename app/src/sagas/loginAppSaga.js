@@ -8,14 +8,14 @@ function* loginAppSaga(action) {
       email,
       password
     };
-
     const response = yield call(loginClassic, payload);
     if (response.error) {
       yield put({ type: "LOGIN_FAILURE", err: response.error });
     } else {
+      console.log("***************", response.user);
       yield put({
         type: "LOGIN_SUCCESS",
-        response: { email, sessionId: response.sessionId }
+        response: { sessionId: response.sessionId, user: response.user }
       });
     }
   } catch (err) {

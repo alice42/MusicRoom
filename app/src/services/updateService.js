@@ -1,4 +1,4 @@
-export const updateMethod = ({ user, newValue, toChange }) => {
+export const updateMethod = ({ token, email, toChange, newValue }) => {
   const err = null;
   if (toChange === "name") {
     user.name = newValue;
