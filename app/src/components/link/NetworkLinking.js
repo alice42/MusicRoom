@@ -7,13 +7,14 @@ import styles from "../../styles/components/link/NetworkLinking";
 
 export default class NetworkLinking extends Component {
   render() {
-    const { textColor, background, border, text } = this.props;
+    const { textColor, background, border, textFB, textG } = this.props;
     const borderColor = border || "transparent";
-    const textButton = text || "";
+    const textButtonFB = textFB || "";
+    const textButtonG = textG || "";
     return (
       <View>
         <RoundedButton
-          text={`${textButton} Facebook`}
+          text={`${textButtonFB} Facebook`}
           textColor={textColor}
           background={background}
           border={borderColor}
@@ -23,7 +24,7 @@ export default class NetworkLinking extends Component {
           handleOnPress={this.props.onLoginFacebookPress}
         />
         <RoundedButton
-          text={`${textButton} Google`}
+          text={`${textButtonG} Google`}
           textColor={textColor}
           background={background}
           border={borderColor}

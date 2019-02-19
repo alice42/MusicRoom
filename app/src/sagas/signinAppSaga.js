@@ -9,15 +9,13 @@ function* signinAppSaga(action) {
       password
     };
     const response = yield call(signinMethod, payload);
-    console.log("RESPONSE STATUS CODE", response);
     if (response.error) {
       yield put({ type: "SIGNIN_FAILURE", err: response.error });
     } else {
       yield put({ type: "SIGNIN_SUCCESS", response: response.message });
     }
   } catch (err) {
-    console.error(err);
-    // yield put({ type: "SIGNIN_FAILURE", err: err });
+    yield put({ type: "SIGNIN_FAILURE", err: err });
   }
 }
 

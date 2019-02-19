@@ -46,6 +46,16 @@ class LoginScreen extends Component {
     this.props.actions.loginGoogleRequest();
   };
 
+  signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   onCreateAccountPress = () => {
     this.props.navigation.navigate("CreateAccount");
   };
@@ -53,10 +63,12 @@ class LoginScreen extends Component {
   componentDidUpdate = () => {
     const { isAppAuthenticated } = this.props.login;
     if (isAppAuthenticated) {
+      this.props.actions.initUser(this.props.login.user);
       this.props.navigation.navigate("LoggedIn");
     }
   };
 
+  //DeepLinking
   componentDidMount() {
     if (Platform.OS === "android") {
       Linking.getInitialURL().then(url => {
@@ -78,27 +90,22 @@ class LoginScreen extends Component {
     const routeName = route.split("/")[0];
   };
 
-  signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      this.setState({ user: null }); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   render() {
+    const apiError = this.props.login.errorMessage ? (
+      <Text style={styles.errorMessage}>{this.props.login.errorMessage}</Text>
+    ) : null;
     return (
       <View style={styles.wrapper}>
         <View style={styles.welcomeWrapper}>
+          {/* {apiError} */}
           <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
           <NetworkLinking
             textColor={colors.green01}
             background={colors.white}
             onLoginFacebookPress={this.onLoginFacebookPress}
             onLoginGooglePress={this.onLoginGooglePress}
-            text="Continue with"
+            textFB="Continue with"
+            textG="Continue with"
           />
           <RoundedButton
             text="Create Account"
@@ -123,7 +130,7 @@ function LoginActionsMapDispatchToProps(dispatch) {
 function loginAppMapStateToProps(state) {
   const { login } = state;
   return {
-    login: login
+    login
   };
 }
 

@@ -1,11 +1,16 @@
 import { user } from "../constants/user";
 const initialState = {
-  user: user,
+  user: {},
   errorMessage: null
 };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case "INIT_USER":
+      return {
+        ...state,
+        user: action.user
+      };
     case "UPDATE_REQUEST":
       return {
         ...state

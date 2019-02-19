@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, Text, KeyboardAvoidingView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Alert
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants/colors";
 import InputField from "../components/input/InputField";
@@ -59,6 +65,11 @@ class ForgotPassword extends Component {
         {validEmail ? null : "Please, enter a valid Email."}
       </Text>
     );
+    this.props.login.emailSendMessage
+      ? Alert.alert("Email send!", this.props.login.emailSendMessage, [
+          { text: "OK", onPress: () => this.props.navigation.navigate("LogIn") }
+        ])
+      : null;
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.forgotWrapper}>
@@ -87,9 +98,9 @@ function recoverPasswordActionsMapDispatchToProps(dispatch) {
   };
 }
 function recoverPasswordAppMapStateToProps(state) {
-  const { recoverPassword } = state;
+  const { login } = state;
   return {
-    recoverPassword: recoverPassword
+    login
   };
 }
 

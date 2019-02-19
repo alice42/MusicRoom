@@ -78,20 +78,21 @@ class LogIn extends Component {
     } else {
       this.setState({ validForm: false });
     }
-
-    //USE IN DEV
-    this.props.navigation.navigate("LoggedIn");
   };
 
   componentDidUpdate = () => {
     const { isAppAuthenticated } = this.props.login;
     if (isAppAuthenticated) {
+      this.props.actions.initUser(this.props.login.user);
       this.props.navigation.navigate("LoggedIn");
     }
   };
 
   render() {
     const { validForm, validEmail, validPassword } = this.state;
+    const apiError = this.props.login.errorMessage ? (
+      <Text style={styles.errorMessage}>{this.props.login.errorMessage}</Text>
+    ) : null;
     const errorEmail = validForm ? null : (
       <Text style={styles.errorMessage}>
         {validEmail ? null : "Please, enter a valid Email."}
@@ -105,6 +106,7 @@ class LogIn extends Component {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.logInWrapper}>
+          {apiError}
           <Text style={styles.loginHeader}>Log In</Text>
           {errorEmail}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
@@ -134,7 +136,7 @@ function LoginActionsMapDispatchToProps(dispatch) {
 function loginAppMapStateToProps(state) {
   const { login } = state;
   return {
-    login: login
+    login
   };
 }
 

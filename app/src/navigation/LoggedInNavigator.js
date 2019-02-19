@@ -10,6 +10,7 @@ import { colors } from "../constants/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import CameraRollScreen from "../screens/CameraRollScreen";
 import CreatePlaylist from "../screens/CreatePlaylistScreen";
+import Playlists from "../screens/PlaylistsScreen";
 
 const HomeTab = createStackNavigator({
   HomeContainer: {
@@ -18,7 +19,8 @@ const HomeTab = createStackNavigator({
       header: null
     }
   },
-  CreatePlaylist: { screen: CreatePlaylist }
+  CreatePlaylist: { screen: CreatePlaylist },
+  Playlists: { screen: Playlists }
 });
 
 HomeTab.navigationOptions = ({ navigation }) => {
