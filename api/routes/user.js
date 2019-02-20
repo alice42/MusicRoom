@@ -54,7 +54,20 @@ router.post("/log-in", async (req, res) => {
       }
       if (user.password === md5(password)) {
         const sessionId = createSession(email);
-        return res.status(200).send({ sessionId });
+        return res.status(200).send({
+          sessionId,
+          user: {
+            email,
+            name: "Nom",
+            firstname: "Prenom",
+            tags: [],
+            avatarUri:
+              "https://pay.google.com/about/static/images/social/knowledge_graph_logo.png",
+            deezer: false,
+            facebook: false,
+            google: false
+          }
+        });
       } else {
         return res.status(403).send({ error: "bad credentials" });
       }
@@ -238,7 +251,9 @@ router.post("/new-password", async (req, res) => {
 // set new information ( key, informations )
 router.post("/update-data", async (req, res) => {
   try {
-    const { token } = req.query;
+    const allowedKey = ["name", "surname", "tags", "avatarUri"];
+    const { token, toChange, newValue } = req.body;
+    console.log({ token, toChange, newValue });
     const email = findKey(sessions, token);
     if (!email) {
       return res.status(500).send({ error: "token not valid" });
@@ -250,9 +265,14 @@ router.post("/update-data", async (req, res) => {
     //   return res.status(500).send({ error: "user not found" });
     // }
     // const { email } = Object.values(user)[0];
+    console.log({
+      email,
+      [toChange]: newValue
+    });
     await updatetUser(
       {
-        email
+        email,
+        [toChange]: newValue
       },
       database
     );
