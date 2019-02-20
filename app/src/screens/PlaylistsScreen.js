@@ -1,3 +1,5 @@
+//NOT FINISH
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -6,7 +8,7 @@ import { colors } from "../constants/colors";
 import styles from "../styles/containers/HomeContainer";
 import RadioInput from "../components/input/RadioInput";
 import RoundedButton from "../components/button/RoundedButton";
-import * as updateActions from "../actions/updateActions";
+import * as userActions from "../actions/userActions";
 import ListPlaylists from "../components/list/ListPlaylists";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Playlists from "../components/homeContainer/Playlists";
@@ -33,6 +35,7 @@ const playlists = [
     allowed: [{ name: "titi", email: "titi@mail.com", editRight: false }]
   }
 ];
+
 class HomeContainer extends Component {
   //TYPE PLAYLIST
   handleCreatePlaylistRequest = () => {
@@ -42,14 +45,11 @@ class HomeContainer extends Component {
     });
   };
   handleCreatePlaylist = (title, privacy) => {
-    // const { playlists } = this.props.update.user;
+    // const { playlists } = this.props.user.data
+    // const { token } = this.props.user
     const newPlaylist = { name: title, privacy: privacy };
     playlists.push(newPlaylist);
-    this.props.actions.updateRequest(
-      playlists,
-      this.props.update.user,
-      "playlist"
-    );
+    this.props.actions.updateRequest(token, "playlists", playlists);
   };
   renderPlaylists = () => {
     return <ListPlaylists list={playlists} />;
@@ -90,13 +90,13 @@ class HomeContainer extends Component {
 }
 function profileActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(updateActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function profileMapStateToProps(state) {
-  const { update } = state;
+  const { user } = state;
   return {
-    update
+    user
   };
 }
 export default connect(

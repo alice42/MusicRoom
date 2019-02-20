@@ -12,7 +12,7 @@ import { colors } from "../../constants/colors";
 import styles from "../../styles/containers/HomeContainer";
 import RadioInput from "../input/RadioInput";
 import RoundedButton from "../button/RoundedButton";
-import * as updateActions from "../../actions/updateActions";
+import * as userActions from "../../actions/userActions";
 import ListPlaylists from "../list/ListPlaylists";
 import Icon from "react-native-vector-icons/FontAwesome";
 

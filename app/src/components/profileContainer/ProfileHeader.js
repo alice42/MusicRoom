@@ -1,15 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import { colors } from "../../constants/colors";
-import FAIcon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/Ionicons";
-import EditableInput from "../../components/input/EditableInput";
 import NavBarButton from "../../components/button/NavBarButton";
-import { infos } from "../../constants/infos";
 import styles from "../../styles/containers/ProfileContainer";
 
 export default class ProfileHeader extends Component {
   handleLogOut = () => {
+    this.props.actions.logout();
     this.props.navigation.navigate("LoggedOut");
   };
 
@@ -20,18 +18,15 @@ export default class ProfileHeader extends Component {
   };
 
   getSelectedAvatar = avatarUri => {
-    this.props.actions.updateRequest(
-      avatarUri,
-      this.props.update.user,
-      "avatarUri"
-    );
+    const { token } = this.props.user;
+    this.props.actions.updateRequest(token, "avatarUri", avatarUri);
   };
 
   render() {
-    const { email, avatarUri } = this.props.update.user;
+    const { email, avatarUri } = this.props.user.data;
     const source = avatarUri
       ? { uri: avatarUri }
-      : require("../../assets/avatar.png");
+      : require("../../constants/avatar.png");
     return (
       <View>
         <View style={styles.headerProfile}>

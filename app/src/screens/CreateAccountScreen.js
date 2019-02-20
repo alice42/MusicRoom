@@ -2,18 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  View,
-  Text,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Alert
-} from "react-native";
+import { View, Text, KeyboardAvoidingView } from "react-native";
 import { colors } from "../constants/colors";
 import NavBarButton from "../components/button/NavBarButton";
 import InputField from "../components/input/InputField";
 import NextArrowButton from "../components/button/NextArrowButton";
-import * as loginActions from "../actions/loginActions";
+import * as userActions from "../actions/userActions";
 import styles from "../styles/screens/CreateAccountScreen";
 
 class SignIn extends Component {
@@ -77,34 +71,42 @@ class SignIn extends Component {
     }
   };
 
-  render() {
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={styles.errorMessage}>{error}</Text>;
+  };
+
+  errorEmail = () => {
     const { validForm, validEmail, validPassword } = this.state;
-    const apiError = this.props.signin.errorMessage ? (
-      <Text style={styles.errorMessage}>{this.props.signin.errorMessage}</Text>
-    ) : null;
-    const errorEmail = validForm ? null : (
-      <Text style={styles.errorMessage}>
-        {validEmail ? null : "Please, enter a valid Email."}
-      </Text>
-    );
-    const errorPassword = validForm ? null : (
-      <Text style={styles.errorMessage}>
-        {validPassword ? null : "Please, enter a valid Password."}
-      </Text>
-    );
-    this.props.signin.validationMessage
-      ? Alert.alert("", this.props.signin.validationMessage, [
-          { text: "OK", onPress: () => this.props.navigation.navigate("LogIn") }
-        ])
-      : null;
+    if (!validForm) {
+      return (
+        <Text style={styles.errorMessage}>
+          {validEmail ? null : "Please, enter a valid Email."}
+        </Text>
+      );
+    }
+  };
+
+  errorPassword = () => {
+    const { validForm, validEmail, validPassword, disable } = this.state;
+    if (!validForm) {
+      return (
+        <Text style={styles.errorMessage}>
+          {validPassword ? null : "Please, enter a valid Password."}
+        </Text>
+      );
+    }
+  };
+
+  render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.createWrapper}>
-          {apiError}
+          {this.apiError()}
           <Text style={styles.loginHeader}>Create account</Text>
-          {errorEmail}
+          {this.errorEmail()}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          {errorPassword}
+          {this.errorPassword()}
           <InputField
             labelText="PASSWORD"
             onChangeText={this.handlePasswordChange}
@@ -116,8 +118,6 @@ class SignIn extends Component {
             background={colors.white}
           />
         </View>
-
-        <View />
       </KeyboardAvoidingView>
     );
   }
@@ -125,13 +125,13 @@ class SignIn extends Component {
 
 function signinActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(loginActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function signinAppMapStateToProps(state) {
-  const { signin } = state;
+  const { user } = state;
   return {
-    signin
+    user
   };
 }
 

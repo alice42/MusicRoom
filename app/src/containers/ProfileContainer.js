@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, Text } from "react-native";
-import * as updateActions from "../actions/updateActions";
+import { View } from "react-native";
+import * as userActions from "../actions/userActions";
 import ProfileHeader from "../components/profileContainer/ProfileHeader";
 import ProfileContent from "../components/profileContainer/profileContent";
-import Tags from "../components/profileContainer/Tags";
 import { colors } from "../constants/colors";
 import styles from "../styles/containers/ProfileContainer";
 
@@ -15,7 +14,6 @@ class ProfileContainer extends Component {
       <View style={styles.wrapper}>
         <ProfileHeaderConnected navigation={this.props.navigation} />
         <ProfileContentConnected navigation={this.props.navigation} />
-        <TagsConnected />
       </View>
     );
   }
@@ -23,13 +21,13 @@ class ProfileContainer extends Component {
 
 function profileActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(updateActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function profileMapStateToProps(state) {
-  const { update } = state;
+  const { user } = state;
   return {
-    update
+    user
   };
 }
 
@@ -37,11 +35,6 @@ const ProfileHeaderConnected = connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps
 )(ProfileHeader);
-
-const TagsConnected = connect(
-  profileMapStateToProps,
-  profileActionsMapDispatchToProps
-)(Tags);
 
 const ProfileContentConnected = connect(
   profileMapStateToProps,

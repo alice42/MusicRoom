@@ -15,7 +15,7 @@ import RoundedButton from "../components/button/RoundedButton";
 import NavBarButton from "../components/button/NavBarButton";
 import NetworkLinking from "../components/link/NetworkLinking";
 import { GoogleSignin } from "react-native-google-signin";
-import * as loginActions from "../actions/loginActions";
+import * as userActions from "../actions/userActions";
 import styles from "../styles/screens/LoggedOutScreen";
 
 GoogleSignin.configure();
@@ -46,24 +46,13 @@ class LoginScreen extends Component {
     this.props.actions.loginGoogleRequest();
   };
 
-  signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      this.setState({ user: null }); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   onCreateAccountPress = () => {
     this.props.navigation.navigate("CreateAccount");
   };
 
   componentDidUpdate = () => {
-    const { isAppAuthenticated } = this.props.login;
-    if (isAppAuthenticated) {
-      this.props.actions.initUser(this.props.login.user);
+    const { token } = this.props.user;
+    if (token) {
       this.props.navigation.navigate("LoggedIn");
     }
   };
@@ -90,14 +79,16 @@ class LoginScreen extends Component {
     const routeName = route.split("/")[0];
   };
 
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={styles.errorMessage}>{error}</Text>;
+  };
+
   render() {
-    const apiError = this.props.login.errorMessage ? (
-      <Text style={styles.errorMessage}>{this.props.login.errorMessage}</Text>
-    ) : null;
     return (
       <View style={styles.wrapper}>
         <View style={styles.welcomeWrapper}>
-          {/* {apiError} */}
+          {this.apiError()}
           <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
           <NetworkLinking
             textColor={colors.green01}
@@ -113,9 +104,6 @@ class LoginScreen extends Component {
             border={colors.white}
             handleOnPress={this.onCreateAccountPress}
           />
-          <TouchableOpacity onPress={this.signOut}>
-            <Text>delog google</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -124,13 +112,13 @@ class LoginScreen extends Component {
 
 function LoginActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(loginActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function loginAppMapStateToProps(state) {
-  const { login } = state;
+  const { user } = state;
   return {
-    login
+    user
   };
 }
 

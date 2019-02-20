@@ -7,7 +7,7 @@ import { colors } from "../constants/colors";
 import NavBarButton from "../components/button/NavBarButton";
 import InputField from "../components/input/InputField";
 import NextArrowButton from "../components/button/NextArrowButton";
-import * as loginActions from "../actions/loginActions";
+import * as userActions from "../actions/userActions";
 import styles from "../styles/screens/LogInScreen";
 
 class LogIn extends Component {
@@ -81,36 +81,47 @@ class LogIn extends Component {
   };
 
   componentDidUpdate = () => {
-    const { isAppAuthenticated } = this.props.login;
-    if (isAppAuthenticated) {
-      this.props.actions.initUser(this.props.login.user);
+    const { token } = this.props.user;
+    if (token) {
       this.props.navigation.navigate("LoggedIn");
     }
   };
 
-  render() {
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={styles.errorMessage}>{error}</Text>;
+  };
+
+  errorEmail = () => {
     const { validForm, validEmail, validPassword } = this.state;
-    const apiError = this.props.login.errorMessage ? (
-      <Text style={styles.errorMessage}>{this.props.login.errorMessage}</Text>
-    ) : null;
-    const errorEmail = validForm ? null : (
-      <Text style={styles.errorMessage}>
-        {validEmail ? null : "Please, enter a valid Email."}
-      </Text>
-    );
-    const errorPassword = validForm ? null : (
-      <Text style={styles.errorMessage}>
-        {validPassword ? null : "Please, enter a valid Password."}
-      </Text>
-    );
+    if (!validForm) {
+      return (
+        <Text style={styles.errorMessage}>
+          {validEmail ? null : "Please, enter a valid Email."}
+        </Text>
+      );
+    }
+  };
+  errorPassword = () => {
+    const { validForm, validEmail, validPassword } = this.state;
+    if (!validForm) {
+      return (
+        <Text style={styles.errorMessage}>
+          {validPassword ? null : "Please, enter a valid Password."}
+        </Text>
+      );
+    }
+  };
+
+  render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.logInWrapper}>
-          {apiError}
+          {this.apiError()}
           <Text style={styles.loginHeader}>Log In</Text>
-          {errorEmail}
+          {this.errorEmail()}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          {errorPassword}
+          {this.errorPassword()}
           <InputField
             labelText="PASSWORD"
             onChangeText={this.handlePasswordChange}
@@ -122,21 +133,19 @@ class LogIn extends Component {
             background={colors.white}
           />
         </View>
-
-        <View />
       </KeyboardAvoidingView>
     );
   }
 }
 function LoginActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(loginActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function loginAppMapStateToProps(state) {
-  const { login } = state;
+  const { user } = state;
   return {
-    login
+    user
   };
 }
 

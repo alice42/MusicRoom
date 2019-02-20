@@ -20,6 +20,12 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "300",
     marginBottom: 40
+  },
+  errorMessage: {
+    color: colors.darkOrange,
+    fontWeight: "700",
+    fontSize: 15,
+    marginBottom: 5
   }
 });
 export default styles;

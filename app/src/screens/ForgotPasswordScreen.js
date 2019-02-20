@@ -13,7 +13,7 @@ import { colors } from "../constants/colors";
 import InputField from "../components/input/InputField";
 import NextArrowButton from "../components/button/NextArrowButton";
 import NavBarButton from "../components/button/NavBarButton";
-import * as loginActions from "../actions/loginActions";
+import * as userActions from "../actions/userActions";
 import styles from "../styles/screens/ForgotPasswordScreen";
 
 class ForgotPassword extends Component {
@@ -58,28 +58,33 @@ class ForgotPassword extends Component {
     }
   };
 
-  render() {
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={styles.errorMessage}>{error}</Text>;
+  };
+
+  errorEmail = () => {
     const { validForm, validEmail } = this.state;
-    const errorEmail = validForm ? null : (
-      <Text style={styles.errorMessage}>
-        {validEmail ? null : "Please, enter a valid Email."}
-      </Text>
-    );
-    this.props.login.emailSendMessage
-      ? Alert.alert("Email send!", this.props.login.emailSendMessage, [
-          { text: "OK", onPress: () => this.props.navigation.navigate("LogIn") }
-        ])
-      : null;
+    if (!validForm) {
+      return (
+        <Text style={styles.errorMessage}>
+          {validEmail ? null : "Please, enter a valid Email."}
+        </Text>
+      );
+    }
+  };
+  render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
         <View style={styles.forgotWrapper}>
+          {this.apiError()}
           <Text style={styles.forgotPasswordHeading}>
             Forgot your password?
           </Text>
           <Text style={styles.forgotPasswordSubheading}>
             Enter your email to find your account
           </Text>
-          {errorEmail}
+          {this.errorEmail()}
           <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
           <NextArrowButton
             handleOnPress={this.onRecoverPress}
@@ -94,13 +99,13 @@ class ForgotPassword extends Component {
 
 function recoverPasswordActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(loginActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function recoverPasswordAppMapStateToProps(state) {
-  const { login } = state;
+  const { user } = state;
   return {
-    login
+    user
   };
 }
 

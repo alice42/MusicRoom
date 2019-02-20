@@ -4,15 +4,12 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  CameraRoll,
-  NativeModules
+  CameraRoll
 } from "react-native";
-import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors } from "../constants/colors";
-import { infos } from "../constants/infos";
 import NextArrowButton from "../components/button/NextArrowButton";
 import ListCameraRoll from "../components/list/ListCameraRoll";
+import { colors } from "../constants/colors";
 import styles from "../styles/screens/CameraRollScreen";
 
 class CameraRollScreen extends Component {
@@ -66,13 +63,6 @@ class CameraRollScreen extends Component {
   };
 
   selectImage = uriSelected => {
-    //fetchable image for later
-    // NativeModules.ReadImageData.readImage(uri, image => {
-    //   this.setState({
-    //     selected: image,
-    //   });
-    // });
-
     const { uri } = this.state;
     if (uri === uriSelected) {
       this.setState({
@@ -117,4 +107,4 @@ class CameraRollScreen extends Component {
   }
 }
 
-export default connect()(CameraRollScreen);
+export default CameraRollScreen;

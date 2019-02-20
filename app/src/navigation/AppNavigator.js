@@ -4,8 +4,6 @@ import {
   createBottomTabNavigator
 } from "react-navigation";
 import { connect } from "react-redux";
-import { Platform, StatusBar } from "react-native";
-import { FontAwesome } from "react-native-vector-icons";
 import LoggedOutScreen from "../screens/LoggedOutScreen";
 import LogInScreen from "../screens/LogInScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
