@@ -6,14 +6,16 @@ import styles from "../../styles/components/button/NextArrowButton";
 
 export default class NextArrowButton extends Component {
   render() {
-    const { handleOnPress, background, color } = this.props;
+    const { handleOnPress, background, color, disable } = this.props;
     const backgroundColor = background || "transparent";
     const iconColor = color || colors.black;
+    const isDisable = disable || false;
     return (
       <View style={styles.buttonWrapper}>
         <TouchableHighlight
           style={[styles.button, { backgroundColor: backgroundColor }]}
           onPress={handleOnPress}
+          disabled={isDisable}
         >
           <Icon
             name="angle-right"

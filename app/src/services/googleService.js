@@ -15,6 +15,10 @@ const fetchGoogle = async () => {
     const userInfo = await GoogleSignin.signIn();
     return userInfo;
   } catch (error) {
-    throw error;
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      return "cancelled";
+    } else {
+      throw error;
+    }
   }
 };

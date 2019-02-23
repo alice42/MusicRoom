@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     color: colors.white,
-    fontSize: 16
+    fontSize: 16,
+    maxWidth: 100
   }
 });
 export default styles;

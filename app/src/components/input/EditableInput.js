@@ -13,16 +13,15 @@ export default class EditableInput extends Component {
 
   handleEdit = () => {
     const { editable, validValue, inputValue } = this.state;
+    const { defaultValue } = this.props;
     if (!editable) {
       this.setState({ editable: true });
     } else {
       if (validValue) {
-        this.setState({ editable: false });
         this.props.onChangeText(inputValue);
-      } else {
-        this.setState({ inputValue: this.props.defaultValue });
-        this.setState({ editable: false });
+        this.setState({ editable: false, inputValue: defaultValue });
       }
+      this.setState({ editable: false, inputValue: defaultValue });
     }
   };
 
@@ -34,21 +33,20 @@ export default class EditableInput extends Component {
       if (emailCheckRegex.test(text)) {
         this.setState({ validValue: true, inputValue: text });
       } else {
-        this.setState({ validValue: false, inputValue: text });
+        this.setState({ validValue: false });
       }
     } else {
       if (valueCheckRegex.test(text)) {
         this.setState({ validValue: true, inputValue: text });
       } else {
-        this.setState({ validValue: false, inputValue: text });
+        this.setState({ validValue: false });
       }
     }
   };
 
   render() {
-    const { labelText, onChangeText, defaultValue, style, size } = this.props;
-    const { inputValue, editable } = this.state;
-
+    const { labelText, onChangeText, style, size } = this.props;
+    const { editable, inputValue } = this.state;
     return (
       <View style={styles.wrapper}>
         <TextInput

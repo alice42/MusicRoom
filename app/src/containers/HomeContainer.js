@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
 import NextArrowButton from "../components/button/NextArrowButton";
-import * as updateActions from "../actions/updateActions";
+import * as userActions from "../actions/userActions";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 class HomeContainer extends Component {
@@ -65,13 +65,13 @@ class HomeContainer extends Component {
 }
 function profileActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(updateActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch)
   };
 }
 function profileMapStateToProps(state) {
-  const { update } = state;
+  const { user } = state;
   return {
-    update
+    user
   };
 }
 export default connect(

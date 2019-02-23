@@ -1,3 +1,5 @@
+//NOT FINISH
+
 import React, { Component } from "react";
 import {
   View,
@@ -16,7 +18,7 @@ import { colors } from "../constants/colors";
 import InputField from "../components/input/InputField";
 import RadioInput from "../components/input/RadioInput";
 import RoundedButton from "../components/button/RoundedButton";
-import * as updateActions from "../actions/updateActions";
+import * as userActions from "../actions/userActions";
 import Privacy from "../components/homeContainer/Privacy";
 // import styles from "./styles/CreateEvent";
 

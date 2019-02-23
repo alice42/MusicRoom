@@ -20,8 +20,6 @@ class DeezerManager {
         if (decision) {
           console.log("TOKEN INCOMING");
           this.getToken(dispatchToken);
-          // this.getUserId(console.log);
-          // this.getExpirationDate(console.log);
         }
         decision ? resolve(decision) : reject(decision);
       });

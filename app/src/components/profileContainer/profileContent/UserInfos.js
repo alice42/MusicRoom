@@ -1,53 +1,65 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import PrivacyModal from "./PrivacyModal";
 import EditableInput from "../../../components/input/EditableInput";
 import { colors } from "../../../constants/colors";
 import styles from "../../../styles/containers/ProfileContainer";
 
 export default class UserInfos extends React.Component {
   handleEmailEdit = email => {
-    this.props.actions.updateRequest(email, this.props.user, "email");
+    const { token } = this.props.user;
+    this.props.actions.updateRequest(token, "email", email);
   };
 
   handleNameEdit = name => {
-    this.props.actions.updateRequest(name, this.props.user, "name");
+    const { token } = this.props.user;
+    this.props.actions.updateRequest(token, "name", name);
   };
 
   handleFirstnameEdit = firstname => {
-    this.props.actions.updateRequest(firstname, this.props.user, "firstname");
+    const { token } = this.props.user;
+    this.props.actions.updateRequest(token, "firstname", firstname);
   };
 
   render() {
-    const { user } = this.props;
+    const { email, name, firstname } = this.props.user.data;
     return (
-      <View style={styles.userInfosWrapper}>
-        <View style={styles.userInfosLineWrapper}>
-          <Text style={styles.userInfosKey}>Email : </Text>
-          <EditableInput
-            style={styles.userInfosValue}
-            defaultValue={user.email}
-            onChangeText={this.handleEmailEdit}
-            size={12}
-            type={"email"}
-          />
+      <View>
+        <View style={styles.contentProfileTitleWrapper}>
+          <Text style={styles.contentProfileText}>Your infos</Text>
+          <PrivacyModal />
         </View>
-        <View style={styles.userInfosLineWrapper}>
-          <Text style={styles.userInfosKey}>Name : </Text>
-          <EditableInput
-            style={styles.userInfosValue}
-            defaultValue={user.name}
-            onChangeText={this.handleNameEdit}
-            size={12}
-          />
-        </View>
-        <View style={styles.userInfosLineWrapper}>
-          <Text style={styles.userInfosKey}>Firstname : </Text>
-          <EditableInput
-            style={styles.userInfosValue}
-            defaultValue={user.firstname}
-            onChangeText={this.handleFirstnameEdit}
-            size={12}
-          />
+        <View style={styles.contentProfileWrapper}>
+          <View style={styles.userInfosWrapper}>
+            <View style={styles.userInfosLineWrapper}>
+              <Text style={styles.userInfosKey}>Email : </Text>
+              <EditableInput
+                style={styles.userInfosValue}
+                defaultValue={email}
+                onChangeText={this.handleEmailEdit}
+                size={12}
+                type={"email"}
+              />
+            </View>
+            <View style={styles.userInfosLineWrapper}>
+              <Text style={styles.userInfosKey}>Name : </Text>
+              <EditableInput
+                style={styles.userInfosValue}
+                defaultValue={name}
+                onChangeText={this.handleNameEdit}
+                size={12}
+              />
+            </View>
+            <View style={styles.userInfosLineWrapper}>
+              <Text style={styles.userInfosKey}>Firstname : </Text>
+              <EditableInput
+                style={styles.userInfosValue}
+                defaultValue={firstname}
+                onChangeText={this.handleFirstnameEdit}
+                size={12}
+              />
+            </View>
+          </View>
         </View>
       </View>
     );

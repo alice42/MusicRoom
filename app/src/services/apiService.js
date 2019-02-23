@@ -1,13 +1,13 @@
 import { statusCodes, GoogleSignin } from "react-native-google-signin";
 
-const apiUrl = "http://192.168.0.10:3001/api";
+const apiUrl = "http://localhost:3001/api";
 const user = "/user";
-const login = "/log-in";
 const signin = "/sign-in";
+const login = "/log-in";
 const fbLogin = "/facebook-log-in";
 const ggLogin = "/google-log-in";
-
 const recover = "/recover";
+const update = "/update-data";
 
 const basicFetch = async (method, url, config, data) => {
   if (method === "GET") {
@@ -36,33 +36,8 @@ const basicFetch = async (method, url, config, data) => {
   }
 };
 
-export const recoverPassword = async email => {
-  const url = `${apiUrl}${user}${recover}`;
-  try {
-    const response = await basicFetch("POST", url, {}, { email });
-    return response;
-  } catch (err) {
-    throw err;
-  }
-};
-
-// export const resetPassword = async (token, password, passwordConfirm) => {
-//   const url = `${apiUrl}${user}${reset}`;
-//   try {
-//     const response = await basicFetch(
-//       "POST",
-//       url,
-//       {},
-//       { token, password, passwordConfirm }
-//     );
-//     return response;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
-
-export const loginClassic = async ({ email, password }) => {
-  const url = `${apiUrl}${user}${login}`;
+export const signinMethod = async ({ email, password }) => {
+  const url = `${apiUrl}${user}${signin}`;
   try {
     const response = await basicFetch("POST", url, {}, { email, password });
     return response;
@@ -71,8 +46,8 @@ export const loginClassic = async ({ email, password }) => {
   }
 };
 
-export const signinMethod = async ({ email, password }) => {
-  const url = `${apiUrl}${user}${signin}`;
+export const loginClassic = async ({ email, password }) => {
+  const url = `${apiUrl}${user}${login}`;
   try {
     const response = await basicFetch("POST", url, {}, { email, password });
     return response;
@@ -100,5 +75,39 @@ export const loginGoogle = async response => {
     return log;
   } catch (error) {
     throw error;
+  }
+};
+
+export const recoverPassword = async email => {
+  const url = `${apiUrl}${user}${recover}`;
+  try {
+    const response = await basicFetch("POST", url, {}, { email });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const updateMethod = async ({ token, toChange, newValue }) => {
+  const url = `${apiUrl}${user}${update}`;
+  try {
+    const response = await basicFetch(
+      "POST",
+      url,
+      {},
+      { token, toChange, newValue }
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const logoutMethod = async () => {
+  try {
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+  } catch (err) {
+    throw err;
   }
 };

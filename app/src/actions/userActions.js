@@ -1,14 +1,3 @@
-///////////////LOGIN/SIGNIN///////////////////
-//LOGIN
-export function loginRequest(email, password) {
-  return {
-    type: "LOGIN_REQUEST",
-    email,
-    password
-  };
-}
-
-//SIGNIN
 export function signinRequest(email, password) {
   return {
     type: "SIGNIN_REQUEST",
@@ -17,30 +6,33 @@ export function signinRequest(email, password) {
   };
 }
 
-//LOGOUT
-export function logout() {
+export function loginRequest(email, password) {
   return {
-    type: "LOGOUT"
+    type: "LOGIN_REQUEST",
+    email,
+    password
   };
 }
 
-//NETWORKS
-//FACEBOOK
 export function loginFacebookRequest() {
   return {
     type: "LOGIN_FACEBOOK_REQUEST"
   };
 }
 
-//GOOGLE
 export function loginGoogleRequest() {
   return {
     type: "LOGIN_GOOGLE_REQUEST"
   };
 }
 
-///////////////PASSWORD///////////////////
-//RECOVER
+export function deezerGetTokenSuccess(token) {
+  return {
+    type: "DEEZER_GET_TOKEN_SUCCESS",
+    token
+  };
+}
+
 export function recoverPasswordRequest(email) {
   return {
     type: "RECOVER_PASSWORD_REQUEST",
@@ -48,10 +40,17 @@ export function recoverPasswordRequest(email) {
   };
 }
 
-//INIT USER
-export function initUser(user) {
+export function updateRequest(token, toChange, newValue) {
   return {
-    type: "INIT_USER",
-    user
+    type: "UPDATE_USER_DATA_REQUEST",
+    token,
+    toChange,
+    newValue
+  };
+}
+
+export function logout() {
+  return {
+    type: "LOGOUT"
   };
 }

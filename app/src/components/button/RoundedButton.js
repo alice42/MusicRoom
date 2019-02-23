@@ -11,16 +11,18 @@ export default class RoundedButton extends Component {
       background,
       icon,
       handleOnPress,
-      border
+      border,
+      disable
     } = this.props;
     const backgroundColor = background || "transparent";
     const color = textColor || colors.black;
     const borderColor = border || "transparent";
-
+    const isDisable = disable || false;
     return (
       <TouchableOpacity
         style={[{ backgroundColor }, { borderColor }, styles.wrapper]}
         onPress={handleOnPress}
+        disabled={isDisable}
       >
         <View style={styles.buttonTextWrapper}>
           {icon}

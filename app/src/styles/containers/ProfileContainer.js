@@ -2,14 +2,10 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
-  //Container
-  wrapper: {
-    flex: 1
-  },
   //Header
   headerProfile: {
     backgroundColor: colors.green01,
-    height: 150
+    height: 140
   },
   headerProfileContent: {
     padding: 50
@@ -42,11 +38,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: "center",
     position: "absolute",
-    marginTop: 80
+    marginTop: 70
   },
   //ProfileContent
   containerWrapper: {
-    flex: 1,
     display: "flex",
     alignContent: "center"
   },
@@ -145,10 +140,13 @@ const styles = StyleSheet.create({
   },
   //Tags
   tagsContainer: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     padding: 20
+  },
+  tagsScrollView: {
+    height: 180,
+    marginBottom: 5
   },
   tagsTitleWrapper: {
     flexDirection: "row",
@@ -164,6 +162,14 @@ const styles = StyleSheet.create({
     color: colors.black,
     marginRight: 15,
     marginTop: 10
+  },
+  //error
+  errorMessage: {
+    marginTop: 5,
+    color: colors.darkOrange,
+    fontWeight: "700",
+    fontSize: 15,
+    textAlign: "center"
   }
 });
 
