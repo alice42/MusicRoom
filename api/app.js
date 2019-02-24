@@ -24,6 +24,7 @@ const database = firebase.database();
 const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
 const deezerRoutes = require("./routes/deezer");
+const aliceRoutes = require("./routes/alice");
 
 const app = express();
 const port = "3001";
@@ -43,6 +44,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRoute);
 app.use("/api/user", userRoutes);
+app.use("/api/alice", aliceRoutes);
 app.set("port", port);
 
 const server = http.createServer(app);
