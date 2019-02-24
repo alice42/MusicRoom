@@ -21,4 +21,17 @@ router.post("/route-example", async (req, res) => {
   }
 });
 
+router.post("/get-track", async (req, res) => {
+  try {
+    const { track } = req.body;
+    return res.status(200).send({
+      message: `Track ${track} received on /alice/get-track`,
+      track
+    });
+  } catch (err) {
+    console.log("INTER ERROR", err);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
 module.exports = router;

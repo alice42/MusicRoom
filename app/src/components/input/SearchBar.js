@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-import { View, Text, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { colors } from "../../constants/colors";
 
 export default class SearchBar extends Component {
+  handleTextChange = text => {
+    this.props.playlistsActions.getTrackRequest(text);
+  };
   render() {
     return (
       <View style={styles.wrapper}>
@@ -14,7 +17,11 @@ export default class SearchBar extends Component {
             color={colors.gray02}
             style={styles.searchIcon}
           />
-          <Text style={styles.textInput}>Search for music...</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={this.handleTextChange}
+            placeholder="Search for music..."
+          />
         </View>
       </View>
     );

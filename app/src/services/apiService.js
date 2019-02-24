@@ -111,3 +111,13 @@ export const logoutMethod = async () => {
     throw err;
   }
 };
+
+export const getTrack = async track => {
+  const url = `${apiUrl}/alice/get-track`;
+  try {
+    const response = await basicFetch("POST", url, {}, { track });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

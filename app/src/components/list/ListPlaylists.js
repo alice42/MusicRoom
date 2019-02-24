@@ -9,29 +9,30 @@ import {
 } from "react-native";
 import { colors } from "../../constants/colors";
 
-export default class Listings extends Component {
-  handleOnPress = listing => {
-    this.props.navigation.navigate("Playlist");
+export default class playlists extends Component {
+  handleOnPress = playlist => {
+    console.log(this.props);
+    this.props.navigation.navigate("Playlist", { playlist: playlist });
   };
 
-  renderListings() {
+  renderplaylists() {
     const { list } = this.props;
-    return list.map((listing, index) => (
+    return list.map((playlist, index) => (
       <TouchableOpacity
-        key={`listing-${index}`}
+        key={`playlist-${index}`}
         style={{ marginTop: 10 }}
-        onPress={() => this.handleOnPress(listing)}
+        onPress={() => this.handleOnPress(playlist)}
       >
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flexDirection: "row" }}>
-            <Text style={styles.listingTitle}>{listing.name}</Text>
-            <Text style={styles.listingPrivacy}>{listing.privacy}</Text>
-            <Text style={styles.listingTitle}>{listing.artist}</Text>
+            <Text style={styles.playlistTitle}>{playlist.name}</Text>
+            <Text style={styles.playlistPrivacy}>{playlist.privacy}</Text>
+            <Text style={styles.playlistTitle}>{playlist.artist}</Text>
           </View>
           <View>
-            {listing.date ? (
-              <Text style={styles.listingDate}>
-                {listing.date.toLocaleString()}
+            {playlist.date ? (
+              <Text style={styles.playlistDate}>
+                {playlist.date.toLocaleString()}
               </Text>
             ) : null}
           </View>
@@ -48,7 +49,7 @@ export default class Listings extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <ScrollView>{this.renderListings()}</ScrollView>
+        <ScrollView>{this.renderplaylists()}</ScrollView>
       </View>
     );
   }
@@ -58,20 +59,20 @@ const styles = StyleSheet.create({
   wrapper: {
     display: "flex"
   },
-  listingTitle: {
+  playlistTitle: {
     fontSize: 14,
     fontWeight: "700",
     color: colors.gray04,
     marginTop: 2
   },
-  listingPrivacy: {
+  playlistPrivacy: {
     fontSize: 12,
     fontWeight: "500",
     color: colors.lightGray,
     marginTop: 4,
     marginLeft: 5
   },
-  listingDate: {
+  playlistDate: {
     fontSize: 14,
     fontWeight: "700",
     color: colors.green01,
