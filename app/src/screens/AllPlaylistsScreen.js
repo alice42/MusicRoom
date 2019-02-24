@@ -12,7 +12,8 @@ import * as userActions from "../actions/userActions";
 import ListPlaylists from "../components/list/ListPlaylists";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Playlists from "../components/homeContainer/Playlists";
-import Events from "../components/homeContainer/Events";
+// import Events from "../components/homeContainer/Events";
+
 const playlists = [
   {
     name: "Playlist1",
@@ -36,7 +37,7 @@ const playlists = [
   }
 ];
 
-class HomeContainer extends Component {
+class AllPlaylistsScreen extends Component {
   //TYPE PLAYLIST
   handleCreatePlaylistRequest = () => {
     this.props.navigation.navigate("CreatePlaylist", {
@@ -51,8 +52,10 @@ class HomeContainer extends Component {
     playlists.push(newPlaylist);
     this.props.actions.updateRequest(token, "playlists", playlists);
   };
+
   renderPlaylists = () => {
-    return <ListPlaylists list={playlists} />;
+    const { navigation } = this.props;
+    return <ListPlaylists list={playlists} navigation={navigation} />;
   };
   //TYPE EVENT
   //   handleCreateEventRequest = () => {
@@ -102,4 +105,4 @@ function profileMapStateToProps(state) {
 export default connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps
-)(HomeContainer);
+)(AllPlaylistsScreen);

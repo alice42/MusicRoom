@@ -11,7 +11,7 @@ import { colors } from "../../constants/colors";
 
 export default class Listings extends Component {
   handleOnPress = listing => {
-    this.props.handleOnPress(listing);
+    this.props.navigation.navigate("Playlist");
   };
 
   renderListings() {

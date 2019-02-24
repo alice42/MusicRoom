@@ -9,7 +9,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 class HomeContainer extends Component {
   onPlaylistsPress = () => {
-    this.props.navigation.navigate("Playlists");
+    this.props.navigation.navigate("AllPlaylists");
   };
   render() {
     return (
