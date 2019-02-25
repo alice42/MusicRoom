@@ -5,7 +5,7 @@ import { colors } from "../../constants/colors";
 
 export default class SearchBar extends Component {
   handleTextChange = text => {
-    this.props.playlistsActions.getTrackRequest(text);
+    this.props.searchActions.getTrackRequest(text);
   };
   render() {
     return (
@@ -30,7 +30,6 @@ export default class SearchBar extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: "absolute",
     top: 0,
     left: 0,
     backgroundColor: "rgba(255,255,255,0.9)",

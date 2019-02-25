@@ -2,13 +2,13 @@ import { combineReducers } from "redux";
 import NavReducer from "./navigation";
 // import LoginReducer from "./loginAppReducer";
 // import SigninReducer from "./signinAppReducer";
-// import UpdateReducer from "./updateReducer";
+import searchReducer from "./searchReducer";
 import UserReducer from "./userReducer";
 
 const AppReducer = combineReducers({
   nav: NavReducer,
-  user: UserReducer
-  // login: LoginReducer,
+  user: UserReducer,
+  search: searchReducer
   // signin: SigninReducer,
   // update: UpdateReducer
 });

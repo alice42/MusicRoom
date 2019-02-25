@@ -14,16 +14,11 @@ import Playlists from "../components/homeContainer/Playlists";
 import Events from "../components/homeContainer/Events";
 import Search from "../components/playlist/Search";
 import ListTracks from "../components/list/ListTracks";
-class PlaylistScreen extends Component {
+
+class AddTrackModal extends Component {
   state = {
     modalVisible: false
   };
-
-  renderPlaylistTracks = () => {
-    const { tracks } = this.props.navigation.state.params.playlist;
-    return <ListTracks list={tracks} />;
-  };
-
   handleOpenAddTrackModal = () => {
     this.setState({ modalVisible: true });
   };
@@ -32,33 +27,20 @@ class PlaylistScreen extends Component {
   };
 
   render() {
-    const { playlist } = this.props.navigation.state.params;
     return (
-      <View style={styles.wrapper}>
-        <View>
-          <Text>{playlist.name}</Text>
-          <Text>{playlist.privacy}</Text>
-        </View>
-
-        <View>{this.renderPlaylistTracks()}</View>
-
-        <View>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-          >
-            <View style={{ marginTop: 50 }}>
-              <SearchConnected />
-              <TouchableOpacity onPress={this.handleCloseAddTrackModal}>
-                <Text>Hide Modal</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-          <TouchableOpacity onPress={this.handleOpenAddTrackModal}>
-            <Text>ADD TRACKS</Text>
-          </TouchableOpacity>
-        </View>
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+        >
+          <View style={{ marginTop: 50 }}>
+            <SearchConnected />
+            <TouchableOpacity onPress={this.handleCloseAddTrackModal}>
+              <Text>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -82,7 +64,4 @@ const SearchConnected = connect(
   profileActionsMapDispatchToProps
 )(Search);
 
-export default connect(
-  profileMapStateToProps,
-  profileActionsMapDispatchToProps
-)(PlaylistScreen);
+export default AddTrackModal;

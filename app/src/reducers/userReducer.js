@@ -1,3 +1,5 @@
+import { playlists } from "../mocks/playlists";
+
 const initialState = {
   token: null,
   data: {
@@ -7,7 +9,8 @@ const initialState = {
     facebook: false,
     google: false,
     deezer: false,
-    tags: []
+    tags: [],
+    playlists: playlists
   },
   error: null
 };

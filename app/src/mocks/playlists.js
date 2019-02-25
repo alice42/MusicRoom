@@ -3,9 +3,9 @@ export const playlists = [
     name: "Playlist1",
     privacy: "public",
     tracks: [
-      { name: "tracks1.mp3", artist: "Toto" },
-      { name: "tracks2.mp3", artist: "Toto" },
-      { name: "tracks3.mp3", artist: "Toto" }
+      { name: "tracks1", artist: "Toto" },
+      { name: "tracks2", artist: "Toto" },
+      { name: "tracks3", artist: "Toto" }
     ],
     allowed: [{}]
   },
@@ -13,9 +13,9 @@ export const playlists = [
     name: "Playlist2",
     privacy: "private",
     tracks: [
-      { name: "tracks1.mp3", artist: "Titi" },
-      { name: "tracks2.mp3", artist: "Titi" },
-      { name: "tracks3.mp3", artist: "Titi" }
+      { name: "tracks1", artist: "Titi" },
+      { name: "tracks2", artist: "Titi" },
+      { name: "tracks3", artist: "Titi" }
     ],
     allowed: [{ name: "titi", email: "titi@mail.com", editRight: false }]
   },
@@ -23,9 +23,9 @@ export const playlists = [
     name: "Playlist3",
     privacy: "private",
     tracks: [
-      { name: "tracks1.mp3", artist: "Tata" },
-      { name: "tracks2.mp3", artist: "Tata" },
-      { name: "tracks3.mp3", artist: "Tata" }
+      { name: "tracks1", artist: "Tata" },
+      { name: "tracks2", artist: "Tata" },
+      { name: "tracks3", artist: "Tata" }
     ],
     allowed: [
       { name: "titi", email: "titi@mail.com", editRight: false },

@@ -11,7 +11,6 @@ import { colors } from "../../constants/colors";
 
 export default class playlists extends Component {
   handleOnPress = playlist => {
-    console.log(this.props);
     this.props.navigation.navigate("Playlist", { playlist: playlist });
   };
 

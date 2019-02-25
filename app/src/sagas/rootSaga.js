@@ -1,8 +1,8 @@
 import { fork } from "redux-saga/effects";
-import playlist from "./playlistSaga";
+import search from "./searchSaga";
 import user from "./userSaga";
 
 function* rootSaga() {
-  yield [fork(user), fork(playlist)];
+  yield [fork(user), fork(search)];
 }
 export default rootSaga;

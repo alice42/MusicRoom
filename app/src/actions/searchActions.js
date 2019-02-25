@@ -1,6 +1,6 @@
 export function getTrackRequest(track) {
   return {
-    type: "TRACK_REQUEST",
+    type: "SEARCH_REQUEST",
     track
   };
 }

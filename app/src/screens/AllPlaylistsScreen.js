@@ -1,5 +1,3 @@
-//NOT FINISH
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -13,8 +11,6 @@ import ListPlaylists from "../components/list/ListPlaylists";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Playlists from "../components/homeContainer/Playlists";
 
-import { playlists } from "../mocks/playlists";
-
 class AllPlaylistsScreen extends Component {
   handleCreatePlaylistRequest = () => {
     this.props.navigation.navigate("CreatePlaylist", {
@@ -24,12 +20,15 @@ class AllPlaylistsScreen extends Component {
   };
   handleCreatePlaylist = (title, privacy) => {
     const newPlaylist = { name: title, privacy: privacy };
+    const { playlists } = this.props.user.data;
+    const { token } = this.props.user;
     playlists.push(newPlaylist);
-    // this.props.actions.updateRequest(token, "playlists", playlists);
+    this.props.actions.updateRequest(token, "playlists", playlists);
   };
 
   renderPlaylists = () => {
     const { navigation } = this.props;
+    const { playlists } = this.props.user.data;
     return <ListPlaylists list={playlists} navigation={navigation} />;
   };
 

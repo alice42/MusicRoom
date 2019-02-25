@@ -24,9 +24,15 @@ router.post("/route-example", async (req, res) => {
 router.post("/get-track", async (req, res) => {
   try {
     const { track } = req.body;
+    const tracks = [
+      { name: "tracks1", artist: "Tutu" },
+      { name: "tracks2", artist: "Tutu" },
+      { name: "tracks3", artist: "Tutu" }
+    ];
     return res.status(200).send({
       message: `Track ${track} received on /alice/get-track`,
-      track
+      track,
+      tracks
     });
   } catch (err) {
     console.log("INTER ERROR", err);
