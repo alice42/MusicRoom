@@ -4,16 +4,12 @@ import { bindActionCreators } from "redux";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { colors } from "../constants/colors";
 import styles from "../styles/containers/HomeContainer";
-import RadioInput from "../components/input/RadioInput";
-import RoundedButton from "../components/button/RoundedButton";
 import * as userActions from "../actions/userActions";
 import * as searchActions from "../actions/searchActions";
-import ListPlaylists from "../components/list/ListPlaylists";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Playlists from "../components/homeContainer/Playlists";
-import Events from "../components/homeContainer/Events";
 import Search from "../components/playlist/Search";
 import ListTracks from "../components/list/ListTracks";
+import AddTracksModal from "../components/playlist/AddTrackModal";
+
 class PlaylistScreen extends Component {
   state = {
     modalVisible: false
@@ -24,13 +20,6 @@ class PlaylistScreen extends Component {
     return <ListTracks list={tracks} />;
   };
 
-  handleOpenAddTrackModal = () => {
-    this.setState({ modalVisible: true });
-  };
-  handleCloseAddTrackModal = () => {
-    this.setState({ modalVisible: false });
-  };
-
   render() {
     const { playlist } = this.props.navigation.state.params;
     return (
@@ -39,25 +28,9 @@ class PlaylistScreen extends Component {
           <Text>{playlist.name}</Text>
           <Text>{playlist.privacy}</Text>
         </View>
-
         <View>{this.renderPlaylistTracks()}</View>
-
         <View>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-          >
-            <View style={{ marginTop: 50 }}>
-              <SearchConnected />
-              <TouchableOpacity onPress={this.handleCloseAddTrackModal}>
-                <Text>Hide Modal</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-          <TouchableOpacity onPress={this.handleOpenAddTrackModal}>
-            <Text>ADD TRACKS</Text>
-          </TouchableOpacity>
+          <AddTracksModal />
         </View>
       </View>
     );

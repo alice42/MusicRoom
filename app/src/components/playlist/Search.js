@@ -3,27 +3,22 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import { colors } from "../../constants/colors";
-import styles from "../../styles/containers/HomeContainer";
-import RadioInput from "../../components/input/RadioInput";
-import RoundedButton from "../../components/button/RoundedButton";
+import RoundedButton from "../button/RoundedButton";
 import * as userActions from "../../actions/userActions";
 import * as searchActions from "../../actions/searchActions";
-import ListTracks from "../../components/list/ListTracks";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Playlists from "../../components/homeContainer/Playlists";
-import Events from "../../components/homeContainer/Events";
-import SearchBar from "../../components/input/SearchBar";
+import ListTracks from "../list/ListTracks";
+import SearchBar from "../input/SearchBar";
 
 class Search extends Component {
   renderSearchTracks = () => {
     const { results } = this.props.search;
-    return <ListTracks list={results} />;
+    return <ListTracks list={results} buttons={true} />;
   };
   render() {
     return (
       <View>
         <SearchBarConnected />
-        <View style={{}}>
+        <View>
           <Text>RESULTS</Text>
           <SafeAreaView>
             <ScrollView style={{ height: 180, marginBottom: 5 }}>
@@ -55,7 +50,4 @@ const SearchBarConnected = connect(
   profileActionsMapDispatchToProps
 )(SearchBar);
 
-export default connect(
-  profileMapStateToProps,
-  profileActionsMapDispatchToProps
-)(Search);
+export default Search;

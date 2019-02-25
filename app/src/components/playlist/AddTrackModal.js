@@ -2,18 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
-import { colors } from "../constants/colors";
-import styles from "../styles/containers/HomeContainer";
-import RadioInput from "../components/input/RadioInput";
-import RoundedButton from "../components/button/RoundedButton";
-import * as userActions from "../actions/userActions";
-import * as searchActions from "../actions/searchActions";
-import ListPlaylists from "../components/list/ListPlaylists";
+import { colors } from "../../constants/colors";
+import * as userActions from "../../actions/userActions";
+import * as searchActions from "../../actions/searchActions";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Playlists from "../components/homeContainer/Playlists";
-import Events from "../components/homeContainer/Events";
-import Search from "../components/playlist/Search";
-import ListTracks from "../components/list/ListTracks";
+import Search from "../playlist/Search";
 
 class AddTrackModal extends Component {
   state = {
@@ -24,6 +17,9 @@ class AddTrackModal extends Component {
   };
   handleCloseAddTrackModal = () => {
     this.setState({ modalVisible: false });
+  };
+  handleOpenAddTrackModal = () => {
+    this.setState({ modalVisible: true });
   };
 
   render() {
@@ -41,6 +37,9 @@ class AddTrackModal extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
+        <TouchableOpacity onPress={this.handleOpenAddTrackModal}>
+          <Text>ADD TRACKS</Text>
+        </TouchableOpacity>
       </View>
     );
   }

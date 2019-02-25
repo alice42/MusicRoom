@@ -14,7 +14,6 @@ const reducer = (state = initialState, action) => {
     case "SEARCH_SUCCESS":
       return {
         ...state,
-
         results: action.results,
         errorMessage: null
       };

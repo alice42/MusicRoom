@@ -11,7 +11,8 @@ import { colors } from "../../constants/colors";
 
 export default class playlists extends Component {
   renderplaylist() {
-    const { list } = this.props;
+    const { list, buttons } = this.props;
+
     return list.map((track, index) => (
       <View key={`track-${index}`}>
         <View style={{ display: "flex" }}>
@@ -32,6 +33,48 @@ export default class playlists extends Component {
               <Text style={styles.trackTitle}>{track.name}</Text>
               <Text style={styles.trackTitle}>{track.artist}</Text>
             </View>
+            {buttons ? (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    marginLeft: 5
+                  }}
+                >
+                  <Icon
+                    name="play"
+                    size={18}
+                    style={{
+                      color: colors.white,
+                      backgroundColor: colors.green02,
+                      padding: 10
+                    }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    marginLeft: 5
+                  }}
+                >
+                  <Icon
+                    name="plus"
+                    size={18}
+                    style={{
+                      color: colors.white,
+                      backgroundColor: colors.green02,
+                      padding: 10
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : null}
           </View>
         </View>
       </View>
