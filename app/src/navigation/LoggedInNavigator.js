@@ -12,6 +12,7 @@ import CameraRollScreen from "../screens/CameraRollScreen";
 import CreatePlaylist from "../screens/CreatePlaylistScreen";
 import AllPlaylists from "../screens/AllPlaylistsScreen";
 import Playlist from "../screens/PlaylistScreen";
+import Search from "../containers/SearchContainer";
 
 const HomeTab = createStackNavigator({
   HomeContainer: {
@@ -22,7 +23,8 @@ const HomeTab = createStackNavigator({
   },
   CreatePlaylist: { screen: CreatePlaylist },
   AllPlaylists: { screen: AllPlaylists },
-  Playlist: { screen: Playlist }
+  Playlist: { screen: Playlist },
+  Search: { screen: Search }
 });
 
 HomeTab.navigationOptions = ({ navigation }) => {

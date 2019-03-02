@@ -12,7 +12,14 @@ import SearchBar from "../input/SearchBar";
 class Search extends Component {
   renderSearchTracks = () => {
     const { results } = this.props.search;
-    return <ListTracks list={results} buttons={true} />;
+    return (
+      <ListTracks
+        list={results}
+        buttons={true}
+        navigation={this.props.navigation}
+        test={this.props.test}
+      />
+    );
   };
   render() {
     return (

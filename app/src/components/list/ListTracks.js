@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   View,
@@ -7,9 +9,12 @@ import {
   ScrollView,
   StyleSheet
 } from "react-native";
+import * as userActions from "../../actions/userActions";
+import * as searchActions from "../../actions/searchActions";
 import { colors } from "../../constants/colors";
+import ChoosePlaylistModal from "../playlist/ChoosePlaylistModal";
 
-export default class playlists extends Component {
+export default class listTracks extends Component {
   renderplaylist() {
     const { list, buttons } = this.props;
 
@@ -57,22 +62,11 @@ export default class playlists extends Component {
                     }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    justifyContent: "center",
-                    marginLeft: 5
-                  }}
-                >
-                  <Icon
-                    name="plus"
-                    size={18}
-                    style={{
-                      color: colors.white,
-                      backgroundColor: colors.green02,
-                      padding: 10
-                    }}
-                  />
-                </TouchableOpacity>
+                <ChoosePlaylistModalConnected
+                  track={track}
+                  navigation={this.props.navigation}
+                  test={this.props.test}
+                />
               </View>
             ) : null}
           </View>
@@ -89,6 +83,24 @@ export default class playlists extends Component {
     );
   }
 }
+function profileActionsMapDispatchToProps(dispatch) {
+  return {
+    userActions: bindActionCreators(userActions, dispatch),
+    searchActions: bindActionCreators(searchActions, dispatch)
+  };
+}
+function profileMapStateToProps(state) {
+  const { user, search } = state;
+  return {
+    user,
+    search
+  };
+}
+
+const ChoosePlaylistModalConnected = connect(
+  profileMapStateToProps,
+  profileActionsMapDispatchToProps
+)(ChoosePlaylistModal);
 
 const styles = StyleSheet.create({
   wrapper: {

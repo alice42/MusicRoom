@@ -8,16 +8,15 @@ import * as userActions from "../actions/userActions";
 import * as searchActions from "../actions/searchActions";
 import Search from "../components/playlist/Search";
 import ListTracks from "../components/list/ListTracks";
-import AddTracksModal from "../components/playlist/AddTrackModal";
 
 class PlaylistScreen extends Component {
-  state = {
-    modalVisible: false
-  };
-
   renderPlaylistTracks = () => {
     const { tracks } = this.props.navigation.state.params.playlist;
-    return <ListTracks list={tracks} />;
+    return <ListTracksConnected list={tracks} />;
+  };
+
+  handleAddTrack = () => {
+    this.props.navigation.navigate("Search");
   };
 
   render() {
@@ -30,7 +29,9 @@ class PlaylistScreen extends Component {
         </View>
         <View>{this.renderPlaylistTracks()}</View>
         <View>
-          <AddTracksModal />
+          <TouchableOpacity onPress={this.handleAddTrack}>
+            <Text>ADD TRACKS</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -54,6 +55,11 @@ const SearchConnected = connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps
 )(Search);
+
+const ListTracksConnected = connect(
+  profileMapStateToProps,
+  profileActionsMapDispatchToProps
+)(ListTracks);
 
 export default connect(
   profileMapStateToProps,
