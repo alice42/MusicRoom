@@ -9,11 +9,27 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Search from "../components/playlist/Search";
 
 class SearchContainer extends Component {
+  handleCreatePlaylistFromAddTrack = (title, privacy, track) => {
+    const tracks = [];
+    console.log(track);
+    tracks.push(track);
+    const newPlaylist = {
+      name: title,
+      privacy: privacy,
+      tracks: tracks
+    };
+    const { playlists } = this.props.user.data;
+    const { token } = this.props.user;
+    playlists.push(newPlaylist);
+    this.props.userActions.updateRequest(token, "playlists", playlists);
+  };
+
   test = (track, playlist) => {
     if (playlist === "newPlaylist") {
       this.props.navigation.navigate("CreatePlaylist", {
-        handleCreatePlaylist: this.handleCreatePlaylist,
-        type: "playlist"
+        handleCreatePlaylist: this.handleCreatePlaylistFromAddTrack,
+        type: "playlist",
+        track: track
       });
     }
   };
@@ -50,4 +66,7 @@ const SearchConnected = connect(
   profileActionsMapDispatchToProps
 )(Search);
 
-export default SearchContainer;
+export default connect(
+  profileMapStateToProps,
+  profileActionsMapDispatchToProps
+)(SearchContainer);

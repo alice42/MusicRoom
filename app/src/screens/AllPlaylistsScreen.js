@@ -19,7 +19,7 @@ class AllPlaylistsScreen extends Component {
     });
   };
   handleCreatePlaylist = (title, privacy) => {
-    const newPlaylist = { name: title, privacy: privacy };
+    const newPlaylist = { name: title, privacy: privacy, tracks: [] };
     const { playlists } = this.props.user.data;
     const { token } = this.props.user;
     playlists.push(newPlaylist);

@@ -58,7 +58,7 @@ class CreateEvent extends Component {
 
   handleCreateEvent = () => {
     const { title, privacyOption, validTitle, error, chosenDate } = this.state;
-    const { type } = this.props.navigation.state.params;
+    const { type, track } = this.props.navigation.state.params;
     if (!validTitle) {
       errorTitle = (
         <Text style={styles.errorMessage}>
@@ -79,10 +79,18 @@ class CreateEvent extends Component {
           chosenDate
         );
       } else {
-        this.props.navigation.state.params.handleCreatePlaylist(
-          title,
-          privacyOption
-        );
+        if (track) {
+          this.props.navigation.state.params.handleCreatePlaylist(
+            title,
+            privacyOption,
+            track
+          );
+        } else {
+          this.props.navigation.state.params.handleCreatePlaylist(
+            title,
+            privacyOption
+          );
+        }
       }
       this.props.navigation.goBack();
     }

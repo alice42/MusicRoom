@@ -17,35 +17,11 @@ export default class ChoosePlaylistModal extends React.Component {
     choosenPlaylist: "newPlaylist"
   };
 
-  handleCreatePlaylistRequest = () => {
-    this.props.navigation.navigate("CreatePlaylist", {
-      handleCreatePlaylist: this.handleCreatePlaylist,
-      type: "playlist"
-    });
-  };
-  handleCreatePlaylist = (title, privacy) => {
-    const newPlaylist = { name: title, privacy: privacy };
-    const { playlists } = this.props.user.data;
-    const { token } = this.props.user;
-    playlists.push(newPlaylist);
-    this.props.actions.updateRequest(token, "playlists", playlists);
-  };
-
   addToChoosenPlaylist = () => {
     const { name } = this.props.track;
     const playlist = this.state.choosenPlaylist;
     this.setState({ modalVisible: false });
     this.props.test(name, playlist);
-    // if (playlist === "newPlaylist") {
-    //   this.props.navigation.navigate("CreatePlaylist", {
-    //     handleCreatePlaylist: this.handleCreatePlaylist,
-    //     type: "playlist"
-    //   });
-    // }
-    // console.log("****************ACTIONS ADD*******************");
-    // console.log("*********************TRACK", name);
-    // console.log("*********************CHOOSENPLAYLIST", playlist);
-    //   this.props.actions.playlistActions(playlist, track);
   };
 
   setModalVisible = visible => {
@@ -90,7 +66,19 @@ export default class ChoosePlaylistModal extends React.Component {
                 ))}
               </Picker>
             </View>
-            <View style={styles.modalValidationButton}>
+            <View
+              style={{
+                backgroundColor: colors.green01,
+                width: 300,
+                height: 50,
+                // borderBottomLeftRadius: 30,
+                // borderBottomRightRadius: 30,
+                borderBottomWidth: 2,
+                borderBottomColor: colors.green02,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
               <TouchableOpacity onPress={this.addToChoosenPlaylist}>
                 <Text style={styles.modalText}>OK</Text>
               </TouchableOpacity>
