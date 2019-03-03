@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import { colors } from "../../constants/colors";
-import RoundedButton from "../button/RoundedButton";
 import * as userActions from "../../actions/userActions";
 import * as searchActions from "../../actions/searchActions";
 import ListTracks from "../list/ListTracks";
@@ -24,13 +23,13 @@ class Search extends Component {
   render() {
     return (
       <View>
-        <SearchBarConnected />
+        <View>
+          <SearchBarConnected />
+        </View>
         <View>
           <Text>RESULTS</Text>
           <SafeAreaView>
-            <ScrollView style={{ height: 180, marginBottom: 5 }}>
-              {this.renderSearchTracks()}
-            </ScrollView>
+            <ScrollView>{this.renderSearchTracks()}</ScrollView>
           </SafeAreaView>
         </View>
       </View>

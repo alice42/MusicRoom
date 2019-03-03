@@ -133,6 +133,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+  modalValidationButton1: {
+    backgroundColor: colors.green01,
+    width: 300,
+    height: 50,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.green02,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   privacyIcon: {
     color: colors.black,
     marginRight: 15,

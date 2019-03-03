@@ -19,8 +19,7 @@ import InputField from "../components/input/InputField";
 import RadioInput from "../components/input/RadioInput";
 import RoundedButton from "../components/button/RoundedButton";
 import * as userActions from "../actions/userActions";
-import Privacy from "../components/homeContainer/Privacy";
-// import styles from "./styles/CreateEvent";
+import Privacy from "../components/playlist/Privacy";
 
 class CreateEvent extends Component {
   static navigationOptions = ({ navigation }) => ({

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  Picker,
-  StyleSheet
-} from "react-native";
+import { View, Text, TouchableOpacity, Modal, Picker } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../../constants/colors";
 import styles from "../../styles/containers/ProfileContainer";
@@ -18,10 +11,10 @@ export default class ChoosePlaylistModal extends React.Component {
   };
 
   addToChoosenPlaylist = () => {
-    const { name } = this.props.track;
+    const { track } = this.props;
     const playlist = this.state.choosenPlaylist;
     this.setState({ modalVisible: false });
-    this.props.test(name, playlist);
+    this.props.test(track, playlist);
   };
 
   setModalVisible = visible => {
@@ -66,19 +59,7 @@ export default class ChoosePlaylistModal extends React.Component {
                 ))}
               </Picker>
             </View>
-            <View
-              style={{
-                backgroundColor: colors.green01,
-                width: 300,
-                height: 50,
-                // borderBottomLeftRadius: 30,
-                // borderBottomRightRadius: 30,
-                borderBottomWidth: 2,
-                borderBottomColor: colors.green02,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
+            <View style={styles.modalValidationButton1}>
               <TouchableOpacity onPress={this.addToChoosenPlaylist}>
                 <Text style={styles.modalText}>OK</Text>
               </TouchableOpacity>

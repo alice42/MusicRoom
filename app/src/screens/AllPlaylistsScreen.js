@@ -37,6 +37,7 @@ class AllPlaylistsScreen extends Component {
       <View style={styles.wrapper}>
         <View style={styles.containerWrapper}>
           <Playlists
+            navigation={this.props.navigation}
             renderPlaylists={this.renderPlaylists}
             handleCreatePlaylistRequest={this.handleCreatePlaylistRequest}
           />
@@ -56,6 +57,7 @@ function profileMapStateToProps(state) {
     user
   };
 }
+
 export default connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps

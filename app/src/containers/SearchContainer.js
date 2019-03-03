@@ -6,12 +6,11 @@ import { colors } from "../constants/colors";
 import * as userActions from "../actions/userActions";
 import * as searchActions from "../actions/searchActions";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Search from "../components/playlist/Search";
+import Search from "../components/searchContainer/Search";
 
 class SearchContainer extends Component {
   handleCreatePlaylistFromAddTrack = (title, privacy, track) => {
     const tracks = [];
-    console.log(track);
     tracks.push(track);
     const newPlaylist = {
       name: title,
@@ -31,6 +30,16 @@ class SearchContainer extends Component {
         type: "playlist",
         track: track
       });
+    } else {
+      const { playlists } = this.props.user.data;
+      const { token } = this.props.user;
+      playlists.find(function(item) {
+        if (item.name === playlist) {
+          item.tracks.push(track);
+          return item;
+        }
+      });
+      this.props.userActions.updateRequest(token, "playlists", playlists);
     }
   };
 
