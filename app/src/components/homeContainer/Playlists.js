@@ -23,9 +23,14 @@ export default class HomeContainer extends Component {
   handleAddTrack = () => {
     this.props.navigation.navigate("Search");
   };
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={styles.errorMessage}>{error}</Text>;
+  };
   render() {
     return (
       <View style={styles.wrapper}>
+        {this.apiError()}
         <Text style={styles.subHeading}>Your playlists</Text>
         <ScrollView style={{ backgroundColor: colors.gray03 }}>
           {this.props.renderPlaylists()}

@@ -20,9 +20,14 @@ class Search extends Component {
       />
     );
   };
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={{ color: "red" }}>{error}</Text>;
+  };
   render() {
     return (
       <View>
+        {this.apiError()}
         <View>
           <SearchBarConnected />
         </View>

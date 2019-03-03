@@ -31,12 +31,18 @@ class AllPlaylistsScreen extends Component {
     const { playlists } = this.props.user.data;
     return <ListPlaylists list={playlists} navigation={navigation} />;
   };
+  apiError = () => {
+    const { error } = this.props.user;
+    return <Text style={{ color: "red" }}>{error}</Text>;
+  };
 
   render() {
     return (
       <View style={styles.wrapper}>
+        {this.apiError()}
         <View style={styles.containerWrapper}>
           <Playlists
+            {...this.props}
             navigation={this.props.navigation}
             renderPlaylists={this.renderPlaylists}
             handleCreatePlaylistRequest={this.handleCreatePlaylistRequest}
