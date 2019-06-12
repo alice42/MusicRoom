@@ -1,28 +1,28 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Modal, Picker } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../../constants/colors";
-import styles from "../../styles/containers/ProfileContainer";
+import React from 'react'
+import { View, Text, TouchableOpacity, Modal, Picker } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { colors } from '../../constants/colors'
+import styles from '../../styles/containers/ProfileContainer'
 
 export default class ChoosePlaylistModal extends React.Component {
   state = {
     modalVisible: false,
-    choosenPlaylist: "newPlaylist"
-  };
+    choosenPlaylist: 'newPlaylist'
+  }
 
   addToChoosenPlaylist = () => {
-    const { track } = this.props;
-    const playlist = this.state.choosenPlaylist;
-    this.setState({ modalVisible: false });
-    this.props.test(track, playlist);
-  };
+    const { track } = this.props
+    const playlist = this.state.choosenPlaylist
+    this.setState({ modalVisible: false })
+    this.props.test(track, playlist)
+  }
 
   setModalVisible = visible => {
-    this.setState({ modalVisible: visible });
-  };
+    this.setState({ modalVisible: visible })
+  }
 
   render() {
-    const { choosenPlaylist } = this.state;
+    const { choosenPlaylist } = this.state
     return (
       <View>
         <Modal
@@ -67,7 +67,7 @@ export default class ChoosePlaylistModal extends React.Component {
             <View style={styles.modalValidationButton}>
               <TouchableOpacity
                 onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
+                  this.setModalVisible(!this.state.modalVisible)
                 }}
               >
                 <Text style={styles.modalText}>CANCEL</Text>
@@ -77,12 +77,21 @@ export default class ChoosePlaylistModal extends React.Component {
         </Modal>
         <TouchableOpacity
           onPress={() => {
-            this.setModalVisible(true);
+            this.setModalVisible(true)
           }}
         >
-          <Icon name="plus" size={16} style={styles.choosenPlaylistIcon} />
+          <Icon
+            name="plus"
+            size={18}
+            style={{
+              color: colors.white,
+              backgroundColor: colors.green02,
+              padding: 10,
+              marginTop: 10.5
+            }}
+          />
         </TouchableOpacity>
       </View>
-    );
+    )
   }
 }

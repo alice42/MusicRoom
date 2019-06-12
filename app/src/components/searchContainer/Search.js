@@ -1,29 +1,28 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
-import { colors } from "../../constants/colors";
-import * as userActions from "../../actions/userActions";
-import * as searchActions from "../../actions/searchActions";
-import ListTracks from "../list/ListTracks";
-import SearchBar from "../input/SearchBar";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { View, Text, ScrollView, SafeAreaView } from 'react-native'
+import { colors } from '../../constants/colors'
+import * as userActions from '../../actions/userActions'
+import * as searchActions from '../../actions/searchActions'
+import ListTracks from '../list/ListTracks'
+import SearchBar from '../input/SearchBar'
 
 class Search extends Component {
   renderSearchTracks = () => {
-    const { results } = this.props.search;
+    const { results } = this.props.search
     return (
       <ListTracks
         list={results}
         buttons={true}
-        navigation={this.props.navigation}
-        test={this.props.test}
+        playTrack={this.props.playTrack}
       />
-    );
-  };
+    )
+  }
   apiError = () => {
-    const { error } = this.props.user;
-    return <Text style={{ color: "red" }}>{error}</Text>;
-  };
+    const { error } = this.props.user
+    return <Text style={{ color: 'red' }}>{error}</Text>
+  }
   render() {
     return (
       <View>
@@ -38,7 +37,7 @@ class Search extends Component {
           </SafeAreaView>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -46,19 +45,19 @@ function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch)
-  };
+  }
 }
 function profileMapStateToProps(state) {
-  const { user, search } = state;
+  const { user, search } = state
   return {
     user,
     search
-  };
+  }
 }
 
 const SearchBarConnected = connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps
-)(SearchBar);
+)(SearchBar)
 
-export default Search;
+export default Search

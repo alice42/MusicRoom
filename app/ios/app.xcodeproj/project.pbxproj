@@ -40,6 +40,9 @@
 		046FDE7621FEFA8B00E9FE6A /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046FDE6721FEFA8B00E9FE6A /* EvilIcons.ttf */; };
 		046FDE7721FEFA8B00E9FE6A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046FDE6821FEFA8B00E9FE6A /* SimpleLineIcons.ttf */; };
 		046FDE7821FEFA8B00E9FE6A /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046FDE6921FEFA8B00E9FE6A /* MaterialIcons.ttf */; };
+		0479239422B13B4300008F97 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0479239122B13B2300008F97 /* libRCTVideo.a */; };
+		0479239622B13C0B00008F97 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0479238822B112AB00008F97 /* libRNCWebView.a */; };
+		0479239822B13C5300008F97 /* Slider.js in Frameworks */ = {isa = PBXBuildFile; fileRef = 0479239722B13C5200008F97 /* Slider.js */; };
 		0483331F22182F2E008C3F83 /* libDeezer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 048332D622182F2E008C3F83 /* libDeezer.a */; };
 		0483332022182F2E008C3F83 /* DZRResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 048332F622182F2E008C3F83 /* DZRResources.bundle */; };
 		0483332222182F97008C3F83 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0483332122182F97008C3F83 /* CoreAudio.framework */; };
@@ -165,6 +168,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
 			remoteInfo = RCTFBSDK;
+		};
+		0479238722B112AB00008F97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0479235C22B112AB00008F97 /* RNCWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCWebView;
+		};
+		0479239022B13B2300008F97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0479238B22B13B2200008F97 /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTVideo;
+		};
+		0479239222B13B2300008F97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0479238B22B13B2200008F97 /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 641E28441F0EEC8500443AF6;
+			remoteInfo = "RCTVideo-tvOS";
 		};
 		04BDCF97220B43F9001BFD1F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -415,6 +439,9 @@
 		046FDE6721FEFA8B00E9FE6A /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		046FDE6821FEFA8B00E9FE6A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		046FDE6921FEFA8B00E9FE6A /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		0479235C22B112AB00008F97 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
+		0479238B22B13B2200008F97 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
+		0479239722B13C5200008F97 /* Slider.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = Slider.js; path = "../node_modules/react-native-slider/lib/Slider.js"; sourceTree = "<group>"; };
 		048332D622182F2E008C3F83 /* libDeezer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDeezer.a; sourceTree = "<group>"; };
 		048332D822182F2E008C3F83 /* DZRPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZRPlaylist.h; sourceTree = "<group>"; };
 		048332D922182F2E008C3F83 /* Deezer+Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deezer+Compatibility.h"; sourceTree = "<group>"; };
@@ -496,6 +523,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0479239822B13C5300008F97 /* Slider.js in Frameworks */,
+				0479239622B13C0B00008F97 /* libRNCWebView.a in Frameworks */,
+				0479239422B13B4300008F97 /* libRCTVideo.a in Frameworks */,
 				0483332822182FEB008C3F83 /* libicucore.tbd in Frameworks */,
 				0483332622182FD2008C3F83 /* MediaPlayer.framework in Frameworks */,
 				046FDDD521FEEBC300E9FE6A /* SystemConfiguration.framework in Frameworks */,
@@ -662,6 +692,23 @@
 			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
+		0479235D22B112AB00008F97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0479238822B112AB00008F97 /* libRNCWebView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0479238C22B13B2200008F97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0479239122B13B2300008F97 /* libRCTVideo.a */,
+				0479239322B13B2300008F97 /* libRCTVideo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		048332D522182F2E008C3F83 /* DeezerSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -780,6 +827,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0479239722B13C5200008F97 /* Slider.js */,
+				0479238B22B13B2200008F97 /* RCTVideo.xcodeproj */,
+				0479235C22B112AB00008F97 /* RNCWebView.xcodeproj */,
 				0483332722182FEB008C3F83 /* libicucore.tbd */,
 				0483332522182FD2008C3F83 /* MediaPlayer.framework */,
 				0483332322182FB0008C3F83 /* AudioToolbox.framework */,
@@ -1053,12 +1103,20 @@
 					ProjectRef = 00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */;
 				},
 				{
+					ProductGroup = 0479238C22B13B2200008F97 /* Products */;
+					ProjectRef = 0479238B22B13B2200008F97 /* RCTVideo.xcodeproj */;
+				},
+				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 0479235D22B112AB00008F97 /* Products */;
+					ProjectRef = 0479235C22B112AB00008F97 /* RNCWebView.xcodeproj */;
 				},
 				{
 					ProductGroup = 046FDD9721FEEA3F00E9FE6A /* Products */;
@@ -1151,6 +1209,27 @@
 			fileType = archive.ar;
 			path = libRCTFBSDK.a;
 			remoteRef = 046FDE1121FEEDC400E9FE6A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0479238822B112AB00008F97 /* libRNCWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCWebView.a;
+			remoteRef = 0479238722B112AB00008F97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0479239122B13B2300008F97 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = 0479239022B13B2300008F97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0479239322B13B2300008F97 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = 0479239222B13B2300008F97 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		04BDCF98220B43F9001BFD1F /* libRCTCameraRoll.a */ = {
