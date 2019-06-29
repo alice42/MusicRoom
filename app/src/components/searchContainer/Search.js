@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, ScrollView, SafeAreaView } from 'react-native'
+import { View, Text, ScrollView, SafeAreaView, Dimensions } from 'react-native'
 import { colors } from '../../constants/colors'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
@@ -9,33 +9,26 @@ import ListTracks from '../list/ListTracks'
 import SearchBar from '../input/SearchBar'
 
 class Search extends Component {
-  renderSearchTracks = () => {
-    const { results } = this.props.search
-    return (
-      <ListTracks
-        list={results}
-        buttons={true}
-        playTrack={this.props.playTrack}
-      />
-    )
-  }
   apiError = () => {
     const { error } = this.props.user
     return <Text style={{ color: 'red' }}>{error}</Text>
   }
   render() {
+    const screenHeight = Dimensions.get('window').height
+    const { results } = this.props.search
     return (
-      <View>
-        {this.apiError()}
-        <View>
-          <SearchBarConnected />
+      <View style={{ flex: 1 }}>
+        <SearchBarConnected />
+        <View style={{ flex: 0.9 }}>
+          <ListTracks
+            test={this.props.test}
+            list={results}
+            buttonPlay={true}
+            buttonAdd={true}
+            playTrack={this.props.playTrack}
+          />
         </View>
-        <View>
-          <Text>RESULTS</Text>
-          <SafeAreaView>
-            <ScrollView>{this.renderSearchTracks()}</ScrollView>
-          </SafeAreaView>
-        </View>
+        <View style={{ flex: 0.1 }} />
       </View>
     )
   }

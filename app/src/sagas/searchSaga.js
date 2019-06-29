@@ -1,5 +1,5 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import { getTrack } from '../services/apiService'
+import { getTrack, getPlaylistTrack } from '../services/apiService'
 
 function* searchSaga(action) {
   const { track } = action

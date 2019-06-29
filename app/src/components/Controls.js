@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 class Controls extends Component {
   render() {
-    console.log(this.props.paused)
+    // console.log(this.props.paused)
     return (
       <View style={styles.container}>
         <TouchableOpacity

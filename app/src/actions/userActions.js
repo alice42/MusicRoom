@@ -1,56 +1,69 @@
 export function signinRequest(email, password) {
   return {
-    type: "SIGNIN_REQUEST",
+    type: 'SIGNIN_REQUEST',
     email,
     password
-  };
+  }
 }
 
 export function loginRequest(email, password) {
   return {
-    type: "LOGIN_REQUEST",
+    type: 'LOGIN_REQUEST',
     email,
     password
-  };
+  }
 }
 
 export function loginFacebookRequest() {
   return {
-    type: "LOGIN_FACEBOOK_REQUEST"
-  };
+    type: 'LOGIN_FACEBOOK_REQUEST'
+  }
 }
 
 export function loginGoogleRequest() {
   return {
-    type: "LOGIN_GOOGLE_REQUEST"
-  };
+    type: 'LOGIN_GOOGLE_REQUEST'
+  }
 }
 
 export function deezerGetTokenSuccess(token) {
   return {
-    type: "DEEZER_GET_TOKEN_SUCCESS",
+    type: 'DEEZER_GET_TOKEN_SUCCESS',
     token
-  };
+  }
+}
+
+export function deezerGetCodePermission() {
+  return {
+    type: 'DEEZER_GET_CODE_PERMISSION'
+  }
+}
+
+export function setPlaylists(playlists) {
+  return {
+    type: 'SET_PLAYLISTS',
+    playlists
+  }
 }
 
 export function recoverPasswordRequest(email) {
   return {
-    type: "RECOVER_PASSWORD_REQUEST",
+    type: 'RECOVER_PASSWORD_REQUEST',
     email
-  };
+  }
 }
 
 export function updateRequest(token, toChange, newValue) {
   return {
-    type: "UPDATE_USER_DATA_REQUEST",
+    type: 'UPDATE_USER_DATA_REQUEST',
     token,
     toChange,
     newValue
-  };
+  }
 }
 
 export function logout() {
   return {
-    type: "LOGOUT"
-  };
+    type: 'LOGOUT'
+  }
 }

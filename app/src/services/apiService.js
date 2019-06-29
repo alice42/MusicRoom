@@ -121,3 +121,35 @@ export const getTrack = async query => {
     throw err
   }
 }
+
+export const getPlaylistTrack = async query => {
+  const url = `${apiUrl}/alice/playlist`
+  try {
+    const response = await basicFetch('POST', url, {}, { query })
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const editPlaylistTrack = async query => {
+  const url = `${apiUrl}/alice/edit-playlist`
+  try {
+    const response = await basicFetch('POST', url, {}, { query })
+    // console.log('RESPONSE API SERVICE', response)
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const createNewPlaylist = async query => {
+  const url = `${apiUrl}/alice/create-playlist`
+  try {
+    const response = await basicFetch('POST', url, {}, { query })
+    // console.log('RESPONSE API SERVICE', response)
+    return response
+  } catch (err) {
+    throw err
+  }
+}

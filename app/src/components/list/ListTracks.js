@@ -3,110 +3,125 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {
+  FlatList,
   View,
   Text,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
   Image,
-  Dimensions
+  Dimensions,
+  SafeAreaView
 } from 'react-native'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
+import * as playlistActions from '../../actions/playlistActions'
 import { colors } from '../../constants/colors'
 import ChoosePlaylistModal from '../playlist/ChoosePlaylistModal'
-
-const { width, height } = Dimensions.get('window')
-
-export default class listTracks extends Component {
-  renderplaylist() {
-    const { list, buttons } = this.props
-
-    return list.map((track, index) => (
-      <View key={`track-${index}`}>
-        <View style={{ display: 'flex' }}>
-          <View style={{ flexDirection: 'row' }}>
+export default class Comments extends Component {
+  render() {
+    const { width } = Dimensions.get('window')
+    const { list, buttonPlay, buttonAdd, buttonDel } = this.props
+    return (
+      <FlatList
+        style={styles.root}
+        data={list}
+        extraData={this.props}
+        ItemSeparatorComponent={() => {
+          return <View style={styles.separator} />
+        }}
+        keyExtractor={item => {
+          return `${item.id}`
+        }}
+        renderItem={item => {
+          const track = item.item
+          return (
             <View
               style={{
-                height: 50,
-                width: 50,
-                backgroundColor: colors.green02,
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: 5
+                backgroundColor:
+                  item.index % 2 ? colors.green02 : colors.green01,
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                borderBottomStyle: 'solid',
+                borderBottomColor: 'black'
               }}
             >
-              <Image
-                style={{ width: 50, height: 50 }}
-                source={{
-                  uri: `${track.album.cover_small}`
-                }}
-              />
-              {/* <Icon name="music" size={24} style={{ color: colors.white }} /> */}
-            </View>
-            <View style={{ justifyContent: 'center', width: width - 180 }}>
-              <Text style={styles.trackTitle}>{track.title}</Text>
-              <Text style={styles.trackTitle}>{track.artist.name}</Text>
-            </View>
-            {buttons ? (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center'
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() => this.props.playTrack(track.preview)}
-                  style={{
-                    justifyContent: 'center',
-                    marginLeft: 5
+              <View style={styles.container}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: `${track.album.cover}`
                   }}
-                >
-                  <Icon
-                    name="play"
-                    size={18}
-                    style={{
-                      color: colors.white,
-                      backgroundColor: colors.green02,
-                      padding: 10,
-                      marginRight: 8
-                    }}
-                  />
-                </TouchableOpacity>
-                <ChoosePlaylistModalConnected
-                  track={track}
-                  navigation={this.props.navigation}
-                  test={this.props.test}
                 />
               </View>
-            ) : null}
-          </View>
-        </View>
-      </View>
-    ))
-  }
-
-  render() {
-    return (
-      <View style={styles.wrapper}>
-        {this.props.list ? (
-          <ScrollView>{this.renderplaylist()}</ScrollView>
-        ) : null}
-      </View>
+              <View style={{ justifyContent: 'center', width: width - 170 }}>
+                <Text style={styles.trackTitle}>{track.title}</Text>
+                <Text style={styles.trackTitle}>{track.artist.name}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row'
+                }}
+              >
+                {buttonPlay ? (
+                  <TouchableOpacity
+                    // onPress={() => this.props.playTrack(track.preview)}
+                    style={{
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Icon
+                      name="play"
+                      size={18}
+                      style={{
+                        color: colors.white,
+                        marginRight: 20
+                      }}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+                {buttonAdd ? (
+                  <ChoosePlaylistModalConnected
+                    track={track}
+                    navigation={this.props.navigation}
+                    test={this.props.test}
+                  />
+                ) : buttonDel ? (
+                  <TouchableOpacity
+                    // onPress={() => this.props.playTrack(track.preview)}
+                    style={{
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Icon
+                      name="trash"
+                      size={18}
+                      style={{ color: colors.white }}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </View>
+          )
+        }}
+      />
     )
   }
 }
+
 function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
-    searchActions: bindActionCreators(searchActions, dispatch)
+    searchActions: bindActionCreators(searchActions, dispatch),
+    playlistActions: bindActionCreators(playlistActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {
-  const { user, search } = state
+  const { user, search, playlist } = state
   return {
     user,
-    search
+    search,
+    playlist
   }
 }
 
@@ -116,14 +131,46 @@ const ChoosePlaylistModalConnected = connect(
 )(ChoosePlaylistModal)
 
 const styles = StyleSheet.create({
-  wrapper: {
-    display: 'flex'
+  root: {
+    backgroundColor: '#ffffff',
+    marginTop: 10
+  },
+  container: {
+    paddingLeft: 19,
+    paddingRight: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'flex-start'
+  },
+  content: {
+    marginLeft: 16,
+    flexDirection: 'row',
+    flex: 1
   },
   playlistTitle: {
     fontSize: 14,
     fontWeight: '700',
     color: colors.gray04,
     marginTop: 2
+  },
+  contentHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 6
+  },
+  separator: {
+    height: 1,
+    backgroundColor: colors.gray04
+  },
+  image: {
+    width: 45,
+    height: 45,
+    borderRadius: 20,
+    marginLeft: 20
+  },
+  time: {
+    fontSize: 11,
+    color: '#808080'
   },
   playlistPrivacy: {
     fontSize: 12,
@@ -132,10 +179,8 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 5
   },
-  playlistDate: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.green01,
-    marginTop: 2
+  name: {
+    fontSize: 16,
+    fontWeight: 'bold'
   }
 })

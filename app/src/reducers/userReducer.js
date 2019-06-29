@@ -1,61 +1,88 @@
-import { playlists } from "../mocks/playlists";
-
 const initialState = {
   token: null,
+  deezerToken: null,
   data: {
-    email: "",
-    firstname: "",
-    name: "",
+    email: '',
+    firstname: '',
+    name: '',
     facebook: false,
     google: false,
     deezer: false,
     tags: [],
-    playlists: playlists
+    playlists: [],
+    tracks: []
   },
   error: null
-};
+}
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "SIGNIN_SUCCESS":
+    case 'SIGNIN_SUCCESS':
       return {
         ...state
-      };
-    case "SIGNIN_FAILURE":
+      }
+    case 'SIGNIN_FAILURE':
       return {
         ...state,
         error: action.error
-      };
-    case "LOGIN_SUCCESS":
+      }
+    case 'LOGIN_SUCCESS':
       return {
         ...state,
         token: action.response.sessionId,
         data: { ...state.data, email: action.response.email },
         error: null
-      };
-    case "LOGIN_FAILURE":
+      }
+    case 'LOGIN_SUCCESS_GOOGLE':
+      return {
+        ...state,
+        token: action.response.sessionId,
+        data: { ...state.data, email: action.response.email },
+        data: { ...state.data, google: true },
+        error: null
+      }
+    case 'LOGIN_SUCCESS_FACEBOOK':
+      return {
+        ...state,
+        token: action.response.sessionId,
+        data: { ...state.data, email: action.response.email },
+        data: { ...state.data, facebook: true },
+        error: null
+      }
+    case 'LOGIN_FAILURE':
       return {
         ...state,
         error: action.error
-      };
-    case "RECOVER_PASSWORD_EMAIL_SEND":
+      }
+    case 'RECOVER_PASSWORD_EMAIL_SEND':
       return {
         ...state
-      };
-    case "UPDATE_SUCCESS":
+      }
+    case 'UPDATE_SUCCESS':
       return {
         ...state
-      };
-    case "UPDATE_FAILURE":
+      }
+    case 'UPDATE_FAILURE':
       return {
         ...state,
         error: action.error
-      };
-    case "LOGOUT":
-      return initialState;
+      }
+    case 'SET_PLAYLISTS':
+      return {
+        ...state,
+        data: { ...state.data, playlists: action.playlists }
+      }
+    case 'DEEZER_GET_TOKEN_SUCCESS':
+      return {
+        ...state,
+        deezerToken: action.token,
+        data: { ...state.data, deezer: true }
+      }
+    case 'LOGOUT':
+      return initialState
     default:
-      return state;
+      return state
   }
 }
 
-export default reducer;
+export default reducer

@@ -5,11 +5,13 @@ import { View, Text, TouchableOpacity, Modal } from 'react-native'
 import { colors } from '../constants/colors'
 import * as userActions from '../actions/userActions'
 import * as searchActions from '../actions/searchActions'
+import * as playlistActions from '../actions/playlistActions'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import DeezerManager from '../services/deezerService'
 import Search from '../components/searchContainer/Search'
 import Player from './Player'
 import SeekBar from '../components/SeekBar'
-
+import styles from '../styles/containers/HomeContainer'
 class SearchContainer extends Component {
   state = {
     TRACKS: []
@@ -29,22 +31,25 @@ class SearchContainer extends Component {
   }
 
   test = (track, playlist) => {
+    const { deezerToken } = this.props.user
     if (playlist === 'newPlaylist') {
-      this.props.navigation.navigate('CreatePlaylist', {
-        handleCreatePlaylist: this.handleCreatePlaylistFromAddTrack,
-        type: 'playlist',
-        track: track
-      })
+      // this.props.navigation.navigate('CreatePlaylist', {
+      //   handleCreatePlaylist: this.handleCreatePlaylistFromAddTrack,
+      //   type: 'playlist',
+      //   track: track
+      // })
+      //create a playlist
     } else {
-      const { playlists } = this.props.user.data
-      const { token } = this.props.user
-      playlists.find(function(item) {
-        if (item.name === playlist) {
-          item.tracks.push(track)
-          return item
-        }
-      })
-      this.props.userActions.updateRequest(token, 'playlists', playlists)
+      // const { playlists } = this.props.user.data
+      // const { token } = this.props.user
+      // playlists.find(function(item) {
+      //   if (item.name === playlist) {
+      //     item.tracks.push(track)
+      //     return item
+      //   }
+      // })
+      this.props.playlistActions.editPlaylist(track.id, playlist, deezerToken)
+      this.props.playlistActions.setPlaylistTracks(playlist)
     }
   }
 
@@ -75,17 +80,17 @@ class SearchContainer extends Component {
       }
     ]
     return (
-      <View>
-        <View style={{ marginTop: 50 }}>
-          <View>
+      <View style={styles.wrapper}>
+        {/* <View style={{ marginTop: 50 }}> */}
+        {/* <View>
             <Player tracks={TRACKSTOPLAY} />
-          </View>
-          <SearchConnected
-            navigation={this.props.navigation}
-            test={this.test}
-            playTrack={this.playTrack}
-          />
-        </View>
+          </View> */}
+        <SearchConnected
+          navigation={this.props.navigation}
+          test={this.test}
+          playTrack={this.playTrack}
+        />
+        {/* </View> */}
       </View>
     )
   }
@@ -93,14 +98,16 @@ class SearchContainer extends Component {
 function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
-    searchActions: bindActionCreators(searchActions, dispatch)
+    searchActions: bindActionCreators(searchActions, dispatch),
+    playlistActions: bindActionCreators(playlistActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {
-  const { user, search } = state
+  const { user, search, playlist } = state
   return {
     user,
-    search
+    search,
+    playlist
   }
 }
 

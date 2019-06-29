@@ -1,0 +1,65 @@
+import { call, put, takeEvery, all, select } from 'redux-saga/effects'
+import { getPlaylistTrack } from '../services/apiService'
+import { editPlaylistTrack, createNewPlaylist } from '../services/apiService'
+
+function* setPlaylistTracks(action) {
+  const { id } = action
+  try {
+    const response = yield call(getPlaylistTrack, id)
+    yield put({
+      type: 'SET_PLAYLIST_TRACK_SUCCESS',
+      results: response.results.tracks.data,
+      playlistInfo: response.results
+    })
+  } catch (err) {
+    console.log(err)
+    yield put({ type: 'SET_PLAYLIST_TRACK_FAILURE', error: error.message })
+  }
+}
+
+function* editPlaylist(action) {
+  const { trackId, playlistId, token } = action
+  try {
+    const payload = {
+      trackId,
+      playlistId,
+      token
+    }
+    const response = yield call(editPlaylistTrack, payload)
+    // console.log('RESPONSE', response)
+    yield put({
+      type: 'EDIT_PLAYLIST_SUCCESS',
+      results: response
+    })
+  } catch (err) {
+    console.log(err)
+    yield put({ type: 'EDIT_PLAYLIST_FAILURE', error: error.message })
+  }
+}
+
+function* createPlaylist(action) {
+  const { trackId, playlistId } = action
+  try {
+    const payload = {
+      userId,
+      title
+    }
+    const response = yield call(createNewPlaylist, payload)
+    // console.log('RESPONSE', response)
+    yield put({
+      type: 'CREATE_PLAYLIST_SUCCESS',
+      results: response
+    })
+  } catch (err) {
+    console.log(err)
+    yield put({ type: 'CREATE_PLAYLIST_FAILURE', error: error.message })
+  }
+}
+
+export default function* rootSaga() {
+  yield all(
+    [yield takeEvery('SET_PLAYLIST_TRACKS', setPlaylistTracks)],
+    [yield takeEvery('EDIT_PLAYLIST', editPlaylist)],
+    [yield takeEvery('CREATE_PLAYLIST', createPlaylist)]
+  )
+}

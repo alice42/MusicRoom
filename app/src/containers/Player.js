@@ -31,9 +31,9 @@ export default class Player extends Component {
   }
 
   render() {
-    console.log('THIS PROPS TRACKS ', this.props.tracks)
+    // console.log('THIS PROPS TRACKS ', this.props.tracks)
     const track = this.props.tracks[this.state.selectedTrack]
-    console.log('TRACK', track)
+    // console.log('TRACK', track)
     return (
       <View style={{ backgroundColor: colors.green01, padding: 5 }}>
         <Text>{track.title}</Text>

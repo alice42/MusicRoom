@@ -26,7 +26,7 @@
   for (NSString* family in [UIFont familyNames])
   
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-
+  // [[RCTBundleURLProvider sharedSettings] setJsLocation:jsCodeLocation.host];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"app"
                                                initialProperties:nil

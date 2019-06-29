@@ -7,12 +7,14 @@ import styles from '../../styles/containers/ProfileContainer'
 export default class ChoosePlaylistModal extends React.Component {
   state = {
     modalVisible: false,
-    choosenPlaylist: 'newPlaylist'
+    choosenPlaylist: 'newPlaylist',
+    choosenPlaylistId: 'newPlaylist'
   }
 
   addToChoosenPlaylist = () => {
     const { track } = this.props
-    const playlist = this.state.choosenPlaylist
+    const playlist = this.state.choosenPlaylistId
+    // console.log(playlist)
     this.setState({ modalVisible: false })
     this.props.test(track, playlist)
   }
@@ -23,6 +25,7 @@ export default class ChoosePlaylistModal extends React.Component {
 
   render() {
     const { choosenPlaylist } = this.state
+    const { playlists } = this.props.user.data
     return (
       <View>
         <Modal
@@ -34,7 +37,6 @@ export default class ChoosePlaylistModal extends React.Component {
             <View style={styles.modalContent}>
               <View style={styles.modalTitle}>
                 <Text style={styles.modalText}>PLAYLISTS</Text>
-                <Text>{this.props.track.name}</Text>
                 <Text style={styles.modalSubtext}>
                   choose a playlist to add track to it
                 </Text>
@@ -42,25 +44,30 @@ export default class ChoosePlaylistModal extends React.Component {
               <Picker
                 style={styles.modalPicker}
                 selectedValue={this.state.choosenPlaylist}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({ choosenPlaylist: itemValue })
-                }
+                onValueChange={itemValue => {
+                  this.setState({
+                    choosenPlaylist: itemValue,
+                    choosenPlaylistId: itemValue
+                  })
+                }}
               >
                 <Picker.Item
                   label="Create a new playlist"
                   value="newPlaylist"
                 />
-                {this.props.user.data.playlists.map((playlist, index) => (
+                {playlists.map((playlist, index) => (
                   <Picker.Item
                     key={index}
-                    label={playlist.name}
-                    value={playlist.name}
+                    label={playlist.title}
+                    value={playlist.id}
                   />
                 ))}
               </Picker>
             </View>
             <View style={styles.modalValidationButton1}>
-              <TouchableOpacity onPress={this.addToChoosenPlaylist}>
+              <TouchableOpacity
+                onPress={playlist => this.addToChoosenPlaylist(playlist)}
+              >
                 <Text style={styles.modalText}>OK</Text>
               </TouchableOpacity>
             </View>
@@ -79,15 +86,13 @@ export default class ChoosePlaylistModal extends React.Component {
           onPress={() => {
             this.setModalVisible(true)
           }}
+          style={{ flex: 1, justifyContent: 'center' }}
         >
           <Icon
             name="plus"
             size={18}
             style={{
-              color: colors.white,
-              backgroundColor: colors.green02,
-              padding: 10,
-              marginTop: 10.5
+              color: colors.white
             }}
           />
         </TouchableOpacity>
