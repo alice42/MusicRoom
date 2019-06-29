@@ -33,12 +33,6 @@ export function deezerGetTokenSuccess(token) {
   }
 }
 
-export function deezerGetCodePermission() {
-  return {
-    type: 'DEEZER_GET_CODE_PERMISSION'
-  }
-}
-
 export function setPlaylists(playlists) {
   return {
     type: 'SET_PLAYLISTS',

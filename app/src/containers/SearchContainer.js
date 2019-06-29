@@ -49,7 +49,6 @@ class SearchContainer extends Component {
       //   }
       // })
       this.props.playlistActions.editPlaylist(track.id, playlist, deezerToken)
-      this.props.playlistActions.setPlaylistTracks(playlist)
     }
   }
 

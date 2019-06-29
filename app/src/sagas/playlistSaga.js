@@ -25,11 +25,17 @@ function* editPlaylist(action) {
       playlistId,
       token
     }
-    const response = yield call(editPlaylistTrack, payload)
-    // console.log('RESPONSE', response)
+    const responseEditPlaylist = yield call(editPlaylistTrack, payload)
+
     yield put({
       type: 'EDIT_PLAYLIST_SUCCESS',
-      results: response
+      results: responseEditPlaylist
+    })
+    const reponseSetPlaylist = yield call(getPlaylistTrack, payload.playlistId)
+    yield put({
+      type: 'SET_PLAYLIST_TRACK_SUCCESS',
+      results: reponseSetPlaylist.results.tracks.data,
+      playlistInfo: reponseSetPlaylist.results
     })
   } catch (err) {
     console.log(err)
