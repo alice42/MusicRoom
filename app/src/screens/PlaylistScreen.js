@@ -35,7 +35,6 @@ class PlaylistScreen extends Component {
 
   render() {
     const { tracks } = this.props.playlist
-    // console.log(tracks)
     const { playlistInfo } = this.props.playlist
     return (
       <View style={styles.wrapper}>

@@ -10,7 +10,6 @@ import styles from '../styles/containers/ProfileContainer'
 
 class ProfileContainer extends Component {
   render() {
-    // console.log(this.props.user)
     return (
       <View style={styles.wrapper}>
         <ProfileHeaderConnected navigation={this.props.navigation} />

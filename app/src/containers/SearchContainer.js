@@ -53,7 +53,6 @@ class SearchContainer extends Component {
   }
 
   playTrack = track => {
-    console.log('*****************PLAY TRACK', track)
     // const TRACKSTOPLAY = [
     //   {
     //     title: 'Stressed Out',
@@ -63,12 +62,10 @@ class SearchContainer extends Component {
     //     audioUrl: `${track}`
     //   }
     // ]
-    // console.log(TRACKSTOPLAY)
     this.setState({ TRACKS: track })
   }
 
   render() {
-    // console.log(this.state.TRACKS)
     const TRACKSTOPLAY = [
       {
         title: 'Stressed Out',
