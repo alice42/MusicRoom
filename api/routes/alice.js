@@ -66,7 +66,6 @@ const createNewPlaylist = (title, deezerId, deezerToken) => {
   const url = `https://api.deezer.com/user/${deezerId}/playlists?access_token=${deezerToken}&request_method=post&title=${title}`
   return fetch(url)
     .then(response => {
-      console.log('SEARCH DEEZER RESPONSE', response)
       return response.json()
     })
     .then(json => {
@@ -109,7 +108,6 @@ router.post('/edit-playlist', async (req, res) => {
   try {
     const { query } = req.body
     const { token, trackId, playlistId } = query
-    console.log('QUERY API', query)
     const results = await addSongToPlaylist(trackId, playlistId, token)
     return res.status(200).send({
       message: `Track ${trackId} received on ${playlistId}`,
@@ -126,7 +124,6 @@ router.post('/create-playlist', async (req, res) => {
   try {
     const { query } = req.body
     const { title, deezerToken, deezerId } = query
-    console.log('QUERY API', query)
     const results = await createNewPlaylist(title, deezerToken, deezerId)
     return res.status(200).send({
       message: `OK`,

@@ -6,8 +6,7 @@ import {
   loginGoogle,
   recoverPassword,
   updateMethod,
-  logoutMethod,
-  deezerGetCodePermission
+  logoutMethod
 } from '../services/apiService'
 import { getTokenFacebook } from '../services/facebookService'
 import { getTokenGoogle } from '../services/googleService'
@@ -146,8 +145,6 @@ export default function* rootSaga() {
     [yield takeEvery('LOGIN_REQUEST', loginAppSaga)],
     [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)],
     [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)],
-    // [yield takeEvery('DEEZER_GET_TOKEN_SUCCESS', deezerSaga)],
-    // [yield takeEvery('DEEZER_GET_CODE_PERMISSION', deezerCodePermissionSaga)],
     [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)],
     [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)],
     [yield takeEvery('LOGOUT', logoutSaga)]

@@ -14,7 +14,6 @@ export default class ChoosePlaylistModal extends React.Component {
   addToChoosenPlaylist = () => {
     const { track } = this.props
     const playlist = this.state.choosenPlaylistId
-    // console.log(playlist)
     this.setState({ modalVisible: false })
     this.props.test(track, playlist)
   }
