@@ -19,8 +19,7 @@ import InputField from "../components/input/InputField";
 import RadioInput from "../components/input/RadioInput";
 import RoundedButton from "../components/button/RoundedButton";
 import * as userActions from "../actions/userActions";
-import Privacy from "../components/homeContainer/Privacy";
-// import styles from "./styles/CreateEvent";
+import Privacy from "../components/playlist/Privacy";
 
 class CreateEvent extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -58,7 +57,7 @@ class CreateEvent extends Component {
 
   handleCreateEvent = () => {
     const { title, privacyOption, validTitle, error, chosenDate } = this.state;
-    const { type } = this.props.navigation.state.params;
+    const { type, track } = this.props.navigation.state.params;
     if (!validTitle) {
       errorTitle = (
         <Text style={styles.errorMessage}>
@@ -79,10 +78,18 @@ class CreateEvent extends Component {
           chosenDate
         );
       } else {
-        this.props.navigation.state.params.handleCreatePlaylist(
-          title,
-          privacyOption
-        );
+        if (track) {
+          this.props.navigation.state.params.handleCreatePlaylist(
+            title,
+            privacyOption,
+            track
+          );
+        } else {
+          this.props.navigation.state.params.handleCreatePlaylist(
+            title,
+            privacyOption
+          );
+        }
       }
       this.props.navigation.goBack();
     }

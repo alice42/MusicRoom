@@ -13,7 +13,12 @@ RCT_EXPORT_METHOD(connect:(RCTResponseSenderBlock)callback) {
   
   NSMutableArray* permissionsArray = [NSMutableArray array];
   [permissionsArray addObject:DeezerConnectPermissionBasicAccess];
+
+  [permissionsArray addObject:DeezerConnectPermissionManageLibrary];
+  [permissionsArray addObject:DeezerConnectPermissionOfflineAccess];
+  
   [permissionsArray addObject:DeezerConnectPermissionListeningHistory];
+                                      
   
   [DeezerSession sharedSession].initCallback = callback;
   dispatch_async(dispatch_get_main_queue(), ^{
