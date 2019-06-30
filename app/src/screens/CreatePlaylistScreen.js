@@ -1,6 +1,6 @@
 //NOT FINISH
 
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import {
   View,
   Text,
@@ -9,17 +9,17 @@ import {
   ScrollView,
   StyleSheet,
   DatePickerIOS
-} from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import Icon from "react-native-vector-icons/Ionicons";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../constants/colors";
-import InputField from "../components/input/InputField";
-import RadioInput from "../components/input/RadioInput";
-import RoundedButton from "../components/button/RoundedButton";
-import * as userActions from "../actions/userActions";
-import Privacy from "../components/playlist/Privacy";
+} from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import Icon from 'react-native-vector-icons/Ionicons'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
+import { colors } from '../constants/colors'
+import InputField from '../components/input/InputField'
+import RadioInput from '../components/input/RadioInput'
+import RoundedButton from '../components/button/RoundedButton'
+import * as userActions from '../actions/userActions'
+import Privacy from '../components/playlist/Privacy'
 
 class CreateEvent extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -32,79 +32,60 @@ class CreateEvent extends Component {
       </TouchableOpacity>
     ),
     headerStyle: styles.headerStyle
-  });
+  })
 
   state = {
-    privacyOption: "public",
-    title: "",
+    privacyOption: 'public',
+    title: '',
     validTitle: false,
     error: null,
     chosenDate: new Date()
-  };
+  }
 
   selectPrivacyOption = privacyOption => {
-    this.setState({ privacyOption });
-  };
+    this.setState({ privacyOption })
+  }
 
   handleTitleChange = title => {
-    const valueCheckRegex = /(?=.*[a-zA-Z])/;
+    const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(title)) {
-      this.setState({ validTitle: true, title });
+      this.setState({ validTitle: true, title })
     } else {
-      this.setState({ validTitle: false, title });
+      this.setState({ validTitle: false, title })
     }
-  };
+  }
 
   handleCreateEvent = () => {
-    const { title, privacyOption, validTitle, error, chosenDate } = this.state;
-    const { type, track } = this.props.navigation.state.params;
+    const { title, validTitle } = this.state
+    const { type } = this.props.navigation.state.params
     if (!validTitle) {
       errorTitle = (
         <Text style={styles.errorMessage}>
           Please, enter a title for your {type}
         </Text>
-      );
+      )
       this.setState({
         error: errorTitle
-      });
+      })
     } else {
       this.setState({
         error: null
-      });
-      if (type === "event") {
-        this.props.navigation.state.params.handleCreateEvent(
-          title,
-          privacyOption,
-          chosenDate
-        );
-      } else {
-        if (track) {
-          this.props.navigation.state.params.handleCreatePlaylist(
-            title,
-            privacyOption,
-            track
-          );
-        } else {
-          this.props.navigation.state.params.handleCreatePlaylist(
-            title,
-            privacyOption
-          );
-        }
-      }
-      this.props.navigation.goBack();
+      })
+      this.props.navigation.state.params.handleCreatePlaylist(title)
+      this.props.navigation.goBack()
     }
-  };
+  }
 
   setDate = newDate => {
-    this.setState({ chosenDate: newDate });
-  };
+    this.setState({ chosenDate: newDate })
+  }
 
   render() {
-    const { privacyOption, title, validTitle, error } = this.state;
-    const { type } = this.props.navigation.state.params;
-    type === "playlist"
-      ? ((labelText = "PLAYLIST TITLE"), (headingtext = "Create a playlist"))
-      : ((labelText = "EVENT TITLE"), (headingtext = "Create an event"));
+    const { privacyOption, title, validTitle, error } = this.state
+    const { type } = this.props.navigation.state.params
+    type === 'playlist'
+      ? ((labelText = 'PLAYLIST TITLE'), (headingtext = 'Create a playlist'))
+      : ((labelText = 'EVENT TITLE'), (headingtext = 'Create an event'))
     return (
       <View style={styles.wrapper}>
         <ScrollView style={styles.scrollView}>
@@ -118,7 +99,7 @@ class CreateEvent extends Component {
                 color={colors.green01}
               />
             </View>
-            {type === "playlist" ? null : (
+            {type === 'playlist' ? null : (
               <View>
                 <Text style={styles.privacyHeading}>
                   Pick a date for your event
@@ -157,14 +138,14 @@ class CreateEvent extends Component {
           />
         </View>
       </View>
-    );
+    )
   }
 }
-export default connect()(CreateEvent);
+export default connect()(CreateEvent)
 
 const styles = StyleSheet.create({
   wrapper: {
-    display: "flex",
+    display: 'flex',
     flex: 1,
     backgroundColor: colors.white
   },
@@ -172,7 +153,7 @@ const styles = StyleSheet.create({
     paddingTop: 50
   },
   closeButton: {
-    position: "absolute",
+    position: 'absolute',
     left: 20,
     zIndex: 9999
   },
@@ -182,7 +163,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 30,
-    fontWeight: "800",
+    fontWeight: '800',
     color: colors.lightBlack,
     paddingLeft: 20,
     paddingRight: 20,
@@ -193,21 +174,21 @@ const styles = StyleSheet.create({
     paddingRight: 20
   },
   createButton: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     right: 10,
     width: 110
   },
   buttonIcon: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
-    top: "50%",
+    top: '50%',
     marginTop: -16
   },
   errorMessage: {
     color: colors.darkOrange,
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 15,
     marginBottom: 5
   }
-});
+})

@@ -12,7 +12,7 @@ import * as playlistActions from '../actions/playlistActions'
 import ListPlaylists from '../components/list/ListPlaylists'
 // import Icon from 'react-native-vector-icons/FontAwesome'
 import Playlists from '../components/homeContainer/Playlists'
-
+import DeezerManager from '../services/deezerService'
 class AllPlaylistsScreen extends Component {
   handleCreatePlaylistRequest = () => {
     this.props.navigation.navigate('CreatePlaylist', {
@@ -20,12 +20,21 @@ class AllPlaylistsScreen extends Component {
       type: 'playlist'
     })
   }
-  handleCreatePlaylist = (title, privacy) => {
-    const newPlaylist = { name: title, privacy: privacy, tracks: [] }
+
+  componentWillMount() {
     const { playlists } = this.props.user.data
-    const { token } = this.props.user
-    playlists.push(newPlaylist)
-    this.props.userActions.updateRequest(token, 'playlists', playlists)
+    this.props.playlistActions.setUserId(playlists[0].id)
+  }
+
+  handleCreatePlaylist = title => {
+    const { deezerToken, deezerId } = this.props.user
+    this.props.playlistActions.createPlaylist(title, deezerToken, deezerId)
+    this.getPlaylists()
+  }
+
+  async getPlaylists() {
+    let playlists = await DeezerManager.getPlaylists()
+    this.props.actions.setPlaylists(playlists)
   }
 
   renderPlaylists = () => {

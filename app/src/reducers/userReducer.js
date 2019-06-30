@@ -1,6 +1,7 @@
 const initialState = {
   token: null,
   deezerToken: null,
+  deezerId: null,
   data: {
     email: '',
     firstname: '',
@@ -77,6 +78,15 @@ function reducer(state = initialState, action) {
         ...state,
         deezerToken: action.token,
         data: { ...state.data, deezer: true }
+      }
+    // case 'CREATE_PLAYLIST_SUCCESS':
+    //   return {
+    //     data: { ...state.data, playlists:  action.playlists }
+    //   }
+    case 'SET_USER_ID_SUCCESS':
+      return {
+        ...state,
+        deezerId: action.results
       }
     case 'LOGOUT':
       return initialState

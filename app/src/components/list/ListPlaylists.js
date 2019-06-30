@@ -14,12 +14,6 @@ export default class playlists extends Component {
   handleOnPress = playlist => {
     this.props.playlistActions.setPlaylistTracks(playlist.id)
     this.props.navigation.navigate('Playlist', { playlist: playlist })
-    // this.props.navigation.navigate(
-    //   'Playlist'
-    //   // {
-    //   //   playlist: this.props.playlistInfo
-    //   // }
-    // )
   }
 
   renderplaylists() {

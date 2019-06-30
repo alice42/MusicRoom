@@ -11,6 +11,10 @@ const reducer = (state = initialState, action) => {
         tracks: action.results,
         playlistInfo: action.playlistInfo
       }
+    case 'CREATE_PLAYLIST_SUCCESS':
+      return {
+        ...state
+      }
     default:
       return state
   }

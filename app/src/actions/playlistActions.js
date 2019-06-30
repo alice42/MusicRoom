@@ -4,6 +4,12 @@ export function setPlaylistTracks(id) {
     id
   }
 }
+export function setUserId(id) {
+  return {
+    type: 'SET_USER_ID',
+    id
+  }
+}
 export function editPlaylist(trackId, playlistId, token) {
   return {
     type: 'EDIT_PLAYLIST',
@@ -13,10 +19,11 @@ export function editPlaylist(trackId, playlistId, token) {
   }
 }
 
-export function createPlaylist(userId, title) {
+export function createPlaylist(title, deezerId, deezerToken) {
   return {
     type: 'CREATE_PLAYLIST',
-    userId,
-    title
+    title,
+    deezerId,
+    deezerToken
   }
 }

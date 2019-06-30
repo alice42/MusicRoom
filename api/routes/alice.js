@@ -26,11 +26,10 @@ const playlistTracksDeezer = query => {
 
   return fetch(url)
     .then(response => {
-      console.log('SEARCH DEEZER RESPONSE', response)
       return response.json()
     })
     .then(json => {
-      console.log('SEARCH DEEZER RESPONSE', json)
+      // console.log('SEARCH DEEZER RESPONSE', json)
       return json
     })
 }
@@ -43,13 +42,12 @@ const searchDeezer = query => {
       return response.json()
     })
     .then(json => {
-      // console.log('SEARCH DEEZER RESPONSE', json)
+      // console.log('SEARCH DEEZER RESPONSE ', json)
       return json
     })
 }
 
 const addSongToPlaylist = (trackId, playlistId, token) => {
-  console.log('TOKEN', token)
   const songs = trackId
   const url = `https://api.deezer.com/playlist/${playlistId}/tracks?access_token=${token}&request_method=post&songs=${songs}`
   return fetch(url)
@@ -57,26 +55,25 @@ const addSongToPlaylist = (trackId, playlistId, token) => {
       return response.json()
     })
     .then(json => {
-      console.log('RESP DEEZER ADD SONG TO PLAYLIST', json)
+      // console.log('RESP DEEZER ADD SONG TO PLAYLIST ', json)
       return false
       // return !json.data.error;
     })
 }
 
-// const createPlaylistDeezer = query => {
-//   const { userId, title } = query
-//   // const appToken = musicRoomFacebookAppToken;
-//   const url = `https://api.deezer.com/user/${userId}`
-//   return fetch(url)
-//     .then(response => {
-//       console.log('SEARCH DEEZER RESPONSE', response)
-//       return response.json()
-//     })
-//     .then(json => {
-//       console.log('SEARCH DEEZER RESPONSE', json)
-//       return json
-//     })
-// }
+const createNewPlaylist = (title, deezerId, deezerToken) => {
+  // const appToken = musicRoomFacebookAppToken;
+  const url = `https://api.deezer.com/user/${deezerId}/playlists?access_token=${deezerToken}&request_method=post&title=${title}`
+  return fetch(url)
+    .then(response => {
+      console.log('SEARCH DEEZER RESPONSE', response)
+      return response.json()
+    })
+    .then(json => {
+      console.log('SEARCH DEEZER RESPONSE ', json)
+      return json
+    })
+}
 
 router.post('/search', async (req, res) => {
   try {
@@ -125,25 +122,15 @@ router.post('/edit-playlist', async (req, res) => {
   }
 })
 
-const getCode = () => {
-  // const appToken = musicRoomFacebookAppToken;
-  const url = `http://musicroom.io/deezer`
-  return fetch(url)
-    .then(response => {
-      console.log('CODE PERMISSION DEEZER RESPONSE', response)
-      return response.json()
-    })
-    .then(json => {
-      console.log('CODE PERMISSION DEEZER RESPONSE', json)
-      return json
-    })
-}
-
-router.get('/get-code', async (req, res) => {
+router.post('/create-playlist', async (req, res) => {
   try {
-    const results = await getCode()
+    const { query } = req.body
+    const { title, deezerToken, deezerId } = query
+    console.log('QUERY API', query)
+    const results = await createNewPlaylist(title, deezerToken, deezerId)
     return res.status(200).send({
-      message: `RETOUR GET CODE`,
+      message: `OK`,
+      query,
       results
     })
   } catch (err) {

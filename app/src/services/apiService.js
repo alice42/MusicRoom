@@ -147,7 +147,7 @@ export const createNewPlaylist = async query => {
   const url = `${apiUrl}/alice/create-playlist`
   try {
     const response = await basicFetch('POST', url, {}, { query })
-    // console.log('RESPONSE API SERVICE', response)
+    console.log('RESPONSE API SERVICE', response)
     return response
   } catch (err) {
     throw err
