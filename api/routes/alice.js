@@ -125,6 +125,13 @@ router.post('/create-playlist', async (req, res) => {
     const { query } = req.body
     const { title, deezerToken, deezerId } = query
     const results = await createNewPlaylist(title, deezerToken, deezerId)
+    const resultsRights = await giveRightsToNewPlaylist(
+      public,
+      collaborative,
+      deezerToken,
+      deezerId
+    )
+    console.logf(resultsRights)
     return res.status(200).send({
       message: `OK`,
       query,
