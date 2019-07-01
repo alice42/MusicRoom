@@ -12,7 +12,6 @@ import * as playlistActions from '../actions/playlistActions'
 import ListPlaylists from '../components/list/ListPlaylists'
 // import Icon from 'react-native-vector-icons/FontAwesome'
 import Playlists from '../components/homeContainer/Playlists'
-import DeezerManager from '../services/deezerService'
 
 class AllPlaylistsScreen extends Component {
   handleCreatePlaylistRequest = () => {
@@ -27,8 +26,9 @@ class AllPlaylistsScreen extends Component {
     this.props.playlistActions.setUserId(playlists[0].id)
   }
 
-  handleCreatePlaylist = title => {
+  handleCreatePlaylist = (title, collabOption, privacyOption) => {
     const { deezerToken, deezerId } = this.props.user
+    console.log('collaborative', collabOption, 'privacyPublic', privacyOption)
     this.props.playlistActions.createPlaylist(title, deezerToken, deezerId)
   }
 

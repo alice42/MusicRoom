@@ -35,7 +35,8 @@ class CreateEvent extends Component {
   })
 
   state = {
-    privacyOption: 'public',
+    privacyOption: true,
+    collabOption: false,
     title: '',
     validTitle: false,
     error: null,
@@ -43,7 +44,10 @@ class CreateEvent extends Component {
   }
 
   selectPrivacyOption = privacyOption => {
-    this.setState({ privacyOption })
+    this.setState({ privacyOption: !privacyOption })
+  }
+  selectCollabOption = collabOption => {
+    this.setState({ collabOption: !collabOption })
   }
 
   handleTitleChange = title => {
@@ -58,6 +62,8 @@ class CreateEvent extends Component {
   handleCreateEvent = () => {
     const { title, validTitle } = this.state
     const { type } = this.props.navigation.state.params
+    console.log('privacy option (public): ', this.state.privacyOption)
+    console.log('collab option: ', this.state.collabOption)
     if (!validTitle) {
       errorTitle = (
         <Text style={styles.errorMessage}>
@@ -71,7 +77,11 @@ class CreateEvent extends Component {
       this.setState({
         error: null
       })
-      this.props.navigation.state.params.handleCreatePlaylist(title)
+      this.props.navigation.state.params.handleCreatePlaylist(
+        title,
+        collabOption,
+        privacyOption
+      )
       this.props.navigation.goBack()
     }
   }
@@ -113,6 +123,8 @@ class CreateEvent extends Component {
             <Privacy
               privacyOption={this.state.privacyOption}
               selectPrivacyOption={this.selectPrivacyOption}
+              collabOption={this.state.collabOption}
+              selectCollabOption={this.selectCollabOption}
             />
           </View>
         </ScrollView>

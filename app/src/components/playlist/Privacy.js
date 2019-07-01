@@ -1,71 +1,83 @@
-import React, { Component } from "react";
-import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
-import { colors } from "../../constants/colors";
-import RadioInput from "../input/RadioInput";
+import React, { Component } from 'react'
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  StyleSheet,
+  Switch
+} from 'react-native'
+import { colors } from '../../constants/colors'
+import RadioInput from '../input/RadioInput'
 
 export default class Privacy extends Component {
   selectPrivacyOption = privacyOption => {
-    this.props.selectPrivacyOption(privacyOption);
-  };
+    this.props.selectPrivacyOption(privacyOption)
+  }
+
+  selectCollabOption = collabOption => {
+    this.props.selectCollabOption(collabOption)
+  }
 
   render() {
-    const { privacyOption } = this.props;
+    const { privacyOption, collabOption } = this.props
     return (
       <View style={styles.privacyOptions}>
-        <Text style={styles.privacyHeading}>Privacy</Text>
+        {/* <Text style={styles.privacyHeading}>Privacy</Text> */}
         <TouchableHighlight
-          onPress={() => this.selectPrivacyOption("public")}
+          onPress={() => this.selectPrivacyOption(privacyOption)}
           style={styles.privacyOptionItem}
           underlayColor={colors.gray01}
         >
           <View>
-            <Text style={styles.privacyOptionTitle}>Public</Text>
+            <Text style={styles.privacyOptionTitle}>
+              {privacyOption ? 'Public' : 'Private'}
+            </Text>
             <Text style={styles.privacyOptionDescription}>
-              Visible to everyone
+              {privacyOption
+                ? 'Visible to everyone'
+                : 'Only you can seen this playlist'}
             </Text>
             <View style={styles.privacyRadioInput}>
-              <RadioInput
-                backgroundColor={colors.gray07}
-                borderColor={colors.gray05}
-                selectedBackgroundColor={colors.green01}
-                selectedBorderColor={colors.green01}
-                iconColor={colors.white}
-                selected={privacyOption === "public"}
+              <Switch
+                trackColor={{ true: colors.green01, false: colors.green01 }}
+                onValueChange={() => this.selectPrivacyOption(privacyOption)}
+                value={privacyOption}
               />
             </View>
           </View>
         </TouchableHighlight>
         <View style={styles.divider} />
         <TouchableHighlight
-          onPress={() => this.selectPrivacyOption("private")}
+          onPress={() => this.selectCollabOption(collabOption)}
           style={styles.privacyOptionItem}
           underlayColor={colors.gray01}
         >
           <View>
-            <Text style={styles.privacyOptionTitle}>Private</Text>
+            <Text style={styles.privacyOptionTitle}>
+              {collabOption ? 'Collaborative' : 'Non collaborative'}
+            </Text>
             <Text style={styles.privacyOptionDescription}>
-              Visible only to you and any friends you invite.
+              {collabOption
+                ? 'Deezer users can edit this playlist'
+                : 'Only you can edit this playlist'}
             </Text>
             <View style={styles.privacyRadioInput}>
-              <RadioInput
-                backgroundColor={colors.gray07}
-                borderColor={colors.gray05}
-                selectedBackgroundColor={colors.green01}
-                selectedBorderColor={colors.green01}
-                iconColor={colors.white}
-                selected={privacyOption === "private"}
+              <Switch
+                trackColor={{ true: colors.green01, false: colors.green01 }}
+                onValueChange={() => this.selectCollabOption(collabOption)}
+                value={collabOption}
               />
             </View>
           </View>
         </TouchableHighlight>
       </View>
-    );
+    )
   }
 }
 const styles = StyleSheet.create({
   privacyHeading: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
     color: colors.lightBlack,
     marginBottom: 5,
     paddingLeft: 20,
@@ -77,18 +89,18 @@ const styles = StyleSheet.create({
   },
   privacyOptionTitle: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
     color: colors.lightBlack
   },
   privacyOptionDescription: {
     fontSize: 14,
-    fontWeight: "200",
+    fontWeight: '200',
     color: colors.lightBlack,
     marginTop: 10,
     paddingRight: 90
   },
   privacyRadioInput: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     right: 0
   },
@@ -100,4 +112,4 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20
   }
-});
+})
