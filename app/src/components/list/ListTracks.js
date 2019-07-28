@@ -2,26 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {
-  FlatList,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Image,
-  Dimensions,
-  SafeAreaView
-} from 'react-native'
+import { FlatList, View, Text, TouchableOpacity, ScrollView, StyleSheet, Image, Dimensions, SafeAreaView } from 'react-native'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
 import * as playlistActions from '../../actions/playlistActions'
 import { colors } from '../../constants/colors'
 import ChoosePlaylistModal from '../playlist/ChoosePlaylistModal'
+import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 export default class Comments extends Component {
   render() {
     const { width } = Dimensions.get('window')
-    const { list, buttonPlay, buttonAdd, buttonDel } = this.props
+    const { list, buttonPlay, buttonAdd, buttonDel, playlist } = this.props
     return (
       <FlatList
         style={styles.root}
@@ -38,8 +29,7 @@ export default class Comments extends Component {
           return (
             <View
               style={{
-                backgroundColor:
-                  item.index % 2 ? colors.green02 : colors.green01,
+                backgroundColor: item.index % 2 ? colors.green02 : colors.green01,
                 flexDirection: 'row',
                 borderBottomWidth: 1,
                 borderBottomStyle: 'solid',
@@ -49,9 +39,13 @@ export default class Comments extends Component {
               <View style={styles.container}>
                 <Image
                   style={styles.image}
-                  source={{
-                    uri: `${track.album.cover}`
-                  }}
+                  source={
+                    track.album.cover
+                      ? {
+                          uri: `${track.album.cover}`
+                        }
+                      : null
+                  }
                 />
               </View>
               <View style={{ justifyContent: 'center', width: width - 170 }}>
@@ -81,11 +75,7 @@ export default class Comments extends Component {
                   </TouchableOpacity>
                 ) : null}
                 {buttonAdd ? (
-                  <ChoosePlaylistModalConnected
-                    track={track}
-                    navigation={this.props.navigation}
-                    test={this.props.test}
-                  />
+                  <ChoosePlaylistModalConnected track={track} navigation={this.props.navigation} test={this.props.test} />
                 ) : buttonDel ? (
                   <TouchableOpacity
                     // onPress={() => this.props.playTrack(track.preview)}
@@ -93,11 +83,7 @@ export default class Comments extends Component {
                       justifyContent: 'center'
                     }}
                   >
-                    <Icon
-                      name="trash"
-                      size={18}
-                      style={{ color: colors.white }}
-                    />
+                    <DeletePlaylistModal playlist={playlist ? playlist : track} toDelTrack={track} handleOnPressDelete={this.props.handleOnPressDelete} />
                   </TouchableOpacity>
                 ) : null}
               </View>

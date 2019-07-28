@@ -20,16 +20,15 @@ const router = express.Router()
 //     return res.status(500).send({ error: 'internal server error' })
 //   }
 // })
-const playlistTracksDeezer = query => {
+const playlistTracksDeezer = (id, deezerToken) => {
   // const appToken = musicRoomFacebookAppToken;
-  const url = `https://api.deezer.com/playlist/${query}`
+  const url = `https://api.deezer.com/playlist/${id}?access_token=${deezerToken}`
 
   return fetch(url)
     .then(response => {
       return response.json()
     })
     .then(json => {
-      // console.log('SEARCH DEEZER RESPONSE', json)
       return json
     })
 }
@@ -38,11 +37,9 @@ const searchDeezer = query => {
   const url = `https://api.deezer.com/search?q=${query}&limit=100`
   return fetch(url)
     .then(response => {
-      // console.log('SEARCH DEEZER RESPONSE', response)
       return response.json()
     })
     .then(json => {
-      // console.log('SEARCH DEEZER RESPONSE ', json)
       return json
     })
 }
@@ -55,13 +52,12 @@ const addSongToPlaylist = (trackId, playlistId, token) => {
       return response.json()
     })
     .then(json => {
-      // console.log('RESP DEEZER ADD SONG TO PLAYLIST ', json)
       return false
       // return !json.data.error;
     })
 }
 
-const createNewPlaylist = (title, deezerId, deezerToken) => {
+const createNewPlaylist = (title, deezerToken, deezerId) => {
   // const appToken = musicRoomFacebookAppToken;
   const url = `https://api.deezer.com/user/${deezerId}/playlists?access_token=${deezerToken}&request_method=post&title=${title}`
   return fetch(url)
@@ -69,7 +65,34 @@ const createNewPlaylist = (title, deezerId, deezerToken) => {
       return response.json()
     })
     .then(json => {
-      console.log('SEARCH DEEZER RESPONSE ', json)
+      return json
+    })
+}
+
+const deletePlaylist = (playlistId, deezerToken) => {
+  const url = `https://api.deezer.com/playlist/${playlistId}?access_token=${deezerToken}&request_method=delete`
+  return fetch(url)
+    .then(response => {
+      return response.json()
+    })
+    .then(json => {
+      return json
+    })
+}
+
+const updatePlaylist = (
+  playlistId,
+  deezerToken,
+  deezerId,
+  privacyOption,
+  collabOption
+) => {
+  const url = `https://api.deezer.com/playlist/${playlistId}?access_token=${deezerToken}&request_method=post&collaborative=${collabOption}&public=${privacyOption}`
+  return fetch(url)
+    .then(response => {
+      return response.json()
+    })
+    .then(json => {
       return json
     })
 }
@@ -92,7 +115,8 @@ router.post('/search', async (req, res) => {
 router.post('/playlist', async (req, res) => {
   try {
     const { query } = req.body
-    const results = await playlistTracksDeezer(query)
+    const { id, deezerToken } = query
+    const results = await playlistTracksDeezer(id, deezerToken)
     return res.status(200).send({
       message: `Track ${query} received on /alice/playlist`,
       query,
@@ -123,15 +147,32 @@ router.post('/edit-playlist', async (req, res) => {
 router.post('/create-playlist', async (req, res) => {
   try {
     const { query } = req.body
-    const { title, deezerToken, deezerId } = query
+    const { title, deezerToken, deezerId, collabOption, privacyOption } = query
     const results = await createNewPlaylist(title, deezerToken, deezerId)
-    const resultsRights = await giveRightsToNewPlaylist(
-      public,
-      collaborative,
+    const playlistId = results.id
+    const resultsT = await updatePlaylist(
+      playlistId,
       deezerToken,
-      deezerId
+      deezerId,
+      privacyOption,
+      collabOption
     )
-    console.logf(resultsRights)
+    return res.status(200).send({
+      message: `OK`,
+      query,
+      results
+    })
+  } catch (err) {
+    console.log('INTER ERROR', err)
+    return res.status(500).send({ error: 'internal server error' })
+  }
+})
+
+router.post('/delete-playlist', async (req, res) => {
+  try {
+    const { query } = req.body
+    const { playlistId, deezerToken } = query
+    const results = await deletePlaylist(playlistId, deezerToken)
     return res.status(200).send({
       message: `OK`,
       query,

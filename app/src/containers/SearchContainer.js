@@ -16,38 +16,25 @@ class SearchContainer extends Component {
   state = {
     TRACKS: []
   }
-  handleCreatePlaylistFromAddTrack = (title, privacy, track) => {
-    const tracks = []
-    tracks.push(track)
-    const newPlaylist = {
-      name: title,
-      privacy: privacy,
-      tracks: tracks
-    }
-    const { playlists } = this.props.user.data
-    const { token } = this.props.user
-    playlists.push(newPlaylist)
-    this.props.userActions.updateRequest(token, 'playlists', playlists)
-  }
+  // handleCreatePlaylistFromAddTrack = (title, privacy, track) => {
+  //   const tracks = []
+  //   tracks.push(track)
+  //   const newPlaylist = {
+  //     name: title,
+  //     privacy: privacy,
+  //     tracks: tracks
+  //   }
+  //   const { playlists } = this.props.user.data
+  //   const { token } = this.props.user
+  //   playlists.push(newPlaylist)
+  //   this.props.userActions.updateRequest(token, 'playlists', playlists)
+  // }
 
   test = (track, playlist) => {
     const { deezerToken } = this.props.user
     if (playlist === 'newPlaylist') {
-      // this.props.navigation.navigate('CreatePlaylist', {
-      //   handleCreatePlaylist: this.handleCreatePlaylistFromAddTrack,
-      //   type: 'playlist',
-      //   track: track
-      // })
       //create a playlist
     } else {
-      // const { playlists } = this.props.user.data
-      // const { token } = this.props.user
-      // playlists.find(function(item) {
-      //   if (item.name === playlist) {
-      //     item.tracks.push(track)
-      //     return item
-      //   }
-      // })
       this.props.playlistActions.editPlaylist(track.id, playlist, deezerToken)
     }
   }

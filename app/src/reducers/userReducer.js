@@ -69,13 +69,11 @@ function reducer(state = initialState, action) {
         error: action.error
       }
     case 'SET_PLAYLISTS':
-      console.log('SET>PLAYLISTS', action)
       return {
         ...state,
         data: { ...state.data, playlists: action.playlists }
       }
     case 'CREATE_PLAYLIST_SUCCESS':
-      console.log('CREATE_PLAYLISTS ', action)
       return {
         ...state,
         data: {
@@ -88,6 +86,17 @@ function reducer(state = initialState, action) {
               description: ''
             }
           ]
+        }
+      }
+    case 'DELETE_PLAYLIST_SUCCESS':
+      const newPlaylists = state.data.playlists.filter(function(obj) {
+        return action.results.indexOf(obj.id) === -1
+      })
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          playlists: newPlaylists
         }
       }
     case 'DEEZER_GET_TOKEN_SUCCESS':

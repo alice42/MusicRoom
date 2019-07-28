@@ -51,21 +51,29 @@ export default class Privacy extends Component {
           onPress={() => this.selectCollabOption(collabOption)}
           style={styles.privacyOptionItem}
           underlayColor={colors.gray01}
+          disabled={!privacyOption ? true : false}
         >
           <View>
             <Text style={styles.privacyOptionTitle}>
               {collabOption ? 'Collaborative' : 'Non collaborative'}
             </Text>
-            <Text style={styles.privacyOptionDescription}>
-              {collabOption
-                ? 'Deezer users can edit this playlist'
-                : 'Only you can edit this playlist'}
-            </Text>
+            {!privacyOption ? (
+              <Text style={styles.privacyOptionDescription}>
+                A private playlist can't be collaborative
+              </Text>
+            ) : (
+              <Text style={styles.privacyOptionDescription}>
+                {collabOption
+                  ? 'Deezer users can edit this playlist'
+                  : 'Only you can edit this playlist'}
+              </Text>
+            )}
             <View style={styles.privacyRadioInput}>
               <Switch
                 trackColor={{ true: colors.green01, false: colors.green01 }}
                 onValueChange={() => this.selectCollabOption(collabOption)}
                 value={collabOption}
+                disabled={!privacyOption ? true : false}
               />
             </View>
           </View>

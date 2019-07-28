@@ -23,20 +23,30 @@ class AllPlaylistsScreen extends Component {
 
   componentWillMount() {
     const { playlists } = this.props.user.data
-    this.props.playlistActions.setUserId(playlists[0].id)
+    const { deezerToken } = this.props.user
+    this.props.playlistActions.setUserId(playlists[0].id, deezerToken)
   }
 
   handleCreatePlaylist = (title, collabOption, privacyOption) => {
     const { deezerToken, deezerId } = this.props.user
-    console.log('collaborative', collabOption, 'privacyPublic', privacyOption)
-    this.props.playlistActions.createPlaylist(title, deezerToken, deezerId)
+    this.props.playlistActions.createPlaylist(
+      title,
+      deezerToken,
+      deezerId,
+      collabOption,
+      privacyOption
+    )
   }
 
   renderPlaylists = () => {
     const { navigation } = this.props
     const { playlists } = this.props.user.data
     return (
-      <ListPlaylists list={playlists} navigation={navigation} {...this.props} />
+      <ListPlaylistsConnected
+        list={playlists}
+        navigation={navigation}
+        {...this.props}
+      />
     )
   }
   apiError = () => {
@@ -45,12 +55,14 @@ class AllPlaylistsScreen extends Component {
   }
 
   render() {
+    const { playlists } = this.props.user.data
     return (
       <View style={styles.wrapper}>
         {/* {this.apiError()} */}
         {/* <View style={styles.containerWrapper}> */}
         <Playlists
           {...this.props}
+          playlists={playlists}
           navigation={this.props.navigation}
           renderPlaylists={this.renderPlaylists}
           handleCreatePlaylistRequest={this.handleCreatePlaylistRequest}
@@ -75,6 +87,10 @@ function profileMapStateToProps(state) {
     playlist
   }
 }
+const ListPlaylistsConnected = connect(
+  profileMapStateToProps,
+  profileActionsMapDispatchToProps
+)(ListPlaylists)
 
 export default connect(
   profileMapStateToProps,

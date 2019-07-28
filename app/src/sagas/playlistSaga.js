@@ -1,11 +1,19 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
 import { getPlaylistTrack } from '../services/apiService'
-import { editPlaylistTrack, createNewPlaylist } from '../services/apiService'
+import {
+  editPlaylistTrack,
+  createNewPlaylist,
+  deletePlaylist
+} from '../services/apiService'
 
 function* setPlaylistTracks(action) {
-  const { id } = action
+  const { id, deezerToken } = action
   try {
-    const response = yield call(getPlaylistTrack, id)
+    const payload = {
+      id,
+      deezerToken
+    }
+    const response = yield call(getPlaylistTrack, payload)
     yield put({
       type: 'SET_PLAYLIST_TRACK_SUCCESS',
       results: response.results.tracks.data,
@@ -17,10 +25,14 @@ function* setPlaylistTracks(action) {
   }
 }
 
-function* setUserid(action) {
-  const { id } = action
+function* setUserId(action) {
+  const { id, deezerToken } = action
   try {
-    const response = yield call(getPlaylistTrack, id)
+    const payload = {
+      id,
+      deezerToken
+    }
+    const response = yield call(getPlaylistTrack, payload)
     yield put({
       type: 'SET_USER_ID_SUCCESS',
       results: response.results.creator.id
@@ -40,12 +52,18 @@ function* editPlaylist(action) {
       token
     }
     const responseEditPlaylist = yield call(editPlaylistTrack, payload)
-
     yield put({
       type: 'EDIT_PLAYLIST_SUCCESS',
       results: responseEditPlaylist
     })
-    const reponseSetPlaylist = yield call(getPlaylistTrack, payload.playlistId)
+    const id = playlistId
+    const deezerToken = token
+    const payloadT = {
+      id,
+      deezerToken
+    }
+
+    const reponseSetPlaylist = yield call(getPlaylistTrack, payloadT)
     yield put({
       type: 'SET_PLAYLIST_TRACK_SUCCESS',
       results: reponseSetPlaylist.results.tracks.data,
@@ -58,15 +76,16 @@ function* editPlaylist(action) {
 }
 
 function* createPlaylist(action) {
-  const { title, deezerToken, deezerId } = action
+  const { title, deezerToken, deezerId, collabOption, privacyOption } = action
   try {
     const payload = {
       title,
       deezerToken,
-      deezerId
+      deezerId,
+      collabOption,
+      privacyOption
     }
     const response = yield call(createNewPlaylist, payload)
-    console.log('RESPONSE', response)
     yield put({
       type: 'CREATE_PLAYLIST_SUCCESS',
       results: response
@@ -77,11 +96,30 @@ function* createPlaylist(action) {
   }
 }
 
+function* deletePlaylistDeezer(action) {
+  const { playlistId, deezerToken } = action
+  try {
+    const payload = {
+      playlistId,
+      deezerToken
+    }
+    const response = yield call(deletePlaylist, payload)
+    yield put({
+      type: 'DELETE_PLAYLIST_SUCCESS',
+      results: payload.playlistId
+    })
+  } catch (err) {
+    console.log(err)
+    yield put({ type: 'DELETE_PLAYLIST_FAILURE', error: error.message })
+  }
+}
+
 export default function* rootSaga() {
   yield all(
     [yield takeEvery('SET_PLAYLIST_TRACKS', setPlaylistTracks)],
-    [yield takeEvery('SET_USER_ID', setUserid)],
+    [yield takeEvery('SET_USER_ID', setUserId)],
     [yield takeEvery('EDIT_PLAYLIST', editPlaylist)],
-    [yield takeEvery('CREATE_PLAYLIST', createPlaylist)]
+    [yield takeEvery('CREATE_PLAYLIST', createPlaylist)],
+    [yield takeEvery('DELETE_PLAYLIST', deletePlaylistDeezer)]
   )
 }

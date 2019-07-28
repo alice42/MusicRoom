@@ -60,10 +60,8 @@ class CreateEvent extends Component {
   }
 
   handleCreateEvent = () => {
-    const { title, validTitle } = this.state
+    const { title, validTitle, collabOption, privacyOption } = this.state
     const { type } = this.props.navigation.state.params
-    console.log('privacy option (public): ', this.state.privacyOption)
-    console.log('collab option: ', this.state.collabOption)
     if (!validTitle) {
       errorTitle = (
         <Text style={styles.errorMessage}>

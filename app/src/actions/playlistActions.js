@@ -1,13 +1,15 @@
-export function setPlaylistTracks(id) {
+export function setPlaylistTracks(id, deezerToken) {
   return {
     type: 'SET_PLAYLIST_TRACKS',
-    id
+    id,
+    deezerToken
   }
 }
-export function setUserId(id) {
+export function setUserId(id, deezerToken) {
   return {
     type: 'SET_USER_ID',
-    id
+    id,
+    deezerToken
   }
 }
 export function editPlaylist(trackId, playlistId, token) {
@@ -19,11 +21,27 @@ export function editPlaylist(trackId, playlistId, token) {
   }
 }
 
-export function createPlaylist(title, deezerId, deezerToken) {
+export function createPlaylist(
+  title,
+  deezerToken,
+  deezerId,
+  collabOption,
+  privacyOption
+) {
   return {
     type: 'CREATE_PLAYLIST',
     title,
+    deezerToken,
     deezerId,
+    collabOption,
+    privacyOption
+  }
+}
+
+export function deletePlaylist(playlistId, deezerToken) {
+  return {
+    type: 'DELETE_PLAYLIST',
+    playlistId,
     deezerToken
   }
 }
