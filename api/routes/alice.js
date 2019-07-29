@@ -80,13 +80,18 @@ const deletePlaylist = (playlistId, deezerToken) => {
     })
 }
 
-const updatePlaylist = (
-  playlistId,
-  deezerToken,
-  deezerId,
-  privacyOption,
-  collabOption
-) => {
+const deleteTrack = (playlistId, trackId, deezerId, deezerToken) => {
+  const url = `https://api.deezer.com/playlist/${playlistId}/tracks?access_token=${deezerToken}&request_method=delete&songs=${trackId}`
+  return fetch(url)
+    .then(response => {
+      return response.json()
+    })
+    .then(json => {
+      return json
+    })
+}
+
+const updatePlaylist = (playlistId, deezerToken, deezerId, privacyOption, collabOption) => {
   const url = `https://api.deezer.com/playlist/${playlistId}?access_token=${deezerToken}&request_method=post&collaborative=${collabOption}&public=${privacyOption}`
   return fetch(url)
     .then(response => {
@@ -150,13 +155,7 @@ router.post('/create-playlist', async (req, res) => {
     const { title, deezerToken, deezerId, collabOption, privacyOption } = query
     const results = await createNewPlaylist(title, deezerToken, deezerId)
     const playlistId = results.id
-    const resultsT = await updatePlaylist(
-      playlistId,
-      deezerToken,
-      deezerId,
-      privacyOption,
-      collabOption
-    )
+    const resultsT = await updatePlaylist(playlistId, deezerToken, deezerId, privacyOption, collabOption)
     return res.status(200).send({
       message: `OK`,
       query,
@@ -173,6 +172,22 @@ router.post('/delete-playlist', async (req, res) => {
     const { query } = req.body
     const { playlistId, deezerToken } = query
     const results = await deletePlaylist(playlistId, deezerToken)
+    return res.status(200).send({
+      message: `OK`,
+      query,
+      results
+    })
+  } catch (err) {
+    console.log('INTER ERROR', err)
+    return res.status(500).send({ error: 'internal server error' })
+  }
+})
+
+router.post('/delete-track', async (req, res) => {
+  try {
+    const { query } = req.body
+    const { playlistId, trackId, deezerId, deezerToken } = query
+    const results = await deleteTrack(playlistId, trackId, deezerId, deezerToken)
     return res.status(200).send({
       message: `OK`,
       query,
