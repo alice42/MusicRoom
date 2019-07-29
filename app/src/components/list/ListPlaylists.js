@@ -39,7 +39,7 @@ export default class playlists extends Component {
         renderItem={item => {
           const playlist = item.item
           return (
-            <SwipeRow disableRightSwipe leftOpenValue={75} rightOpenValue={-75}>
+            <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
                 <DeletePlaylistModal playlist={playlist} handleOnPressDelete={this.handleOnPressDelete} />
@@ -55,7 +55,7 @@ export default class playlists extends Component {
                 }}
               >
                 <View style={styles.container} />
-                <View style={{ justifyContent: 'center', width: width - 100 }}>
+                <View style={{ marginLeft: 40, width: width - 110 }}>
                   <Text style={styles.playlistTitle}>{playlist.title}</Text>
                 </View>
                 <View

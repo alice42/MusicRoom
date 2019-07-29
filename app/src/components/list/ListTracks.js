@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { FlatList, View, Text, TouchableOpacity, ScrollView, StyleSheet, Image, Dimensions, SafeAreaView } from 'react-native'
+import { SwipeRow } from 'react-native-swipe-list-view'
+import ChoosePlaylistModal from '../playlist/ChoosePlaylistModal'
+import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
 import * as playlistActions from '../../actions/playlistActions'
 import { colors } from '../../constants/colors'
-import ChoosePlaylistModal from '../playlist/ChoosePlaylistModal'
-import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
+
 export default class Comments extends Component {
   render() {
     const { width } = Dimensions.get('window')
@@ -27,67 +29,63 @@ export default class Comments extends Component {
         renderItem={item => {
           const track = item.item
           return (
-            <View
-              style={{
-                backgroundColor: item.index % 2 ? colors.green02 : colors.green01,
-                flexDirection: 'row',
-                borderBottomWidth: 1,
-                borderBottomStyle: 'solid',
-                borderBottomColor: 'black'
-              }}
-            >
-              <View style={styles.container}>
-                <Image
-                  style={styles.image}
-                  source={
-                    track.album.cover
-                      ? {
-                          uri: `${track.album.cover}`
-                        }
-                      : null
-                  }
-                />
-              </View>
-              <View style={{ justifyContent: 'center', width: width - 170 }}>
-                <Text style={styles.trackTitle}>{track.title}</Text>
-                <Text style={styles.trackTitle}>{track.artist.name}</Text>
+            <SwipeRow disableRightSwipe rightOpenValue={-55}>
+              <View style={styles.standaloneRowBack}>
+                <Text style={styles.backTextWhite}>Left</Text>
+                {buttonDel ? <DeletePlaylistModal playlist={playlist ? playlist : track} toDelTrack={track} handleOnPressDelete={this.props.handleOnPressDelete} /> : null}
               </View>
               <View
                 style={{
-                  flexDirection: 'row'
+                  backgroundColor: item.index % 2 ? colors.green02 : colors.green01,
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomStyle: 'solid',
+                  borderBottomColor: 'black',
+                  paddingLeft: 20
                 }}
               >
-                {buttonPlay ? (
-                  <TouchableOpacity
-                    // onPress={() => this.props.playTrack(track.preview)}
-                    style={{
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Icon
-                      name="play"
-                      size={18}
+                <View style={styles.container}>
+                  <Image
+                    style={styles.image}
+                    source={
+                      track.album.cover
+                        ? {
+                            uri: `${track.album.cover}`
+                          }
+                        : null
+                    }
+                  />
+                </View>
+                <View style={{ justifyContent: 'center', width: width - 170 }}>
+                  <Text style={styles.trackTitle}>{track.title}</Text>
+                  <Text style={styles.trackTitle}>{track.artist.name}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row'
+                  }}
+                >
+                  {buttonPlay ? (
+                    <TouchableOpacity
+                      // onPress={() => this.props.playTrack(track.preview)}
                       style={{
-                        color: colors.white,
-                        marginRight: 20
+                        justifyContent: 'center'
                       }}
-                    />
-                  </TouchableOpacity>
-                ) : null}
-                {buttonAdd ? (
-                  <ChoosePlaylistModalConnected track={track} navigation={this.props.navigation} test={this.props.test} />
-                ) : buttonDel ? (
-                  <TouchableOpacity
-                    // onPress={() => this.props.playTrack(track.preview)}
-                    style={{
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <DeletePlaylistModal playlist={playlist ? playlist : track} toDelTrack={track} handleOnPressDelete={this.props.handleOnPressDelete} />
-                  </TouchableOpacity>
-                ) : null}
+                    >
+                      <Icon
+                        name="play"
+                        size={18}
+                        style={{
+                          color: colors.white,
+                          marginRight: 20
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                  {buttonAdd ? <ChoosePlaylistModalConnected track={track} navigation={this.props.navigation} test={this.props.test} /> : null}
+                </View>
               </View>
-            </View>
+            </SwipeRow>
           )
         }}
       />
@@ -164,6 +162,17 @@ const styles = StyleSheet.create({
     color: colors.lightGray,
     marginTop: 4,
     marginLeft: 5
+  },
+  standaloneRowBack: {
+    alignItems: 'center',
+    backgroundColor: colors.darkOrange,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 20
+  },
+  backTextWhite: {
+    color: '#FFF'
   },
   name: {
     fontSize: 16,
