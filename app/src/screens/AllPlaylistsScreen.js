@@ -29,25 +29,13 @@ class AllPlaylistsScreen extends Component {
 
   handleCreatePlaylist = (title, collabOption, privacyOption) => {
     const { deezerToken, deezerId } = this.props.user
-    this.props.playlistActions.createPlaylist(
-      title,
-      deezerToken,
-      deezerId,
-      collabOption,
-      privacyOption
-    )
+    this.props.playlistActions.createPlaylist(title, deezerToken, deezerId, collabOption, privacyOption)
   }
 
   renderPlaylists = () => {
     const { navigation } = this.props
     const { playlists } = this.props.user.data
-    return (
-      <ListPlaylistsConnected
-        list={playlists}
-        navigation={navigation}
-        {...this.props}
-      />
-    )
+    return <ListPlaylistsConnected list={playlists} navigation={navigation} {...this.props} />
   }
   apiError = () => {
     const { error } = this.props.user
@@ -60,13 +48,7 @@ class AllPlaylistsScreen extends Component {
       <View style={styles.wrapper}>
         {/* {this.apiError()} */}
         {/* <View style={styles.containerWrapper}> */}
-        <Playlists
-          {...this.props}
-          playlists={playlists}
-          navigation={this.props.navigation}
-          renderPlaylists={this.renderPlaylists}
-          handleCreatePlaylistRequest={this.handleCreatePlaylistRequest}
-        />
+        <Playlists {...this.props} playlists={playlists} navigation={this.props.navigation} renderPlaylists={this.renderPlaylists} handleCreatePlaylistRequest={this.handleCreatePlaylistRequest} />
         {/* </View> */}
       </View>
     )

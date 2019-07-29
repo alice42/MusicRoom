@@ -46,13 +46,14 @@ function* loginFacebookSaga(action) {
   try {
     const facebookInformation = yield call(getTokenFacebook)
     const response = yield call(loginFacebook, facebookInformation)
+    console.log('RESPONSE', facebookInformation)
     if (response.error) {
       yield put({ type: 'LOGIN_FAILURE', error: response.error })
     } else {
       yield put({
         type: 'LOGIN_SUCCESS_FACEBOOK',
         response: {
-          email: facebookInformation.email,
+          user: facebookInformation,
           sessionId: response.sessionId
         }
       })

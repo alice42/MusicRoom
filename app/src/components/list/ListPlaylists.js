@@ -2,20 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  FlatList,
-  Dimensions
-} from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, FlatList, Dimensions } from 'react-native'
+import { SwipeRow } from 'react-native-swipe-list-view'
+import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
 import * as playlistActions from '../../actions/playlistActions'
 import { colors } from '../../constants/colors'
-import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 
 const { width } = Dimensions.get('window')
 
@@ -46,41 +39,36 @@ export default class playlists extends Component {
         renderItem={item => {
           const playlist = item.item
           return (
-            <View
-              style={{
-                backgroundColor:
-                  item.index % 2 ? colors.green02 : colors.green01,
-                flexDirection: 'row',
-                borderBottomWidth: 1,
-                borderBottomStyle: 'solid',
-                borderBottomColor: 'black',
-                padding: 10
-              }}
-            >
-              <View style={styles.container} />
-              <View style={{ justifyContent: 'center', width: width - 170 }}>
-                <Text style={styles.playlistTitle}>{playlist.title}</Text>
+            <SwipeRow disableRightSwipe leftOpenValue={75} rightOpenValue={-75}>
+              <View style={styles.standaloneRowBack}>
+                <Text style={styles.backTextWhite}>Left</Text>
+                <DeletePlaylistModal playlist={playlist} handleOnPressDelete={this.handleOnPressDelete} />
               </View>
               <View
                 style={{
-                  flexDirection: 'row'
+                  backgroundColor: item.index % 2 ? colors.green02 : colors.green01,
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomStyle: 'solid',
+                  borderBottomColor: 'black',
+                  padding: 10
                 }}
               >
-                <TouchableOpacity
-                  onPress={() => this.handleOnPressAccess(playlist)}
+                <View style={styles.container} />
+                <View style={{ justifyContent: 'center', width: width - 100 }}>
+                  <Text style={styles.playlistTitle}>{playlist.title}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row'
+                  }}
                 >
-                  <Icon
-                    name={'chevron-right'}
-                    size={20}
-                    style={{ color: colors.white }}
-                  />
-                </TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.handleOnPressAccess(playlist)}>
+                    <Icon name={'chevron-right'} size={20} style={{ color: colors.white }} />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <DeletePlaylistModal
-                playlist={playlist}
-                handleOnPressDelete={this.handleOnPressDelete}
-              />
-            </View>
+            </SwipeRow>
           )
         }}
       />
@@ -168,5 +156,20 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  standalone: {
+    marginTop: 30,
+    marginBottom: 30
+  },
+  standaloneRowBack: {
+    alignItems: 'center',
+    backgroundColor: colors.darkOrange,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 20
+  },
+  backTextWhite: {
+    color: '#FFF'
   }
 })

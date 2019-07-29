@@ -46,8 +46,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         token: action.response.sessionId,
-        data: { ...state.data, email: action.response.email },
-        data: { ...state.data, facebook: true },
+        data: { ...state.data, email: action.response.user.email, firstname: action.response.user.firstname, name: action.response.user.lastname, avatarUri: action.response.user.avatarUri, facebook: true },
         error: null
       }
     case 'LOGIN_FAILURE':
