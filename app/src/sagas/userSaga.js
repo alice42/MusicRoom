@@ -1,13 +1,5 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import {
-  signinMethod,
-  loginClassic,
-  loginFacebook,
-  loginGoogle,
-  recoverPassword,
-  updateMethod,
-  logoutMethod
-} from '../services/apiService'
+import { signinMethod, loginClassic, loginFacebook, loginGoogle, recoverPassword, updateMethod, logoutMethod } from '../services/apiService'
 import { getTokenFacebook } from '../services/facebookService'
 import { getTokenGoogle } from '../services/googleService'
 
@@ -73,6 +65,7 @@ function* loginFacebookSaga(action) {
 function* loginGoogleSaga(action) {
   try {
     const googleInformation = yield call(getTokenGoogle)
+    // console.log('INFO', googleInformation)
     if (googleInformation === 'cancelled') {
       yield put({ type: 'LOGIN_FAILURE', error: null })
     } else {
@@ -83,7 +76,7 @@ function* loginGoogleSaga(action) {
         yield put({
           type: 'LOGIN_SUCCESS_GOOGLE',
           response: {
-            email: googleInformation.user.email,
+            user: googleInformation.user,
             sessionId: response.sessionId
           }
         })
@@ -140,13 +133,5 @@ function* logoutSaga(action) {
 }
 
 export default function* rootSaga() {
-  yield all(
-    [yield takeEvery('SIGNIN_REQUEST', signinAppSaga)],
-    [yield takeEvery('LOGIN_REQUEST', loginAppSaga)],
-    [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)],
-    [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)],
-    [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)],
-    [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)],
-    [yield takeEvery('LOGOUT', logoutSaga)]
-  )
+  yield all([yield takeEvery('SIGNIN_REQUEST', signinAppSaga)], [yield takeEvery('LOGIN_REQUEST', loginAppSaga)], [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)], [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)], [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)], [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)], [yield takeEvery('LOGOUT', logoutSaga)])
 }

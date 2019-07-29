@@ -3,6 +3,7 @@ const initialState = {
   deezerToken: null,
   deezerId: null,
   data: {
+    avatarUri: '',
     email: '',
     firstname: '',
     name: '',
@@ -38,8 +39,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         token: action.response.sessionId,
-        data: { ...state.data, email: action.response.email },
-        data: { ...state.data, google: true },
+        data: { ...state.data, email: action.response.user.email, firstname: action.response.user.givenName, name: action.response.user.familyName, avatarUri: action.response.user.photo, google: true },
         error: null
       }
     case 'LOGIN_SUCCESS_FACEBOOK':
