@@ -91,12 +91,7 @@ export const recoverPassword = async email => {
 export const updateMethod = async ({ token, toChange, newValue }) => {
   const url = `${apiUrl}${user}${update}`
   try {
-    const response = await basicFetch(
-      'POST',
-      url,
-      {},
-      { token, toChange, newValue }
-    )
+    const response = await basicFetch('POST', url, {}, { token, toChange, newValue })
     return response
   } catch (err) {
     throw err
@@ -154,6 +149,16 @@ export const createNewPlaylist = async query => {
 
 export const deletePlaylist = async query => {
   const url = `${apiUrl}/alice/delete-playlist`
+  try {
+    const response = await basicFetch('POST', url, {}, { query })
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const deleteTrack = async query => {
+  const url = `${apiUrl}/alice/delete-track`
   try {
     const response = await basicFetch('POST', url, {}, { query })
     return response

@@ -1,10 +1,5 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import { getPlaylistTrack } from '../services/apiService'
-import {
-  editPlaylistTrack,
-  createNewPlaylist,
-  deletePlaylist
-} from '../services/apiService'
+import { getPlaylistTrack, editPlaylistTrack, createNewPlaylist, deletePlaylist, deleteTrack } from '../services/apiService'
 
 function* setPlaylistTracks(action) {
   const { id, deezerToken } = action
@@ -62,7 +57,6 @@ function* editPlaylist(action) {
       id,
       deezerToken
     }
-
     const reponseSetPlaylist = yield call(getPlaylistTrack, payloadT)
     yield put({
       type: 'SET_PLAYLIST_TRACK_SUCCESS',
@@ -106,7 +100,8 @@ function* deletePlaylistDeezer(action) {
     const response = yield call(deletePlaylist, payload)
     yield put({
       type: 'DELETE_PLAYLIST_SUCCESS',
-      results: payload.playlistId
+      results: payload.playlistId,
+      response: response
     })
   } catch (err) {
     console.log(err)
@@ -114,12 +109,32 @@ function* deletePlaylistDeezer(action) {
   }
 }
 
+function* deleteTrackDeezer(action) {
+  const { playlistId, trackId, deezerId, deezerToken } = action
+  try {
+    const payload = {
+      playlistId,
+      deezerToken,
+      trackId,
+      deezerId
+    }
+    const response = yield call(deleteTrack, payload)
+    const id = playlistId
+    const payloadT = {
+      id,
+      deezerToken
+    }
+    const reponseSetPlaylist = yield call(getPlaylistTrack, payloadT)
+    yield put({
+      type: 'SET_PLAYLIST_TRACK_SUCCESS',
+      results: reponseSetPlaylist.results.tracks.data,
+      playlistInfo: reponseSetPlaylist.results
+    })
+  } catch (err) {
+    console.log(err)
+    yield put({ type: 'DELETE_TRACK_FAILURE', error: error.message })
+  }
+}
 export default function* rootSaga() {
-  yield all(
-    [yield takeEvery('SET_PLAYLIST_TRACKS', setPlaylistTracks)],
-    [yield takeEvery('SET_USER_ID', setUserId)],
-    [yield takeEvery('EDIT_PLAYLIST', editPlaylist)],
-    [yield takeEvery('CREATE_PLAYLIST', createPlaylist)],
-    [yield takeEvery('DELETE_PLAYLIST', deletePlaylistDeezer)]
-  )
+  yield all([yield takeEvery('SET_PLAYLIST_TRACKS', setPlaylistTracks)], [yield takeEvery('SET_USER_ID', setUserId)], [yield takeEvery('EDIT_PLAYLIST', editPlaylist)], [yield takeEvery('CREATE_PLAYLIST', createPlaylist)], [yield takeEvery('DELETE_PLAYLIST', deletePlaylistDeezer)], [yield takeEvery('DELETE_TRACK', deleteTrackDeezer)])
 }

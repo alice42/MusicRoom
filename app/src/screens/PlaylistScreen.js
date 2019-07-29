@@ -26,8 +26,13 @@ class PlaylistScreen extends Component {
   }
 
   handleOnPressDelete = track => {
-    console.log(track)
-    // this.props.playlistActions.deleteTrack(track.id)
+    if (track) {
+      const { deezerId } = this.props.user
+      const { deezerToken } = this.props.user
+      const playlistId = this.props.playlist.playlistInfo.id
+      const trackId = track.id
+      this.props.playlistActions.deleteTrack(playlistId, trackId, deezerId, deezerToken)
+    }
   }
 
   render() {
