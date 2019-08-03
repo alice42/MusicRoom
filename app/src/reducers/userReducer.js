@@ -71,6 +71,16 @@ function reducer(state = initialState, action) {
         ...state,
         data: { ...action.response }
       }
+    case 'LINK_DEEZER_SUCCESS':
+      return {
+        ...state,
+        data: { ...action.response }
+      }
+    case 'UNLINK_DEEZER_SUCCESS':
+      return {
+        ...state,
+        data: { ...action.response }
+      }
     case 'LOGIN_FAILURE':
       return {
         ...state,
@@ -124,8 +134,7 @@ function reducer(state = initialState, action) {
     case 'DEEZER_GET_TOKEN_SUCCESS':
       return {
         ...state,
-        deezerToken: action.token,
-        data: { ...state.data, deezer: true }
+        deezerToken: action.token
       }
     case 'SET_USER_ID_SUCCESS':
       return {

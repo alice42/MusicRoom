@@ -57,6 +57,18 @@ export function deezerGetTokenSuccess(token) {
   }
 }
 
+export function linkDeezerRequest(deezerToken) {
+  return {
+    type: 'LINK_DEEZER_REQUEST',
+    deezerToken
+  }
+}
+export function unlinkDeezerRequest() {
+  return {
+    type: 'UNLINK_DEEZER_REQUEST'
+  }
+}
+
 export function setPlaylists(playlists) {
   return {
     type: 'SET_PLAYLISTS',

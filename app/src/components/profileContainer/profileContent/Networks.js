@@ -27,29 +27,25 @@ export default class ProfileContent extends React.Component {
     }
   }
 
-  handleDispatchToken = token => {
-    this.props.actions.deezerGetTokenSuccess(token)
-  }
-
   componentWillMount() {
     this.connectToDeezer = this.connectToDeezer.bind(this)
   }
-
-  componentDidMount() {
-    DeezerManager.checkSession(async () => {
-      this.connectToDeezer() && this.getPlaylists()
-    })
-  }
-
   async getPlaylists() {
     let playlists = await DeezerManager.getPlaylists()
     this.props.actions.setPlaylists(playlists)
-    this.setState({ isConnected: true })
   }
 
   async connectToDeezer() {
-    await DeezerManager.connect(this.handleDispatchToken)
-    this.getPlaylists()
+    const { deezer } = this.props.user.data
+    if (!deezer) {
+      await DeezerManager.connect(token => {
+        this.props.actions.deezerGetTokenSuccess(token)
+        this.props.actions.linkDeezerRequest()
+        this.getPlaylists()
+      })
+    } else {
+      this.props.actions.unlinkDeezerRequest()
+    }
   }
   render() {
     const { facebook, google, deezer } = this.props.user.data

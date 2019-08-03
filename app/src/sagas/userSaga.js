@@ -176,6 +176,49 @@ function* unlinkGoogleSaga(action) {
   }
 }
 
+function* linkDeezerSaga(action) {
+  try {
+    console.log('4444444444444')
+    const token = yield select(state => state.user.token)
+    const deezerToken = yield select(state => state.user.deezerToken)
+    const payload = {
+      token,
+      type: 'deezer',
+      key: deezerToken
+    }
+    const response = yield call(linkAccountMethod, payload)
+    if (response.error) {
+      yield put({ type: 'LINK_DEEZER_FAILURE', error: response.error })
+    } else {
+      // console.log('RESPONSE SAGA', response)
+      yield put({
+        type: 'LINK_DEEZER_SUCCESS',
+        response
+      })
+    }
+  } catch (err) {
+    yield put({ type: 'LINK_DEEZER_FAILURE', error: err.message })
+  }
+}
+
+function* unlinkDeezerSaga(action) {
+  try {
+    const token = yield select(state => state.user.token)
+    const payload = {
+      token,
+      type: 'deezer'
+    }
+    const response = yield call(unlinkAccountMethod, payload)
+    console.log('RESPONSE  UNLINK SAGA', response)
+    yield put({
+      type: 'UNLINK_DEEZER_SUCCESS',
+      response
+    })
+  } catch (err) {
+    yield put({ type: 'UNLINK_DEEZER_FAILURE', error: err.message })
+  }
+}
+
 function* recoverPasswordSaga(action) {
   const { email } = action
   try {
@@ -248,5 +291,20 @@ function* logoutSaga(action) {
 }
 
 export default function* rootSaga() {
-  yield all([yield takeEvery('UNLINK_GOOGLE_REQUEST', unlinkGoogleSaga)], [yield takeEvery('UNLINK_FACEBOOK_REQUEST', unlinkFacebookSaga)], [yield takeEvery('LINK_FACEBOOK_REQUEST', linkFacebookSaga)], [yield takeEvery('LINK_GOOGLE_REQUEST', linkGoogleSaga)], [yield takeEvery('UPDATE_PRIVACY_REQUEST', updatePrivacySaga)], [yield takeEvery('SIGNIN_REQUEST', signinAppSaga)], [yield takeEvery('LOGIN_REQUEST', loginAppSaga)], [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)], [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)], [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)], [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)], [yield takeEvery('LOGOUT', logoutSaga)])
+  yield all(
+    [yield takeEvery('LINK_DEEZER_REQUEST', linkDeezerSaga)],
+    [yield takeEvery('UNLINK_DEEZER_REQUEST', unlinkDeezerSaga)],
+    [yield takeEvery('UNLINK_GOOGLE_REQUEST', unlinkGoogleSaga)],
+    [yield takeEvery('UNLINK_FACEBOOK_REQUEST', unlinkFacebookSaga)],
+    [yield takeEvery('LINK_FACEBOOK_REQUEST', linkFacebookSaga)],
+    [yield takeEvery('LINK_GOOGLE_REQUEST', linkGoogleSaga)],
+    [yield takeEvery('UPDATE_PRIVACY_REQUEST', updatePrivacySaga)],
+    [yield takeEvery('SIGNIN_REQUEST', signinAppSaga)],
+    [yield takeEvery('LOGIN_REQUEST', loginAppSaga)],
+    [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)],
+    [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)],
+    [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)],
+    [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)],
+    [yield takeEvery('LOGOUT', logoutSaga)]
+  )
 }
