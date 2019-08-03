@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Icons from 'react-native-vector-icons/MaterialIcons'
 import Player from '../containers/Player'
 import DeletePlaylistModal from '../components/playlist/DeletePlaylistModal'
+import UsersPlaylistModal from '../components/playlist/UsersPlaylistModal'
 
 class PlaylistScreen extends Component {
   renderPlaylistTracks = () => {
@@ -23,6 +24,10 @@ class PlaylistScreen extends Component {
 
   handleAddTrack = () => {
     this.props.navigation.navigate('Search')
+  }
+
+  handleFollowers = () => {
+    this.props.playlistActions.getDeezerFollowers(this.props.user.deezerId)
   }
 
   handleOnPressDelete = track => {
@@ -40,10 +45,15 @@ class PlaylistScreen extends Component {
     const { playlistInfo } = this.props.playlist
     return (
       <View style={styles.wrapper}>
-        <View>
-          <Text style={stylesBis.playlistTitle}>{playlistInfo.title}</Text>
-          {playlistInfo.public ? <Text style={stylesBis.playlistPrivacy}>public</Text> : <Text style={stylesBis.playlistPrivacy}>private</Text>}
-          {playlistInfo.collaborative ? <Text style={stylesBis.playlistPrivacy}>collaborative</Text> : null}
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View>
+            <Text style={stylesBis.playlistTitle}>{playlistInfo.title}</Text>
+            {playlistInfo.public ? <Text style={stylesBis.playlistPrivacy}>public</Text> : <Text style={stylesBis.playlistPrivacy}>private</Text>}
+            {playlistInfo.collaborative ? <Text style={stylesBis.playlistPrivacy}>collaborative</Text> : null}
+          </View>
+          <View style={{ alignSelf: 'center' }}>
+            <UsersPlaylistModal handleFollowers={this.handleFollowers} {...this.props} />
+          </View>
         </View>
         <ScrollView style={{ backgroundColor: colors.gray03 }}>{this.renderPlaylistTracks()}</ScrollView>
         <View style={{ marginTop: 10, marginBottom: 20 }}>

@@ -12,7 +12,8 @@ const initialState = {
     deezer: false,
     tags: [],
     playlists: [],
-    tracks: []
+    tracks: [],
+    followers: []
   },
   error: null
 }
@@ -108,6 +109,11 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         deezerId: action.results
+      }
+    case 'GET_FOLLOWERS_SUCCESS':
+      return {
+        ...state,
+        data: { ...state.data, followers: action.results }
       }
     case 'LOGOUT':
       return initialState

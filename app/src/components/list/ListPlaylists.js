@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, FlatList, Dimensions } from 'react-native'
 import { SwipeRow } from 'react-native-swipe-list-view'
 import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
-import * as userActions from '../../actions/userActions'
-import * as searchActions from '../../actions/searchActions'
-import * as playlistActions from '../../actions/playlistActions'
 import { colors } from '../../constants/colors'
 
 const { width } = Dimensions.get('window')
@@ -38,6 +33,7 @@ export default class playlists extends Component {
         }}
         renderItem={item => {
           const playlist = item.item
+          console.log('playlists', playlist)
           return (
             <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
@@ -83,26 +79,6 @@ export default class playlists extends Component {
     )
   }
 }
-function profileActionsMapDispatchToProps(dispatch) {
-  return {
-    userActions: bindActionCreators(userActions, dispatch),
-    searchActions: bindActionCreators(searchActions, dispatch),
-    playlistActions: bindActionCreators(playlistActions, dispatch)
-  }
-}
-function profileMapStateToProps(state) {
-  const { user, search, playlist } = state
-  return {
-    user,
-    search,
-    playlist
-  }
-}
-
-// const DeletePlaylistModalConnected = connect(
-//   profileMapStateToProps,
-//   profileActionsMapDispatchToProps
-// )(DeletePlaylistModal)
 
 const styles = StyleSheet.create({
   root: {
@@ -156,10 +132,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold'
-  },
-  standalone: {
-    marginTop: 30,
-    marginBottom: 30
   },
   standaloneRowBack: {
     alignItems: 'center',

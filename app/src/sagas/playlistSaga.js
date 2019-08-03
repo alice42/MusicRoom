@@ -1,5 +1,5 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import { getPlaylistTrack, editPlaylistTrack, createNewPlaylist, deletePlaylist, deleteTrack } from '../services/apiService'
+import { getPlaylistTrack, editPlaylistTrack, createNewPlaylist, deletePlaylist, deleteTrack, getDeezerFollwers } from '../services/apiService'
 
 function* setPlaylistTracks(action) {
   const { id, deezerToken } = action
@@ -135,6 +135,19 @@ function* deleteTrackDeezer(action) {
     yield put({ type: 'DELETE_TRACK_FAILURE', error: error.message })
   }
 }
+
+function* getFollowers(action) {
+  try {
+    const response = yield call(getDeezerFollwers, action.id)
+    yield put({
+      type: 'GET_FOLLOWERS_SUCCESS',
+      results: response.results.data
+    })
+  } catch (err) {
+    yield put({ type: 'GET_FOLLOWERS_FAILURE', error: error.message })
+  }
+}
+
 export default function* rootSaga() {
-  yield all([yield takeEvery('SET_PLAYLIST_TRACKS', setPlaylistTracks)], [yield takeEvery('SET_USER_ID', setUserId)], [yield takeEvery('EDIT_PLAYLIST', editPlaylist)], [yield takeEvery('CREATE_PLAYLIST', createPlaylist)], [yield takeEvery('DELETE_PLAYLIST', deletePlaylistDeezer)], [yield takeEvery('DELETE_TRACK', deleteTrackDeezer)])
+  yield all([yield takeEvery('SET_PLAYLIST_TRACKS', setPlaylistTracks)], [yield takeEvery('GET_DEEZER_FOLLOWERS', getFollowers)], [yield takeEvery('SET_USER_ID', setUserId)], [yield takeEvery('EDIT_PLAYLIST', editPlaylist)], [yield takeEvery('CREATE_PLAYLIST', createPlaylist)], [yield takeEvery('DELETE_PLAYLIST', deletePlaylistDeezer)], [yield takeEvery('DELETE_TRACK', deleteTrackDeezer)])
 }

@@ -102,6 +102,17 @@ const updatePlaylist = (playlistId, deezerToken, deezerId, privacyOption, collab
     })
 }
 
+const getDeezerFollowers = id => {
+  const url = `https://api.deezer.com/user/2525235902/followers&request_method=get`
+  return fetch(url)
+    .then(response => {
+      return response.json()
+    })
+    .then(json => {
+      return json
+    })
+}
+
 router.post('/search', async (req, res) => {
   try {
     const { query } = req.body
@@ -188,6 +199,22 @@ router.post('/delete-track', async (req, res) => {
     const { query } = req.body
     const { playlistId, trackId, deezerId, deezerToken } = query
     const results = await deleteTrack(playlistId, trackId, deezerId, deezerToken)
+    return res.status(200).send({
+      message: `OK`,
+      query,
+      results
+    })
+  } catch (err) {
+    console.log('INTER ERROR', err)
+    return res.status(500).send({ error: 'internal server error' })
+  }
+})
+
+router.post('/get-followers', async (req, res) => {
+  try {
+    const { query } = req.body
+    const { id } = query
+    const results = await getDeezerFollowers(id)
     return res.status(200).send({
       message: `OK`,
       query,

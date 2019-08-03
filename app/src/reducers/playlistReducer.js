@@ -1,6 +1,8 @@
 const initialState = {
   tracks: [],
-  playlistInfo: []
+  playlistInfo: [],
+  publicPlaylist: [],
+  privatePlaylist: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -9,7 +11,9 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         tracks: action.results,
-        playlistInfo: action.playlistInfo
+        playlistInfo: action.playlistInfo,
+        publicPlaylist: [...state.publicPlaylist, action.playlistInfo.public ? playlistInfo : null],
+        privatePlaylist: [...state.privatePlaylist, action.playlistInfo.private ? playlistInfo : null]
       }
     default:
       return state

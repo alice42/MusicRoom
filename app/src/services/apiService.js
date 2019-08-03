@@ -166,3 +166,12 @@ export const deleteTrack = async query => {
     throw err
   }
 }
+export const getDeezerFollwers = async query => {
+  const url = `${apiUrl}/alice/get-followers`
+  try {
+    const response = await basicFetch('POST', url, {}, { query })
+    return response
+  } catch (err) {
+    throw err
+  }
+}

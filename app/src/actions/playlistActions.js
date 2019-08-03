@@ -49,3 +49,10 @@ export function deleteTrack(playlistId, trackId, deezerId, deezerToken) {
     deezerToken
   }
 }
+
+export function getDeezerFollowers(id) {
+  return {
+    type: 'GET_DEEZER_FOLLOWERS',
+    id
+  }
+}
