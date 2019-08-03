@@ -43,6 +43,7 @@ export default class ProfileContent extends React.Component {
   }
   render() {
     const { facebook, google, deezer } = this.props.user.data
+    console.log(deezer)
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>
@@ -50,26 +51,8 @@ export default class ProfileContent extends React.Component {
           <PrivacyModal />
         </View>
         <View style={styles.contentProfileWrapper}>
-          <NetworkLinking
-            textColor={colors.green01}
-            background={colors.white}
-            border={colors.green01}
-            onLoginFacebookPress={this.onLoginFacebookPress}
-            onLoginGooglePress={this.onLoginGooglePress}
-            textFB={facebook ? 'Unlink ' : 'Link '}
-            textG={google ? 'Unlink ' : 'Link '}
-            privacyButton={true}
-          />
-          <RoundedButton
-            text={deezer ? 'Unlink Deezer' : 'Link Deezer'}
-            textColor={colors.white}
-            background={colors.green01}
-            border={colors.green01}
-            icon={
-              <Icon name="music" size={20} style={styles.contentProfileIcon} />
-            }
-            handleOnPress={this.connectToDeezer}
-          />
+          <NetworkLinking textColor={colors.green01} background={colors.white} border={colors.green01} onLoginFacebookPress={this.onLoginFacebookPress} onLoginGooglePress={this.onLoginGooglePress} textFB={facebook ? 'Unlink ' : 'Link '} textG={google ? 'Unlink ' : 'Link '} privacyButton={true} />
+          <RoundedButton text={deezer ? 'Unlink Deezer' : 'Link Deezer'} textColor={colors.white} background={colors.green01} border={colors.green01} icon={<Icon name="music" size={20} style={styles.contentProfileIcon} />} handleOnPress={this.connectToDeezer} />
         </View>
       </View>
     )

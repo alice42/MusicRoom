@@ -33,7 +33,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         token: action.response.sessionId,
-        data: { ...state.data, email: action.response.email },
+        data: { ...action.response.user },
         error: null
       }
     case 'LOGIN_SUCCESS_GOOGLE':
@@ -61,7 +61,8 @@ function reducer(state = initialState, action) {
       }
     case 'UPDATE_SUCCESS':
       return {
-        ...state
+        ...state,
+        data: { ...action.response }
       }
     case 'UPDATE_FAILURE':
       return {

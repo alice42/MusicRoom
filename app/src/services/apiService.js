@@ -1,6 +1,6 @@
 import { statusCodes, GoogleSignin } from 'react-native-google-signin'
 
-const apiUrl = 'http://localhost:3001/api'
+const apiUrl = 'http://192.168.0.10:3001/api'
 const user = '/user'
 const signin = '/sign-in'
 const login = '/log-in'
@@ -8,6 +8,7 @@ const fbLogin = '/facebook-log-in'
 const ggLogin = '/google-log-in'
 const recover = '/recover'
 const update = '/update-data'
+const updatePrivacy = '/update-privacy'
 
 const basicFetch = async (method, url, config, data) => {
   if (method === 'GET') {
@@ -92,6 +93,16 @@ export const updateMethod = async ({ token, toChange, newValue }) => {
   const url = `${apiUrl}${user}${update}`
   try {
     const response = await basicFetch('POST', url, {}, { token, toChange, newValue })
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const updatePrivacyMethod = async ({ token, privacyValue, dataType }) => {
+  const url = `${apiUrl}${user}${updatePrivacy}`
+  try {
+    const response = await basicFetch('POST', url, {}, { token, privacyValue, dataType })
     return response
   } catch (err) {
     throw err

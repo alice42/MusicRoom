@@ -56,6 +56,15 @@ export function updateRequest(token, toChange, newValue) {
   }
 }
 
+export function updatePrivacyRequest(token, privacyValue, dataType) {
+  return {
+    type: 'UPDATE_PRIVACY_REQUEST',
+    token,
+    privacyValue,
+    dataType
+  }
+}
+
 export function logout() {
   return {
     type: 'LOGOUT'

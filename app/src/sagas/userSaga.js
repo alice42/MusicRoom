@@ -1,5 +1,5 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import { signinMethod, loginClassic, loginFacebook, loginGoogle, recoverPassword, updateMethod, logoutMethod } from '../services/apiService'
+import { signinMethod, loginClassic, loginFacebook, loginGoogle, recoverPassword, updateMethod, logoutMethod, updatePrivacyMethod } from '../services/apiService'
 import { getTokenFacebook } from '../services/facebookService'
 import { getTokenGoogle } from '../services/googleService'
 
@@ -32,9 +32,10 @@ function* loginAppSaga(action) {
     if (response.error) {
       yield put({ type: 'LOGIN_FAILURE', error: response.error })
     } else {
+      console.log('RESPONSE LOG IN ', response)
       yield put({
         type: 'LOGIN_SUCCESS',
-        response: { sessionId: response.sessionId, email }
+        response
       })
     }
   } catch (err) {
@@ -116,12 +117,38 @@ function* updateUserSaga(action) {
     if (response.error) {
       yield put({ type: 'UPDATE_FAILURE', error: response.error })
     } else {
+      console.log('RESPONSE SAGA', response)
       yield put({
-        type: 'UPDATE_SUCCESS'
+        type: 'UPDATE_SUCCESS',
+        response
       })
     }
   } catch (err) {
     yield put({ type: 'UPDATE_FAILURE', error: err.message })
+  }
+}
+
+function* updatePrivacySaga(action) {
+  const { token, privacyValue, dataType } = action
+  try {
+    const payload = {
+      token,
+      privacyValue,
+      dataType
+    }
+    console.log('TEST SAGA')
+    const response = yield call(updatePrivacyMethod, payload)
+    console.log('RESPONSE PRIV SAGA', response)
+    if (response.error) {
+      yield put({ type: 'UPDATE_PRIVACY_FAILURE', error: response.error })
+    } else {
+      yield put({
+        type: 'UPDATE_SUCCESS',
+        response
+      })
+    }
+  } catch (err) {
+    yield put({ type: 'UPDATE_PRIVACY_FAILURE', error: err.message })
   }
 }
 
@@ -134,5 +161,5 @@ function* logoutSaga(action) {
 }
 
 export default function* rootSaga() {
-  yield all([yield takeEvery('SIGNIN_REQUEST', signinAppSaga)], [yield takeEvery('LOGIN_REQUEST', loginAppSaga)], [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)], [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)], [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)], [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)], [yield takeEvery('LOGOUT', logoutSaga)])
+  yield all([yield takeEvery('UPDATE_PRIVACY_REQUEST', updatePrivacySaga)], [yield takeEvery('SIGNIN_REQUEST', signinAppSaga)], [yield takeEvery('LOGIN_REQUEST', loginAppSaga)], [yield takeEvery('LOGIN_FACEBOOK_REQUEST', loginFacebookSaga)], [yield takeEvery('LOGIN_GOOGLE_REQUEST', loginGoogleSaga)], [yield takeEvery('RECOVER_PASSWORD_REQUEST', recoverPasswordSaga)], [yield takeEvery('UPDATE_USER_DATA_REQUEST', updateUserSaga)], [yield takeEvery('LOGOUT', logoutSaga)])
 }
