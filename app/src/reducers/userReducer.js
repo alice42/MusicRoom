@@ -7,6 +7,7 @@ const initialState = {
     email: '',
     firstname: '',
     name: '',
+    privacy: {},
     facebook: false,
     google: false,
     deezer: false,
@@ -49,6 +50,26 @@ function reducer(state = initialState, action) {
         token: action.response.sessionId,
         data: { ...state.data, email: action.response.user.email, firstname: action.response.user.firstname, name: action.response.user.lastname, avatarUri: action.response.user.avatarUri, facebook: true },
         error: null
+      }
+    case 'LINK_FACEBOOK_SUCCESS':
+      return {
+        ...state,
+        data: { ...action.response }
+      }
+    case 'UNLINK_FACEBOOK_SUCCESS':
+      return {
+        ...state,
+        data: { ...action.response }
+      }
+    case 'LINK_GOOGLE_SUCCESS':
+      return {
+        ...state,
+        data: { ...action.response }
+      }
+    case 'UNLINK_GOOGLE_SUCCESS':
+      return {
+        ...state,
+        data: { ...action.response }
       }
     case 'LOGIN_FAILURE':
       return {

@@ -26,6 +26,30 @@ export function loginGoogleRequest() {
   }
 }
 
+export function linkFacebookRequest() {
+  return {
+    type: 'LINK_FACEBOOK_REQUEST'
+  }
+}
+
+export function unlinkFacebookRequest() {
+  return {
+    type: 'UNLINK_FACEBOOK_REQUEST'
+  }
+}
+
+export function linkGoogleRequest() {
+  return {
+    type: 'LINK_GOOGLE_REQUEST'
+  }
+}
+
+export function unlinkGoogleRequest() {
+  return {
+    type: 'UNLINK_GOOGLE_REQUEST'
+  }
+}
+
 export function deezerGetTokenSuccess(token) {
   return {
     type: 'DEEZER_GET_TOKEN_SUCCESS',

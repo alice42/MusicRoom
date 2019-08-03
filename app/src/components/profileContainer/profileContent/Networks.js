@@ -10,11 +10,21 @@ import styles from '../../../styles/containers/ProfileContainer'
 
 export default class ProfileContent extends React.Component {
   onLoginFacebookPress = () => {
-    this.props.actions.linkFacebookRequest()
+    const { facebook } = this.props.user.data
+    if (!facebook) {
+      this.props.actions.linkFacebookRequest()
+    } else {
+      this.props.actions.unlinkFacebookRequest()
+    }
   }
 
   onLoginGooglePress = () => {
-    this.props.actions.linkGoogleRequest()
+    const { google } = this.props.user.data
+    if (!google) {
+      this.props.actions.linkGoogleRequest()
+    } else {
+      this.props.actions.unlinkGoogleRequest()
+    }
   }
 
   handleDispatchToken = token => {
@@ -43,7 +53,6 @@ export default class ProfileContent extends React.Component {
   }
   render() {
     const { facebook, google, deezer } = this.props.user.data
-    console.log(deezer)
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>

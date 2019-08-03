@@ -9,6 +9,16 @@ export const getTokenGoogle = async () => {
   }
 }
 
+export const unsignGoogle = async () => {
+  try {
+    await GoogleSignin.revokeAccess()
+    await GoogleSignin.signOut()
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 const fetchGoogle = async () => {
   try {
     await GoogleSignin.hasPlayServices()

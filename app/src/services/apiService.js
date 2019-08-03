@@ -9,6 +9,8 @@ const ggLogin = '/google-log-in'
 const recover = '/recover'
 const update = '/update-data'
 const updatePrivacy = '/update-privacy'
+const linkAccount = '/link-account'
+const unlinkAccount = '/unlink-account'
 
 const basicFetch = async (method, url, config, data) => {
   if (method === 'GET') {
@@ -177,10 +179,31 @@ export const deleteTrack = async query => {
     throw err
   }
 }
+
 export const getDeezerFollwers = async query => {
   const url = `${apiUrl}/alice/get-followers`
   try {
     const response = await basicFetch('POST', url, {}, { query })
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const linkAccountMethod = async query => {
+  const url = `${apiUrl}${user}${linkAccount}`
+  try {
+    const response = await basicFetch('POST', url, {}, query)
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const unlinkAccountMethod = async query => {
+  const url = `${apiUrl}${user}${unlinkAccount}`
+  try {
+    const response = await basicFetch('POST', url, {}, query)
     return response
   } catch (err) {
     throw err

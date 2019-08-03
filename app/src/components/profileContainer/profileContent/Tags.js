@@ -36,7 +36,7 @@ export default class TagsView extends React.Component {
 
   allTags() {
     const { tags } = this.props.user.data
-    console.log('in tags', tags)
+    // console.log('in tags', tags)
     return tags.map((tag, i) => {
       return (
         <TagButton
