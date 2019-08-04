@@ -12,7 +12,7 @@ const updatePrivacy = '/update-privacy'
 const linkAccount = '/link-account'
 const unlinkAccount = '/unlink-account'
 
-const basicFetch = async (method, url, config, data) => {
+export const basicFetch = async (method, url, config, data) => {
   if (method === 'GET') {
     try {
       const response = await fetch(url)

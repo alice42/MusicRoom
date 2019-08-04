@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  StyleSheet,
-  Switch
-} from 'react-native'
+import { View, Text, TouchableHighlight, StyleSheet, Switch } from 'react-native'
 import { colors } from '../../constants/colors'
 import RadioInput from '../input/RadioInput'
 
@@ -29,13 +23,9 @@ export default class Privacy extends Component {
           underlayColor={colors.gray01}
         >
           <View>
-            <Text style={styles.privacyOptionTitle}>
-              {privacyOption ? 'Public' : 'Private'}
-            </Text>
+            <Text style={styles.privacyOptionTitle}>{privacyOption ? 'Public' : 'Private'}</Text>
             <Text style={styles.privacyOptionDescription}>
-              {privacyOption
-                ? 'Visible to everyone'
-                : 'Only you can seen this playlist'}
+              {privacyOption ? 'Visible to everyone' : 'Only you can seen this playlist'}
             </Text>
             <View style={styles.privacyRadioInput}>
               <Switch
@@ -47,7 +37,7 @@ export default class Privacy extends Component {
           </View>
         </TouchableHighlight>
         <View style={styles.divider} />
-        <TouchableHighlight
+        {/* <TouchableHighlight
           onPress={() => this.selectCollabOption(collabOption)}
           style={styles.privacyOptionItem}
           underlayColor={colors.gray01}
@@ -77,7 +67,7 @@ export default class Privacy extends Component {
               />
             </View>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
       </View>
     )
   }

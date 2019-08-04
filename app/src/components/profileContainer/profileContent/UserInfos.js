@@ -40,18 +40,48 @@ export default class UserInfos extends React.Component {
           <View style={styles.userInfosWrapper}>
             <View style={styles.userInfosLineWrapper}>
               <Text style={styles.userInfosKey}>Email : </Text>
-              <EditableInput style={styles.userInfosValue} defaultValue={email} onChangeText={this.handleEmailEdit} size={12} type={'email'} />
-              <PrivacyModal dataType={'email'} onChangePrivacy={this.handlePrivacy} dataPrivacy={emailPrivacy} />
+              <EditableInput
+                style={styles.userInfosValue}
+                defaultValue={email}
+                onChangeText={this.handleEmailEdit}
+                size={12}
+                type={'email'}
+              />
+              <PrivacyModal
+                dataType={'email'}
+                onChangePrivacy={this.handlePrivacy}
+                dataPrivacy={emailPrivacy}
+              />
             </View>
             <View style={styles.userInfosLineWrapper}>
               <Text style={styles.userInfosKey}>Name : </Text>
-              <EditableInput style={styles.userInfosValue} type={'text'} defaultValue={name} onChangeText={this.handleNameEdit} size={12} />
-              <PrivacyModal dataType={'name'} onChangePrivacy={this.handlePrivacy} dataPrivacy={namePrivacy} />
+              <EditableInput
+                style={styles.userInfosValue}
+                type={'text'}
+                defaultValue={name}
+                onChangeText={this.handleNameEdit}
+                size={12}
+              />
+              <PrivacyModal
+                dataType={'name'}
+                onChangePrivacy={this.handlePrivacy}
+                dataPrivacy={namePrivacy}
+              />
             </View>
             <View style={styles.userInfosLineWrapper}>
               <Text style={styles.userInfosKey}>Firstname : </Text>
-              <EditableInput style={styles.userInfosValue} type={'text'} defaultValue={firstname} onChangeText={this.handleFirstnameEdit} size={12} />
-              <PrivacyModal dataType={'firstname'} onChangePrivacy={this.handlePrivacy} dataPrivacy={firstnamePrivacy} />
+              <EditableInput
+                style={styles.userInfosValue}
+                type={'text'}
+                defaultValue={firstname}
+                onChangeText={this.handleFirstnameEdit}
+                size={12}
+              />
+              <PrivacyModal
+                dataType={'firstname'}
+                onChangePrivacy={this.handlePrivacy}
+                dataPrivacy={firstnamePrivacy}
+              />
             </View>
           </View>
         </View>

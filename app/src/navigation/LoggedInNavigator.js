@@ -1,17 +1,15 @@
 import React from 'react'
-import {
-  createBottomTabNavigator,
-  createStackNavigator
-} from 'react-navigation'
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
 import HomeContainer from '../containers/HomeContainer'
 import SettingsContainer from '../containers/SettingsContainer'
 import ProfileContainer from '../containers/ProfileContainer'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import CameraRollScreen from '../screens/CameraRollScreen'
-import CreatePlaylist from '../screens/CreatePlaylistScreen'
-import AllPlaylists from '../screens/AllPlaylistsScreen'
-import Playlist from '../screens/PlaylistScreen'
+import CreateEvent from '../screens/CreateEventScreen'
+import EditEvent from '../screens/EditEventScreen'
+import AllEvents from '../screens/AllEventsScreen'
+import Event from '../screens/EventScreen'
 import SearchContainer from '../containers/SearchContainer'
 
 const HomeTab = createStackNavigator({
@@ -21,9 +19,10 @@ const HomeTab = createStackNavigator({
       header: null
     }
   },
-  CreatePlaylist: { screen: CreatePlaylist },
-  AllPlaylists: { screen: AllPlaylists },
-  Playlist: { screen: Playlist },
+  CreateEvent: { screen: CreateEvent },
+  EditEvent: { screen: EditEvent },
+  AllEvents: { screen: AllEvents },
+  Event: { screen: Event },
   Search: { screen: SearchContainer }
 })
 
@@ -65,9 +64,7 @@ ProfileTab.navigationOptions = ({ navigation }) => {
 }
 
 const CustomTabBarIcon = (name, size) => {
-  const icon = ({ tintColor }) => (
-    <Icon name={name} size={size} color={tintColor} />
-  )
+  const icon = ({ tintColor }) => <Icon name={name} size={size} color={tintColor} />
 
   return icon
 }

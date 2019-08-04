@@ -1,16 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../constants/colors";
-import NextArrowButton from "../components/button/NextArrowButton";
-import * as userActions from "../actions/userActions";
-import Icon from "react-native-vector-icons/FontAwesome";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { View, Text, StyleSheet } from 'react-native'
+import { colors } from '../constants/colors'
+import NextArrowButton from '../components/button/NextArrowButton'
+import * as userActions from '../actions/userActions'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class HomeContainer extends Component {
   onPlaylistsPress = () => {
-    this.props.navigation.navigate("AllPlaylists");
-  };
+    this.props.navigation.navigate('AllPlaylists')
+  }
+  onEventsPress = () => {
+    this.props.navigation.navigate('AllEvents')
+  }
   render() {
     return (
       <View style={styles.wrapper}>
@@ -24,11 +27,7 @@ class HomeContainer extends Component {
               borderTopRightRadius: 30
             }}
           >
-            <Text
-              style={[styles.title, { color: colors.green02, marginTop: 45 }]}
-            >
-              PLAYLISTS
-            </Text>
+            <Text style={[styles.title, { color: colors.green02, marginTop: 45 }]}>PLAYLISTS</Text>
             <View style={{ marginTop: 110 }}>
               <NextArrowButton
                 handleOnPress={this.onPlaylistsPress}
@@ -45,11 +44,7 @@ class HomeContainer extends Component {
               borderBottomRightRadius: 30
             }}
           >
-            <Text
-              style={[styles.title, { color: colors.green01, marginTop: 45 }]}
-            >
-              EVENTS
-            </Text>
+            <Text style={[styles.title, { color: colors.green01, marginTop: 45 }]}>EVENTS</Text>
             <View style={{ marginTop: 110 }}>
               <NextArrowButton
                 handleOnPress={this.onEventsPress}
@@ -60,24 +55,24 @@ class HomeContainer extends Component {
           </View>
         </View>
       </View>
-    );
+    )
   }
 }
 function profileActionsMapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(userActions, dispatch)
-  };
+  }
 }
 function profileMapStateToProps(state) {
-  const { user } = state;
+  const { user } = state
   return {
     user
-  };
+  }
 }
 export default connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps
-)(HomeContainer);
+)(HomeContainer)
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -91,15 +86,15 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 26,
-    fontWeight: "800",
+    fontWeight: '800',
     paddingBottom: 30,
     color: colors.green01,
-    textAlign: "center"
+    textAlign: 'center'
   },
   title: {
     fontSize: 26,
-    fontWeight: "800",
+    fontWeight: '800',
     paddingLeft: 20,
     paddingBottom: 20
   }
-});
+})
