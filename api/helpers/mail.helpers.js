@@ -44,18 +44,20 @@ const mailWelcome = user => {
     subject: `MusicRoom - hello!`,
     html: `Hello ${
       user.email
-    }, to confirm you sign in click on <a href="${validationUrl}">this link</a>, or copy this link in your browser: ${validationUrl}`
+    }, to validate your account, click on <a href="${validationUrl}">this link</a>, or copy this link in your browser: ${validationUrl}`
   };
 };
 
 const sendEmail = (mailOptions, mail) =>
   new Promise((resolve, reject) => {
-    // console.log("sending mail to", mailOptions.to, ".", mailOptions.subject);
     mail(mailOptions, (error, data) => {
       if (error) {
+        if (error.message.indexOf("SMTP code:550") !== -1) {
+          console.log("mail cant verify the mail address");
+          resolve();
+        }
         reject(error);
       } else {
-        // console.log("mail sent!");
         resolve(data);
       }
     });
