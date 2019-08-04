@@ -33,7 +33,6 @@ export default class playlists extends Component {
         }}
         renderItem={item => {
           const playlist = item.item
-          // console.log('playlists', playlist)
           return (
             <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>

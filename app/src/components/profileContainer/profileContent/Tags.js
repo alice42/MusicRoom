@@ -23,7 +23,8 @@ export default class TagsView extends React.Component {
     const { tags } = this.props.user.data
     const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(inputvalue)) {
-      this.props.actions.updateRequest(token, 'tags', inputvalue)
+      tags.push(inputvalue)
+      this.props.actions.updateRequest(token, 'tags', tags)
     }
     this.setState({ inputvalue: '', addNewTag: false })
   }
@@ -31,12 +32,19 @@ export default class TagsView extends React.Component {
   onPressDeleteTag = tag => {
     const { tags } = this.props.user.data
     const { token } = this.props.user
-    this.props.actions.updateRequest(token, 'tags', tag)
+    var newTags = tags.filter(function(value) {
+      return value !== tag
+    })
+    this.props.actions.updateRequest(token, 'tags', newTags)
+  }
+
+  handlePrivacy = (privacyValue, dataType) => {
+    const { token } = this.props.user
+    this.props.actions.updatePrivacyRequest(token, privacyValue, dataType)
   }
 
   allTags() {
     const { tags } = this.props.user.data
-    // console.log('in tags', tags)
     return tags.map((tag, i) => {
       return (
         <TagButton
@@ -56,11 +64,12 @@ export default class TagsView extends React.Component {
 
   render() {
     const { inputvalue, addNewTag } = this.state
+    const tagsPrivacy = this.props.user.data.privacy.tags
     return (
       <View>
         <View style={styles.tagsTitleWrapper}>
           <Text style={styles.tagsText}>Your music tastes</Text>
-          <Icon style={styles.tagsIcon} name={'eye'} size={16} />
+          <PrivacyModal styleIcon={styles.privacyIcon} dataType={'tags'} onChangePrivacy={this.handlePrivacy} dataPrivacy={tagsPrivacy} />
         </View>
         <SafeAreaView>
           <ScrollView style={styles.tagsScrollView}>

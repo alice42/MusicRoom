@@ -47,13 +47,20 @@ export default class ProfileContent extends React.Component {
       this.props.actions.unlinkDeezerRequest()
     }
   }
+
+  handlePrivacy = (privacyValue, dataType) => {
+    const { token } = this.props.user
+    this.props.actions.updatePrivacyRequest(token, privacyValue, dataType)
+  }
+
   render() {
     const { facebook, google, deezer } = this.props.user.data
+    const networksPrivacy = this.props.user.data.privacy.networks
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>
           <Text style={styles.contentProfileText}>Your networks</Text>
-          <PrivacyModal />
+          <PrivacyModal styleIcon={styles.privacyIcon} dataType={'networks'} onChangePrivacy={this.handlePrivacy} dataPrivacy={networksPrivacy} />
         </View>
         <View style={styles.contentProfileWrapper}>
           <NetworkLinking textColor={colors.green01} background={colors.white} border={colors.green01} onLoginFacebookPress={this.onLoginFacebookPress} onLoginGooglePress={this.onLoginGooglePress} textFB={facebook ? 'Unlink ' : 'Link '} textG={google ? 'Unlink ' : 'Link '} privacyButton={true} />

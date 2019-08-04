@@ -13,13 +13,14 @@ export default class EditableInput extends Component {
 
   handleEdit = () => {
     const { editable, validValue, inputValue } = this.state
-    const { defaultValue } = this.props
     if (!editable) {
       this.setState({ editable: true })
     } else {
       if (validValue) {
         this.props.onChangeText(inputValue)
         this.setState({ editable: false, inputValue })
+      } else {
+        this.setState({ editable: false, inuputValue: this.props.defaultValue })
       }
     }
   }
@@ -44,7 +45,7 @@ export default class EditableInput extends Component {
   }
 
   render() {
-    const { labelText, onChangeText, style, size } = this.props
+    const { style, size } = this.props
     const { editable, inputValue } = this.state
     return (
       <View style={styles.wrapper}>
@@ -58,6 +59,8 @@ export default class EditableInput extends Component {
                   styles.text,
                   styles.editableField,
                   {
+                    paddingLeft: 5,
+
                     marginTop: -5,
                     borderBottomColor: style.color
                   }

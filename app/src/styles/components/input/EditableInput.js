@@ -1,18 +1,19 @@
-import { StyleSheet } from "react-native";
-import { colors } from "../../../constants/colors";
+import { StyleSheet } from 'react-native'
+import { colors } from '../../../constants/colors'
 
 const styles = StyleSheet.create({
   wrapper: {
-    flexDirection: "row"
+    flexDirection: 'row'
   },
   text: {
-    marginRight: 8
+    marginRight: 10
   },
   icon: {
     marginTop: 6
   },
   editableField: {
+    padding: 2,
     borderBottomWidth: 1
   }
-});
-export default styles;
+})
+export default styles

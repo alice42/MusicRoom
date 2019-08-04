@@ -31,7 +31,6 @@ export default class UserInfos extends React.Component {
     const emailPrivacy = this.props.user.data.privacy.email
     const namePrivacy = this.props.user.data.privacy.name
     const firstnamePrivacy = this.props.user.data.privacy.firstname
-    console.log('NAME', email, name, firstname)
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>
