@@ -16,40 +16,75 @@ const initialState = {
     tracks: [],
     followers: []
   },
-  error: null
+  error: null,
+  errorLogIn: null,
+  errorSignIn: null,
+  errorRegister: null,
+  signinSuccess: false
 }
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case 'SIGNIN_SUCCESS':
       return {
-        ...state
+        ...state,
+        signinSuccess: true
       }
     case 'SIGNIN_FAILURE':
       return {
         ...state,
-        error: action.error
+        errorSignIn: action.error,
+        signinSuccess: false
       }
     case 'LOGIN_SUCCESS':
       return {
         ...state,
         token: action.response.sessionId,
         data: { ...action.response.user },
-        error: null
+        errorLogIn: null
+      }
+    case 'LOGIN_FAILURE':
+      return {
+        ...state,
+        errorLogIn: action.error
+      }
+    case 'LOGIN_GOOGLE_FAILURE':
+      return {
+        ...state,
+        errorRegister: action.error
+      }
+    case 'LOGIN_FACEBOOK_FAILURE':
+      return {
+        ...state,
+        errorRegister: action.error
       }
     case 'LOGIN_SUCCESS_GOOGLE':
       return {
         ...state,
         token: action.response.sessionId,
-        data: { ...state.data, email: action.response.user.email, firstname: action.response.user.givenName, name: action.response.user.familyName, avatarUri: action.response.user.photo, google: true },
-        error: null
+        data: {
+          ...state.data,
+          email: action.response.user.email,
+          firstname: action.response.user.givenName,
+          name: action.response.user.familyName,
+          avatarUri: action.response.user.photo,
+          google: true
+        },
+        errorRegister: null
       }
     case 'LOGIN_SUCCESS_FACEBOOK':
       return {
         ...state,
         token: action.response.sessionId,
-        data: { ...state.data, email: action.response.user.email, firstname: action.response.user.firstname, name: action.response.user.lastname, avatarUri: action.response.user.avatarUri, facebook: true },
-        error: null
+        data: {
+          ...state.data,
+          email: action.response.user.email,
+          firstname: action.response.user.firstname,
+          name: action.response.user.lastname,
+          avatarUri: action.response.user.avatarUri,
+          facebook: true
+        },
+        errorRegister: null
       }
     case 'LINK_FACEBOOK_SUCCESS':
       return {

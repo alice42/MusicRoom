@@ -69,12 +69,23 @@ export default class TagsView extends React.Component {
       <View>
         <View style={styles.tagsTitleWrapper}>
           <Text style={styles.tagsText}>Your music tastes</Text>
-          <PrivacyModal styleIcon={styles.privacyIcon} dataType={'tags'} onChangePrivacy={this.handlePrivacy} dataPrivacy={tagsPrivacy} />
+          <PrivacyModal
+            styleIcon={styles.privacyIcon}
+            dataType={'tags'}
+            onChangePrivacy={this.handlePrivacy}
+            dataPrivacy={tagsPrivacy}
+          />
         </View>
         <SafeAreaView>
           <ScrollView style={styles.tagsScrollView}>
             <View style={styles.tagsContainer}>
-              <AddTagButton inputvalue={inputvalue} addNewTag={addNewTag} handleInput={this.handleInput} onPressValidNewTag={this.onPressValidNewTag} onPressAdd={this.onPressAdd} />
+              <AddTagButton
+                inputvalue={inputvalue}
+                addNewTag={addNewTag}
+                handleInput={this.handleInput}
+                onPressValidNewTag={this.onPressValidNewTag}
+                onPressAdd={this.onPressAdd}
+              />
               {this.allTags()}
             </View>
           </ScrollView>

@@ -1,5 +1,16 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import { unlinkAccountMethod, linkAccountMethod, signinMethod, loginClassic, loginFacebook, loginGoogle, recoverPassword, updateMethod, logoutMethod, updatePrivacyMethod } from '../services/apiService'
+import {
+  unlinkAccountMethod,
+  linkAccountMethod,
+  signinMethod,
+  loginClassic,
+  loginFacebook,
+  loginGoogle,
+  recoverPassword,
+  updateMethod,
+  logoutMethod,
+  updatePrivacyMethod
+} from '../services/apiService'
 import { getTokenFacebook } from '../services/facebookService'
 import { getTokenGoogle, unsignGoogle } from '../services/googleService'
 
@@ -49,7 +60,7 @@ function* loginFacebookSaga(action) {
     const response = yield call(loginFacebook, facebookInformation)
     // console.log('RESPONSE', facebookInformation)
     if (response.error) {
-      yield put({ type: 'LOGIN_FAILURE', error: response.error })
+      yield put({ type: 'LOGIN_FACEBOOK_FAILURE', error: response.error })
     } else {
       yield put({
         type: 'LOGIN_SUCCESS_FACEBOOK',
@@ -60,7 +71,7 @@ function* loginFacebookSaga(action) {
       })
     }
   } catch (err) {
-    yield put({ type: 'LOGIN_FAILURE', error: err.message })
+    yield put({ type: 'LOGIN_FACEBOOK_FAILURE', error: err.message })
   }
 }
 
@@ -69,11 +80,11 @@ function* loginGoogleSaga(action) {
     const googleInformation = yield call(getTokenGoogle)
     // console.log('INFO', googleInformation)
     if (googleInformation === 'cancelled') {
-      yield put({ type: 'LOGIN_FAILURE', error: null })
+      yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: null })
     } else {
       const response = yield call(loginGoogle, googleInformation)
       if (response.error) {
-        yield put({ type: 'LOGIN_FAILURE', error: response.error })
+        yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: response.error })
       } else {
         yield put({
           type: 'LOGIN_SUCCESS_GOOGLE',
@@ -85,7 +96,7 @@ function* loginGoogleSaga(action) {
       }
     }
   } catch (err) {
-    yield put({ type: 'LOGIN_FAILURE', error: err.message })
+    yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: err.message })
   }
 }
 
