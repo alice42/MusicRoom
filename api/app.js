@@ -3,6 +3,12 @@ const logger = require("morgan");
 const http = require("http");
 const firebase = require("firebase");
 const sendmail = require("sendmail")({
+  logger: {
+    debug: console.log,
+    info: console.info,
+    warn: console.warn,
+    error: console.error
+  },
   silent: true
 });
 
@@ -25,6 +31,7 @@ const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
 const deezerRoutes = require("./routes/deezer");
 const aliceRoutes = require("./routes/alice");
+const mtvRoutes = require("./routes/musicTrackVote");
 
 const app = express();
 const port = "3001";
@@ -44,9 +51,15 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRoute);
 app.use("/api/user", userRoutes);
+app.use("/api/mtv", mtvRoutes);
 app.use("/api/alice", aliceRoutes);
 app.set("port", port);
+app.set("trust proxy", true);
 
 const server = http.createServer(app);
 
-server.listen(port);
+server.listen(port, () =>
+  console.log(
+    `-------------------------------\n| API listening on port ${port}! |\n-------------------------------`
+  )
+);
