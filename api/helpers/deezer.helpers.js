@@ -5,10 +5,7 @@ const isDeezerTokenValid = userToken => {
     .then(response => {
       return response.json();
     })
-    .then(json => {
-      console.log("RESP DEEZER ME RESPONSE", json);
-      return false;
-    });
+    .then(json => !json.error);
 };
 
 module.exports = {
