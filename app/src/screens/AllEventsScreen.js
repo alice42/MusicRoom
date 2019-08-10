@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RoundedButton from '../components/button/RoundedButton'
 import styles from '../styles/containers/HomeContainer'
 import * as eventsActions from '../actions/eventsActions'
 import ListEvents from '../components/list/ListEvents'
 import { colors } from '../constants/colors'
-
+import ApiError from '../components/ApiError'
+const { width, height } = Dimensions.get('window')
 class AllEventsScreen extends Component {
   componentWillMount() {
     this.props.eventsActions.getEvents()
@@ -33,7 +34,14 @@ class AllEventsScreen extends Component {
     return (
       <View style={styles.wrapper}>
         <ScrollView style={{ backgroundColor: colors.gray03 }}>
-          {this.renderEventslist()}
+          {this.props.events.error ? (
+            <ApiError
+              style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
+              error={this.props.events.error}
+            />
+          ) : (
+            this.renderEventslist()
+          )}
         </ScrollView>
         <RoundedButton
           text={'Create a new event'}
