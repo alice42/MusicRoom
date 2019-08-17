@@ -10,6 +10,7 @@ import NextArrowButton from '../components/button/NextArrowButton'
 import ApiError from '../components/ApiError'
 import * as userActions from '../actions/userActions'
 import styles from '../styles/screens/CreateAccountScreen'
+import Loader from '../components/Loader'
 
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -81,7 +82,7 @@ class SignIn extends Component {
   }
 
   errorEmail = () => {
-    const { validForm, validEmail, validPassword } = this.state
+    const { validForm, validEmail } = this.state
     if (!validForm) {
       return (
         <Text style={styles.errorMessage}>
@@ -92,7 +93,7 @@ class SignIn extends Component {
   }
 
   errorPassword = () => {
-    const { validForm, validEmail, validPassword, disable } = this.state
+    const { validForm, validPassword } = this.state
     if (!validForm) {
       return (
         <Text style={styles.errorMessage}>
@@ -114,27 +115,31 @@ class SignIn extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-        <View style={styles.createWrapper}>
-          {this.props.user.signinSuccess ? (
-            this.alert()
-          ) : (
-            <ApiError error={this.props.user.errorSignIn} />
-          )}
-          <Text style={styles.loginHeader}>Create account</Text>
-          {this.errorEmail()}
-          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          {this.errorPassword()}
-          <InputField
-            labelText="PASSWORD"
-            onChangeText={this.handlePasswordChange}
-            secureTextEntry={true}
-          />
-          <NextArrowButton
-            handleOnPress={this.onLoginPress}
-            color={colors.green01}
-            background={colors.white}
-          />
-        </View>
+        {this.props.user.isFetching ? (
+          <Loader />
+        ) : (
+          <View style={styles.createWrapper}>
+            {this.props.user.signinSuccess ? (
+              this.alert()
+            ) : (
+              <ApiError error={this.props.user.errorSignIn} />
+            )}
+            <Text style={styles.loginHeader}>Create account</Text>
+            {this.errorEmail()}
+            <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+            {this.errorPassword()}
+            <InputField
+              labelText="PASSWORD"
+              onChangeText={this.handlePasswordChange}
+              secureTextEntry={true}
+            />
+            <NextArrowButton
+              handleOnPress={this.onLoginPress}
+              color={colors.green01}
+              background={colors.white}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
     )
   }

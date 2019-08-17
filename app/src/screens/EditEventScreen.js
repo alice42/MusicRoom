@@ -68,7 +68,6 @@ class EditEvent extends Component {
           <View style={styles.content}>
             <View style={styles.inputWrapper}>
               {error}
-              <Text>{id}</Text>
               <Text style={styles.title}>EVENT TITLE</Text>
               <EditableInput
                 defaultValue={name}

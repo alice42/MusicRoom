@@ -189,7 +189,6 @@ function* unlinkGoogleSaga(action) {
 
 function* linkDeezerSaga(action) {
   try {
-    console.log('4444444444444')
     const token = yield select(state => state.user.token)
     const deezerToken = yield select(state => state.user.deezerToken)
     const payload = {
@@ -201,7 +200,6 @@ function* linkDeezerSaga(action) {
     if (response.error) {
       yield put({ type: 'LINK_DEEZER_FAILURE', error: response.error })
     } else {
-      // console.log('RESPONSE SAGA', response)
       yield put({
         type: 'LINK_DEEZER_SUCCESS',
         response

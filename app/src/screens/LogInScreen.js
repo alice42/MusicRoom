@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { View, Text, KeyboardAvoidingView, StyleSheet } from 'react-native'
+import { View, Text, KeyboardAvoidingView } from 'react-native'
 import { colors } from '../constants/colors'
 import NavBarButton from '../components/button/NavBarButton'
 import InputField from '../components/input/InputField'
@@ -10,6 +10,7 @@ import NextArrowButton from '../components/button/NextArrowButton'
 import ApiError from '../components/ApiError'
 import * as userActions from '../actions/userActions'
 import styles from '../styles/screens/LogInScreen'
+import Loader from '../components/Loader'
 
 class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -106,23 +107,27 @@ class LogIn extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-        <View style={styles.logInWrapper}>
-          <ApiError error={this.props.user.errorLogIn} />
-          <Text style={styles.loginHeader}>Log In</Text>
-          {this.errorEmail()}
-          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          {this.errorPassword()}
-          <InputField
-            labelText="PASSWORD"
-            onChangeText={this.handlePasswordChange}
-            secureTextEntry={true}
-          />
-          <NextArrowButton
-            handleOnPress={this.onLoginPress}
-            color={colors.green01}
-            background={colors.white}
-          />
-        </View>
+        {this.props.user.isFetching ? (
+          <Loader />
+        ) : (
+          <View style={styles.logInWrapper}>
+            <ApiError error={this.props.user.errorLogIn} />
+            <Text style={styles.loginHeader}>Log In</Text>
+            {this.errorEmail()}
+            <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+            {this.errorPassword()}
+            <InputField
+              labelText="PASSWORD"
+              onChangeText={this.handlePasswordChange}
+              secureTextEntry={true}
+            />
+            <NextArrowButton
+              handleOnPress={this.onLoginPress}
+              color={colors.green01}
+              background={colors.white}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
     )
   }

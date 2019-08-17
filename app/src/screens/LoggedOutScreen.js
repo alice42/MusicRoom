@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, StyleSheet, Text, Platform, Linking, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { View, Text } from 'react-native'
 import { colors } from '../constants/colors'
 import RoundedButton from '../components/button/RoundedButton'
 import NavBarButton from '../components/button/NavBarButton'
@@ -11,13 +10,9 @@ import ApiError from '../components/ApiError'
 import { GoogleSignin } from 'react-native-google-signin'
 import * as userActions from '../actions/userActions'
 import styles from '../styles/screens/LoggedOutScreen'
+import Loader from '../components/Loader'
 
 GoogleSignin.configure()
-
-const transparentHeaderStyle = {
-  borderBottomWidth: 0,
-  elevation: 0
-}
 
 class LoginScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -52,48 +47,52 @@ class LoginScreen extends Component {
   }
 
   //DeepLinking
-  componentDidMount() {
-    if (Platform.OS === 'android') {
-      Linking.getInitialURL().then(url => {
-        this.navigate(url)
-      })
-    } else {
-      Linking.addEventListener('url', this.handleOpenURL)
-    }
-  }
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURL)
-  }
-  handleOpenURL = event => {
-    this.navigate(event.url)
-  }
-  navigate = url => {
-    const { navigate } = this.props.navigation
-    const route = url.replace(/.*?:\/\//g, '')
-    const routeName = route.split('/')[0]
-  }
+  // componentDidMount() {
+  //   if (Platform.OS === 'android') {
+  //     Linking.getInitialURL().then(url => {
+  //       this.navigate(url)
+  //     })
+  //   } else {
+  //     Linking.addEventListener('url', this.handleOpenURL)
+  //   }
+  // }
+  // componentWillUnmount() {
+  //   Linking.removeEventListener('url', this.handleOpenURL)
+  // }
+  // handleOpenURL = event => {
+  //   this.navigate(event.url)
+  // }
+  // navigate = url => {
+  //   const { navigate } = this.props.navigation
+  //   const route = url.replace(/.*?:\/\//g, '')
+  //   const routeName = route.split('/')[0]
+  // }
 
   render() {
     return (
       <View style={styles.wrapper}>
-        <View style={styles.welcomeWrapper}>
-          <ApiError error={this.props.user.errorRegister} />
-          <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
-          <NetworkLinking
-            textColor={colors.green01}
-            background={colors.white}
-            onLoginFacebookPress={this.onLoginFacebookPress}
-            onLoginGooglePress={this.onLoginGooglePress}
-            textFB="Continue with"
-            textG="Continue with"
-          />
-          <RoundedButton
-            text="Create Account"
-            textColor={colors.white}
-            border={colors.white}
-            handleOnPress={this.onCreateAccountPress}
-          />
-        </View>
+        {this.props.user.isFetching ? (
+          <Loader />
+        ) : (
+          <View style={styles.welcomeWrapper}>
+            <ApiError error={this.props.user.errorRegister} />
+            <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
+            <NetworkLinking
+              textColor={colors.green01}
+              background={colors.white}
+              onLoginFacebookPress={this.onLoginFacebookPress}
+              onLoginGooglePress={this.onLoginGooglePress}
+              textFB="Continue with"
+              textG="Continue with"
+            />
+            <RoundedButton
+              text="Create Account"
+              textColor={colors.white}
+              border={colors.white}
+              handleOnPress={this.onCreateAccountPress}
+            />
+          </View>
+        )}
       </View>
     )
   }

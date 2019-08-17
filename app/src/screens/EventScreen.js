@@ -16,7 +16,6 @@ class EventScreen extends Component {
       <View style={styles.wrapper}>
         <TouchableOpacity onPress={() => this.handleOnPressEdit(event)}>
           <Text>{event.name} Edit</Text>
-          <Text>{event.id}</Text>
         </TouchableOpacity>
       </View>
     )

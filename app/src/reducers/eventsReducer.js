@@ -28,13 +28,11 @@ const reducer = (state = initialState, action) => {
         error: action.error
       }
     case 'SERVICE_MTV_EVENTS_UPDATE_DATA_REQUEST_SUCCESS':
-      const toto = {
+      return {
         ...state,
         list: [...action.response],
         error: null
       }
-      console.log('ACTION', toto)
-      return toto
     case 'SERVICE_MTV_EVENTS_UPDATE_DATA_REQUEST_FAILURE':
       return {
         ...state,

@@ -25,9 +25,10 @@ function profileActionsMapDispatchToProps(dispatch) {
   }
 }
 function profileMapStateToProps(state) {
-  const { user } = state
+  const { user, events } = state
   return {
-    user
+    user,
+    events
   }
 }
 

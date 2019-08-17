@@ -56,15 +56,37 @@ export default class ProfileContent extends React.Component {
   render() {
     const { facebook, google, deezer } = this.props.user.data
     const networksPrivacy = this.props.user.data.privacy.networks
+    console.log('****************', this.props)
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>
           <Text style={styles.contentProfileText}>Your networks</Text>
-          <PrivacyModal styleIcon={styles.privacyIcon} dataType={'networks'} onChangePrivacy={this.handlePrivacy} dataPrivacy={networksPrivacy} />
+          <PrivacyModal
+            styleIcon={styles.privacyIcon}
+            dataType={'networks'}
+            onChangePrivacy={this.handlePrivacy}
+            dataPrivacy={networksPrivacy}
+          />
         </View>
         <View style={styles.contentProfileWrapper}>
-          <NetworkLinking textColor={colors.green01} background={colors.white} border={colors.green01} onLoginFacebookPress={this.onLoginFacebookPress} onLoginGooglePress={this.onLoginGooglePress} textFB={facebook ? 'Unlink ' : 'Link '} textG={google ? 'Unlink ' : 'Link '} privacyButton={true} />
-          <RoundedButton text={deezer ? 'Unlink Deezer' : 'Link Deezer'} textColor={colors.white} background={colors.green01} border={colors.green01} icon={<Icon name="music" size={20} style={styles.contentProfileIcon} />} handleOnPress={this.connectToDeezer} />
+          <NetworkLinking
+            textColor={colors.green01}
+            background={colors.white}
+            border={colors.green01}
+            onLoginFacebookPress={this.onLoginFacebookPress}
+            onLoginGooglePress={this.onLoginGooglePress}
+            textFB={facebook ? 'Unlink ' : 'Link '}
+            textG={google ? 'Unlink ' : 'Link '}
+            privacyButton={true}
+          />
+          <RoundedButton
+            text={deezer ? 'Unlink Deezer' : 'Link Deezer'}
+            textColor={colors.white}
+            background={colors.green01}
+            border={colors.green01}
+            icon={<Icon name="music" size={20} style={styles.contentProfileIcon} />}
+            handleOnPress={this.connectToDeezer}
+          />
         </View>
       </View>
     )

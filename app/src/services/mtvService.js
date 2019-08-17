@@ -1,5 +1,6 @@
 import { basicFetch } from './apiService'
-const apiUrl = 'http://192.168.0.10:3001/api'
+const apiUrl = 'http://localhost:3001/api'
+// const apiUrl = 'http://192.168.0.10:3001/api'
 const mtv = '/mtv'
 const getEvents = '/get-events'
 const createEvent = '/create-event'

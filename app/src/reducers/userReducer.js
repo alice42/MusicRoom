@@ -20,43 +20,110 @@ const initialState = {
   errorLogIn: null,
   errorSignIn: null,
   errorRegister: null,
-  signinSuccess: false
+  signinSuccess: false,
+  isFetching: false
 }
 
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case 'UPDATE_REQUEST':
+      return {
+        ...state,
+        isFetching: true,
+        error: false
+      }
+    case 'SIGNIN_REQUEST':
+      return {
+        ...state,
+        error: false,
+        errorSignIn: false,
+        isFetching: true
+      }
+    case 'LOGIN_REQUEST':
+      return {
+        ...state,
+        error: false,
+        errorLogIn: false,
+        isFetching: true
+      }
+    case 'LOGIN_FACEBOOK_REQUEST':
+      return {
+        ...state,
+        error: false,
+        errorLogIn: false,
+        isFetching: true
+      }
+    case 'LINK_FACEBOOK_REQUEST':
+      return {
+        ...state,
+        error: false,
+        isFetching: true
+      }
+    case 'UNLINK_FACEBOOK_REQUEST':
+      return {
+        ...state,
+        error: false,
+        isFetching: true
+      }
+    case 'LOGIN_GOOGLE_REQUEST':
+      return {
+        ...state,
+        error: false,
+        errorLogIn: false,
+        isFetching: true
+      }
+    case 'LINK_GOOGLE_REQUEST':
+      return {
+        ...state,
+        error: false,
+        isFetching: true
+      }
+    case 'UNLINK_GOOGLE_REQUEST':
+      return {
+        ...state,
+        error: false,
+        isFetching: true
+      }
     case 'SIGNIN_SUCCESS':
       return {
         ...state,
-        signinSuccess: true
+        error: false,
+        errorSignIn: false,
+        signinSuccess: true,
+        isFetching: false
       }
     case 'SIGNIN_FAILURE':
       return {
         ...state,
         errorSignIn: action.error,
-        signinSuccess: false
+        signinSuccess: false,
+        isFetching: false
       }
     case 'LOGIN_SUCCESS':
       return {
         ...state,
         token: action.response.sessionId,
         data: { ...action.response.user },
-        errorLogIn: null
+        errorLogIn: null,
+        isFetching: false
       }
     case 'LOGIN_FAILURE':
       return {
         ...state,
-        errorLogIn: action.error
+        errorLogIn: action.error,
+        isFetching: false
       }
     case 'LOGIN_GOOGLE_FAILURE':
       return {
         ...state,
-        errorRegister: action.error
+        errorRegister: action.error,
+        isFetching: false
       }
     case 'LOGIN_FACEBOOK_FAILURE':
       return {
         ...state,
-        errorRegister: action.error
+        errorRegister: action.error,
+        isFetching: false
       }
     case 'LOGIN_SUCCESS_GOOGLE':
       return {
@@ -70,7 +137,8 @@ function reducer(state = initialState, action) {
           avatarUri: action.response.user.photo,
           google: true
         },
-        errorRegister: null
+        errorRegister: null,
+        isFetching: false
       }
     case 'LOGIN_SUCCESS_FACEBOOK':
       return {
@@ -84,61 +152,73 @@ function reducer(state = initialState, action) {
           avatarUri: action.response.user.avatarUri,
           facebook: true
         },
-        errorRegister: null
+        errorRegister: null,
+        isFetching: false
       }
     case 'LINK_FACEBOOK_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'UNLINK_FACEBOOK_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'LINK_GOOGLE_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'UNLINK_GOOGLE_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'LINK_DEEZER_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'UNLINK_DEEZER_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'LOGIN_FAILURE':
       return {
         ...state,
-        error: action.error
+        error: action.error,
+        isFetching: false
       }
     case 'RECOVER_PASSWORD_EMAIL_SEND':
       return {
-        ...state
+        ...state,
+        isFetching: false
       }
     case 'UPDATE_SUCCESS':
       return {
         ...state,
-        data: { ...action.response }
+        data: { ...action.response },
+        isFetching: false
       }
     case 'UPDATE_FAILURE':
       return {
         ...state,
-        error: action.error
+        error: action.error,
+        isFetching: false
       }
     case 'SET_PLAYLISTS':
       return {
         ...state,
-        data: { ...state.data, playlists: action.playlists }
+        data: { ...state.data, playlists: action.playlists },
+        isFetching: false
       }
     case 'CREATE_PLAYLIST_SUCCESS':
       return {
@@ -153,7 +233,8 @@ function reducer(state = initialState, action) {
               description: ''
             }
           ]
-        }
+        },
+        isFetching: false
       }
     case 'DELETE_PLAYLIST_SUCCESS':
       const newPlaylists = state.data.playlists.filter(function(obj) {
@@ -164,22 +245,26 @@ function reducer(state = initialState, action) {
         data: {
           ...state.data,
           playlists: newPlaylists
-        }
+        },
+        isFetching: false
       }
     case 'DEEZER_GET_TOKEN_SUCCESS':
       return {
         ...state,
-        deezerToken: action.token
+        deezerToken: action.token,
+        isFetching: false
       }
     case 'SET_USER_ID_SUCCESS':
       return {
         ...state,
-        deezerId: action.results
+        deezerId: action.results,
+        isFetching: false
       }
     case 'GET_FOLLOWERS_SUCCESS':
       return {
         ...state,
-        data: { ...state.data, followers: action.results }
+        data: { ...state.data, followers: action.results },
+        isFetching: false
       }
     case 'LOGOUT':
       return initialState

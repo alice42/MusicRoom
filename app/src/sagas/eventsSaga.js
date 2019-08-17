@@ -46,7 +46,6 @@ function* updateEventsSaga(action) {
       newValue
     }
     const response = yield call(updateEventMethod, payload)
-    console.log('SAGA EVENTS RESPONSE ', response)
     if (response.error) {
       throw Error(response.error)
     } else {

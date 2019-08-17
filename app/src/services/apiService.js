@@ -1,6 +1,6 @@
 import { statusCodes, GoogleSignin } from 'react-native-google-signin'
-
-const apiUrl = 'http://192.168.0.10:3001/api'
+const apiUrl = 'http://localhost:3001/api'
+// const apiUrl = 'http://192.168.0.10:3001/api'
 const user = '/user'
 const signin = '/sign-in'
 const login = '/log-in'
