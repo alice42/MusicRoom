@@ -18,21 +18,21 @@ export default class DeletePlaylistModal extends React.Component {
     this.setState({ modalVisible: false })
   }
   render() {
-    const { playlist } = this.props
-    const { toDelTrack } = this.props
-    const { playlistInfo } = this.props.playlist
+    // const { playlist } = this.props
+    // const { toDelTrack } = this.props
+    // const { playlistInfo } = this.props.playlist
     return (
       <View>
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styleModal.modal}>
             <View style={styleModal.modalContent}>
-              <Text style={styleModal.modalTextInvers}>{toDelTrack ? toDelTrack.title : playlist.title}</Text>
+              {/* <Text style={styleModal.modalTextInvers}>{toDelTrack ? toDelTrack.title : playlist.title}</Text> */}
               <Text style={styleModal.modalSubtextInvers}>this action can't be undone</Text>
               <View style={styleModal.modalTitle}>
                 <Text style={styleModal.modalText}>DELETE</Text>
                 <Text style={styleModal.modalSubtext}>
                   are you sure you want to delete this
-                  {toDelTrack ? ` track from playlist "${playlistInfo.title}"` : ' playlist'}?
+                  {/* {toDelTrack ? ` track from playlist "${playlistInfo.title}"` : ' playlist'}? */}
                 </Text>
               </View>
             </View>

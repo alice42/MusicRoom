@@ -13,6 +13,11 @@ class Search extends Component {
     const { error } = this.props.user
     return <Text style={{ color: 'red' }}>{error}</Text>
   }
+  // addToChoosenPlaylist = track => {
+  //   console.log()
+  //   this.props.test(track)
+  // }
+
   render() {
     const screenHeight = Dimensions.get('window').height
     const { results } = this.props.search

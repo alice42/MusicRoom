@@ -12,68 +12,21 @@ import Search from '../components/searchContainer/Search'
 import Player from './Player'
 import SeekBar from '../components/SeekBar'
 import styles from '../styles/containers/HomeContainer'
+
 class SearchContainer extends Component {
-  state = {
-    TRACKS: []
-  }
-  // handleCreatePlaylistFromAddTrack = (title, privacy, track) => {
-  //   const tracks = []
-  //   tracks.push(track)
-  //   const newPlaylist = {
-  //     name: title,
-  //     privacy: privacy,
-  //     tracks: tracks
-  //   }
-  //   const { playlists } = this.props.user.data
-  //   const { token } = this.props.user
-  //   playlists.push(newPlaylist)
-  //   this.props.userActions.updateRequest(token, 'playlists', playlists)
-  // }
-
-  test = (track, playlist) => {
-    const { deezerToken } = this.props.user
-    if (playlist === 'newPlaylist') {
-      //create a playlist
-    } else {
-      this.props.playlistActions.editPlaylist(track.id, playlist, deezerToken)
-    }
-  }
-
-  playTrack = track => {
-    // const TRACKSTOPLAY = [
-    //   {
-    //     title: 'Stressed Out',
-    //     artist: 'Twenty One Pilots',
-    //     albumArtUrl:
-    //       'http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg',
-    //     audioUrl: `${track}`
-    //   }
-    // ]
-    this.setState({ TRACKS: track })
+  test = track => {
+    const { playlist } = this.props.navigation.state.params
+    this.props.playlistActions.addtrackToPlaylist(track.id, playlist)
   }
 
   render() {
-    const TRACKSTOPLAY = [
-      {
-        title: 'Stressed Out',
-        artist: 'Twenty One Pilots',
-        albumArtUrl:
-          'http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg',
-        audioUrl: `${this.state.TRACKS}`
-      }
-    ]
     return (
       <View style={styles.wrapper}>
-        {/* <View style={{ marginTop: 50 }}> */}
-        {/* <View>
-            <Player tracks={TRACKSTOPLAY} />
-          </View> */}
         <SearchConnected
           navigation={this.props.navigation}
           test={this.test}
           playTrack={this.playTrack}
         />
-        {/* </View> */}
       </View>
     )
   }
@@ -86,9 +39,10 @@ function profileActionsMapDispatchToProps(dispatch) {
   }
 }
 function profileMapStateToProps(state) {
-  const { user, search, playlist } = state
+  const { user, search, playlist, events } = state
   return {
     user,
+    events,
     search,
     playlist
   }

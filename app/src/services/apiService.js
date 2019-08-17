@@ -1,6 +1,6 @@
 import { statusCodes, GoogleSignin } from 'react-native-google-signin'
-const apiUrl = 'http://localhost:3001/api'
-// const apiUrl = 'http://192.168.0.10:3001/api'
+// const apiUrl = 'http://localhost:3001/api'
+const apiUrl = 'http://192.168.0.10:3001/api'
 const user = '/user'
 const signin = '/sign-in'
 const login = '/log-in'
@@ -120,7 +120,7 @@ export const logoutMethod = async () => {
   }
 }
 
-export const getTrack = async query => {
+export const searchTracksMethod = async query => {
   const url = `${apiUrl}/alice/search`
   try {
     const response = await basicFetch('POST', url, {}, { query })
@@ -140,7 +140,7 @@ export const getPlaylistTrack = async query => {
   }
 }
 
-export const editPlaylistTrack = async query => {
+export const addtrackToPlaylistMethod = async query => {
   const url = `${apiUrl}/alice/edit-playlist`
   try {
     const response = await basicFetch('POST', url, {}, { query })

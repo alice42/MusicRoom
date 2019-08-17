@@ -56,7 +56,6 @@ export default class ProfileContent extends React.Component {
   render() {
     const { facebook, google, deezer } = this.props.user.data
     const networksPrivacy = this.props.user.data.privacy.networks
-    console.log('****************', this.props)
     return (
       <View>
         <View style={styles.contentProfileTitleWrapper}>

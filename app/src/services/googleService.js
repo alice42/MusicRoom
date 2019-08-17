@@ -14,7 +14,6 @@ export const unsignGoogle = async () => {
     await GoogleSignin.revokeAccess()
     await GoogleSignin.signOut()
   } catch (error) {
-    console.log(error)
     throw error
   }
 }

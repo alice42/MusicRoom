@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, ScrollView, Dimensions } from 'react-native'
+import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RoundedButton from '../components/button/RoundedButton'
 import styles from '../styles/containers/HomeContainer'
@@ -33,7 +33,10 @@ class AllEventsScreen extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <ScrollView style={{ backgroundColor: colors.gray03 }}>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <Text style={stylesBis.heading}>ALL EVENTS</Text>
+        </View>
+        <ScrollView style={{ backgroundColor: colors.gray03, marginBottom: 10 }}>
           {this.props.events.error ? (
             <ApiError
               style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
@@ -43,19 +46,21 @@ class AllEventsScreen extends Component {
             this.renderEventslist()
           )}
         </ScrollView>
-        <RoundedButton
-          text={'Create a new event'}
-          textColor={colors.white}
-          background={colors.green01}
-          border={colors.white}
-          icon={
-            <View style={{ flexDirection: 'row', paddingLeft: 100 }}>
-              <Icon name="music" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
-              <Icon name="plus" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
-            </View>
-          }
-          handleOnPress={this.handleCreateEventRequest}
-        />
+        <View style={{ marginBottom: 5 }}>
+          <RoundedButton
+            text={'Create a new event'}
+            textColor={colors.white}
+            background={colors.green01}
+            border={colors.white}
+            icon={
+              <View style={{ flexDirection: 'row', paddingLeft: 100 }}>
+                <Icon name="music" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
+                <Icon name="plus" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
+              </View>
+            }
+            handleOnPress={this.handleCreateEventRequest}
+          />
+        </View>
       </View>
     )
   }
@@ -76,3 +81,39 @@ export default connect(
   mapStateToProps,
   actionsMapDispatchToProps
 )(AllEventsScreen)
+
+const stylesBis = StyleSheet.create({
+  wrapper: {
+    display: 'flex'
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: colors.green01,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    paddingRight: 10,
+    marginBottom: 'auto',
+    marginTop: 'auto'
+  },
+  playlistTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.gray04,
+    marginTop: 2
+  },
+  playlistPrivacy: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: colors.lightGray,
+    marginTop: 4,
+    marginLeft: 5
+  },
+  playlistDate: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.green01,
+    marginTop: 2
+  }
+})

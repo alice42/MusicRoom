@@ -1,19 +1,31 @@
 const initialState = {
-  tracks: [],
-  playlistInfo: [],
-  publicPlaylist: [],
-  privatePlaylist: []
+  currentPlaylist: {
+    list: [],
+    loading: false
+  }
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_PLAYLIST_TRACK_SUCCESS':
+    case 'GET_PLAYLIST_TRACKS_REQUEST':
       return {
         ...state,
-        tracks: action.results,
-        playlistInfo: action.playlistInfo,
-        publicPlaylist: [...state.publicPlaylist, action.playlistInfo.public ? playlistInfo : null],
-        privatePlaylist: [...state.privatePlaylist, action.playlistInfo.private ? playlistInfo : null]
+        currentPlaylist: { list: [], loading: true }
+      }
+    case 'GET_PLAYLIST_TRACKS_SUCCESS':
+      return {
+        ...state,
+        currentPlaylist: { list: [...action.results], loading: false }
+      }
+    case 'ADD_TRACK_TO_PLAYLIST_SUCCESS':
+      return {
+        ...state,
+        currentPlaylist: { list: [...action.results], loading: false }
+      }
+    case 'VOTE_SUCCESS':
+      return {
+        ...state,
+        currentPlaylist: { list: [...action.results], loading: true }
       }
     default:
       return state

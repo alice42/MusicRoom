@@ -24,21 +24,15 @@ export default class ChoosePlaylistModal extends React.Component {
 
   render() {
     const { choosenPlaylist } = this.state
-    const { playlists } = this.props.user.data
+    // const { playlists } = this.props.user.data
     return (
       <View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-        >
+        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styles.modal}>
             <View style={styles.modalContent}>
               <View style={styles.modalTitle}>
                 <Text style={styles.modalText}>PLAYLISTS</Text>
-                <Text style={styles.modalSubtext}>
-                  choose a playlist to add track to it
-                </Text>
+                <Text style={styles.modalSubtext}>choose a playlist to add track to it</Text>
               </View>
               <Picker
                 style={styles.modalPicker}
@@ -50,23 +44,18 @@ export default class ChoosePlaylistModal extends React.Component {
                   })
                 }}
               >
-                <Picker.Item
-                  label="Create a new playlist"
-                  value="newPlaylist"
-                />
-                {playlists.map((playlist, index) => (
+                <Picker.Item label="Create a new playlist" value="newPlaylist" />
+                {/* {playlists.map((playlist, index) => (
                   <Picker.Item
                     key={index}
                     label={playlist.title}
                     value={playlist.id}
                   />
-                ))}
+                ))} */}
               </Picker>
             </View>
             <View style={styles.modalValidationButton1}>
-              <TouchableOpacity
-                onPress={playlist => this.addToChoosenPlaylist(playlist)}
-              >
+              <TouchableOpacity onPress={playlist => this.addToChoosenPlaylist(playlist)}>
                 <Text style={styles.modalText}>OK</Text>
               </TouchableOpacity>
             </View>
@@ -91,7 +80,8 @@ export default class ChoosePlaylistModal extends React.Component {
             name="plus"
             size={18}
             style={{
-              color: colors.white
+              color: colors.white,
+              marginLeft: 20
             }}
           />
         </TouchableOpacity>

@@ -3,19 +3,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   ScrollView,
   StyleSheet,
-  DatePickerIOS
 } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../constants/colors'
-import InputField from '../components/input/InputField'
-import RadioInput from '../components/input/RadioInput'
-import RoundedButton from '../components/button/RoundedButton'
 import EditableInput from '../components/input/EditableInput'
 import * as eventsActions from '../actions/eventsActions'
 import Privacy from '../components/playlist/Privacy'
@@ -60,7 +54,7 @@ class EditEvent extends Component {
 
   render() {
     const { error } = this.state
-    const { name, id, privacy } = this.props.event[0]
+    const { name } = this.props.event[0]
     return this.props.event ? (
       <View style={styles.wrapper}>
         <ScrollView style={styles.scrollView}>
@@ -80,8 +74,8 @@ class EditEvent extends Component {
             <Privacy
               privacyOption={this.state.privacyOption}
               selectPrivacyOption={this.handlePrivacy}
-              //   collabOption={this.state.collabOption}
-              //   selectCollabOption={this.selectCollabOption}
+            //   collabOption={this.state.collabOption}
+            //   selectCollabOption={this.selectCollabOption}
             />
           </View>
         </ScrollView>

@@ -56,3 +56,20 @@ export function getDeezerFollowers(id) {
     id
   }
 }
+
+//
+
+export function getPlaylistTracks(playlistId) {
+  return {
+    type: 'GET_PLAYLIST_TRACKS_REQUEST',
+    playlistId
+  }
+}
+
+export function addtrackToPlaylist(trackId, playlistId) {
+  return {
+    type: 'ADD_TRACK_TO_PLAYLIST_REQUEST',
+    trackId,
+    playlistId
+  }
+}

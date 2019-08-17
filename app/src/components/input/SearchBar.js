@@ -5,17 +5,12 @@ import { colors } from '../../constants/colors'
 
 export default class SearchBar extends Component {
   handleTextChange = text => {
-    this.props.searchActions.getTrackRequest(text)
+    this.props.searchActions.searchTracksRequest(text)
   }
   render() {
     return (
       <View style={styles.searchContainer}>
-        <Icon
-          name="ios-search"
-          size={20}
-          color={colors.gray02}
-          style={styles.searchIcon}
-        />
+        <Icon name="ios-search" size={20} color={colors.gray02} style={styles.searchIcon} />
         <TextInput
           style={styles.textInput}
           onChangeText={this.handleTextChange}

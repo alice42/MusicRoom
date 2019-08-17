@@ -19,3 +19,13 @@ export function updateEventRequest(id, toChange, newValue) {
     newValue
   }
 }
+
+export function vote(trackId, eventId, value) {
+  console.log(trackId, eventId, value)
+  return {
+    type: 'VOTE_REQUEST',
+    trackId,
+    eventId,
+    value
+  }
+}
