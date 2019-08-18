@@ -12,6 +12,14 @@ const findUserBy = (key, value, database) => {
   });
 };
 
+const getAllUsers = database => {
+  return new Promise((resolve, reject) => {
+    database.ref("users").on("value", snapshot => {
+      resolve(snapshot.exists() ? snapshot.val() : false);
+    });
+  });
+};
+
 const updatetUser = (id, payload, database) => {
   return new Promise((resolve, reject) => {
     database.ref(`users/${id}`).update(payload, err => {
@@ -53,5 +61,6 @@ module.exports = {
   findUserBy,
   updatetUser,
   updatetUserNode,
-  insertUser
+  insertUser,
+  getAllUsers
 };

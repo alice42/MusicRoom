@@ -63,7 +63,8 @@ const checkPassword = password => {
 router.post("/log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, password } = req.body;
+    const { email: userMail, password } = req.body;
+    const email = userMail.toLowerCase();
 
     const user = await findUserBy("email", email, database);
     if (user) {
@@ -95,7 +96,8 @@ router.post("/log-in", async (req, res) => {
 router.post("/facebook-log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, userToken } = req.body;
+    const { email: userMail, userToken } = req.body;
+    const email = userMail.toLowerCase();
 
     const facebookTokenValid = await isFacebookTokenValid(userToken);
     if (!facebookTokenValid) {
@@ -123,7 +125,8 @@ router.post("/facebook-log-in", async (req, res) => {
 router.post("/google-log-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, userToken } = req.body;
+    const { email: userMail, userToken } = req.body;
+    const email = userMail.toLowerCase();
 
     const googleTokenValid = await isGoogleTokenValid(userToken);
     if (!googleTokenValid) {
@@ -149,7 +152,9 @@ router.post("/google-log-in", async (req, res) => {
 // recover account ( email )
 router.post("/recover", async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email: userMail } = req.body;
+    const email = userMail.toLowerCase();
+
     const database = res.database;
     const user = await findUserBy("email", email, database);
     if (user && user.signInType === "classic") {
@@ -202,7 +207,9 @@ router.get("/new-password", async (req, res) => {
 router.post("/sign-in", async (req, res) => {
   try {
     const database = res.database;
-    const { email, password } = req.body;
+    const { email: userMail, password } = req.body;
+    const email = userMail.toLowerCase();
+
     const tokenValidation = `${md5(email)}${createHash()}`;
     checkEmail(email);
     checkPassword(password);
@@ -274,7 +281,11 @@ router.post("/update-data", async (req, res) => {
       return res.status(500).send({ error: "token not valid" });
     }
     const { _id } = await findUserBy("_id", id, database);
-    await updatetUser(_id, { [toChange]: newValue }, database);
+    await updatetUser(
+      _id,
+      { [toChange]: toChange === "email" ? newValue.toLowerCase() : newValue },
+      database
+    );
     const user = await findUserBy("_id", id, database);
     return res.status(200).send(getProfileData(user));
   } catch (err) {
