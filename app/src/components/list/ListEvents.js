@@ -90,8 +90,7 @@ export default class playlists extends Component {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: '#ffffff',
-    marginTop: 10
+    backgroundColor: '#ffffff'
   },
   container: {
     paddingLeft: 19,
