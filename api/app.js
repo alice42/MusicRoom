@@ -26,6 +26,7 @@ const config = {
 
 firebase.initializeApp(config);
 const database = firebase.database();
+const firebaseRef = database.ref();
 
 const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
@@ -45,7 +46,24 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.use(logger("dev"));
+app.use(
+  logger(
+    "dev"
+    //   function(tokens, req, res) {
+    //   // console.log(res.output);
+    //   return [
+    //     tokens.method(req, res),
+    //     tokens.url(req, res),
+    //     tokens.status(req, res),
+    //     // function (req, res) { return res.statusCode < 400 }
+    //     tokens.res(req, res, "content-length"),
+    //     "-",
+    //     tokens["response-time"](req, res),
+    //     "ms"
+    //   ].join(" ");
+    // })
+  )
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -57,6 +75,48 @@ app.set("port", port);
 app.set("trust proxy", true);
 
 const server = http.createServer(app);
+const io = require("socket.io")(server);
+
+// io.sockets.emit("MESSAGE_TYPE", "everyone");
+
+io.on("connection", function(socket) {
+  console.log("SOKETIO, a user connected");
+  io.emit("MESSAGE_TYPE", "connection seen");
+  socket.broadcast.emit("new user connected");
+
+  socket.on("disconnect", function() {
+    console.log("SOKETIO, user disconnected");
+  });
+  socket.on("MESSAGE_TYPE", function(msg) {
+    console.log("message: " + msg);
+  });
+
+  firebaseRef.on("value", function(snapshot) {
+    var test = snapshot.val();
+
+    // Print the data object's values
+    console.log("TEST SOCKET: " + test);
+    io.emit("TEST", {
+      test
+    });
+  });
+});
+
+// io.on("connection", function(socket) {
+//   console.log("Connected and ready!");
+
+//   // firebase reference listens on value change,
+//   // and return the data snapshot as an object
+//   firebaseRef.on("value", function(snapshot) {
+//     var test = snapshot.val();
+
+//     // Print the data object's values
+//     console.log("TEST SOCKET: " + test);
+//     socket.broadcast.emit("TEST", {
+//       test
+//     });
+//   });
+// });
 
 server.listen(port, () =>
   console.log(

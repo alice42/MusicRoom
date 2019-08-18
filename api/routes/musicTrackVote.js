@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { findUserBy } = require("../helpers/firebaseUsers.helpers");
+const { findUserBy, getAllUsers } = require("../helpers/firebaseUsers.helpers");
 const {
   findEvents,
   insertEvent,
@@ -25,6 +25,7 @@ const getTracksWithVotes = (tracks, votes) => {
       ? votesByTrack[trackId] + value
       : value;
   });
+
   const tracksWithVote = tracks.map(track => ({
     id: track.id,
     albumCover: track.album.cover,
@@ -40,29 +41,48 @@ const getTracksWithVotes = (tracks, votes) => {
       ? 1
       : 0
   );
+  //   console.log(tracksWithVote);
+
   return tracksWithVote;
 };
-const getEventsAvailable = (events, location, id) => {
-  return events
+const getEventsAvailable = (events, location, id, idCorrespondance) => {
+  const tme = new Date().getTime();
+  const rt = events
+    .filter(event =>
+      event.privacy === "private" &&
+      !(event.owner === id || (event.allowedUsers || []).indexOf(id) !== -1)
+        ? false
+        : true
+    )
     .filter(event => {
-      if (
-        event.privacy === "private" &&
-        event.allowedUsers.indexOf(id) === -1
-      ) {
-        return false;
+      if (event.owner === id) return true;
+      if (event.restriction.isRestricted === true) {
+        // console.log(location, event.location, event.maxDistance);
+        if (tme > event.endTime || tme < event.startTime) {
+          return false;
+        }
+        if (!location) {
+          return false;
+        }
       }
       return true;
     })
-    .map(getEventData(id));
+    .map(getEventData(id, idCorrespondance));
+  //   console.log(rt);
+  return rt;
 };
 
-const getEventData = id => event => {
+const getEventData = (id, idCorrespondance) => event => {
   return {
     id: event._id,
     name: event.name,
     privacy: event.privacy,
     canEdit: event.owner === id,
-    playlistId: event.playlistId
+    playlistId: event.playlistId,
+    allowedUsers: (event.allowedUsers || []).map(
+      id => idCorrespondance[id].email
+    ),
+    restriction: event.restriction
   };
 };
 
@@ -86,7 +106,10 @@ router.post("/get-events", async (req, res) => {
       return res.status(500).send({ error: "your token deezer is invalid" });
     }
     const events = await findEvents(database);
-    return res.status(200).send(getEventsAvailable(events, location, id));
+    const idCorrespondance = await getAllUsers(database);
+    return res
+      .status(200)
+      .send(getEventsAvailable(events, location, id, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -116,12 +139,22 @@ router.post("/create-event", async (req, res) => {
       name,
       owner: id,
       privacy: "public",
-      allowedUsers: [id],
+      allowedUsers: [],
       playlistId: playlist.id,
-      votes: {}
+      votes: { "0_0": 0 },
+      restriction: {
+        isRestricted: false,
+        location: "",
+        maxDistance: 0,
+        startDate: new Date().getTime(),
+        endDate: new Date().getTime()
+      }
     });
     const events = await findEvents(database);
-    return res.status(200).send(getEventsAvailable(events, location, id));
+    const idCorrespondance = await getAllUsers(database);
+    return res
+      .status(200)
+      .send(getEventsAvailable(events, location, id, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -132,16 +165,25 @@ router.post("/create-event", async (req, res) => {
 router.post("/update-data", async (req, res) => {
   try {
     const database = res.database;
-    const allowedKey = ["name", "privacy"];
+    const allowedKey = [
+      "name",
+      "privacy",
+      "allowedUsers",
+      "restriction.isRestricted",
+      "restriction.startDate",
+      "restriction.enDate",
+      "restriction.location",
+      "restriction.maxDistance"
+    ];
     const { token, eventId, toChange, newValue, location } = req.body;
     // console.log(location, req.ip.split(`:`).pop());
-    // console.log({ token, eventId, toChange, newValue });
+    // console.log({ token, eventId, toChange, newValue, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
       return res.status(500).send({ error: "token not valid" });
     }
-    const { owner } = await findEventBy(database, "_id", eventId);
+    const { owner, restriction } = await findEventBy(database, "_id", eventId);
     if (owner !== id) {
       return res
         .status(500)
@@ -152,9 +194,40 @@ router.post("/update-data", async (req, res) => {
         .status(500)
         .send({ error: "you cant change this information" });
     }
-    await updateEvent(database, eventId, { [toChange]: newValue });
+    if (toChange.indexOf("restriction.") === 0) {
+      const restrictionKey = toChange.split("restriction.")[1];
+      const newRestriction = { ...restriction, [restrictionKey]: newValue };
+      //   console.log(restrictionKey, newValue);
+      await updateEvent(database, eventId, { restriction: newRestriction });
+    } else if (toChange === "allowedUsers") {
+      let usersId;
+      try {
+        usersIdPromises = newValue.map(async userMail => {
+          const { _id } = await findUserBy(
+            "email",
+            userMail.toLowerCase(),
+            database
+          );
+          if (_id === undefined) throw Error("user doesnt exist");
+          return _id;
+        });
+        usersId = await Promise.all(usersIdPromises);
+        usersIdUniq = [...new Set(usersId)];
+
+        // console.log(usersIdUniq);
+      } catch (userError) {
+        return res.status(500).send({ error: "a user given doesnt exist" });
+      }
+      await updateEvent(database, eventId, { [toChange]: usersIdUniq });
+    } else {
+      await updateEvent(database, eventId, { [toChange]: newValue });
+    }
     const events = await findEvents(database);
-    return res.status(200).send(getEventsAvailable(events, location, id));
+    const idCorrespondance = await getAllUsers(database);
+
+    return res
+      .status(200)
+      .send(getEventsAvailable(events, location, id, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -168,21 +241,26 @@ router.post("/get-tracks", async (req, res) => {
     // console.log({ token, playlistId, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
+
     if (!id) {
       return res.status(500).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
+
     if (!userTokens.deezer) {
       return res
         .status(500)
         .send({ error: "you dont have link your account to deezer" });
     }
     const validToken = await isDeezerTokenValid(userTokens.deezer);
+
     if (!validToken) {
       return res.status(500).send({ error: "your token deezer is invalid" });
     }
+
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
     const { votes } = await findEventBy(database, "playlistId", playlistId);
+
     // console.log(tracks.tracks.data);
     // const events = await findEvents(database);
     return res.status(200).send(getTracksWithVotes(tracks.tracks.data, votes));
