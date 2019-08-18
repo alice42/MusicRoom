@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import * as eventsActions from '../actions/eventsActions'
@@ -34,6 +34,7 @@ class EventScreen extends Component {
       <View style={styles.wrapper}>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
           <Text style={stylesBis.heading}>{event.name}</Text>
+          <Text />
           <TouchableOpacity onPress={() => this.handleOnPressEdit(event)} disabled={!canEdit}>
             <Icon
               name="edit"

@@ -46,7 +46,6 @@ const reducer = (state = initialState, action) => {
         isFetching: false
       }
     case 'SERVICE_MTV_EVENTS_UPDATE_DATA_REQUEST_FAILURE':
-      console.log('TEST', action)
       return {
         ...state,
         list: [...state.list],

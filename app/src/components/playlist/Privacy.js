@@ -7,10 +7,6 @@ export default class Privacy extends Component {
     this.props.selectPrivacyOption(privacyOption)
   }
 
-  selectCollabOption = collabOption => {
-    this.props.selectCollabOption(collabOption)
-  }
-
   render() {
     const { privacyOption } = this.props
     return (
@@ -42,6 +38,9 @@ export default class Privacy extends Component {
   }
 }
 const styles = StyleSheet.create({
+  privacyOptions: {
+    minHeight: 100
+  },
   privacyHeading: {
     fontSize: 16,
     fontWeight: '400',

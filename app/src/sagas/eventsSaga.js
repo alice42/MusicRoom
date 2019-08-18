@@ -16,7 +16,7 @@ function* getEventsSaga(action) {
       yield put({ type: 'SERVICE_MTV_GET_EVENTS_REQUEST_SUCCESS', response })
     }
   } catch (error) {
-    yield put({ type: 'SERVICE_MTV_GET_EVENTS_REQUEST_FAILURE', error })
+    yield put({ type: 'SERVICE_MTV_GET_EVENTS_REQUEST_FAILURE', error: error.message })
   }
 }
 
@@ -35,7 +35,7 @@ function* createEventsSaga(action) {
       yield put({ type: 'SERVICE_MTV_CREATE_EVENTS_REQUEST_SUCCESS', response })
     }
   } catch (error) {
-    yield put({ type: 'SERVICE_MTV_CREATE_EVENTS_REQUEST_FAILURE', error })
+    yield put({ type: 'SERVICE_MTV_CREATE_EVENTS_REQUEST_FAILURE', error: error.message })
   }
 }
 
@@ -50,7 +50,9 @@ function* updateEventsSaga(action) {
       toChange,
       newValue
     }
+    console.log('PAYLOAD', payload)
     const response = yield call(updateEventMethod, payload)
+    console.log('RESPONSE', response)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -78,7 +80,7 @@ function* vote(action) {
       yield put({ type: 'VOTE_SUCCESS', results: response })
     }
   } catch (error) {
-    yield put({ type: 'VOTE_FAILURE', error })
+    yield put({ type: 'VOTE_FAILURE', error: error.message })
   }
 }
 

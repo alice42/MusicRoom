@@ -112,6 +112,7 @@ export default class TagsView extends React.Component {
 
 const stylesBis = StyleSheet.create({
   tagsScrollView: {
+    maxHeight: 200,
     display: 'flex',
     backgroundColor: colors.green02,
     margin: 10,
