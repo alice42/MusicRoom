@@ -1,9 +1,8 @@
 import React from 'react'
-import { View, ScrollView, Text, SafeAreaView } from 'react-native'
+import { View, ScrollView, Text, SafeAreaView, StyleSheet } from 'react-native'
 import AddTagButton from '../../button/AddTagButton'
 import TagButton from '../../button/TagButton'
 import PrivacyModal from './PrivacyModal'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../../../constants/colors'
 import styles from '../../../styles/containers/ProfileContainer'
 
@@ -19,23 +18,29 @@ export default class TagsView extends React.Component {
 
   onPressValidNewTag = () => {
     const { inputvalue } = this.state
-    const { token } = this.props.user
-    const { tags } = this.props.user.data
+    const tags = this.props.allowedUsers
+      ? [...this.props.allowedUsers]
+      : [...this.props.user.data.tags]
     const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(inputvalue)) {
       tags.push(inputvalue)
-      this.props.actions.updateRequest(token, 'tags', tags)
+      this.props.allowedUsers
+        ? this.props.eventsActions.updateEventRequest(this.props.event, 'allowedUsers', tags)
+        : this.props.actions.updateRequest(this.props.user.token, 'tags', tags)
     }
     this.setState({ inputvalue: '', addNewTag: false })
   }
 
   onPressDeleteTag = tag => {
-    const { tags } = this.props.user.data
-    const { token } = this.props.user
+    const tags = this.props.allowedUsers
+      ? [...this.props.allowedUsers]
+      : [...this.props.user.data.tags]
     var newTags = tags.filter(function(value) {
       return value !== tag
     })
-    this.props.actions.updateRequest(token, 'tags', newTags)
+    this.props.allowedUsers
+      ? this.props.eventsActions.updateEventRequest(this.props.event, 'allowedUsers', newTags)
+      : this.props.actions.updateRequest(this.props.user.token, 'tags', newTags)
   }
 
   handlePrivacy = (privacyValue, dataType) => {
@@ -44,7 +49,9 @@ export default class TagsView extends React.Component {
   }
 
   allTags() {
-    const { tags } = this.props.user.data
+    const tags = this.props.allowedUsers
+      ? [...this.props.allowedUsers]
+      : [...this.props.user.data.tags]
     return tags.map((tag, i) => {
       return (
         <TagButton
@@ -53,6 +60,7 @@ export default class TagsView extends React.Component {
           }}
           key={i}
           title={tag}
+          allowedUsers={this.props.allowedUsers ? true : false}
         />
       )
     })
@@ -64,20 +72,26 @@ export default class TagsView extends React.Component {
 
   render() {
     const { inputvalue, addNewTag } = this.state
-    const tagsPrivacy = this.props.user.data.privacy.tags
+    const tagsPrivacy = this.props.allowedUsers ? null : this.props.user.data.privacy.tags
     return (
       <View>
         <View style={styles.tagsTitleWrapper}>
-          <Text style={styles.tagsText}>Your music tastes</Text>
-          <PrivacyModal
-            styleIcon={styles.privacyIcon}
-            dataType={'tags'}
-            onChangePrivacy={this.handlePrivacy}
-            dataPrivacy={tagsPrivacy}
-          />
+          <Text style={styles.tagsText}>
+            {this.props.allowedUsers ? 'Your allowed friends' : 'Your music tastes'}
+          </Text>
+          {tagsPrivacy ? (
+            <PrivacyModal
+              styleIcon={styles.privacyIcon}
+              dataType={'tags'}
+              onChangePrivacy={this.handlePrivacy}
+              dataPrivacy={tagsPrivacy}
+            />
+          ) : null}
         </View>
         <SafeAreaView>
-          <ScrollView style={styles.tagsScrollView}>
+          <ScrollView
+            style={this.props.allowedUsers ? stylesBis.tagsScrollView : styles.tagsScrollView}
+          >
             <View style={styles.tagsContainer}>
               <AddTagButton
                 inputvalue={inputvalue}
@@ -85,6 +99,7 @@ export default class TagsView extends React.Component {
                 handleInput={this.handleInput}
                 onPressValidNewTag={this.onPressValidNewTag}
                 onPressAdd={this.onPressAdd}
+                allowedUsers={this.props.allowedUsers ? true : false}
               />
               {this.allTags()}
             </View>
@@ -94,3 +109,14 @@ export default class TagsView extends React.Component {
     )
   }
 }
+
+const stylesBis = StyleSheet.create({
+  tagsScrollView: {
+    display: 'flex',
+    backgroundColor: colors.green02,
+    margin: 10,
+    borderRadius: 20,
+    borderColor: colors.gray01,
+    borderWidth: 2
+  }
+})

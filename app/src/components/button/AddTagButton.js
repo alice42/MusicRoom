@@ -1,12 +1,12 @@
-import React from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../../constants/colors";
-import styles from "../../styles/components/button/TagsButtons";
+import React from 'react'
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { colors } from '../../constants/colors'
+import styles from '../../styles/components/button/TagsButtons'
 
 export default class AddTagButton extends React.Component {
   render() {
-    const { addNewTag, inputvalue } = this.props;
+    const { addNewTag, allowedUsers } = this.props
     return (
       <View style={styles.addContainer}>
         <TouchableOpacity onPress={this.props.onPressAdd}>
@@ -15,19 +15,25 @@ export default class AddTagButton extends React.Component {
         {addNewTag ? (
           <View style={styles.view}>
             <TextInput
-              style={styles.text}
-              placeholder={"Your new tag"}
+              style={allowedUsers ? stylesBis.text : styles.text}
+              placeholder={allowedUsers ? "friend's mail" : 'Your new tag'}
               onChangeText={this.props.handleInput}
             />
-            <TouchableOpacity
-              style={styles.touchable}
-              onPress={this.props.onPressValidNewTag}
-            >
+            <TouchableOpacity style={styles.touchable} onPress={this.props.onPressValidNewTag}>
               <Icon name="check" size={20} style={{ color: colors.white }} />
             </TouchableOpacity>
           </View>
         ) : null}
       </View>
-    );
+    )
   }
 }
+
+const stylesBis = StyleSheet.create({
+  text: {
+    textAlign: 'center',
+    color: colors.white,
+    fontSize: 16,
+    maxWidth: 250
+  }
+})

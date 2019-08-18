@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-} from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -13,6 +7,8 @@ import { colors } from '../constants/colors'
 import EditableInput from '../components/input/EditableInput'
 import * as eventsActions from '../actions/eventsActions'
 import Privacy from '../components/playlist/Privacy'
+import Tags from '../components/profileContainer/profileContent/Tags'
+import ApiError from '../components/ApiError'
 
 class EditEvent extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -74,10 +70,20 @@ class EditEvent extends Component {
             <Privacy
               privacyOption={this.state.privacyOption}
               selectPrivacyOption={this.handlePrivacy}
-            //   collabOption={this.state.collabOption}
-            //   selectCollabOption={this.selectCollabOption}
             />
           </View>
+          {!this.state.privacyOption ? (
+            <View>
+              {this.props.events.error ? (
+                <ApiError style={{ textAlign: 'center' }} error={this.props.events.error} />
+              ) : null}
+              <Tags
+                allowedUsers={this.props.event[0].allowedUsers}
+                event={this.props.event[0].id}
+                eventsActions={this.props.eventsActions}
+              />
+            </View>
+          ) : null}
         </ScrollView>
       </View>
     ) : null
@@ -89,9 +95,12 @@ function actionsMapDispatchToProps(dispatch) {
   }
 }
 function mapStateToProps(state, props) {
-  const { events } = state
+  const { events, playlist, user } = state
   const id = props.navigation.state.params.event
   return {
+    events,
+    playlist,
+    user,
     event: events.list.filter(event => {
       if (event.id === id) {
         return event

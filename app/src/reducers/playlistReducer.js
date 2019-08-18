@@ -1,7 +1,7 @@
 const initialState = {
   currentPlaylist: {
     list: [],
-    loading: false
+    isFetching: false
   }
 }
 
@@ -10,22 +10,22 @@ const reducer = (state = initialState, action) => {
     case 'GET_PLAYLIST_TRACKS_REQUEST':
       return {
         ...state,
-        currentPlaylist: { list: [], loading: true }
+        currentPlaylist: { list: [], isFetching: true }
       }
     case 'GET_PLAYLIST_TRACKS_SUCCESS':
       return {
         ...state,
-        currentPlaylist: { list: [...action.results], loading: false }
+        currentPlaylist: { list: [...action.results], isFetching: false }
       }
     case 'ADD_TRACK_TO_PLAYLIST_SUCCESS':
       return {
         ...state,
-        currentPlaylist: { list: [...action.results], loading: false }
+        currentPlaylist: { list: [...action.results], isFetching: false }
       }
     case 'VOTE_SUCCESS':
       return {
         ...state,
-        currentPlaylist: { list: [...action.results], loading: true }
+        currentPlaylist: { list: [...action.results], isFetching: true }
       }
     default:
       return state

@@ -52,7 +52,6 @@ function* addtrackToPlaylist(action) {
       results: response
     })
   } catch (err) {
-    console.log(err)
     yield put({ type: 'ADD_TRACK_TO_PLAYLIST_FAILURE', error: error.message })
   }
 }

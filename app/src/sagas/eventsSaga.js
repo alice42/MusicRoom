@@ -16,7 +16,7 @@ function* getEventsSaga(action) {
       yield put({ type: 'SERVICE_MTV_GET_EVENTS_REQUEST_SUCCESS', response })
     }
   } catch (error) {
-    yield put({ type: 'SERVICE_MTV_GET_EVENTS_REQUEST_FAILURE', error: error.message })
+    yield put({ type: 'SERVICE_MTV_GET_EVENTS_REQUEST_FAILURE', error })
   }
 }
 
@@ -35,7 +35,7 @@ function* createEventsSaga(action) {
       yield put({ type: 'SERVICE_MTV_CREATE_EVENTS_REQUEST_SUCCESS', response })
     }
   } catch (error) {
-    yield put({ type: 'SERVICE_MTV_CREATE_EVENTS_REQUEST_FAILURE', error: error.message })
+    yield put({ type: 'SERVICE_MTV_CREATE_EVENTS_REQUEST_FAILURE', error })
   }
 }
 
@@ -78,7 +78,7 @@ function* vote(action) {
       yield put({ type: 'VOTE_SUCCESS', results: response })
     }
   } catch (error) {
-    yield put({ type: 'VOTE_FAILURE', error: error.message })
+    yield put({ type: 'VOTE_FAILURE', error })
   }
 }
 

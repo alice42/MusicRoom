@@ -7,16 +7,13 @@ import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
 import ListTracks from '../list/ListTracks'
 import SearchBar from '../input/SearchBar'
+import Loader from '../Loader'
 
 class Search extends Component {
   apiError = () => {
     const { error } = this.props.user
     return <Text style={{ color: 'red' }}>{error}</Text>
   }
-  // addToChoosenPlaylist = track => {
-  //   console.log()
-  //   this.props.test(track)
-  // }
 
   render() {
     const screenHeight = Dimensions.get('window').height
@@ -24,15 +21,19 @@ class Search extends Component {
     return (
       <View style={{ flex: 1 }}>
         <SearchBarConnected />
-        <View style={{ flex: 0.9 }}>
-          <ListTracks
-            test={this.props.test}
-            list={results}
-            buttonPlay={true}
-            buttonAdd={true}
-            playTrack={this.props.playTrack}
-          />
-        </View>
+        {this.props.search.isFetching ? (
+          <Loader />
+        ) : (
+          <View style={{ flex: 0.9 }}>
+            <ListTracks
+              test={this.props.test}
+              list={results}
+              buttonPlay={true}
+              buttonAdd={true}
+              playTrack={this.props.playTrack}
+            />
+          </View>
+        )}
         <View style={{ flex: 0.1 }} />
       </View>
     )

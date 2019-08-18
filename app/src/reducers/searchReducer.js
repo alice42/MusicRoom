@@ -1,6 +1,7 @@
 const initialState = {
   results: [],
-  errorMessage: null
+  errorMessage: null,
+  isFetching: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -9,19 +10,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         results: [],
-        errorMessage: null
+        errorMessage: null,
+        isFetching: true
       }
     case 'SEARCH_SUCCESS':
       return {
         ...state,
         results: action.results,
-        errorMessage: null
+        errorMessage: null,
+        isFetching: false
       }
     case 'SEARCH_FAILURE':
       return {
         ...state,
         results: [],
-        errorMessage: action.error
+        errorMessage: action.error,
+        isFetching: false
       }
     default:
       return state

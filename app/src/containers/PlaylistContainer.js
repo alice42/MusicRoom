@@ -19,7 +19,10 @@ import ListTracks from '../components/list/ListTracks'
 import RoundedButton from '../components/button/RoundedButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icons from 'react-native-vector-icons/MaterialIcons'
+import Loader from '../components/Loader'
+
 const { width, height } = Dimensions.get('window')
+
 class PlaylistContainer extends Component {
   renderPlaylistTracks = () => {
     const { list } = this.props.playlist.currentPlaylist
@@ -62,8 +65,15 @@ class PlaylistContainer extends Component {
             height: height - 240
           }}
         >
-          {this.renderPlaylistTracks()}
+          {this.props.playlist.currentPlaylist.isFetching ? (
+            <View style={{ marginTop: height / 2 - 170 }}>
+              <Loader />
+            </View>
+          ) : (
+            this.renderPlaylistTracks()
+          )}
         </ScrollView>
+
         <View style={{ marginTop: 10, marginBottom: 20 }}>
           <RoundedButton
             text="add track"

@@ -43,7 +43,6 @@ function* loginAppSaga(action) {
     if (response.error) {
       yield put({ type: 'LOGIN_FAILURE', error: response.error })
     } else {
-      // console.log('RESPONSE LOG IN ', response)
       yield put({
         type: 'LOGIN_SUCCESS',
         response
@@ -58,7 +57,6 @@ function* loginFacebookSaga(action) {
   try {
     const facebookInformation = yield call(getTokenFacebook)
     const response = yield call(loginFacebook, facebookInformation)
-    // console.log('RESPONSE', facebookInformation)
     if (response.error) {
       yield put({ type: 'LOGIN_FACEBOOK_FAILURE', error: response.error })
     } else {
@@ -78,7 +76,6 @@ function* loginFacebookSaga(action) {
 function* loginGoogleSaga(action) {
   try {
     const googleInformation = yield call(getTokenGoogle)
-    // console.log('INFO', googleInformation)
     if (googleInformation === 'cancelled') {
       yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: null })
     } else {
@@ -103,7 +100,6 @@ function* loginGoogleSaga(action) {
 function* linkFacebookSaga(action) {
   try {
     const facebookInformation = yield call(getTokenFacebook)
-    console.log('fB INFO', facebookInformation)
     const token = yield select(state => state.user.token)
     const payload = {
       token,
@@ -114,7 +110,6 @@ function* linkFacebookSaga(action) {
     if (response.error) {
       yield put({ type: 'LINK_FACEBOOK_FAILURE', error: response.error })
     } else {
-      // console.log('RESPONSE SAGA', response)
       yield put({
         type: 'LINK_FACEBOOK_SUCCESS',
         response
@@ -133,7 +128,6 @@ function* unlinkFacebookSaga(action) {
       type: 'facebook'
     }
     const response = yield call(unlinkAccountMethod, payload)
-    console.log('RESPONSE  UNLINK SAGA', response)
     yield put({
       type: 'UNLINK_FACEBOOK_SUCCESS',
       response
@@ -146,7 +140,6 @@ function* unlinkFacebookSaga(action) {
 function* linkGoogleSaga(action) {
   try {
     const googleInformation = yield call(getTokenGoogle)
-    console.log('fB INFO', googleInformation)
     const token = yield select(state => state.user.token)
     const payload = {
       token,
@@ -157,7 +150,6 @@ function* linkGoogleSaga(action) {
     if (response.error) {
       yield put({ type: 'LINK_GOOGLE_FAILURE', error: response.error })
     } else {
-      // console.log('RESPONSE SAGA', response)
       yield put({
         type: 'LINK_GOOGLE_SUCCESS',
         response
@@ -177,7 +169,6 @@ function* unlinkGoogleSaga(action) {
     }
     yield call(unsignGoogle)
     const response = yield call(unlinkAccountMethod, payload)
-    console.log('RESPONSE  UNLINK SAGA', response)
     yield put({
       type: 'UNLINK_GOOGLE_SUCCESS',
       response
@@ -218,7 +209,6 @@ function* unlinkDeezerSaga(action) {
       type: 'deezer'
     }
     const response = yield call(unlinkAccountMethod, payload)
-    console.log('RESPONSE  UNLINK SAGA', response)
     yield put({
       type: 'UNLINK_DEEZER_SUCCESS',
       response
@@ -256,7 +246,6 @@ function* updateUserSaga(action) {
     if (response.error) {
       yield put({ type: 'UPDATE_FAILURE', error: response.error })
     } else {
-      // console.log('RESPONSE SAGA', response)
       yield put({
         type: 'UPDATE_SUCCESS',
         response
@@ -275,9 +264,7 @@ function* updatePrivacySaga(action) {
       privacyValue,
       dataType
     }
-    // console.log('TEST SAGA')
     const response = yield call(updatePrivacyMethod, payload)
-    // console.log('RESPONSE PRIV SAGA', response)
     if (response.error) {
       yield put({ type: 'UPDATE_PRIVACY_FAILURE', error: response.error })
     } else {

@@ -9,7 +9,10 @@ import * as eventsActions from '../actions/eventsActions'
 import ListEvents from '../components/list/ListEvents'
 import { colors } from '../constants/colors'
 import ApiError from '../components/ApiError'
-const { width, height } = Dimensions.get('window')
+import Loader from '../components/Loader'
+
+const { height } = Dimensions.get('window')
+
 class AllEventsScreen extends Component {
   componentWillMount() {
     this.props.eventsActions.getEvents()
@@ -33,33 +36,40 @@ class AllEventsScreen extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <View style={{ display: 'flex', flex: 1 }}>
           <Text style={stylesBis.heading}>ALL EVENTS</Text>
-        </View>
-        <ScrollView style={{ backgroundColor: colors.gray03, marginBottom: 10 }}>
-          {this.props.events.error ? (
-            <ApiError
-              style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
-              error={this.props.events.error}
-            />
-          ) : (
-            this.renderEventslist()
-          )}
-        </ScrollView>
-        <View style={{ marginBottom: 5 }}>
-          <RoundedButton
-            text={'Create a new event'}
-            textColor={colors.white}
-            background={colors.green01}
-            border={colors.white}
-            icon={
-              <View style={{ flexDirection: 'row', paddingLeft: 100 }}>
-                <Icon name="music" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
-                <Icon name="plus" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
-              </View>
-            }
-            handleOnPress={this.handleCreateEventRequest}
-          />
+          <View>
+            <ScrollView style={{ backgroundColor: colors.gray03, height: height - 240 }}>
+              {this.props.events.error ? (
+                <ApiError
+                  style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
+                  error={this.props.events.error}
+                />
+              ) : this.props.events.isFetching ? (
+                <View style={{ marginTop: height / 2 - 170 }}>
+                  <Loader />
+                </View>
+              ) : (
+                this.renderEventslist()
+              )}
+            </ScrollView>
+
+            <View style={{ marginTop: 10, marginBottom: 20 }}>
+              <RoundedButton
+                text={'Create a new event'}
+                textColor={colors.white}
+                background={colors.green01}
+                border={colors.white}
+                icon={
+                  <View style={{ flexDirection: 'row', paddingLeft: 100 }}>
+                    <Icon name="music" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
+                    <Icon name="plus" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
+                  </View>
+                }
+                handleOnPress={this.handleCreateEventRequest}
+              />
+            </View>
+          </View>
         </View>
       </View>
     )
