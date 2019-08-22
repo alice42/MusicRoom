@@ -25,6 +25,7 @@ export default class playlists extends Component {
 
   renderplaylists() {
     const { list } = this.props
+    console.log(this.props)
     return (
       <FlatList
         style={styles.root}
