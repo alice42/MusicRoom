@@ -45,9 +45,22 @@ const updateEvent = (database, id, payload) => {
   });
 };
 
+const deleteEvent = (database, id) => {
+  return new Promise((resolve, reject) => {
+    database.ref(`events/${id}`).remove(err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
 module.exports = {
   findEvents,
   insertEvent,
   findEventBy,
-  updateEvent
+  updateEvent,
+  deleteEvent
 };
