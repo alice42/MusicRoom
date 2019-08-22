@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Switch, Button, Slider } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Map from './MapComponent'
 
 export default class Restriction extends React.Component {
   state = {
@@ -27,7 +28,7 @@ export default class Restriction extends React.Component {
   }
 
   render() {
-    const { isRestricted, maxDistance, startDate, endDate, mapRegion } = this.props
+    const { isRestricted, maxDistance, startDate, endDate } = this.props
     return (
       <View style={{ padding: 20 }}>
         <View style={styles.content}>
@@ -52,7 +53,6 @@ export default class Restriction extends React.Component {
                 onPress={() => this.showDateTimePicker('start')}
               />
             </View>
-
             <View style={styles.contentInfo}>
               <Text style={styles.title}>End Date: </Text>
               <Text>{endDate ? endDate : 'none'}</Text>
@@ -70,6 +70,19 @@ export default class Restriction extends React.Component {
               onConfirm={this.handleDatePicked}
               onCancel={this.hideDateTimePicker}
             />
+            <View>
+              <Text style={styles.title}>location:</Text>
+              <Map
+                maxDistance={this.props.maxDistance}
+                mapRegion={this.props.mapRegion}
+                latitude={this.props.latitude}
+                longitude={this.props.longitude}
+                latitudeDelta={this.props.latitudeDelta}
+                longitudeDelta={this.props.longitudeDelta}
+                onMapPress={this.props.onMapPress}
+                onRegionChange={this.props.onRegionChange}
+              />
+            </View>
             <View style={styles.content}>
               <Text style={styles.title}>Distance max:</Text>
               <Text>{maxDistance} m</Text>

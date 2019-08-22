@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -10,6 +10,10 @@ import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
 import Restriction from '../components/Restriction'
 import ApiError from '../components/ApiError'
+// import MapView from 'react-native-maps'
+// import Map from '../components/MapComponent'
+
+const { width, height } = Dimensions.get('window')
 
 class EditEvent extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -24,36 +28,57 @@ class EditEvent extends Component {
   state = {
     privacyOption: this.props.event[0].privacy === 'public' ? true : false,
     isRestricted: this.props.event[0].restriction.isRestricted,
-    maxDistance: 1,
+    maxDistance: parseInt(this.props.event[0].restriction.maxDistance),
     startDate: new Date(this.props.event[0].restriction.startDate).toLocaleString(),
     endDate: new Date(this.props.event[0].restriction.endDate).toLocaleString(),
     mapRegion: null,
-    lastLat: null,
-    lastLong: null
+    latitude: parseInt(this.props.event[0].restriction.location.split(' ')[0]),
+    longitude: parseInt(this.props.event[0].restriction.location.split(' ')[1]),
+    mapRegion: null,
+    latitudeDelta: 0.00922 * 2.5,
+    longitudeDelta: 0.00421 * 2.5
+  }
+
+  componentDidMount() {
+    this.watchID = navigator.geolocation.watchPosition(position => {
+      // Create the object to update this.state.mapRegion through the onRegionChange function
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: this.state.latitudeDelta,
+        longitudeDelta: this.state.longitudeDelta
+      }
+      this.onRegionChange(region, region.latitude, region.longitude)
+    })
+  }
+
+  onMapPress = e => {
+    console.log(e.nativeEvent.coordinate.longitude)
+    let region = {
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude,
+      latitudeDelta: this.state.latitudeDelta,
+      longitudeDelta: this.state.longitudeDelta
+    }
+    this.onRegionChange(region, region.latitude, region.longitude)
+  }
+
+  onRegionChange = (region, latitude, longitude) => {
+    this.setState({
+      mapRegion: region,
+      // If there are no new values set use the the current ones
+      latitude: latitude || this.state.latitude,
+      longitude: longitude || this.state.longitude
+    })
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID)
   }
 
   componentWillMount() {
     const { privacy } = this.props.event[0]
     this.setState({ privacy: privacy === 'public' })
-  }
-
-  componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition(
-      position => {
-        let region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          latitudeDelta: 0.00922 * 1.5,
-          longitudeDelta: 0.00421 * 1.5
-        }
-        this.onRegionChange(region, region.latitude, region.longitude)
-      },
-      error => console.log(error)
-    )
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID)
   }
 
   showDateTimePicker = () => {
@@ -62,14 +87,6 @@ class EditEvent extends Component {
 
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false })
-  }
-
-  onRegionChange(region, lastLat, lastLong) {
-    this.setState({
-      mapRegion: region,
-      lastLat: lastLat || this.state.lastLat,
-      lastLong: lastLong || this.state.lastLong
-    })
   }
 
   handleNameEdit = name => {
@@ -96,13 +113,8 @@ class EditEvent extends Component {
 
   handleMaxDistance = maxDistance => {
     this.setState({ maxDistance })
-    const { lastLat, lastLong } = this.state
-    const location = lastLat.toString().concat(' ', lastLong.toString())
     const { id } = this.props.event[0]
-    if (location && maxDistance) {
-      this.props.eventsActions.updateEventRequest(id, 'restriction.maxDistance', maxDistance)
-      this.props.eventsActions.updateEventRequest(id, 'restriction.location', location)
-    }
+    this.props.eventsActions.updateEventRequest(id, 'restriction.maxDistance', maxDistance)
   }
 
   handleDatePicked = (date, whichDate) => {
@@ -125,7 +137,16 @@ class EditEvent extends Component {
   }
 
   render() {
-    const { isRestricted, privacyOption, maxDistance, startDate, endDate } = this.state
+    const {
+      isRestricted,
+      privacyOption,
+      maxDistance,
+      startDate,
+      endDate,
+      mapRegion,
+      latitude,
+      longitude
+    } = this.state
     const { name } = this.props.event[0]
     return this.props.event ? (
       <View style={styles.wrapper}>
@@ -157,8 +178,12 @@ class EditEvent extends Component {
             <View style={styles.divider} />
           </View>
         ) : null}
-
         <Restriction
+          mapRegion={mapRegion}
+          latitude={latitude}
+          longitude={longitude}
+          latitudeDelta={this.state.latitudeDelta}
+          longitudeDelta={this.state.longitudeDelta}
           startDate={startDate}
           endDate={endDate}
           isRestricted={isRestricted}
@@ -167,6 +192,8 @@ class EditEvent extends Component {
           selectRestrictionOption={this.handleRestriction}
           handleDatePicked={this.handleDatePicked}
           handleMaxDistance={this.handleMaxDistance}
+          onMapPress={this.onMapPress}
+          onRegionChange={this.onRegionChange}
         />
       </View>
     ) : null
@@ -197,13 +224,20 @@ export default connect(
 )(EditEvent)
 
 const styles = StyleSheet.create({
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
   wrapper: {
     display: 'flex',
     flex: 1,
     backgroundColor: colors.white
   },
   content: {
-    paddingTop: 50
+    paddingTop: 10
   },
   closeButton: {
     position: 'absolute',
@@ -219,8 +253,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: colors.lightBlack,
     paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 15
+    paddingRight: 20
   },
   inputWrapper: {
     paddingLeft: 20,

@@ -17,6 +17,7 @@
     "react-native": "0.58.1",
     "react-native-fbsdk": "^0.8.0",
     "react-native-google-signin": "^2.0.0",
+    "react-native-maps": "0.25.0",
     "react-native-modal-datetime-picker": "^7.5.0",
     "react-native-slider": "^0.11.0",
     "react-native-swipe-list-view": "^2.0.0",

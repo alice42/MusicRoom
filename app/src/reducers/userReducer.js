@@ -14,7 +14,8 @@ const initialState = {
     tags: [],
     playlists: [],
     tracks: [],
-    followers: []
+    followers: [],
+    locationUser: ''
   },
   error: null,
   errorLogIn: null,
