@@ -5,7 +5,8 @@ const {
   findEvents,
   insertEvent,
   updateEvent,
-  findEventBy
+  findEventBy,
+  deleteEvent
 } = require("../helpers/firebaseEvents.helpers");
 const { getSessions } = require("../helpers/firebaseSession.helpers");
 const { findKey } = require("lodash");
@@ -16,6 +17,27 @@ const {
   addTrackToPlaylist
 } = require("../helpers/deezer.helpers");
 const md5 = require("blueimp-md5");
+
+const checkPoint = (a, b, x, y, r) => {
+  var dist_points = (a - x) * (a - x) + (b - y) * (b - y);
+  r *= r;
+  return dist_points < r;
+};
+
+const measureDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6378.137;
+  const dLat = (lat2 * Math.PI) / 180 - (lat1 * Math.PI) / 180;
+  const dLon = (lon2 * Math.PI) / 180 - (lon1 * Math.PI) / 180;
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c;
+  return d * 1000;
+};
 
 const getTracksWithVotes = (tracks, votes) => {
   const votesByTrack = {};
@@ -41,7 +63,6 @@ const getTracksWithVotes = (tracks, votes) => {
       ? 1
       : 0
   );
-  //   console.log(tracksWithVote);
 
   return tracksWithVote;
 };
@@ -57,7 +78,11 @@ const getEventsAvailable = (events, location, id, idCorrespondance) => {
     .filter(event => {
       if (event.owner === id) return true;
       if (event.restriction.isRestricted === true) {
-        // console.log(location, event.location, event.maxDistance);
+        const [a, b] = location.split(" ");
+        const [x, y] = event.restriction.location.split(" ");
+        if (measureDistance(a, b, x, y) > event.restriction.maxDistance) {
+          return false;
+        }
         if (tme > event.endTime || tme < event.startTime) {
           return false;
         }
@@ -68,7 +93,7 @@ const getEventsAvailable = (events, location, id, idCorrespondance) => {
       return true;
     })
     .map(getEventData(id, idCorrespondance));
-  //   console.log(rt);
+  // console.log(rt);
   return rt;
 };
 
@@ -90,6 +115,11 @@ router.post("/get-events", async (req, res) => {
   try {
     const database = res.database;
     const { token, location } = req.body;
+    if (!location) {
+      return res
+        .status(500)
+        .send({ error: "you must give your location to use this feature" });
+    }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -120,6 +150,11 @@ router.post("/create-event", async (req, res) => {
   try {
     const database = res.database;
     const { token, name, location } = req.body;
+    if (!location) {
+      return res
+        .status(500)
+        .send({ error: "you must give your location to use this feature" });
+    }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -144,7 +179,7 @@ router.post("/create-event", async (req, res) => {
       votes: { "0_0": 0 },
       restriction: {
         isRestricted: false,
-        location: "",
+        location,
         maxDistance: 0,
         startDate: new Date().getTime(),
         endDate: new Date().getTime()
@@ -161,7 +196,44 @@ router.post("/create-event", async (req, res) => {
   }
 });
 
-// set new information ( key, informations )
+router.post("/delete-event", async (req, res) => {
+  try {
+    const database = res.database;
+    const { token, eventId, location } = req.body;
+    // console.log({ token, eventId, location });
+    if (!location) {
+      return res
+        .status(500)
+        .send({ error: "you must give your location to use this feature" });
+    }
+    const sessions = await getSessions(database);
+    const id = findKey(sessions, sessionToken => sessionToken === token);
+    if (!id) {
+      return res.status(500).send({ error: "token not valid" });
+    }
+    const { owner } = await findEventBy(database, "_id", eventId);
+    if (owner !== id) {
+      return res
+        .status(500)
+        .send({ error: "you are not authorized to delete this event" });
+    }
+    const { _id, token: userTokens } = await findUserBy("_id", id, database);
+    const validToken = await isDeezerTokenValid(userTokens.deezer);
+    if (!validToken) {
+      return res.status(500).send({ error: "your token deezer is invalid" });
+    }
+    await deleteEvent(database, eventId);
+    const events = await findEvents(database);
+    const idCorrespondance = await getAllUsers(database);
+    return res
+      .status(200)
+      .send(getEventsAvailable(events, location, id, idCorrespondance));
+  } catch (err) {
+    console.log("INTER ERROR", err.message);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
 router.post("/update-data", async (req, res) => {
   try {
     const database = res.database;
@@ -176,6 +248,11 @@ router.post("/update-data", async (req, res) => {
       "restriction.maxDistance"
     ];
     const { token, eventId, toChange, newValue, location } = req.body;
+    if (!location) {
+      return res
+        .status(500)
+        .send({ error: "you must give your location to use this feature" });
+    }
     // console.log(location, req.ip.split(`:`).pop());
     // console.log({ token, eventId, toChange, newValue, location });
     const sessions = await getSessions(database);
@@ -237,7 +314,7 @@ router.post("/update-data", async (req, res) => {
 router.post("/get-tracks", async (req, res) => {
   try {
     const database = res.database;
-    const { token, playlistId, location } = req.body;
+    const { token, playlistId } = req.body;
     // console.log({ token, playlistId, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
@@ -273,7 +350,7 @@ router.post("/get-tracks", async (req, res) => {
 router.post("/add-track", async (req, res) => {
   try {
     const database = res.database;
-    const { token, playlistId, trackId, location } = req.body;
+    const { token, playlistId, trackId } = req.body;
     // console.log({ token, playlistId, trackId, location });
 
     const sessions = await getSessions(database);
@@ -307,7 +384,7 @@ router.post("/add-track", async (req, res) => {
 router.post("/vote-track", async (req, res) => {
   try {
     const database = res.database;
-    const { token, eventId, trackId, value, location } = req.body;
+    const { token, eventId, trackId, value } = req.body;
     // console.log({ token, eventId, trackId, value, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
