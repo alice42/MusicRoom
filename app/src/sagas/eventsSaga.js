@@ -3,13 +3,19 @@ import {
   getEventsMethod,
   createEventsMethod,
   updateEventMethod,
-  votetMethod
+  votetMethod,
+  deleteEventMethod
 } from '../services/mtvService'
 
 function* getEventsSaga(action) {
   try {
+    const { location } = action
     const token = yield select(state => state.user.token)
-    const response = yield call(getEventsMethod, token)
+    const payload = {
+      token,
+      location
+    }
+    const response = yield call(getEventsMethod, payload)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -22,11 +28,12 @@ function* getEventsSaga(action) {
 
 function* createEventsSaga(action) {
   try {
-    const { name } = action
+    const { name, location } = action
     const token = yield select(state => state.user.token)
     const payload = {
       name,
-      token
+      token,
+      location
     }
     const response = yield call(createEventsMethod, payload)
     if (response.error) {
@@ -41,18 +48,17 @@ function* createEventsSaga(action) {
 
 function* updateEventsSaga(action) {
   try {
-    const { id, toChange, newValue } = action
+    const { id, toChange, newValue, location } = action
     const eventId = id
     const token = yield select(state => state.user.token)
     const payload = {
       token,
       eventId,
       toChange,
-      newValue
+      newValue,
+      location
     }
-    console.log('PAYLOAD', payload)
     const response = yield call(updateEventMethod, payload)
-    console.log('RESPONSE', response)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -84,11 +90,32 @@ function* vote(action) {
   }
 }
 
+function* deleteEventRequest(action) {
+  try {
+    const { eventId, location } = action
+    const token = yield select(state => state.user.token)
+    const payload = {
+      eventId,
+      token,
+      location
+    }
+    const response = yield call(deleteEventMethod, payload)
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({ type: 'DELETE_EVENT_SUCCESS', response })
+    }
+  } catch (error) {
+    yield put({ type: 'DELETE_EVENT_FAILURE', error: error.message })
+  }
+}
+
 export default function* rootSaga() {
   yield all(
     [yield takeEvery('SERVICE_MTV_GET_EVENTS_REQUEST', getEventsSaga)],
     [yield takeEvery('SERVICE_MTV_CREATE_EVENTS_REQUEST', createEventsSaga)],
     [yield takeEvery('SERVICE_MTV_EVENTS_UPDATE_DATA_REQUEST', updateEventsSaga)],
-    [yield takeEvery('VOTE_REQUEST', vote)]
+    [yield takeEvery('VOTE_REQUEST', vote)],
+    [yield takeEvery('DELETE_EVENT_REQUEST', deleteEventRequest)]
   )
 }

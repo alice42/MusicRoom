@@ -14,12 +14,31 @@ import Loader from '../components/Loader'
 const { height } = Dimensions.get('window')
 
 class AllEventsScreen extends Component {
+  state = {
+    location: null
+  }
   componentWillMount() {
-    this.props.eventsActions.getEvents()
+    this.watchIDUser = navigator.geolocation.getCurrentPosition(position => {
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0,
+        longitudeDelta: 0
+      }
+      const location = region.latitude.toString().concat(' ', region.longitude.toString())
+      this.setState({ location })
+      this.props.eventsActions.getEvents(location)
+    })
+  }
+
+  handleDeleteEvent = event => {
+    const { location } = this.state
+    this.props.eventsActions.deleteEventRequest(event, location)
   }
 
   handleCreateEvent = name => {
-    this.props.eventsActions.createEventRequest(name)
+    const { location } = this.state
+    this.props.eventsActions.createEventRequest(name, location)
   }
 
   handleCreateEventRequest = () => {
@@ -28,9 +47,21 @@ class AllEventsScreen extends Component {
     })
   }
 
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchIDUser)
+  }
+
   renderEventslist = () => {
     const { list } = this.props.events
-    return <ListEvents list={list} {...this.props} />
+    const { location } = this.state
+    return (
+      <ListEvents
+        list={list}
+        location={location}
+        handleDeleteEvent={this.handleDeleteEvent}
+        {...this.props}
+      />
+    )
   }
 
   render() {

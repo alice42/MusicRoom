@@ -45,6 +45,14 @@ const reducer = (state = initialState, action) => {
         error: null,
         isFetching: false
       }
+    case 'DELETE_EVENT_SUCCESS':
+      console.log(action)
+      return {
+        ...state,
+        list: [...action.response],
+        error: null,
+        isFetching: false
+      }
     case 'SERVICE_MTV_EVENTS_UPDATE_DATA_REQUEST_FAILURE':
       return {
         ...state,

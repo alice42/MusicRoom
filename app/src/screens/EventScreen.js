@@ -10,7 +10,8 @@ import PlaylistContainer from '../containers/PlaylistContainer'
 
 class EventScreen extends Component {
   handleOnPressEdit = event => {
-    this.props.navigation.navigate('EditEvent', { event: event.id })
+    const { location } = this.props.navigation.state.params
+    this.props.navigation.navigate('EditEvent', { event: event.id, location: location })
   }
   renderPlaylistTracks = () => {
     const { tracks } = this.props.playlist

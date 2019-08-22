@@ -17,12 +17,11 @@ const { width } = Dimensions.get('window')
 
 export default class playlists extends Component {
   handleOnPressAccess = event => {
-    this.props.navigation.navigate('Event', { event: event.id })
+    this.props.navigation.navigate('Event', { event: event.id, location: this.props.location })
   }
-  //   handleOnPressDelete = playlist => {
-  //     const { deezerToken } = this.props.user
-  //     this.props.playlistActions.deletePlaylist(playlist, deezerToken)
-  //   }
+  handleOnPressDelete = event => {
+    this.props.handleDeleteEvent(event)
+  }
 
   renderplaylists() {
     const { list } = this.props
@@ -43,10 +42,7 @@ export default class playlists extends Component {
             <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
-                <DeletePlaylistModal
-                  playlist={event}
-                  handleOnPressDelete={this.handleOnPressDelete}
-                />
+                <DeletePlaylistModal event={event} handleOnPressDelete={this.handleOnPressDelete} />
               </View>
               <View
                 style={{
