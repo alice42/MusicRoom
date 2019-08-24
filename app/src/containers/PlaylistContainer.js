@@ -31,6 +31,7 @@ class PlaylistContainer extends Component {
         list={list}
         buttonPlay={true}
         buttonDel={true}
+        play={this.props.play}
         mtv={this.props.mtv}
         handleVote={this.props.handleVote}
         handleOnPressDelete={this.handleOnPressDelete}

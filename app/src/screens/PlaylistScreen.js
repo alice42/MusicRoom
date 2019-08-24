@@ -35,10 +35,10 @@ class PlaylistScreen extends Component {
   render() {
     // const event = this.props.event[0]
     const event = playlist.list[0]
-    console.log('test', event)
     const { canEdit } = event
     return (
       <View style={styles.wrapper}>
+        <View>{tracks ? <Player tracks={tracks} /> : null}</View>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
           <Text style={stylesBis.heading}>{event.name}</Text>
           <Text />

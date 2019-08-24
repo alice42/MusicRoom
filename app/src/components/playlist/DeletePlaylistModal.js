@@ -21,7 +21,6 @@ export default class DeletePlaylistModal extends React.Component {
   }
   render() {
     const { event } = this.props
-    console.log('EVENT', event.name)
     return (
       <View>
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>

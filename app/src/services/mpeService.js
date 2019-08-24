@@ -67,7 +67,6 @@ export const addtrackToPlaylistMethod = async ({ trackId, playlistId, token }) =
 export const deletePlaylistMethod = async ({ playlistId, token, location }) => {
   const url = `${apiUrl}${mpe}${deletePlaylist}`
   try {
-    console.log('test')
     const response = await basicFetch('POST', url, {}, { playlistId, token, location })
     return response
   } catch (err) {

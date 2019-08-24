@@ -57,7 +57,6 @@ class AllPlaylistsScreen extends Component {
   renderPlaylistslist = () => {
     const { list } = playlist
     // const { list } = this.props.playlists
-    // console.log(list)
     const { location } = this.state
     return (
       <ListPlaylists

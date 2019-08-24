@@ -78,7 +78,6 @@ export const votetMethod = async ({ trackId, eventId, value, token }) => {
 export const deleteEventMethod = async ({ eventId, token, location }) => {
   const url = `${apiUrl}${mtv}${deleteEvent}`
   try {
-    console.log('test')
     const response = await basicFetch('POST', url, {}, { eventId, token, location })
     return response
   } catch (err) {

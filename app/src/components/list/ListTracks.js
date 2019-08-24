@@ -122,7 +122,7 @@ export default class Comments extends Component {
                 >
                   {buttonPlay ? (
                     <TouchableOpacity
-                      // onPress={() => this.props.playTrack(track.preview)}
+                      onPress={() => this.props.play(item.index, track, list)}
                       style={{
                         justifyContent: 'center'
                       }}

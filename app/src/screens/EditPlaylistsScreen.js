@@ -52,7 +52,6 @@ class EditPlaylist extends Component {
     const { privacyOption } = this.state
     // const { name } = this.props.event[0]
     const name = playlist.list[0].name
-    console.log(playlist)
     return this.props.event ? (
       <View style={styles.wrapper}>
         <Text style={styles.heading}>Edit an playlist</Text>
