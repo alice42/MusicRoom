@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../../constants/colors'
 
+import playlist from '../../mocks/mockPlaylist'
+
 export default class DeletePlaylistModal extends React.Component {
   state = {
     modalVisible: false,
@@ -19,6 +21,7 @@ export default class DeletePlaylistModal extends React.Component {
   }
   render() {
     const { event } = this.props
+    console.log('EVENT', event.name)
     return (
       <View>
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>

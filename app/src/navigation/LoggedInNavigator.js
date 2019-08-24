@@ -10,6 +10,10 @@ import CreateEvent from '../screens/CreateEventScreen'
 import EditEvent from '../screens/EditEventScreen'
 import AllEvents from '../screens/AllEventsScreen'
 import Event from '../screens/EventScreen'
+import CreatePlaylist from '../screens/CreatePlaylistScreen'
+import EditPlaylists from '../screens/EditPlaylistsScreen'
+import AllPlaylists from '../screens/AllPlaylistsScreen'
+import Playlist from '../screens/PlaylistScreen'
 import SearchContainer from '../containers/SearchContainer'
 
 const HomeTab = createStackNavigator({
@@ -23,6 +27,10 @@ const HomeTab = createStackNavigator({
   EditEvent: { screen: EditEvent },
   AllEvents: { screen: AllEvents },
   Event: { screen: Event },
+  CreatePlaylist: { screen: CreatePlaylist },
+  EditPlaylist: { screen: EditPlaylists },
+  AllPlaylists: { screen: AllPlaylists },
+  Playlist: { screen: Playlist },
   Search: { screen: SearchContainer }
 })
 

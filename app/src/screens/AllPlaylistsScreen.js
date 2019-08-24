@@ -1,80 +1,165 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text } from 'react-native'
-// import { colors } from '../constants/colors'
+import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import RoundedButton from '../components/button/RoundedButton'
 import styles from '../styles/containers/HomeContainer'
-// import RadioInput from '../components/input/RadioInput'
-// import RoundedButton from '../components/button/RoundedButton'
-import * as userActions from '../actions/userActions'
-import * as searchActions from '../actions/searchActions'
-import * as playlistActions from '../actions/playlistActions'
+import * as playlistsActions from '../actions/playlistsActions'
 import ListPlaylists from '../components/list/ListPlaylists'
-// import Icon from 'react-native-vector-icons/FontAwesome'
-import Playlists from '../components/homeContainer/Playlists'
+import { colors } from '../constants/colors'
+import ApiError from '../components/ApiError'
+import Loader from '../components/Loader'
+
+import playlist from '../mocks/mockPlaylist'
+import playlistTracks from '../mocks/mockplaylistTracks'
+
+const { height } = Dimensions.get('window')
 
 class AllPlaylistsScreen extends Component {
-  handleCreatePlaylistRequest = () => {
-    this.props.navigation.navigate('CreatePlaylist', {
-      handleCreatePlaylist: this.handleCreatePlaylist,
-      type: 'playlist'
+  state = {
+    location: null
+  }
+  componentWillMount() {
+    this.watchIDUser = navigator.geolocation.getCurrentPosition(position => {
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0,
+        longitudeDelta: 0
+      }
+      const location = region.latitude.toString().concat(' ', region.longitude.toString())
+      this.setState({ location })
+      // this.props.playlistsActions.getplaylists(location)
     })
   }
 
-  componentWillMount() {
-    const { playlists } = this.props.user.data
-    const { deezerToken } = this.props.user
-    this.props.playlistActions.setUserId(playlists[0].id, deezerToken)
+  handleDeletePlaylist = playlist => {
+    const { location } = this.state
+    this.props.playlistsActions.deletePlaylistRequest(playlist, location)
   }
 
-  handleCreatePlaylist = (title, collabOption, privacyOption) => {
-    const { deezerToken, deezerId } = this.props.user
-    this.props.playlistActions.createPlaylist(title, deezerToken, deezerId, collabOption, privacyOption)
+  handleCreatePlaylist = name => {
+    const { location } = this.state
+    this.props.playlistsActions.createPlaylistRequest(name, location)
   }
 
-  renderPlaylists = () => {
-    const { navigation } = this.props
-    const { playlists } = this.props.user.data
-    return <ListPlaylistsConnected list={playlists} navigation={navigation} {...this.props} />
+  handleCreatePlaylistRequest = () => {
+    this.props.navigation.navigate('CreatePlaylist', {
+      handleCreatePlaylist: this.handleCreatePlaylist
+    })
   }
-  apiError = () => {
-    const { error } = this.props.user
-    return <Text style={{ color: 'red' }}>{error}</Text>
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchIDUser)
+  }
+
+  renderPlaylistslist = () => {
+    const { list } = playlist
+    // const { list } = this.props.playlists
+    // console.log(list)
+    const { location } = this.state
+    return (
+      <ListPlaylists
+        list={list}
+        location={location}
+        handleDeletePlaylist={this.handleDeletePlaylist}
+        {...this.props}
+      />
+    )
   }
 
   render() {
-    const { playlists } = this.props.user.data
     return (
       <View style={styles.wrapper}>
-        {/* {this.apiError()} */}
-        {/* <View style={styles.containerWrapper}> */}
-        <Playlists {...this.props} playlists={playlists} navigation={this.props.navigation} renderPlaylists={this.renderPlaylists} handleCreatePlaylistRequest={this.handleCreatePlaylistRequest} />
-        {/* </View> */}
+        <View style={{ display: 'flex', flex: 1 }}>
+          <Text style={stylesBis.heading}>ALL PLAYLISTS</Text>
+          <View>
+            <ScrollView style={{ backgroundColor: colors.gray03, height: height - 240 }}>
+              {playlists.error ? (
+                <ApiError
+                  style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
+                  error={playlists.error}
+                />
+              ) : playlists.isFetching ? (
+                <View style={{ marginTop: height / 2 - 170 }}>
+                  <Loader />
+                </View>
+              ) : (
+                this.renderPlaylistslist()
+              )}
+            </ScrollView>
+
+            <View style={{ marginTop: 10, marginBottom: 20 }}>
+              <RoundedButton
+                text={'Create a new playlist'}
+                textColor={colors.white}
+                background={colors.green01}
+                border={colors.white}
+                icon={
+                  <View style={{ flexDirection: 'row', paddingLeft: 100 }}>
+                    <Icon name="music" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
+                    <Icon name="plus" size={20} style={{ color: colors.white, paddingLeft: 5 }} />
+                  </View>
+                }
+                handleOnPress={this.handleCreatePlaylistRequest}
+              />
+            </View>
+          </View>
+        </View>
       </View>
     )
   }
 }
-function profileActionsMapDispatchToProps(dispatch) {
+function actionsMapDispatchToProps(dispatch) {
   return {
-    userActions: bindActionCreators(userActions, dispatch),
-    searchActions: bindActionCreators(searchActions, dispatch),
-    playlistActions: bindActionCreators(playlistActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch)
   }
 }
-function profileMapStateToProps(state) {
-  const { user, search, playlist } = state
+function mapStateToProps(state) {
+  const { playlists } = state
   return {
-    user,
-    search,
-    playlist
+    playlists
   }
 }
-const ListPlaylistsConnected = connect(
-  profileMapStateToProps,
-  profileActionsMapDispatchToProps
-)(ListPlaylists)
 
 export default connect(
-  profileMapStateToProps,
-  profileActionsMapDispatchToProps
+  mapStateToProps,
+  actionsMapDispatchToProps
 )(AllPlaylistsScreen)
+
+const stylesBis = StyleSheet.create({
+  wrapper: {
+    display: 'flex'
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: colors.green01,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    paddingRight: 10,
+    marginBottom: 'auto',
+    marginTop: 'auto'
+  },
+  playlistTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.gray04,
+    marginTop: 2
+  },
+  playlistPrivacy: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: colors.lightGray,
+    marginTop: 4,
+    marginLeft: 5
+  },
+  playlistDate: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.green01,
+    marginTop: 2
+  }
+})

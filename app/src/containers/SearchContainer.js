@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, Modal } from 'react-native'
 import { colors } from '../constants/colors'
 import * as userActions from '../actions/userActions'
 import * as searchActions from '../actions/searchActions'
-import * as playlistActions from '../actions/playlistActions'
+import * as playlistsActions from '../actions/playlistsActions'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import DeezerManager from '../services/deezerService'
 import Search from '../components/searchContainer/Search'
@@ -16,7 +16,7 @@ import styles from '../styles/containers/HomeContainer'
 class SearchContainer extends Component {
   test = track => {
     const { playlist } = this.props.navigation.state.params
-    this.props.playlistActions.addtrackToPlaylist(track.id, playlist)
+    this.props.playlistsActions.addtrackToPlaylist(track.id, playlist)
   }
 
   render() {
@@ -35,7 +35,7 @@ function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch),
-    playlistActions: bindActionCreators(playlistActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {

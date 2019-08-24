@@ -1,5 +1,3 @@
-//NOT FINISH
-
 import React, { Component } from 'react'
 import {
   View,
@@ -21,13 +19,10 @@ import RoundedButton from '../components/button/RoundedButton'
 import * as userActions from '../actions/userActions'
 import Privacy from '../components/playlist/Privacy'
 
-class CreateEvent extends Component {
+class CreatePlaylist extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
-      <TouchableOpacity
-        style={styles.closeButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.closeButton} onPress={() => navigation.goBack()}>
         <Icon name="md-close" size={30} color={colors.lightBlack} />
       </TouchableOpacity>
     ),
@@ -43,87 +38,68 @@ class CreateEvent extends Component {
     chosenDate: new Date()
   }
 
-  selectPrivacyOption = privacyOption => {
-    this.setState({ privacyOption: !privacyOption })
-  }
-  selectCollabOption = collabOption => {
-    this.setState({ collabOption: !collabOption })
-  }
+  // selectPrivacyOption = privacyOption => {
+  //   this.setState({ privacyOption: !privacyOption })
+  // }
+  // selectCollabOption = collabOption => {
+  //   this.setState({ collabOption: !collabOption })
+  // }
 
-  handleTitleChange = title => {
-    const valueCheckRegex = /(?=.*[a-zA-Z])/
-    if (valueCheckRegex.test(title)) {
-      this.setState({ validTitle: true, title })
-    } else {
-      this.setState({ validTitle: false, title })
-    }
-  }
+  // handleTitleChange = title => {
+  //   const valueCheckRegex = /(?=.*[a-zA-Z])/
+  //   if (valueCheckRegex.test(title)) {
+  //     this.setState({ validTitle: true, title })
+  //   } else {
+  //     this.setState({ validTitle: false, title })
+  //   }
+  // }
 
-  handleCreateEvent = () => {
-    const { title, validTitle, collabOption, privacyOption } = this.state
-    const { type } = this.props.navigation.state.params
-    if (!validTitle) {
-      errorTitle = (
-        <Text style={styles.errorMessage}>
-          Please, enter a title for your {type}
-        </Text>
-      )
-      this.setState({
-        error: errorTitle
-      })
-    } else {
-      this.setState({
-        error: null
-      })
-      this.props.navigation.state.params.handleCreatePlaylist(
-        title,
-        collabOption,
-        privacyOption
-      )
-      this.props.navigation.goBack()
-    }
-  }
+  // handleCreateEvent = () => {
+  //   const { title, validTitle, collabOption, privacyOption } = this.state
+  //   // const { type } = this.props.navigation.state.params
+  //   if (!validTitle) {
+  //     errorTitle = <Text style={styles.errorMessage}>Please, enter a title for your {type}</Text>
+  //     this.setState({
+  //       error: errorTitle
+  //     })
+  //   } else {
+  //     this.setState({
+  //       error: null
+  //     })
+  //     this.props.navigation.state.params.handleCreateEvent(title)
+  //     this.props.navigation.goBack()
+  //   }
+  // }
 
-  setDate = newDate => {
-    this.setState({ chosenDate: newDate })
-  }
+  // setDate = newDate => {
+  //   this.setState({ chosenDate: newDate })
+  // }
 
   render() {
-    const { privacyOption, title, validTitle, error } = this.state
-    const { type } = this.props.navigation.state.params
-    type === 'playlist'
-      ? ((labelText = 'PLAYLIST TITLE'), (headingtext = 'Create a playlist'))
-      : ((labelText = 'EVENT TITLE'), (headingtext = 'Create an event'))
+    const { validTitle, error } = this.state
     return (
       <View style={styles.wrapper}>
         <ScrollView style={styles.scrollView}>
-          <Text style={styles.heading}>{headingtext}</Text>
+          <Text style={styles.heading}>Create a playlist</Text>
           <View style={styles.content}>
             <View style={styles.inputWrapper}>
               {error}
               <InputField
-                labelText={labelText}
+                labelText={'PLAYLIST TITLE'}
                 onChangeText={this.handleTitleChange}
                 color={colors.green01}
               />
             </View>
-            {type === 'playlist' ? null : (
-              <View>
-                <Text style={styles.privacyHeading}>
-                  Pick a date for your event
-                </Text>
-                <DatePickerIOS
-                  date={this.state.chosenDate}
-                  onDateChange={this.setDate}
-                />
-              </View>
-            )}
-            <Privacy
+            {/* <View>
+              <Text style={styles.privacyHeading}>Pick a date for your playlist</Text>
+              <DatePickerIOS date={this.state.chosenDate} onDateChange={this.setDate} />
+            </View> */}
+            {/* <Privacy
               privacyOption={this.state.privacyOption}
               selectPrivacyOption={this.selectPrivacyOption}
               collabOption={this.state.collabOption}
               selectCollabOption={this.selectCollabOption}
-            />
+            /> */}
           </View>
         </ScrollView>
         <View style={styles.createButton}>
@@ -137,11 +113,7 @@ class CreateEvent extends Component {
             disabled={!validTitle}
             icon={
               <View style={styles.buttonIcon}>
-                <FontAwesomeIcon
-                  name="angle-right"
-                  color={colors.white}
-                  size={30}
-                />
+                <FontAwesomeIcon name="angle-right" color={colors.white} size={30} />
               </View>
             }
             handleOnPress={this.handleCreateEvent}
@@ -151,7 +123,7 @@ class CreateEvent extends Component {
     )
   }
 }
-export default connect()(CreateEvent)
+export default connect()(CreatePlaylist)
 
 const styles = StyleSheet.create({
   wrapper: {

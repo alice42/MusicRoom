@@ -46,7 +46,6 @@ const reducer = (state = initialState, action) => {
         isFetching: false
       }
     case 'DELETE_EVENT_SUCCESS':
-      console.log(action)
       return {
         ...state,
         list: [...action.response],

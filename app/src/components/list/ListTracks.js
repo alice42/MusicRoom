@@ -18,7 +18,7 @@ import ChoosePlaylistModal from '../playlist/ChoosePlaylistModal'
 import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
-import * as playlistActions from '../../actions/playlistActions'
+import * as playlistsActions from '../../actions/playlistsActions'
 import { colors } from '../../constants/colors'
 
 export default class Comments extends Component {
@@ -42,13 +42,13 @@ export default class Comments extends Component {
             <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
-                {buttonDel ? (
+                {/* {buttonDel ? (
                   <DeletePlaylistModal
                     playlist={playlist ? playlist : track}
                     toDelTrack={track}
                     handleOnPressDelete={this.props.handleOnPressDelete}
                   />
-                ) : null}
+                ) : null} */}
               </View>
               <View
                 style={{
@@ -163,7 +163,7 @@ function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch),
-    playlistActions: bindActionCreators(playlistActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {
@@ -175,10 +175,10 @@ function profileMapStateToProps(state) {
   }
 }
 
-const ChoosePlaylistModalConnected = connect(
-  profileMapStateToProps,
-  profileActionsMapDispatchToProps
-)(ChoosePlaylistModal)
+// const ChoosePlaylistModalConnected = connect(
+//   profileMapStateToProps,
+//   profileActionsMapDispatchToProps
+// )(ChoosePlaylistModal)
 
 const styles = StyleSheet.create({
   root: {

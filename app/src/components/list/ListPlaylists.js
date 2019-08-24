@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, FlatList, Dimensions } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  FlatList,
+  Dimensions
+} from 'react-native'
 import { SwipeRow } from 'react-native-swipe-list-view'
 import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 import { colors } from '../../constants/colors'
@@ -9,13 +17,13 @@ const { width } = Dimensions.get('window')
 
 export default class playlists extends Component {
   handleOnPressAccess = playlist => {
-    const { deezerToken } = this.props.user
-    this.props.playlistActions.setPlaylistTracks(playlist.id, deezerToken)
-    this.props.navigation.navigate('Playlist', { playlist: playlist })
+    this.props.navigation.navigate('Playlist', {
+      playlist: playlist.id,
+      location: this.props.location
+    })
   }
   handleOnPressDelete = playlist => {
-    const { deezerToken } = this.props.user
-    this.props.playlistActions.deletePlaylist(playlist, deezerToken)
+    this.props.playlistActions.deletePlaylist(playlist)
   }
 
   renderplaylists() {
@@ -37,7 +45,10 @@ export default class playlists extends Component {
             <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
-                <DeletePlaylistModal playlist={playlist} handleOnPressDelete={this.handleOnPressDelete} />
+                <DeletePlaylistModal
+                  event={playlist}
+                  handleOnPressDelete={this.handleOnPressDelete}
+                />
               </View>
               <View
                 style={{
@@ -51,7 +62,7 @@ export default class playlists extends Component {
               >
                 <View style={styles.container} />
                 <View style={{ marginLeft: 40, width: width - 110 }}>
-                  <Text style={styles.playlistTitle}>{playlist.title}</Text>
+                  <Text style={styles.playlistTitle}>{playlist.name}</Text>
                 </View>
                 <View
                   style={{
@@ -81,8 +92,7 @@ export default class playlists extends Component {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: '#ffffff',
-    marginTop: 10
+    backgroundColor: '#ffffff'
   },
   container: {
     paddingLeft: 19,

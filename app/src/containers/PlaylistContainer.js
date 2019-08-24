@@ -14,7 +14,7 @@ import { colors } from '../constants/colors'
 import styles from '../styles/containers/HomeContainer'
 import * as userActions from '../actions/userActions'
 import * as searchActions from '../actions/searchActions'
-import * as playlistActions from '../actions/playlistActions'
+import * as playlistsActions from '../actions/playlistsActions'
 import ListTracks from '../components/list/ListTracks'
 import RoundedButton from '../components/button/RoundedButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -43,7 +43,7 @@ class PlaylistContainer extends Component {
       const { deezerToken } = this.props.user
       const playlistId = this.props.playlist.playlistInfo.id
       const trackId = track.id
-      this.props.playlistActions.deleteTrack(playlistId, trackId, deezerId, deezerToken)
+      this.props.playlistsActions.deleteTrack(playlistId, trackId, deezerId, deezerToken)
     }
   }
   handleAddTrack = () => {
@@ -52,7 +52,7 @@ class PlaylistContainer extends Component {
 
   componentWillMount() {
     const { playlistId } = this.props
-    this.props.playlistActions.getPlaylistTracks(playlistId)
+    this.props.playlistsActions.getPlaylistTracks(playlistId)
   }
 
   render() {
@@ -101,7 +101,7 @@ function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch),
-    playlistActions: bindActionCreators(playlistActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {

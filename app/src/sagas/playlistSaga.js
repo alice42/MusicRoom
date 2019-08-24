@@ -1,6 +1,95 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
-import { getPlaylistTracksMethod, addtrackToPlaylistMethod } from '../services/mtvService'
+import {
+  getPlaylistTracksMethod,
+  addtrackToPlaylistMethod,
+  getPlaylistsMethod,
+  createPlaylistsMethod,
+  deletePlaylistMethod
+} from '../services/mtvService'
 
+function* getPlaylistsSaga(action) {
+  try {
+    const { location } = action
+    const token = yield select(state => state.user.token)
+    const payload = {
+      token,
+      location
+    }
+    const response = yield call(getPlaylistsMethod, payload)
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({ type: 'SERVICE_MPE_GET_PLAYLISTS_REQUEST_SUCCESS', response })
+    }
+  } catch (error) {
+    yield put({ type: 'SERVICE_MPE_GET_PLAYLISTS_REQUEST_FAILURE', error: error.message })
+  }
+}
+
+function* createPlaylistsSaga(action) {
+  try {
+    const { name, location } = action
+    const token = yield select(state => state.user.token)
+    const payload = {
+      name,
+      token,
+      location
+    }
+    const response = yield call(createPlaylistsMethod, payload)
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({ type: 'SERVICE_MPE_CREATE_PLAYLISTS_REQUEST_SUCCESS', response })
+    }
+  } catch (error) {
+    yield put({ type: 'SERVICE_MPE_CREATE_PLAYLISTS_REQUEST_FAILURE', error: error.message })
+  }
+}
+
+function* updatePlaylistsSaga(action) {
+  try {
+    const { id, toChange, newValue, location } = action
+    const playlistId = id
+    const token = yield select(state => state.user.token)
+    const payload = {
+      token,
+      playlistId,
+      toChange,
+      newValue,
+      location
+    }
+    const response = yield call(updatePlaylistMethod, payload)
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({ type: 'SERVICE_MPE_PLAYLISTS_UPDATE_DATA_REQUEST_SUCCESS', response })
+    }
+  } catch (error) {
+    yield put({ type: 'SERVICE_MPE_PLAYLISTS_UPDATE_DATA_REQUEST_FAILURE', error: error.message })
+  }
+}
+
+function* deletePlaylistRequest(action) {
+  try {
+    const { playlistId, location } = action
+    const token = yield select(state => state.user.token)
+    const payload = {
+      playlistId,
+      token,
+      location
+    }
+    const response = yield call(deletePlaylistMethod, payload)
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({ type: 'DELETE_PLAYLIST_SUCCESS', response })
+    }
+  } catch (error) {
+    yield put({ type: 'DELETE_PLAYLIST_FAILURE', error: error.message })
+  }
+}
+
+///
 function* getPlaylistTracks(action) {
   try {
     const { playlistId } = action
@@ -18,24 +107,6 @@ function* getPlaylistTracks(action) {
     yield put({ type: 'GET_PLAYLIST_TRACKS_FAILURE', error: error.message })
   }
 }
-
-// function* setUserId(action) {
-//   const { id, deezerToken } = action
-//   try {
-//     const payload = {
-//       id,
-//       deezerToken
-//     }
-//     const response = yield call(getPlaylistTrack, payload)
-//     yield put({
-//       type: 'SET_USER_ID_SUCCESS',
-//       results: response.results.creator.id
-//     })
-//   } catch (err) {
-//     console.log(err)
-//     yield put({ type: 'SET_USER_ID_FAILURE', error: error.message })
-//   }
-// }
 
 function* addtrackToPlaylist(action) {
   const { trackId, playlistId } = action
@@ -56,88 +127,13 @@ function* addtrackToPlaylist(action) {
   }
 }
 
-// function* createPlaylist(action) {
-//   const { title, deezerToken, deezerId, collabOption, privacyOption } = action
-//   try {
-//     const payload = {
-//       title,
-//       deezerToken,
-//       deezerId,
-//       collabOption,
-//       privacyOption
-//     }
-//     const response = yield call(createNewPlaylist, payload)
-//     yield put({
-//       type: 'CREATE_PLAYLIST_SUCCESS',
-//       results: response
-//     })
-//   } catch (err) {
-//     console.log(err)
-//     yield put({ type: 'CREATE_PLAYLIST_FAILURE', error: error.message })
-//   }
-// }
-
-// function* deletePlaylistDeezer(action) {
-//   const { playlistId, deezerToken } = action
-//   try {
-//     const payload = {
-//       playlistId,
-//       deezerToken
-//     }
-//     const response = yield call(deletePlaylist, payload)
-//     yield put({
-//       type: 'DELETE_PLAYLIST_SUCCESS',
-//       results: payload.playlistId,
-//       response: response
-//     })
-//   } catch (err) {
-//     console.log(err)
-//     yield put({ type: 'DELETE_PLAYLIST_FAILURE', error: error.message })
-//   }
-// }
-
-// function* deleteTrackDeezer(action) {
-//   const { playlistId, trackId, deezerId, deezerToken } = action
-//   try {
-//     const payload = {
-//       playlistId,
-//       deezerToken,
-//       trackId,
-//       deezerId
-//     }
-//     const response = yield call(deleteTrack, payload)
-//     const id = playlistId
-//     const payloadT = {
-//       id,
-//       deezerToken
-//     }
-//     const reponseSetPlaylist = yield call(getPlaylistTrack, payloadT)
-//     yield put({
-//       type: 'SET_PLAYLIST_TRACK_SUCCESS',
-//       results: reponseSetPlaylist.results.tracks.data,
-//       playlistInfo: reponseSetPlaylist.results
-//     })
-//   } catch (err) {
-//     console.log(err)
-//     yield put({ type: 'DELETE_TRACK_FAILURE', error: error.message })
-//   }
-// }
-
-// function* getFollowers(action) {
-//   try {
-//     const response = yield call(getDeezerFollwers, action.id)
-//     yield put({
-//       type: 'GET_FOLLOWERS_SUCCESS',
-//       results: response.results.data
-//     })
-//   } catch (err) {
-//     yield put({ type: 'GET_FOLLOWERS_FAILURE', error: error.message })
-//   }
-// }
-
 export default function* rootSaga() {
   yield all(
     [yield takeEvery('GET_PLAYLIST_TRACKS_REQUEST', getPlaylistTracks)],
-    [yield takeEvery('ADD_TRACK_TO_PLAYLIST_REQUEST', addtrackToPlaylist)]
+    [yield takeEvery('ADD_TRACK_TO_PLAYLIST_REQUEST', addtrackToPlaylist)],
+    [yield takeEvery('SERVICE_MPE_GET_PLAYLISTS_REQUEST', getPlaylistsSaga)],
+    [yield takeEvery('SERVICE_MPE_CREATE_PLAYLISTS_REQUEST', createPlaylistsSaga)],
+    [yield takeEvery('SERVICE_MPE_PLAYLISTS_UPDATE_DATA_REQUEST', updatePlaylistsSaga)],
+    [yield takeEvery('DELETE_PLAYLIST_REQUEST', deletePlaylistRequest)]
   )
 }

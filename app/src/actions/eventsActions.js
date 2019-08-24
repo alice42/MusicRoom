@@ -31,6 +31,7 @@ export function vote(trackId, eventId, value) {
     value
   }
 }
+
 export function deleteEventRequest(eventId, location) {
   return {
     type: 'DELETE_EVENT_REQUEST',

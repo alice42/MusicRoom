@@ -1,17 +1,16 @@
 import { basicFetch } from './apiService'
 const apiUrl = 'http://localhost:3001/api'
 // const apiUrl = 'http://192.168.0.10:3001/api'
-const mtv = '/mtv'
-const getEvents = '/get-events'
-const createEvent = '/create-event'
-const updateEvent = '/update-data'
+const mpe = '/mpe'
+const getPlaylist = '/get-playlists'
+const createPlaylist = '/create-playlist'
+const updatePlaylist = '/update-data'
 const getTracks = '/get-tracks'
 const addTrack = '/add-track'
-const voteTrack = '/vote-track'
-const deleteEvent = '/delete-event'
+const deletePlaylist = '/delete-playlist'
 
-export const getEventsMethod = async ({ location, token }) => {
-  const url = `${apiUrl}${mtv}${getEvents}`
+export const getPlaylistsMethod = async ({ location, token }) => {
+  const url = `${apiUrl}${mpe}${getPlaylists}`
   try {
     const response = await basicFetch('POST', url, {}, { token, location })
     return response
@@ -20,8 +19,8 @@ export const getEventsMethod = async ({ location, token }) => {
   }
 }
 
-export const createEventsMethod = async ({ token, name, location }) => {
-  const url = `${apiUrl}${mtv}${createEvent}`
+export const createPlaylistsMethod = async ({ token, name, location }) => {
+  const url = `${apiUrl}${mpe}${createPlaylist}`
   try {
     const response = await basicFetch('POST', url, {}, { token, name, location })
     return response
@@ -30,14 +29,14 @@ export const createEventsMethod = async ({ token, name, location }) => {
   }
 }
 
-export const updateEventMethod = async ({ token, eventId, toChange, newValue, location }) => {
-  const url = `${apiUrl}${mtv}${updateEvent}`
+export const updatePlaylistMethod = async ({ token, PlaylistId, toChange, newValue, location }) => {
+  const url = `${apiUrl}${mpe}${updatePlaylist}`
   try {
     const response = await basicFetch(
       'POST',
       url,
       {},
-      { token, eventId, toChange, newValue, location }
+      { token, playlistId, toChange, newValue, location }
     )
     return response
   } catch (err) {
@@ -46,7 +45,7 @@ export const updateEventMethod = async ({ token, eventId, toChange, newValue, lo
 }
 
 export const getPlaylistTracksMethod = async ({ token, playlistId }) => {
-  const url = `${apiUrl}${mtv}${getTracks}`
+  const url = `${apiUrl}${mpe}${getTracks}`
   try {
     const response = await basicFetch('POST', url, {}, { token, playlistId })
     return response
@@ -56,7 +55,7 @@ export const getPlaylistTracksMethod = async ({ token, playlistId }) => {
 }
 
 export const addtrackToPlaylistMethod = async ({ trackId, playlistId, token }) => {
-  const url = `${apiUrl}${mtv}${addTrack}`
+  const url = `${apiUrl}${mpe}${addTrack}`
   try {
     const response = await basicFetch('POST', url, {}, { token, trackId, playlistId })
     return response
@@ -65,21 +64,11 @@ export const addtrackToPlaylistMethod = async ({ trackId, playlistId, token }) =
   }
 }
 
-export const votetMethod = async ({ trackId, eventId, value, token }) => {
-  const url = `${apiUrl}${mtv}${voteTrack}`
-  try {
-    const response = await basicFetch('POST', url, {}, { trackId, eventId, value, token })
-    return response
-  } catch (err) {
-    throw err
-  }
-}
-
-export const deleteEventMethod = async ({ eventId, token, location }) => {
-  const url = `${apiUrl}${mtv}${deleteEvent}`
+export const deletePlaylistMethod = async ({ playlistId, token, location }) => {
+  const url = `${apiUrl}${mpe}${deletePlaylist}`
   try {
     console.log('test')
-    const response = await basicFetch('POST', url, {}, { eventId, token, location })
+    const response = await basicFetch('POST', url, {}, { playlistId, token, location })
     return response
   } catch (err) {
     throw err
