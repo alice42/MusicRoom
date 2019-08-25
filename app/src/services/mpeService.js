@@ -1,8 +1,8 @@
 import { basicFetch } from './apiService'
-const apiUrl = 'http://localhost:3001/api'
-// const apiUrl = 'http://192.168.0.10:3001/api'
+// const apiUrl = 'http://localhost:3001/api'
+const apiUrl = 'http://192.168.0.10:3001/api'
 const mpe = '/mpe'
-const getPlaylist = '/get-playlists'
+const getPlaylists = '/get-playlists'
 const createPlaylist = '/create-playlist'
 const updatePlaylist = '/update-data'
 const getTracks = '/get-tracks'
@@ -13,6 +13,7 @@ export const getPlaylistsMethod = async ({ location, token }) => {
   const url = `${apiUrl}${mpe}${getPlaylists}`
   try {
     const response = await basicFetch('POST', url, {}, { token, location })
+    console.log('T!', response)
     return response
   } catch (err) {
     throw err
@@ -29,7 +30,7 @@ export const createPlaylistsMethod = async ({ token, name, location }) => {
   }
 }
 
-export const updatePlaylistMethod = async ({ token, PlaylistId, toChange, newValue, location }) => {
+export const updatePlaylistMethod = async ({ token, playlistId, toChange, newValue, location }) => {
   const url = `${apiUrl}${mpe}${updatePlaylist}`
   try {
     const response = await basicFetch(

@@ -4,8 +4,9 @@ import {
   addtrackToPlaylistMethod,
   getPlaylistsMethod,
   createPlaylistsMethod,
-  deletePlaylistMethod
-} from '../services/mtvService'
+  deletePlaylistMethod,
+  updatePlaylistMethod
+} from '../services/mpeService'
 
 function* getPlaylistsSaga(action) {
   try {

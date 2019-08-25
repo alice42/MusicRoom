@@ -38,42 +38,30 @@ class CreatePlaylist extends Component {
     chosenDate: new Date()
   }
 
-  // selectPrivacyOption = privacyOption => {
-  //   this.setState({ privacyOption: !privacyOption })
-  // }
-  // selectCollabOption = collabOption => {
-  //   this.setState({ collabOption: !collabOption })
-  // }
+  handleTitleChange = title => {
+    const valueCheckRegex = /(?=.*[a-zA-Z])/
+    if (valueCheckRegex.test(title)) {
+      this.setState({ validTitle: true, title })
+    } else {
+      this.setState({ validTitle: false, title })
+    }
+  }
 
-  // handleTitleChange = title => {
-  //   const valueCheckRegex = /(?=.*[a-zA-Z])/
-  //   if (valueCheckRegex.test(title)) {
-  //     this.setState({ validTitle: true, title })
-  //   } else {
-  //     this.setState({ validTitle: false, title })
-  //   }
-  // }
-
-  // handleCreateEvent = () => {
-  //   const { title, validTitle, collabOption, privacyOption } = this.state
-  //   // const { type } = this.props.navigation.state.params
-  //   if (!validTitle) {
-  //     errorTitle = <Text style={styles.errorMessage}>Please, enter a title for your {type}</Text>
-  //     this.setState({
-  //       error: errorTitle
-  //     })
-  //   } else {
-  //     this.setState({
-  //       error: null
-  //     })
-  //     this.props.navigation.state.params.handleCreateEvent(title)
-  //     this.props.navigation.goBack()
-  //   }
-  // }
-
-  // setDate = newDate => {
-  //   this.setState({ chosenDate: newDate })
-  // }
+  handleCreateEvent = () => {
+    const { title, validTitle } = this.state
+    if (!validTitle) {
+      errorTitle = <Text style={styles.errorMessage}>Please, enter a title for your {type}</Text>
+      this.setState({
+        error: errorTitle
+      })
+    } else {
+      this.setState({
+        error: null
+      })
+      this.props.navigation.state.params.handleCreatePlaylist(title)
+      this.props.navigation.goBack()
+    }
+  }
 
   render() {
     const { validTitle, error } = this.state

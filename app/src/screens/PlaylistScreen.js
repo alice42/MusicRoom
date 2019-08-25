@@ -4,12 +4,9 @@ import { bindActionCreators } from 'redux'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import * as eventsActions from '../actions/eventsActions'
+import * as playlistsActions from '../actions/playlistsActions'
 import styles from '../styles/containers/HomeContainer'
 import PlaylistContainer from '../containers/PlaylistContainer'
-
-import playlist from '../mocks/mockPlaylist'
-import playlistTracks from '../mocks/mockplaylistTracks'
 
 class PlaylistScreen extends Component {
   handleOnPressEdit = event => {
@@ -17,8 +14,7 @@ class PlaylistScreen extends Component {
     this.props.navigation.navigate('EditPlaylist', { event: event.id, location: location })
   }
   renderPlaylistTracks = () => {
-    // const { tracks } = this.props.playlist
-    const tracks = playlistTracks
+    const { tracks } = this.props.choosenPlaylist[0]
     return (
       <ListTracksConnected
         list={tracks}
@@ -28,17 +24,12 @@ class PlaylistScreen extends Component {
       />
     )
   }
-  handleVote = (track, value) => {
-    const event = this.props.event[0]
-    this.props.eventsActions.vote(track.id, event.id, value)
-  }
   render() {
-    // const event = this.props.event[0]
-    const event = playlist.list[0]
+    const event = this.props.choosenPlaylist[0]
+    console.log(this.props.choosenPlaylist)
     const { canEdit } = event
     return (
       <View style={styles.wrapper}>
-        <View>{tracks ? <Player tracks={tracks} /> : null}</View>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
           <Text style={stylesBis.heading}>{event.name}</Text>
           <Text />
@@ -53,6 +44,7 @@ class PlaylistScreen extends Component {
         <View>
           <PlaylistContainer
             mpe={true}
+            event={event}
             handleVote={this.handleVote}
             playlistId={event.playlistId}
             navigation={this.props.navigation}
@@ -65,16 +57,16 @@ class PlaylistScreen extends Component {
 
 function actionsMapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch)
   }
 }
 function mapStateToProps(state, props) {
-  const { events } = state
-  const id = props.navigation.state.params.event
+  const { playlist } = state
+  const id = props.navigation.state.params.playlist
   return {
-    event: events.list.filter(event => {
-      if (event.id === id) {
-        return event
+    choosenPlaylist: playlist.list.filter(item => {
+      if (item.id === id) {
+        return item
       }
     })
   }

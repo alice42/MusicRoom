@@ -16,10 +16,6 @@ import * as playlistsActions from '../actions/playlistsActions'
 class EventScreen extends Component {
   state = {
     modalVisible: false,
-    paused: true,
-    totalLength: 1,
-    currentPosition: 0,
-    selectedTrack: 0,
     track: null,
     index: 0,
     tracks: null
@@ -60,26 +56,26 @@ class EventScreen extends Component {
     this.setModalVisible(true)
     this.setState({ track: track, index, tracks })
   }
-  player = () => {
-    const event = this.props.event[0]
-    const { canEdit } = event
-    const { track, index, tracks } = this.state
-    return track && !this.state.modalVisible ? (
-      <View>
-        <Player
-          backgroundColor={colors.green01}
-          playlistId={event.playlistId}
-          track={track}
-          index={index}
-          tracks={tracks}
-        />
-      </View>
-    ) : null
+
+  onBackImage = index => {
+    const { tracks } = this.state
+    this.setState({
+      track: tracks[this.state.index === 0 ? this.state.tracks.length - 1 : this.state.index - 1],
+      index: this.state.index === 0 ? this.state.tracks.length - 1 : this.state.index - 1
+    })
+  }
+  onForwardImage = index => {
+    const { tracks } = this.state
+    this.setState({
+      track: tracks[this.state.index === this.state.tracks.length - 1 ? 0 : index + 1],
+      index: this.state.index === this.state.tracks.length - 1 ? 0 : index + 1
+    })
   }
   handleVote = (track, value) => {
     const event = this.props.event[0]
     this.props.eventsActions.vote(track.id, event.id, value)
   }
+
   render() {
     const event = this.props.event[0]
     const { canEdit } = event
@@ -94,17 +90,11 @@ class EventScreen extends Component {
             >
               <Icon name="close" size={26} style={{ color: colors.white }} />
             </TouchableOpacity>
-            {track ? (
-              <Image
-                style={styleModal.modalContent}
-                source={{
-                  uri: `${track.albumCover}`
-                }}
-              />
-            ) : null}
             {event.playlistId ? (
               <Player
-                playlistId={event.playlistId}
+                image={true}
+                play={this.play}
+                event={event}
                 track={track}
                 index={index}
                 tracks={tracks}
@@ -113,17 +103,6 @@ class EventScreen extends Component {
             ) : null}
           </View>
         </Modal>
-        {/* {track && !this.state.modalVisible ? (
-          <View>
-            <Player
-              backgroundColor={colors.green01}
-              playlistId={event.playlistId}
-              track={track}
-              index={index}
-              tracks={tracks}
-            />
-          </View>
-        ) : null} */}
         <View style={{ display: 'flex', flexDirection: 'row' }}>
           <Text style={stylesBis.heading}>{event.name}</Text>
           <Text />
@@ -137,15 +116,17 @@ class EventScreen extends Component {
         </View>
         <View>
           <PlaylistContainer
+            setModalVisible={this.setModalVisible}
+            visible={this.state.visible}
+            play={this.play}
+            event={event}
+            track={track}
+            index={index}
+            tracks={tracks}
             mtv={true}
             handleVote={this.handleVote}
             playlistId={event.playlistId}
             navigation={this.props.navigation}
-            play={this.play}
-            player={this.player}
-            track={track}
-            index={index}
-            tracks={tracks}
           />
         </View>
       </View>
@@ -222,87 +203,15 @@ const styleModal = StyleSheet.create({
     marginTop: 40,
     backgroundColor: 'rgba(0, 0, 0, 0.85)'
   },
-  modalContent: {
-    width: 300,
-    marginBottom: -65,
-    height: 510
-  },
+  // modalContent: {
+  //   width: 300,
+  //   marginBottom: -65,
+  //   height: 510
+  // },
   close: {
     marginRight: 'auto',
     marginLeft: 10,
     marginTop: -60,
     marginBottom: -50
   }
-  // modalTitle: {
-  //   backgroundColor: colors.darkOrange,
-  //   width: 300,
-  //   height: 70,
-  //   borderTopLeftRadius: 30,
-  //   borderTopRightRadius: 30,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   zIndex: 8,
-  //   marginBottom: 15,
-  //   position: 'absolute'
-  // },
-  // modalText: {
-  //   color: colors.white,
-  //   fontSize: 26,
-  //   fontWeight: '800',
-  //   display: 'flex',
-  //   flex: 0.9,
-  //   width: 300,
-  //   height: 210,
-  //   backgroundColor: 'red'
-  // },
-  // modalTextInvers: {
-  //   textAlign: 'center',
-  //   marginTop: 110,
-  //   marginRight: 10,
-  //   color: colors.darkOrange,
-  //   fontSize: 26,
-  //   fontWeight: '800'
-  // },
-  // modalSubtext: {
-  //   textAlign: 'center',
-  //   color: colors.gray01,
-  //   fontSize: 14,
-  //   fontWeight: '500',
-  //   marginBottom: 10
-  // },
-  // modalSubtextInvers: {
-  //   textAlign: 'center',
-  //   color: colors.gray02,
-  //   fontSize: 14,
-  //   fontWeight: '500',
-  //   marginTop: 10,
-  //   marginBottom: 10
-  // },
-  // modalPicker: {
-  //   position: 'relative',
-  //   marginTop: 30
-  // },
-  // modalValidationButton: {
-  //   backgroundColor: colors.darkOrange,
-  //   width: 300,
-  //   height: 50,
-  //   borderBottomLeftRadius: 30,
-  //   borderBottomRightRadius: 30,
-  //   justifyContent: 'center',
-  //   alignItems: 'center'
-  // },
-  // modalValidationButton1: {
-  //   backgroundColor: colors.darkOrange,
-  //   width: 300,
-  //   height: 50,
-  //   borderBottomWidth: 2,
-  //   borderBottomColor: colors.white,
-  //   justifyContent: 'center',
-  //   alignItems: 'center'
-  // },
-  // privacyIcon: {
-  //   color: colors.black,
-  //   marginRight: 15,
-  //   marginTop: 10
-  // }
 })

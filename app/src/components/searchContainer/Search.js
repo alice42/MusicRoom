@@ -28,7 +28,7 @@ class Search extends Component {
             <ListTracks
               test={this.props.test}
               list={results}
-              buttonPlay={true}
+              // buttonPlay={true}
               buttonAdd={true}
               playTrack={this.props.playTrack}
             />

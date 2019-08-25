@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-
+import Icon from 'react-native-vector-icons/FontAwesome'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 class Controls extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.0}
           onPress={this.props.onPressShuffle}
         >
           <Image source={require('../img/ic_shuffle_white.png')} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={{ width: 40 }} />
         <TouchableOpacity onPress={this.props.onBack}>
           <Image source={require('../img/ic_skip_previous_white_36pt.png')} />
@@ -35,12 +35,9 @@ class Controls extends Component {
           <Image source={require('../img/ic_skip_next_white_36pt.png')} />
         </TouchableOpacity>
         <View style={{ width: 40 }} />
-        <TouchableOpacity
-          activeOpacity={0.0}
-          onPress={this.props.onPressRepeat}
-        >
-          <Image source={require('../img/ic_repeat_white.png')} />
-        </TouchableOpacity>
+        {/* <TouchableOpacity activeOpacity={0.0} onPress={() => this.props.setModalVisible(true)}>
+          <Icon name={'play'} size={28} />
+        </TouchableOpacity> */}
       </View>
     )
   }

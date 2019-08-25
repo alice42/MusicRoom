@@ -5,12 +5,11 @@ import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { colors } from '../constants/colors'
 import EditableInput from '../components/input/EditableInput'
-import * as eventsActions from '../actions/eventsActions'
+import * as playlistsActions from '../actions/playlistsActions'
 import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
 import Restriction from '../components/Restriction'
 import ApiError from '../components/ApiError'
-import playlist from '../mocks/mockPlaylist'
 
 class EditPlaylist extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -23,35 +22,30 @@ class EditPlaylist extends Component {
   })
 
   state = {
-    privacyOption: playlist.list[0].privacy === 'public' ? true : false
-    // privacyOption: this.props.event[0].privacy === 'public' ? true : false
+    privacyOption: this.props.event[0].privacy === 'public' ? true : false
   }
   componentWillMount() {
-    // const { privacy } = this.props.event[0]
-    const privacy = playlist.list[0].privacy
+    const { privacy } = this.props.event[0]
     this.setState({ privacy: privacy === 'public' })
   }
 
   handleNameEdit = name => {
-    // const { id } = this.props.event[0]
-    const id = playlist.list[0].id
+    const { id } = this.props.event[0]
     const { location } = this.props.navigation.state.params
-    this.props.eventsActions.updateEventRequest(id, 'name', name, location)
+    this.props.playlistsActions.updatePlaylistRequest(id, 'name', name, location)
   }
 
   handlePrivacy = privacyValue => {
     this.setState({ privacyOption: !privacyValue })
-    // const { id } = this.props.event[0]
-    const id = playlist.list[0].id
+    const { id } = this.props.event[0]
     const { location } = this.props.navigation.state.params
     const privacy = this.state.privacyOption ? 'private' : 'public'
-    this.props.eventsActions.updateEventRequest(id, 'privacy', privacy, location)
+    this.props.playlistsActions.updatePlaylistRequest(id, 'privacy', privacy, location)
   }
 
   render() {
     const { privacyOption } = this.state
-    // const { name } = this.props.event[0]
-    const name = playlist.list[0].name
+    const { name } = this.props.event[0]
     return this.props.event ? (
       <View style={styles.wrapper}>
         <Text style={styles.heading}>Edit an playlist</Text>
@@ -75,9 +69,9 @@ class EditPlaylist extends Component {
               <ApiError style={{ textAlign: 'center' }} error={this.props.events.error} />
             ) : null}
             <Tags
-              allowedUsers={playlist.list[0].allowedUsers}
-              event={playlist.list[0].id}
-              eventsActions={this.props.eventsActions}
+              allowedUsers={this.props.event[0].allowedUsers}
+              event={this.props.event[0].id}
+              eventsActions={this.props.playlistsActions}
             />
             <View style={styles.divider} />
           </View>
@@ -88,7 +82,7 @@ class EditPlaylist extends Component {
 }
 function actionsMapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch)
   }
 }
 function mapStateToProps(state, props) {
@@ -98,9 +92,9 @@ function mapStateToProps(state, props) {
     events,
     playlist,
     user,
-    event: events.list.filter(event => {
-      if (event.id === id) {
-        return event
+    event: playlist.list.filter(item => {
+      if (item.id === id) {
+        return item
       }
     })
   }
