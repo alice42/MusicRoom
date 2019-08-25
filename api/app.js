@@ -26,13 +26,13 @@ const config = {
 
 firebase.initializeApp(config);
 const database = firebase.database();
-const firebaseRef = database.ref();
 
 const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
 const deezerRoutes = require("./routes/deezer");
 const aliceRoutes = require("./routes/alice");
 const mtvRoutes = require("./routes/musicTrackVote");
+const mpeRoutes = require("./routes/musicPlaylistEditor");
 
 const app = express();
 const port = "3001";
@@ -46,80 +46,73 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.use(
-  logger(
-    "dev"
-    //   function(tokens, req, res) {
-    //   // console.log(res.output);
-    //   return [
-    //     tokens.method(req, res),
-    //     tokens.url(req, res),
-    //     tokens.status(req, res),
-    //     // function (req, res) { return res.statusCode < 400 }
-    //     tokens.res(req, res, "content-length"),
-    //     "-",
-    //     tokens["response-time"](req, res),
-    //     "ms"
-    //   ].join(" ");
-    // })
-  )
-);
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRoute);
 app.use("/api/user", userRoutes);
 app.use("/api/mtv", mtvRoutes);
+app.use("/api/mpe", mpeRoutes);
 app.use("/api/alice", aliceRoutes);
+
 app.set("port", port);
 app.set("trust proxy", true);
 
 const server = http.createServer(app);
+
 const io = require("socket.io")(server);
 
-// io.sockets.emit("MESSAGE_TYPE", "everyone");
+const { getAllUsers } = require("./helpers/firebaseUsers.helpers");
+const { getPlaylistAvailable } = require("./helpers/playlist.helpers");
+const { getSessions } = require("./helpers/firebaseSession.helpers");
 
-io.on("connection", function(socket) {
+const { findKey } = require("lodash");
+
+const onConnection = async socket => {
+  const date = new Date().getTime();
+  const { token } = socket.handshake.query;
   console.log("SOKETIO, a user connected");
-  io.emit("MESSAGE_TYPE", "connection seen");
-  socket.broadcast.emit("new user connected");
+  const sessions = await getSessions(database);
 
-  socket.on("disconnect", function() {
-    console.log("SOKETIO, user disconnected");
-  });
-  socket.on("MESSAGE_TYPE", function(msg) {
-    console.log("message: " + msg);
-  });
-
-  firebaseRef.on("value", function(snapshot) {
-    var test = snapshot.val();
-
-    // Print the data object's values
-    console.log("TEST SOCKET: " + test);
-    io.emit("TEST", {
-      test
+  const id = findKey(sessions, sessionToken => sessionToken === token);
+  if (id) {
+    console.log("New user connected", id);
+    database.ref("playlists").on("child_removed", () => {
+      socket.emit("GET_PLAYLIST", {
+        type: "GET_PLAYLIST",
+        data: {}
+      });
     });
-  });
+
+    database.ref("playlists").on("child_added", snapshot => {
+      if (snapshot.val().createdAt > date) {
+        socket.emit("GET_PLAYLIST", {
+          type: "GET_PLAYLIST",
+          data: {}
+        });
+      }
+    });
+
+    database.ref("playlists").on("child_changed", snapshot => {
+      socket.emit("UPDATED_PLAYLIST", {
+        type: "UPDATED_PLAYLIST",
+        data: { id: snapshot.val()._id }
+      });
+    });
+  } else {
+    console.log("New user connected not recognized");
+  }
+};
+
+io.on("connection", onConnection);
+
+server.listen(port, () => {
+  console.log(`-------------------------------`);
+  console.log(`| API listening on port ${port}! |`);
+  console.log(`-------------------------------`);
 });
 
-// io.on("connection", function(socket) {
-//   console.log("Connected and ready!");
-
-//   // firebase reference listens on value change,
-//   // and return the data snapshot as an object
-//   firebaseRef.on("value", function(snapshot) {
-//     var test = snapshot.val();
-
-//     // Print the data object's values
-//     console.log("TEST SOCKET: " + test);
-//     socket.broadcast.emit("TEST", {
-//       test
-//     });
-//   });
-// });
-
-server.listen(port, () =>
-  console.log(
-    `-------------------------------\n| API listening on port ${port}! |\n-------------------------------`
-  )
-);
+module.exports = {
+  server
+};
