@@ -1,6 +1,7 @@
 const initialState = {
   list: [],
   currentPlaylist: {
+    id: null,
     list: [],
     isFetching: false
   },
@@ -16,6 +17,12 @@ const reducer = (state = initialState, action) => {
         currentPlaylist: { list: [], isFetching: true },
         isFetching: false,
         error: false
+      }
+    case 'SET_PLAYLIST_ID':
+      console.log('REDUCER', action)
+      return {
+        ...state,
+        currentPlaylist: { ...state.currentPlaylist, id: action.playlistId }
       }
     case 'GET_PLAYLIST_TRACKS_SUCCESS':
       return {

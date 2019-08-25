@@ -10,11 +10,9 @@ import {
 
 function* getPlaylistsSaga(action) {
   try {
-    const { location } = action
     const token = yield select(state => state.user.token)
     const payload = {
-      token,
-      location
+      token
     }
     const response = yield call(getPlaylistsMethod, payload)
     if (response.error) {
@@ -28,15 +26,18 @@ function* getPlaylistsSaga(action) {
 }
 
 function* createPlaylistsSaga(action) {
+  console.log('SAGA', action)
   try {
-    const { name, location } = action
+    const { name } = action
+
     const token = yield select(state => state.user.token)
     const payload = {
       name,
-      token,
-      location
+      token
     }
+    console.log('TEST', payload)
     const response = yield call(createPlaylistsMethod, payload)
+    console.log('TESTII', response)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -49,7 +50,7 @@ function* createPlaylistsSaga(action) {
 
 function* updatePlaylistsSaga(action) {
   try {
-    const { id, toChange, newValue, location } = action
+    const { id, toChange, newValue } = action
     const playlistId = id
     const token = yield select(state => state.user.token)
     const payload = {
@@ -72,7 +73,7 @@ function* updatePlaylistsSaga(action) {
 
 function* deletePlaylistRequest(action) {
   try {
-    const { playlistId, location } = action
+    const { playlistId } = action
     const token = yield select(state => state.user.token)
     const payload = {
       playlistId,
@@ -93,17 +94,26 @@ function* deletePlaylistRequest(action) {
 ///
 function* getPlaylistTracks(action) {
   try {
-    const { playlistId } = action
-    const token = yield select(state => state.user.token)
-    const payload = {
-      token,
-      playlistId
+    console.log('ACTION', action)
+    const socketPlaylistId = action && action.response && action.response.id
+
+    const playlistId = yield select(state => state.playlist.currentPlaylist.id)
+    const playlist = yield select(state => state.playlist.currentPlaylist)
+    console.log('PLAYLIST ***', playlist)
+    console.log('PLAYLIST ID', playlistId, 'SOCKER ID', socketPlaylistId)
+    if (playlistId && (!socketPlaylistId || socketPlaylistId === playlistId)) {
+      console.log('TRACKS ASKED')
+      const token = yield select(state => state.user.token)
+      const payload = {
+        token,
+        playlistId
+      }
+      const response = yield call(getPlaylistTracksMethod, payload)
+      yield put({
+        type: 'GET_PLAYLIST_TRACKS_SUCCESS',
+        results: response
+      })
     }
-    const response = yield call(getPlaylistTracksMethod, payload)
-    yield put({
-      type: 'GET_PLAYLIST_TRACKS_SUCCESS',
-      results: response
-    })
   } catch (err) {
     yield put({ type: 'GET_PLAYLIST_TRACKS_FAILURE', error: error.message })
   }
@@ -128,11 +138,25 @@ function* addtrackToPlaylist(action) {
   }
 }
 
+function* setPlaylistId(action) {
+  try {
+    const playlist = yield select(state => state.playlist.currentPlaylist)
+    console.log('PLAYLIST', playlist)
+    console.log('TRIGGER GET PLAYLIST', action)
+    yield put({
+      type: 'GET_PLAYLIST_TRACKS_REQUEST'
+    })
+  } catch (error) {}
+}
+
 export default function* rootSaga() {
   yield all(
+    [yield takeEvery('SET_PLAYLIST_ID', setPlaylistId)],
     [yield takeEvery('GET_PLAYLIST_TRACKS_REQUEST', getPlaylistTracks)],
+    [yield takeEvery('UPDATED_PLAYLIST', getPlaylistTracks)],
     [yield takeEvery('ADD_TRACK_TO_PLAYLIST_REQUEST', addtrackToPlaylist)],
     [yield takeEvery('SERVICE_MPE_GET_PLAYLISTS_REQUEST', getPlaylistsSaga)],
+    [yield takeEvery('GET_PLAYLIST', getPlaylistsSaga)],
     [yield takeEvery('SERVICE_MPE_CREATE_PLAYLISTS_REQUEST', createPlaylistsSaga)],
     [yield takeEvery('SERVICE_MPE_PLAYLISTS_UPDATE_DATA_REQUEST', updatePlaylistsSaga)],
     [yield takeEvery('DELETE_PLAYLIST_REQUEST', deletePlaylistRequest)]

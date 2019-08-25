@@ -13,7 +13,6 @@ export const getPlaylistsMethod = async ({ location, token }) => {
   const url = `${apiUrl}${mpe}${getPlaylists}`
   try {
     const response = await basicFetch('POST', url, {}, { token, location })
-    console.log('T!', response)
     return response
   } catch (err) {
     throw err

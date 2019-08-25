@@ -6,6 +6,7 @@ export function getPlaylists(location) {
 }
 
 export function createPlaylistRequest(name, location) {
+  console.log('ACTIONS', name)
   return {
     type: 'SERVICE_MPE_CREATE_PLAYLISTS_REQUEST',
     name,
@@ -35,7 +36,7 @@ export function deletePlaylistRequest(playlistId, location) {
 
 export function getPlaylistTracks(playlistId) {
   return {
-    type: 'GET_PLAYLIST_TRACKS_REQUEST',
+    type: 'SET_PLAYLIST_ID',
     playlistId
   }
 }

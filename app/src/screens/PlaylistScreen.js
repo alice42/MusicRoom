@@ -26,7 +26,6 @@ class PlaylistScreen extends Component {
   }
   render() {
     const event = this.props.choosenPlaylist[0]
-    console.log(this.props.choosenPlaylist)
     const { canEdit } = event
     return (
       <View style={styles.wrapper}>
