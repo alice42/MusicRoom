@@ -7,7 +7,8 @@ const {
   createNewPlaylist,
   getPlaylistTracks,
   addTrackToPlaylist,
-  removeTrackToPlaylist
+  removeTrackToPlaylist,
+  setPlaylistToCollaborative
 } = require("../helpers/deezer.helpers");
 const {
   findPlaylists,
@@ -81,6 +82,7 @@ router.post("/create-playlist", async (req, res) => {
       userTokens.deezer,
       validToken.id
     );
+    await setPlaylistToCollaborative(playlist.id, userTokens.deezer);
     await insertPlaylist(database, {
       name,
       owner: id,

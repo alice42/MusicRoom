@@ -15,7 +15,8 @@ const {
   createNewPlaylist,
   getPlaylistTracks,
   addTrackToPlaylist,
-  removeTrackToPlaylist
+  removeTrackToPlaylist,
+  setPlaylistToCollaborative
 } = require("../helpers/deezer.helpers");
 const md5 = require("blueimp-md5");
 
@@ -171,6 +172,8 @@ router.post("/create-event", async (req, res) => {
       userTokens.deezer,
       validToken.id
     );
+    await setPlaylistToCollaborative(playlist.id, userTokens.deezer);
+
     await insertEvent(database, {
       name,
       owner: id,
@@ -428,7 +431,6 @@ router.post("/remove-track", async (req, res) => {
     const database = res.database;
     const { token, playlistId, trackId } = req.body;
 
-    console.log({ token, playlistId, trackId });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {

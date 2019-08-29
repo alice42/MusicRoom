@@ -10,7 +10,18 @@ const isDeezerTokenValid = userToken => {
 
 const createNewPlaylist = (title, deezerToken, deezerId) => {
   // const appToken = musicRoomFacebookAppToken;
-  const url = `https://api.deezer.com/user/${deezerId}/playlists?access_token=${deezerToken}&request_method=post&title=${title}`;
+  const url = `https://api.deezer.com/user/${deezerId}/playlists?access_token=${deezerToken}&request_method=post&title=${title}&collaborative=true`;
+  return fetch(url).then(response => {
+    return response.json();
+  });
+  // .then(json => {
+  //   return json;
+  // });
+};
+
+const setPlaylistToCollaborative = (playlistId, deezerToken) => {
+  // const appToken = musicRoomFacebookAppToken;
+  const url = `https://api.deezer.com/playlist/${playlistId}?access_token=${deezerToken}&request_method=post&collaborative=true`;
   return fetch(url).then(response => {
     return response.json();
   });
@@ -52,5 +63,6 @@ module.exports = {
   createNewPlaylist,
   getPlaylistTracks,
   addTrackToPlaylist,
-  removeTrackToPlaylist
+  removeTrackToPlaylist,
+  setPlaylistToCollaborative
 };
