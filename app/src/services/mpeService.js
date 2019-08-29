@@ -29,15 +29,10 @@ export const createPlaylistsMethod = async ({ token, name, location }) => {
   }
 }
 
-export const updatePlaylistMethod = async ({ token, playlistId, toChange, newValue, location }) => {
+export const updatePlaylistMethod = async ({ token, playlistId, toChange, newValue }) => {
   const url = `${apiUrl}${mpe}${updatePlaylist}`
   try {
-    const response = await basicFetch(
-      'POST',
-      url,
-      {},
-      { token, playlistId, toChange, newValue, location }
-    )
+    const response = await basicFetch('POST', url, {}, { token, playlistId, toChange, newValue })
     return response
   } catch (err) {
     throw err
@@ -64,10 +59,10 @@ export const addtrackToPlaylistMethodMpe = async ({ trackId, playlistId, token }
   }
 }
 
-export const deletePlaylistMethod = async ({ playlistId, token, location }) => {
+export const deletePlaylistMethod = async ({ playlistId, token }) => {
   const url = `${apiUrl}${mpe}${deletePlaylist}`
   try {
-    const response = await basicFetch('POST', url, {}, { playlistId, token, location })
+    const response = await basicFetch('POST', url, {}, { playlistId, token })
     return response
   } catch (err) {
     throw err

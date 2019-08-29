@@ -11,9 +11,6 @@ import { colors } from '../constants/colors'
 import ApiError from '../components/ApiError'
 import Loader from '../components/Loader'
 
-// import playlist from '../mocks/mockPlaylist'
-// import playlistTracks from '../mocks/mockplaylistTracks'
-
 const { height } = Dimensions.get('window')
 
 class AllPlaylistsScreen extends Component {

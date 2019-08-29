@@ -23,7 +23,7 @@ export default class playlists extends Component {
     })
   }
   handleOnPressDelete = playlist => {
-    this.props.playlistActions.deletePlaylist(playlist)
+    this.props.handleDeletePlaylist(playlist)
   }
 
   renderplaylists() {

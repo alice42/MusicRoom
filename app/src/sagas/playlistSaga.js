@@ -55,8 +55,7 @@ function* updatePlaylistsSaga(action) {
       token,
       playlistId,
       toChange,
-      newValue,
-      location
+      newValue
     }
     const response = yield call(updatePlaylistMethod, payload)
     if (response.error) {
@@ -75,10 +74,11 @@ function* deletePlaylistRequest(action) {
     const token = yield select(state => state.user.token)
     const payload = {
       playlistId,
-      token,
-      location
+      token
     }
+    console.log('TEST')
     const response = yield call(deletePlaylistMethod, payload)
+    console.log('TEST A', response)
     if (response.error) {
       throw Error(response.error)
     } else {
