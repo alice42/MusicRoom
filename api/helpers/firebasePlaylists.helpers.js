@@ -45,9 +45,22 @@ const findPlaylistBy = (database, key, value) => {
   });
 };
 
+const deletePlaylist = (database, id) => {
+  return new Promise((resolve, reject) => {
+    database.ref(`playlists/${id}`).remove(err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
 module.exports = {
   findPlaylists,
   insertPlaylist,
   updatePlaylist,
-  findPlaylistBy
+  findPlaylistBy,
+  deletePlaylist
 };
