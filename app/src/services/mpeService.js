@@ -8,6 +8,7 @@ const updatePlaylist = '/update-data'
 const getTracks = '/get-tracks'
 const addTrack = '/add-track'
 const deletePlaylist = '/delete-playlist'
+const removeTrack = '/remove-track'
 
 export const getPlaylistsMethod = async ({ location, token }) => {
   const url = `${apiUrl}${mpe}${getPlaylists}`
@@ -63,6 +64,16 @@ export const deletePlaylistMethod = async ({ playlistId, token }) => {
   const url = `${apiUrl}${mpe}${deletePlaylist}`
   try {
     const response = await basicFetch('POST', url, {}, { playlistId, token })
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const removeTrackMethodMpe = async ({ playlistId, trackId, token }) => {
+  const url = `${apiUrl}${mpe}${removeTrack}`
+  try {
+    const response = await basicFetch('POST', url, {}, { playlistId, trackId, token })
     return response
   } catch (err) {
     throw err

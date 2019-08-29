@@ -97,6 +97,7 @@ class EventScreen extends Component {
         </View>
         <View>
           <PlaylistContainer
+            location={this.props.navigation.state.params.location}
             setModalVisible={this.setModalVisible}
             visible={this.state.visible}
             play={this.play}

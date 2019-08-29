@@ -9,6 +9,7 @@ const getTracks = '/get-tracks'
 const addTrack = '/add-track'
 const voteTrack = '/vote-track'
 const deleteEvent = '/delete-event'
+const removeTrack = '/remove-track'
 
 export const getEventsMethod = async ({ location, token }) => {
   const url = `${apiUrl}${mtv}${getEvents}`
@@ -55,10 +56,10 @@ export const getPlaylistTracksMethodMtv = async ({ token, playlistId }) => {
   }
 }
 
-export const addtrackToPlaylistMethodMtv = async ({ trackId, playlistId, token }) => {
+export const addtrackToPlaylistMethodMtv = async ({ trackId, playlistId, token, location }) => {
   const url = `${apiUrl}${mtv}${addTrack}`
   try {
-    const response = await basicFetch('POST', url, {}, { token, trackId, playlistId })
+    const response = await basicFetch('POST', url, {}, { token, trackId, playlistId, location })
     return response
   } catch (err) {
     throw err
@@ -79,6 +80,16 @@ export const deleteEventMethod = async ({ eventId, token, location }) => {
   const url = `${apiUrl}${mtv}${deleteEvent}`
   try {
     const response = await basicFetch('POST', url, {}, { eventId, token, location })
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export const removeTrackMethodMtv = async ({ playlistId, trackId, token, location }) => {
+  const url = `${apiUrl}${mtv}${removeTrack}`
+  try {
+    const response = await basicFetch('POST', url, {}, { playlistId, trackId, token, location })
     return response
   } catch (err) {
     throw err

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-
+import DeleteTrackModal from '../playlist/DeleteTrackModal'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { FlatList, View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native'
 import { SwipeRow } from 'react-native-swipe-list-view'
 import { colors } from '../../constants/colors'
 
 export default class Comments extends Component {
+  handleOnPressDelete = track => {
+    this.props.handleDeleteTrack(track)
+  }
   render() {
     const { width } = Dimensions.get('window')
-    const { list, buttonPlay, buttonAdd, buttonDel, playlist, mtv } = this.props
+    const { list, buttonPlay, buttonAdd, mtv } = this.props
     return (
       <FlatList
         style={styles.root}
@@ -27,6 +30,11 @@ export default class Comments extends Component {
             <SwipeRow disableRightSwipe rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
+                <DeleteTrackModal
+                  event={list.id}
+                  track={track}
+                  handleOnPressDelete={this.handleOnPressDelete}
+                />
               </View>
               <View
                 style={{

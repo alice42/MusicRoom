@@ -31,6 +31,15 @@ export function deletePlaylistRequest(playlistId, location) {
   }
 }
 
+export function removeTrack(playlistId, trackId, service, location) {
+  return {
+    type: 'REMOVE_TRACK_TO_PLAYLIST_REQUEST',
+    playlistId,
+    trackId,
+    service,
+    location
+  }
+}
 ///
 
 export function getPlaylistTracks(playlistId, service) {

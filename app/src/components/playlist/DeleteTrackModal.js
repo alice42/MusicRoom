@@ -3,37 +3,37 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../../constants/colors'
 
-export default class DeletePlaylistModal extends React.Component {
+export default class DeleteTracktModal extends React.Component {
   state = {
     modalVisible: false
   }
   setModalVisible = visible => {
     this.setState({ modalVisible: visible })
   }
-  deleteEvent = () => {
-    const { event } = this.props
-    this.props.handleOnPressDelete(event.id)
+  deleteTrack = () => {
+    const track = this.props.track
+    this.props.handleOnPressDelete(track)
     this.setState({ modalVisible: false })
   }
   render() {
-    const { event } = this.props
+    const { track } = this.props
     return (
       <View>
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styleModal.modal}>
             <View style={styleModal.modalContent}>
-              <Text style={styleModal.modalTextInvers}>{event.name}</Text>
+              <Text style={styleModal.modalTextInvers}>{track.title}</Text>
               <Text style={styleModal.modalSubtextInvers}>this action can't be undone</Text>
               <View style={styleModal.modalTitle}>
                 <Text style={styleModal.modalText}>DELETE</Text>
                 <Text style={styleModal.modalSubtext}>
                   are you sure you want to delete this
-                  {' event'}?
+                  {' track'}?
                 </Text>
               </View>
             </View>
             <View style={styleModal.modalValidationButton1}>
-              <TouchableOpacity onPress={this.deleteEvent}>
+              <TouchableOpacity onPress={this.deleteTrack}>
                 <Text style={styleModal.modalText}>OK</Text>
               </TouchableOpacity>
             </View>

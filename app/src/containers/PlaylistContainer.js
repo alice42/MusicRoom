@@ -22,9 +22,17 @@ import Icons from 'react-native-vector-icons/MaterialIcons'
 import Loader from '../components/Loader'
 
 import Player from './Player'
+
 const { width, height } = Dimensions.get('window')
 
 class PlaylistContainer extends Component {
+  handleDeleteTrack = track => {
+    const service = this.props.mtv ? '/mtv' : '/mpe'
+    const trackId = track.id
+    const { location } = this.props
+    const { playlistId } = this.props.event
+    this.props.playlistsActions.removeTrack(playlistId, trackId, service, location)
+  }
   renderPlaylistTracks = () => {
     const { list } = this.props.playlist.currentPlaylist
     return (
@@ -35,19 +43,19 @@ class PlaylistContainer extends Component {
         play={this.props.play}
         mtv={this.props.mtv}
         handleVote={this.props.handleVote}
-        handleOnPressDelete={this.handleOnPressDelete}
+        handleDeleteTrack={this.handleDeleteTrack}
       />
     )
   }
-  handleOnPressDelete = track => {
-    if (track) {
-      const { deezerId } = this.props.user
-      const { deezerToken } = this.props.user
-      const playlistId = this.props.playlist.playlistInfo.id
-      const trackId = track.id
-      this.props.playlistsActions.deleteTrack(playlistId, trackId, deezerId, deezerToken)
-    }
-  }
+  // handleOnPressDelete = track => {
+  //   if (track) {
+  //     const { deezerId } = this.props.user
+  //     const { deezerToken } = this.props.user
+  //     const playlistId = this.props.playlist.playlistInfo.id
+  //     const trackId = track.id
+  //     this.props.playlistsActions.deleteTrack(playlistId, trackId, deezerId, deezerToken)
+  //   }
+  // }
   handleAddTrack = () => {
     this.props.navigation.navigate('Search', {
       playlist: this.props.playlistId,

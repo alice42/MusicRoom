@@ -5,9 +5,14 @@ import {
   getPlaylistsMethod,
   createPlaylistsMethod,
   deletePlaylistMethod,
-  updatePlaylistMethod
+  updatePlaylistMethod,
+  removeTrackMethodMpe
 } from '../services/mpeService'
-import { getPlaylistTracksMethodMtv, addtrackToPlaylistMethodMtv } from '../services/mtvService'
+import {
+  getPlaylistTracksMethodMtv,
+  addtrackToPlaylistMethodMtv,
+  removeTrackMethodMtv
+} from '../services/mtvService'
 
 function* getPlaylistsSaga(action) {
   try {
@@ -76,9 +81,7 @@ function* deletePlaylistRequest(action) {
       playlistId,
       token
     }
-    console.log('TEST')
     const response = yield call(deletePlaylistMethod, payload)
-    console.log('TEST A', response)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -119,13 +122,14 @@ function* getPlaylistTracks(action) {
 }
 
 function* addtrackToPlaylist(action) {
-  const { trackId, playlistId, service } = action
+  const { trackId, playlistId, service, location } = action
   try {
     const token = yield select(state => state.user.token)
     const payload = {
       token,
       trackId,
-      playlistId
+      playlistId,
+      location
     }
     let response
     if (service === '/mpe') {
@@ -139,6 +143,32 @@ function* addtrackToPlaylist(action) {
     })
   } catch (err) {
     yield put({ type: 'ADD_TRACK_TO_PLAYLIST_FAILURE', error: error.message })
+  }
+}
+
+function* removeTrackRequest(action) {
+  try {
+    const { playlistId, trackId, service, location } = action
+    const token = yield select(state => state.user.token)
+    const payload = {
+      playlistId,
+      trackId,
+      token,
+      location
+    }
+    let response
+    if (service === '/mpe') {
+      response = yield call(removeTrackMethodMpe, payload)
+    } else {
+      response = yield call(removeTrackMethodMtv, payload)
+    }
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({ type: 'REMOVE_TRACK_FROM_PLAYLIST_SUCCESS', results: response })
+    }
+  } catch (error) {
+    yield put({ type: 'REMOVE_TRACK_FROM_PLAYLIST_FAILURE', error: error.message })
   }
 }
 
@@ -158,6 +188,7 @@ export default function* rootSaga() {
     [yield takeEvery('GET_PLAYLIST_TRACKS_REQUEST', getPlaylistTracks)],
     [yield takeEvery('UPDATED_PLAYLIST', getPlaylistTracks)],
     [yield takeEvery('ADD_TRACK_TO_PLAYLIST_REQUEST', addtrackToPlaylist)],
+    [yield takeEvery('REMOVE_TRACK_TO_PLAYLIST_REQUEST', removeTrackRequest)],
     [yield takeEvery('SERVICE_MPE_GET_PLAYLISTS_REQUEST', getPlaylistsSaga)],
     [yield takeEvery('GET_PLAYLIST', getPlaylistsSaga)],
     [yield takeEvery('SERVICE_MPE_CREATE_PLAYLISTS_REQUEST', createPlaylistsSaga)],

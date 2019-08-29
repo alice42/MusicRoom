@@ -215,40 +215,6 @@ function reducer(state = initialState, action) {
         error: action.error,
         isFetching: false
       }
-    case 'SET_PLAYLISTS':
-      return {
-        ...state,
-        data: { ...state.data, playlists: action.playlists },
-        isFetching: false
-      }
-    case 'CREATE_PLAYLIST_SUCCESS':
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          playlists: [
-            ...state.data.playlists,
-            {
-              id: `${action.results.results.id}`,
-              title: `${action.results.query.title}`,
-              description: ''
-            }
-          ]
-        },
-        isFetching: false
-      }
-    case 'DELETE_PLAYLIST_SUCCESS':
-      const newPlaylists = state.data.playlists.filter(function(obj) {
-        return action.results.indexOf(obj.id) === -1
-      })
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          playlists: newPlaylists
-        },
-        isFetching: false
-      }
     case 'DEEZER_GET_TOKEN_SUCCESS':
       return {
         ...state,
