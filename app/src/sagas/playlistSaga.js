@@ -1,12 +1,13 @@
 import { call, put, takeEvery, all, select } from 'redux-saga/effects'
 import {
-  getPlaylistTracksMethod,
-  addtrackToPlaylistMethod,
+  getPlaylistTracksMethodMpe,
+  addtrackToPlaylistMethodMpe,
   getPlaylistsMethod,
   createPlaylistsMethod,
   deletePlaylistMethod,
   updatePlaylistMethod
 } from '../services/mpeService'
+import { getPlaylistTracksMethodMtv, addtrackToPlaylistMethodMtv } from '../services/mtvService'
 
 function* getPlaylistsSaga(action) {
   try {
@@ -26,7 +27,6 @@ function* getPlaylistsSaga(action) {
 }
 
 function* createPlaylistsSaga(action) {
-  console.log('SAGA', action)
   try {
     const { name } = action
 
@@ -35,9 +35,7 @@ function* createPlaylistsSaga(action) {
       name,
       token
     }
-    console.log('TEST', payload)
     const response = yield call(createPlaylistsMethod, payload)
-    console.log('TESTII', response)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -94,21 +92,22 @@ function* deletePlaylistRequest(action) {
 ///
 function* getPlaylistTracks(action) {
   try {
-    console.log('ACTION', action)
     const socketPlaylistId = action && action.response && action.response.id
-
+    const service = action.service
     const playlistId = yield select(state => state.playlist.currentPlaylist.id)
     const playlist = yield select(state => state.playlist.currentPlaylist)
-    console.log('PLAYLIST ***', playlist)
-    console.log('PLAYLIST ID', playlistId, 'SOCKER ID', socketPlaylistId)
     if (playlistId && (!socketPlaylistId || socketPlaylistId === playlistId)) {
-      console.log('TRACKS ASKED')
       const token = yield select(state => state.user.token)
       const payload = {
         token,
         playlistId
       }
-      const response = yield call(getPlaylistTracksMethod, payload)
+      let response
+      if (service === '/mpe') {
+        response = yield call(getPlaylistTracksMethodMpe, payload)
+      } else {
+        response = yield call(getPlaylistTracksMethodMtv, payload)
+      }
       yield put({
         type: 'GET_PLAYLIST_TRACKS_SUCCESS',
         results: response
@@ -120,7 +119,7 @@ function* getPlaylistTracks(action) {
 }
 
 function* addtrackToPlaylist(action) {
-  const { trackId, playlistId } = action
+  const { trackId, playlistId, service } = action
   try {
     const token = yield select(state => state.user.token)
     const payload = {
@@ -128,7 +127,12 @@ function* addtrackToPlaylist(action) {
       trackId,
       playlistId
     }
-    const response = yield call(addtrackToPlaylistMethod, payload)
+    let response
+    if (service === '/mpe') {
+      response = yield call(addtrackToPlaylistMethodMpe, payload)
+    } else {
+      response = yield call(addtrackToPlaylistMethodMtv, payload)
+    }
     yield put({
       type: 'ADD_TRACK_TO_PLAYLIST_SUCCESS',
       results: response
@@ -141,10 +145,9 @@ function* addtrackToPlaylist(action) {
 function* setPlaylistId(action) {
   try {
     const playlist = yield select(state => state.playlist.currentPlaylist)
-    console.log('PLAYLIST', playlist)
-    console.log('TRIGGER GET PLAYLIST', action)
     yield put({
-      type: 'GET_PLAYLIST_TRACKS_REQUEST'
+      type: 'GET_PLAYLIST_TRACKS_REQUEST',
+      service: action.service
     })
   } catch (error) {}
 }

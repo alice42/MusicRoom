@@ -2,6 +2,7 @@ import io from 'socket.io-client'
 import { call, put, take, takeEvery, all } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 
+// const socketServerURL = `http://localhost:3001`
 const socketServerURL = `http://192.168.0.10:3001`
 let socket
 
@@ -36,7 +37,6 @@ const createSocketChannel = socket =>
 // saga that listens to the socket and puts the new data into the reducer
 function* socketConnection(action) {
   const token = action.response.sessionId
-  console.log('SOCKET OK', token)
 
   //   // connect to the server
   const socket = yield call(connect, token)
@@ -47,7 +47,6 @@ function* socketConnection(action) {
   // then put the new data into the reducer
   while (true) {
     const payload = yield take(socketChannel)
-    console.log('PAYLOAD', payload)
     yield put({ type: payload.type, response: payload.data })
   }
 }

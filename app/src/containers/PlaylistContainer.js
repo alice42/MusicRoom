@@ -49,12 +49,17 @@ class PlaylistContainer extends Component {
     }
   }
   handleAddTrack = () => {
-    this.props.navigation.navigate('Search', { playlist: this.props.playlistId })
+    this.props.navigation.navigate('Search', {
+      playlist: this.props.playlistId,
+      service: this.props.mtv ? '/mtv' : '/mpe'
+    })
   }
 
   componentWillMount() {
     const { playlistId } = this.props.event
-    this.props.playlistsActions.getPlaylistTracks(playlistId)
+    const service = this.props.mtv ? '/mtv' : '/mpe'
+
+    this.props.playlistsActions.getPlaylistTracks(playlistId, service)
   }
 
   render() {
@@ -78,7 +83,7 @@ class PlaylistContainer extends Component {
             this.renderPlaylistTracks()
           )}
         </ScrollView>
-        <View style={{ borderTopColor: colors.green02, borderTopWidth: 2 }}>
+        {/* <View style={{ borderTopColor: colors.green02, borderTopWidth: 2 }}>
           {this.props.event.playlistId && this.props.track && !this.props.visible ? (
             <Player
               setModalVisible={this.props.setModalVisible}
@@ -91,7 +96,7 @@ class PlaylistContainer extends Component {
               backgroundColor={colors.green01}
             />
           ) : null}
-        </View>
+        </View> */}
         <View style={{ marginTop: 10, marginBottom: 20 }}>
           <RoundedButton
             text="add track"

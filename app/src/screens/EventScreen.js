@@ -8,9 +8,6 @@ import * as eventsActions from '../actions/eventsActions'
 import styles from '../styles/containers/HomeContainer'
 import PlaylistContainer from '../containers/PlaylistContainer'
 import Player from '../containers/Player'
-import Video from 'react-native-video'
-import SeekBar from '../components/SeekBar'
-import Controls from '../components/Controls'
 import * as playlistsActions from '../actions/playlistsActions'
 
 class EventScreen extends Component {
@@ -23,24 +20,7 @@ class EventScreen extends Component {
 
   componentWillMount() {
     const { playlistId } = this.props.event[0]
-    this.props.playlistsActions.getPlaylistTracks(playlistId)
-  }
-
-  setDuration(data) {
-    this.setState({ totalLength: Math.floor(data.duration) })
-  }
-
-  setTime(data) {
-    this.setState({ currentPosition: Math.floor(data.currentTime) })
-  }
-
-  seek(time) {
-    time = Math.round(time)
-    this.refs.audioElement && this.refs.audioElement.seek(time)
-    this.setState({
-      currentPosition: time,
-      paused: false
-    })
+    this.props.playlistsActions.getPlaylistTracks(playlistId, '/mtv')
   }
 
   handleOnPressEdit = event => {
@@ -92,6 +72,7 @@ class EventScreen extends Component {
             </TouchableOpacity>
             {event.playlistId ? (
               <Player
+                mtv={true}
                 image={true}
                 play={this.play}
                 event={event}

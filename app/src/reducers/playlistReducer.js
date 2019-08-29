@@ -14,12 +14,11 @@ const reducer = (state = initialState, action) => {
     case 'GET_PLAYLIST_TRACKS_REQUEST':
       return {
         ...state,
-        currentPlaylist: { list: [], isFetching: true },
+        currentPlaylist: { ...state.currentPlaylist, isFetching: true },
         isFetching: false,
         error: false
       }
     case 'SET_PLAYLIST_ID':
-      console.log('REDUCER', action)
       return {
         ...state,
         currentPlaylist: { ...state.currentPlaylist, id: action.playlistId }
@@ -94,7 +93,7 @@ const reducer = (state = initialState, action) => {
     case 'VOTE_SUCCESS':
       return {
         ...state,
-        currentPlaylist: { list: [...action.results], isFetching: true }
+        currentPlaylist: { list: [...action.results], isFetching: false }
       }
     default:
       return state

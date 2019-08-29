@@ -18,7 +18,10 @@ const fetchFacebook = () => {
         } else {
           AccessToken.getCurrentAccessToken().then(data => {
             const { accessToken } = data
-            fetch('https://graph.facebook.com/v2.5/me?fields=email,last_name,first_name,picture&access_token=' + accessToken)
+            fetch(
+              'https://graph.facebook.com/v2.5/me?fields=email,last_name,first_name,picture&access_token=' +
+                accessToken
+            )
               .then(response => response.json())
               .then(json => {
                 const facebookInformation = {

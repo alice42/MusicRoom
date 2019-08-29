@@ -21,7 +21,8 @@ class Player extends Component {
   }
   componentWillMount() {
     const { playlistId } = this.props.event
-    this.props.playlistsActions.getPlaylistTracks(playlistId)
+    const service = this.props.mtv ? '/mtv' : '/mpe'
+    this.props.playlistsActions.getPlaylistTracks(playlistId, service)
   }
 
   setDuration(data) {

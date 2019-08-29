@@ -44,7 +44,7 @@ export const updatePlaylistMethod = async ({ token, playlistId, toChange, newVal
   }
 }
 
-export const getPlaylistTracksMethod = async ({ token, playlistId }) => {
+export const getPlaylistTracksMethodMpe = async ({ token, playlistId }) => {
   const url = `${apiUrl}${mpe}${getTracks}`
   try {
     const response = await basicFetch('POST', url, {}, { token, playlistId })
@@ -54,7 +54,7 @@ export const getPlaylistTracksMethod = async ({ token, playlistId }) => {
   }
 }
 
-export const addtrackToPlaylistMethod = async ({ trackId, playlistId, token }) => {
+export const addtrackToPlaylistMethodMpe = async ({ trackId, playlistId, token }) => {
   const url = `${apiUrl}${mpe}${addTrack}`
   try {
     const response = await basicFetch('POST', url, {}, { token, trackId, playlistId })

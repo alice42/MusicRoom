@@ -45,7 +45,7 @@ export const updateEventMethod = async ({ token, eventId, toChange, newValue, lo
   }
 }
 
-export const getPlaylistTracksMethod = async ({ token, playlistId }) => {
+export const getPlaylistTracksMethodMtv = async ({ token, playlistId }) => {
   const url = `${apiUrl}${mtv}${getTracks}`
   try {
     const response = await basicFetch('POST', url, {}, { token, playlistId })
@@ -55,7 +55,7 @@ export const getPlaylistTracksMethod = async ({ token, playlistId }) => {
   }
 }
 
-export const addtrackToPlaylistMethod = async ({ trackId, playlistId, token }) => {
+export const addtrackToPlaylistMethodMtv = async ({ trackId, playlistId, token }) => {
   const url = `${apiUrl}${mtv}${addTrack}`
   try {
     const response = await basicFetch('POST', url, {}, { token, trackId, playlistId })

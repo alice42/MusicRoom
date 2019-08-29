@@ -74,12 +74,12 @@ class AllPlaylistsScreen extends Component {
           <Text style={stylesBis.heading}>ALL PLAYLISTS</Text>
           <View>
             <ScrollView style={{ backgroundColor: colors.gray03, height: height - 240 }}>
-              {playlists.error ? (
+              {this.props.playlists.error ? (
                 <ApiError
                   style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
                   error={playlists.error}
                 />
-              ) : playlists.isFetching ? (
+              ) : this.props.playlists.isFetching ? (
                 <View style={{ marginTop: height / 2 - 170 }}>
                   <Loader />
                 </View>
