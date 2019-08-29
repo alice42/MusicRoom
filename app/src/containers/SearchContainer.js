@@ -17,6 +17,7 @@ class SearchContainer extends Component {
   test = track => {
     const { playlist, service } = this.props.navigation.state.params
     this.props.playlistsActions.addtrackToPlaylist(track.id, playlist, service)
+    this.props.navigation.goBack()
   }
 
   render() {
