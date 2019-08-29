@@ -37,15 +37,20 @@ const addTrackToPlaylist = (trackId, playlistId, token) => {
   return fetch(url).then(response => {
     return response.json();
   });
-  // .then(json => {
-  //   return false;
-  //   // return !json.data.error;
-  // });
+};
+
+const removeTrackToPlaylist = (trackId, playlistId, token) => {
+  const songs = trackId;
+  const url = `https://api.deezer.com/playlist/${playlistId}/tracks?access_token=${token}&request_method=delete&songs=${songs}`;
+  return fetch(url).then(response => {
+    return response.json();
+  });
 };
 
 module.exports = {
   isDeezerTokenValid,
   createNewPlaylist,
   getPlaylistTracks,
-  addTrackToPlaylist
+  addTrackToPlaylist,
+  removeTrackToPlaylist
 };

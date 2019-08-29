@@ -14,7 +14,8 @@ const {
   isDeezerTokenValid,
   createNewPlaylist,
   getPlaylistTracks,
-  addTrackToPlaylist
+  addTrackToPlaylist,
+  removeTrackToPlaylist
 } = require("../helpers/deezer.helpers");
 const md5 = require("blueimp-md5");
 
@@ -416,6 +417,39 @@ router.post("/vote-track", async (req, res) => {
     return res
       .status(200)
       .send(getTracksWithVotes(tracks.tracks.data, newVotes));
+  } catch (err) {
+    console.log("INTER ERROR", err.message);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
+router.post("/remove-track", async (req, res) => {
+  try {
+    const database = res.database;
+    const { token, playlistId, trackId } = req.body;
+
+    console.log({ token, playlistId, trackId });
+    const sessions = await getSessions(database);
+    const id = findKey(sessions, sessionToken => sessionToken === token);
+    if (!id) {
+      return res.status(500).send({ error: "token not valid" });
+    }
+    const { token: userTokens } = await findUserBy("_id", id, database);
+    if (!userTokens.deezer) {
+      return res
+        .status(500)
+        .send({ error: "you dont have link your account to deezer" });
+    }
+    const validToken = await isDeezerTokenValid(userTokens.deezer);
+    if (!validToken) {
+      return res.status(500).send({ error: "your token deezer is invalid" });
+    }
+    await removeTrackToPlaylist(trackId, playlistId, userTokens.deezer);
+
+    const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
+    const { votes } = await findEventBy(database, "playlistId", playlistId);
+
+    return res.status(200).send(getTracksWithVotes(tracks.tracks.data, votes));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });

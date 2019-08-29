@@ -6,13 +6,15 @@ const {
   isDeezerTokenValid,
   createNewPlaylist,
   getPlaylistTracks,
-  addTrackToPlaylist
+  addTrackToPlaylist,
+  removeTrackToPlaylist
 } = require("../helpers/deezer.helpers");
 const {
   findPlaylists,
   insertPlaylist,
   updatePlaylist,
-  findPlaylistBy
+  findPlaylistBy,
+  deletePlaylist
 } = require("../helpers/firebasePlaylists.helpers");
 const { getPlaylistAvailable } = require("../helpers/playlist.helpers");
 
@@ -20,13 +22,14 @@ const { findKey } = require("lodash");
 const md5 = require("blueimp-md5");
 
 const getTracksData = tracks => {
-  return tracks.map(track => ({
+  const rt = tracks.map(track => ({
     id: track.id,
     albumCover: track.album.cover,
     artistName: track.artist.name,
     previewUrl: track.preview,
     title: track.title
   }));
+  return rt;
 };
 
 router.post("/get-playlists", async (req, res) => {
@@ -155,6 +158,38 @@ router.post("/update-data", async (req, res) => {
   }
 });
 
+router.post("/delete-playlist", async (req, res) => {
+  try {
+    const database = res.database;
+    const { token, playlistId } = req.body;
+    const sessions = await getSessions(database);
+    const id = findKey(sessions, sessionToken => sessionToken === token);
+    if (!id) {
+      return res.status(500).send({ error: "token not valid" });
+    }
+    const { owner } = await findPlaylistBy(database, "_id", playlistId);
+    if (owner !== id) {
+      return res
+        .status(500)
+        .send({ error: "you are not authorized to delete this playlist" });
+    }
+    const { _id, token: userTokens } = await findUserBy("_id", id, database);
+    const validToken = await isDeezerTokenValid(userTokens.deezer);
+    if (!validToken) {
+      return res.status(500).send({ error: "your token deezer is invalid" });
+    }
+    await deletePlaylist(database, playlistId);
+    const playlists = await findPlaylists(database);
+    const idCorrespondance = await getAllUsers(database);
+    return res
+      .status(200)
+      .send(getPlaylistAvailable(playlists, id, idCorrespondance));
+  } catch (err) {
+    console.log("INTER ERROR", err.message);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
 router.post("/get-tracks", async (req, res) => {
   try {
     const database = res.database;
@@ -212,6 +247,45 @@ router.post("/add-track", async (req, res) => {
       playlistId
     );
     await addTrackToPlaylist(trackId, playlistId, userTokens.deezer);
+
+    await updatePlaylist(database, InternalPlaylistId, {
+      updatedAt: new Date().getTime()
+    });
+
+    const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
+    return res.status(200).send(getTracksData(tracks.tracks.data));
+  } catch (err) {
+    console.log("INTER ERROR", err.message);
+    return res.status(500).send({ error: "internal server error" });
+  }
+});
+
+router.post("/remove-track", async (req, res) => {
+  try {
+    const database = res.database;
+    const { token, playlistId, trackId } = req.body;
+
+    const sessions = await getSessions(database);
+    const id = findKey(sessions, sessionToken => sessionToken === token);
+    if (!id) {
+      return res.status(500).send({ error: "token not valid" });
+    }
+    const { token: userTokens } = await findUserBy("_id", id, database);
+    if (!userTokens.deezer) {
+      return res
+        .status(500)
+        .send({ error: "you dont have link your account to deezer" });
+    }
+    const validToken = await isDeezerTokenValid(userTokens.deezer);
+    if (!validToken) {
+      return res.status(500).send({ error: "your token deezer is invalid" });
+    }
+    const { _id: InternalPlaylistId } = await findPlaylistBy(
+      database,
+      "playlistId",
+      playlistId
+    );
+    await removeTrackToPlaylist(trackId, playlistId, userTokens.deezer);
 
     await updatePlaylist(database, InternalPlaylistId, {
       updatedAt: new Date().getTime()
