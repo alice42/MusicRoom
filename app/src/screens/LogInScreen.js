@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { View, Text, KeyboardAvoidingView } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Alert } from 'react-native'
 import { colors } from '../constants/colors'
 import NavBarButton from '../components/button/NavBarButton'
 import InputField from '../components/input/InputField'
 import NextArrowButton from '../components/button/NextArrowButton'
 import ApiError from '../components/ApiError'
 import * as userActions from '../actions/userActions'
+import * as errorActions from '../actions/errorActions'
 import styles from '../styles/screens/LogInScreen'
 import Loader from '../components/Loader'
 
@@ -111,7 +112,6 @@ class LogIn extends Component {
           <Loader />
         ) : (
           <View style={styles.logInWrapper}>
-            <ApiError error={this.props.user.errorLogIn} />
             <Text style={styles.loginHeader}>Log In</Text>
             {this.errorEmail()}
             <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
@@ -134,13 +134,15 @@ class LogIn extends Component {
 }
 function LoginActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(userActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function loginAppMapStateToProps(state) {
-  const { user } = state
+  const { user, error } = state
   return {
-    user
+    user,
+    error
   }
 }
 

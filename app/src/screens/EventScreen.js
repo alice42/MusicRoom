@@ -18,11 +18,6 @@ class EventScreen extends Component {
     tracks: null
   }
 
-  componentWillMount() {
-    const { playlistId } = this.props.event[0]
-    this.props.playlistsActions.getPlaylistTracks(playlistId, '/mtv')
-  }
-
   handleOnPressEdit = event => {
     const { location } = this.props.navigation.state.params
     this.props.navigation.navigate('EditEvent', { event: event.id, location: location })

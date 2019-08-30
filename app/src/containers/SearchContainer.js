@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, TouchableOpacity, Modal } from 'react-native'
-import { colors } from '../constants/colors'
+import { View, Alert } from 'react-native'
 import * as userActions from '../actions/userActions'
 import * as searchActions from '../actions/searchActions'
 import * as playlistsActions from '../actions/playlistsActions'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import DeezerManager from '../services/deezerService'
+import * as errorActions from '../actions/errorActions'
 import Search from '../components/searchContainer/Search'
-import Player from './Player'
-import SeekBar from '../components/SeekBar'
 import styles from '../styles/containers/HomeContainer'
 
 class SearchContainer extends Component {
@@ -19,10 +15,19 @@ class SearchContainer extends Component {
     this.props.playlistsActions.addtrackToPlaylist(track.id, playlist, service)
     this.props.navigation.goBack()
   }
+  alert = () => {
+    return Alert.alert(
+      'MUSICROOM',
+      'an error occured',
+      [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
+      { cancelable: false }
+    )
+  }
 
   render() {
     return (
       <View style={styles.wrapper}>
+        {this.props.error.errorSearch ? this.alert() : null}
         <SearchConnected
           navigation={this.props.navigation}
           test={this.test}
@@ -36,16 +41,18 @@ function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch),
-    playlistsActions: bindActionCreators(playlistsActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {
-  const { user, search, playlist, events } = state
+  const { user, search, playlist, events, error } = state
   return {
     user,
     events,
     search,
-    playlist
+    playlist,
+    error
   }
 }
 

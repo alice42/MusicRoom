@@ -14,6 +14,7 @@ class HomeContainer extends Component {
   onEventsPress = () => {
     this.props.navigation.navigate('AllEvents')
   }
+
   render() {
     return (
       <View style={styles.wrapper}>

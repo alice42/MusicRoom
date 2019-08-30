@@ -96,11 +96,10 @@ function* deletePlaylistRequest(action) {
 function* getPlaylistTracks(action) {
   try {
     const socketPlaylistId = action && action.response && action.response.id
-    const service = action.service
     const playlistId = yield select(state => state.playlist.currentPlaylist.id)
-    const playlist = yield select(state => state.playlist.currentPlaylist)
     if (playlistId && (!socketPlaylistId || socketPlaylistId === playlistId)) {
       const token = yield select(state => state.user.token)
+      const service = action.service
       const payload = {
         token,
         playlistId
@@ -111,12 +110,16 @@ function* getPlaylistTracks(action) {
       } else {
         response = yield call(getPlaylistTracksMethodMtv, payload)
       }
-      yield put({
-        type: 'GET_PLAYLIST_TRACKS_SUCCESS',
-        results: response
-      })
+      if (response.error) {
+        throw Error(response.error)
+      } else {
+        yield put({
+          type: 'GET_PLAYLIST_TRACKS_SUCCESS',
+          results: response
+        })
+      }
     }
-  } catch (err) {
+  } catch (error) {
     yield put({ type: 'GET_PLAYLIST_TRACKS_FAILURE', error: error.message })
   }
 }
@@ -137,11 +140,15 @@ function* addtrackToPlaylist(action) {
     } else {
       response = yield call(addtrackToPlaylistMethodMtv, payload)
     }
-    yield put({
-      type: 'ADD_TRACK_TO_PLAYLIST_SUCCESS',
-      results: response
-    })
-  } catch (err) {
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({
+        type: 'ADD_TRACK_TO_PLAYLIST_SUCCESS',
+        results: response
+      })
+    }
+  } catch (error) {
     yield put({ type: 'ADD_TRACK_TO_PLAYLIST_FAILURE', error: error.message })
   }
 }
@@ -179,7 +186,9 @@ function* setPlaylistId(action) {
       type: 'GET_PLAYLIST_TRACKS_REQUEST',
       service: action.service
     })
-  } catch (error) {}
+  } catch (error) {
+    yield put({ type: 'SET_PLAYLIST_ID_FAILURE', error: error.message })
+  }
 }
 
 export default function* rootSaga() {

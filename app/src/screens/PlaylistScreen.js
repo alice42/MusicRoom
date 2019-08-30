@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import * as playlistsActions from '../actions/playlistsActions'
@@ -17,10 +17,10 @@ class PlaylistScreen extends Component {
     tracks: null
   }
 
-  componentWillMount() {
-    const { playlistId } = this.props.choosenPlaylist[0]
-    this.props.playlistsActions.getPlaylistTracks(playlistId, '/mpe')
-  }
+  // componentWillMount() {
+  //   const { playlistId } = this.props.choosenPlaylist[0]
+  //   this.props.playlistsActions.getPlaylistTracks(playlistId, '/mpe')
+  // }
 
   handleOnPressEdit = event => {
     const { location } = this.props.navigation.state.params
@@ -50,6 +50,7 @@ class PlaylistScreen extends Component {
       index: this.state.index === this.state.tracks.length - 1 ? 0 : index + 1
     })
   }
+
   render() {
     const event = this.props.choosenPlaylist[0]
     const { canEdit } = event

@@ -156,7 +156,7 @@ function* linkGoogleSaga(action) {
       })
     }
   } catch (err) {
-    yield put({ type: 'LINK_FACEBOOK_FAILURE', error: err.message })
+    yield put({ type: 'LINK_GOOGLE_FAILURE', error: err.message })
   }
 }
 
@@ -169,10 +169,14 @@ function* unlinkGoogleSaga(action) {
     }
     yield call(unsignGoogle)
     const response = yield call(unlinkAccountMethod, payload)
-    yield put({
-      type: 'UNLINK_GOOGLE_SUCCESS',
-      response
-    })
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({
+        type: 'UNLINK_GOOGLE_SUCCESS',
+        response
+      })
+    }
   } catch (err) {
     yield put({ type: 'UNLINK_GOOGLE_FAILURE', error: err.message })
   }
@@ -209,10 +213,14 @@ function* unlinkDeezerSaga(action) {
       type: 'deezer'
     }
     const response = yield call(unlinkAccountMethod, payload)
-    yield put({
-      type: 'UNLINK_DEEZER_SUCCESS',
-      response
-    })
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({
+        type: 'UNLINK_DEEZER_SUCCESS',
+        response
+      })
+    }
   } catch (err) {
     yield put({ type: 'UNLINK_DEEZER_FAILURE', error: err.message })
   }
@@ -222,14 +230,18 @@ function* recoverPasswordSaga(action) {
   const { email } = action
   try {
     const response = yield call(recoverPassword, email)
-    yield put({
-      type: 'RECOVER_PASSWORD_EMAIL_SEND',
-      emailSendMessage: response.message
-    })
+    if (response.error) {
+      throw Error(response.error)
+    } else {
+      yield put({
+        type: 'RECOVER_PASSWORD_EMAIL_SEND',
+        emailSendMessage: response.message
+      })
+    }
   } catch (err) {
     yield put({
-      type: 'RECOVER_PASSWORD_EMAIL_SEND',
-      emailSendMessage: err.message
+      type: 'RECOVER_PASSWORD_EMAIL_SEND_FAILURE',
+      error: err.message
     })
   }
 }
@@ -282,7 +294,7 @@ function* logoutSaga(action) {
   try {
     yield call(logoutMethod)
   } catch (err) {
-    console.log(err.message)
+    yield put({ type: 'LOGOUT_FAILURE', error: err.message })
   }
 }
 

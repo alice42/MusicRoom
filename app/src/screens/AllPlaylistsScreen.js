@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, Dimensions, StyleSheet, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RoundedButton from '../components/button/RoundedButton'
 import styles from '../styles/containers/HomeContainer'
 import * as playlistsActions from '../actions/playlistsActions'
+import * as errorActions from '../actions/errorActions'
 import ListPlaylists from '../components/list/ListPlaylists'
 import { colors } from '../constants/colors'
-import ApiError from '../components/ApiError'
 import Loader from '../components/Loader'
 
 const { height } = Dimensions.get('window')
@@ -64,19 +64,24 @@ class AllPlaylistsScreen extends Component {
     )
   }
 
+  alert = () => {
+    return Alert.alert(
+      'MUSICROOM PLAYLISTS',
+      'an error occured',
+      [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
+      { cancelable: false }
+    )
+  }
+
   render() {
-    return (
+    return this.props.playlists ? (
       <View style={styles.wrapper}>
         <View style={{ display: 'flex', flex: 1 }}>
           <Text style={stylesBis.heading}>ALL PLAYLISTS</Text>
           <View>
             <ScrollView style={{ backgroundColor: colors.gray03, height: height - 240 }}>
-              {this.props.playlists.error ? (
-                <ApiError
-                  style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
-                  error={playlists.error}
-                />
-              ) : this.props.playlists.isFetching ? (
+              {this.props.error.errorPlaylists ? this.alert() : null}
+              {this.props.playlists.isFetching ? (
                 <View style={{ marginTop: height / 2 - 170 }}>
                   <Loader />
                 </View>
@@ -103,18 +108,20 @@ class AllPlaylistsScreen extends Component {
           </View>
         </View>
       </View>
-    )
+    ) : null
   }
 }
 function actionsMapDispatchToProps(dispatch) {
   return {
-    playlistsActions: bindActionCreators(playlistsActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function mapStateToProps(state) {
-  const { playlist } = state
+  const { playlist, error } = state
   return {
-    playlists: playlist
+    playlists: playlist,
+    error
   }
 }
 

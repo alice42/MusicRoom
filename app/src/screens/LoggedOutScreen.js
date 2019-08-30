@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
 import { colors } from '../constants/colors'
 import RoundedButton from '../components/button/RoundedButton'
 import NavBarButton from '../components/button/NavBarButton'
@@ -9,6 +9,7 @@ import NetworkLinking from '../components/link/NetworkLinking'
 import ApiError from '../components/ApiError'
 import { GoogleSignin } from 'react-native-google-signin'
 import * as userActions from '../actions/userActions'
+import * as errorActions from '../actions/errorActions'
 import styles from '../styles/screens/LoggedOutScreen'
 import Loader from '../components/Loader'
 
@@ -45,28 +46,14 @@ class LoginScreen extends Component {
       this.props.navigation.navigate('LoggedIn')
     }
   }
-
-  //DeepLinking
-  // componentDidMount() {
-  //   if (Platform.OS === 'android') {
-  //     Linking.getInitialURL().then(url => {
-  //       this.navigate(url)
-  //     })
-  //   } else {
-  //     Linking.addEventListener('url', this.handleOpenURL)
-  //   }
-  // }
-  // componentWillUnmount() {
-  //   Linking.removeEventListener('url', this.handleOpenURL)
-  // }
-  // handleOpenURL = event => {
-  //   this.navigate(event.url)
-  // }
-  // navigate = url => {
-  //   const { navigate } = this.props.navigation
-  //   const route = url.replace(/.*?:\/\//g, '')
-  //   const routeName = route.split('/')[0]
-  // }
+  alert = () => {
+    return Alert.alert(
+      'MUSICROOM',
+      'an error occured',
+      [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
+      { cancelable: false }
+    )
+  }
 
   render() {
     return (
@@ -75,7 +62,7 @@ class LoginScreen extends Component {
           <Loader />
         ) : (
           <View style={styles.welcomeWrapper}>
-            <ApiError error={this.props.user.errorRegister} />
+            {this.props.error.errorUser ? this.alert() : null}
             <Text style={styles.welcomeText}>Welcome to Music Room.</Text>
             <NetworkLinking
               textColor={colors.green01}
@@ -100,13 +87,15 @@ class LoginScreen extends Component {
 
 function LoginActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(userActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function loginAppMapStateToProps(state) {
-  const { user } = state
+  const { user, error } = state
   return {
-    user
+    user,
+    error
   }
 }
 

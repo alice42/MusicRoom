@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, Dimensions, StyleSheet, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RoundedButton from '../components/button/RoundedButton'
 import styles from '../styles/containers/HomeContainer'
 import * as eventsActions from '../actions/eventsActions'
 import ListEvents from '../components/list/ListEvents'
 import { colors } from '../constants/colors'
-import ApiError from '../components/ApiError'
+import * as errorActions from '../actions/errorActions'
 import Loader from '../components/Loader'
 
 const { height } = Dimensions.get('window')
@@ -63,6 +63,16 @@ class AllEventsScreen extends Component {
       />
     )
   }
+  alert = () => {
+    return Alert.alert(
+      'MUSICROOM EVENT',
+      'an error occured',
+      [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
+      {
+        cancelable: false
+      }
+    )
+  }
 
   render() {
     return (
@@ -71,12 +81,8 @@ class AllEventsScreen extends Component {
           <Text style={stylesBis.heading}>ALL EVENTS</Text>
           <View>
             <ScrollView style={{ backgroundColor: colors.gray03, height: height - 240 }}>
-              {this.props.events.error ? (
-                <ApiError
-                  style={{ textAlign: 'center', marginTop: height / 2 - 100 }}
-                  error={this.props.events.error}
-                />
-              ) : this.props.events.isFetching ? (
+              {this.props.error.errorEvents ? this.alert() : null}
+              {this.props.events.isFetching ? (
                 <View style={{ marginTop: height / 2 - 170 }}>
                   <Loader />
                 </View>
@@ -108,13 +114,15 @@ class AllEventsScreen extends Component {
 }
 function actionsMapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    eventsActions: bindActionCreators(eventsActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function mapStateToProps(state) {
-  const { events } = state
+  const { events, error } = state
   return {
-    events
+    events,
+    error
   }
 }
 

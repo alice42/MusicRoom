@@ -9,6 +9,7 @@ import InputField from '../components/input/InputField'
 import NextArrowButton from '../components/button/NextArrowButton'
 import ApiError from '../components/ApiError'
 import * as userActions from '../actions/userActions'
+import * as errorActions from '../actions/errorActions'
 import styles from '../styles/screens/CreateAccountScreen'
 import Loader from '../components/Loader'
 
@@ -103,7 +104,7 @@ class SignIn extends Component {
     }
   }
 
-  alert = () => {
+  alertOk = () => {
     return Alert.alert(
       'MUSICROOM ACCOUNT VALIDATION',
       'Check email to activate your account',
@@ -119,11 +120,7 @@ class SignIn extends Component {
           <Loader />
         ) : (
           <View style={styles.createWrapper}>
-            {this.props.user.signinSuccess ? (
-              this.alert()
-            ) : (
-              <ApiError error={this.props.user.errorSignIn} />
-            )}
+            {this.props.user.signinSuccess ? this.alertOk() : null}
             <Text style={styles.loginHeader}>Create account</Text>
             {this.errorEmail()}
             <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
@@ -147,13 +144,15 @@ class SignIn extends Component {
 
 function signinActionsMapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(userActions, dispatch)
+    actions: bindActionCreators(userActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function signinAppMapStateToProps(state) {
-  const { user } = state
+  const { user, error } = state
   return {
-    user
+    user,
+    error
   }
 }
 

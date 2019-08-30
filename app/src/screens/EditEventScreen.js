@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { colors } from '../constants/colors'
 import EditableInput from '../components/input/EditableInput'
 import * as eventsActions from '../actions/eventsActions'
+import * as errorActions from '../actions/errorActions'
 import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
 import Restriction from '../components/Restriction'
@@ -147,11 +148,9 @@ class EditEvent extends Component {
       longitude: region.longitude
     })
     this.onRegionChange(region, region.latitude, region.longitude)
-    // animateToRegion(region, 100)
   }
 
   onPressZoomOut = () => {
-    console.log('test')
     region = {
       latitude: this.state.latitude,
       longitude: this.state.longitude,
@@ -198,9 +197,6 @@ class EditEvent extends Component {
         </View>
         {!privacyOption ? (
           <View style={{ paddingTop: 15, paddingBottom: 5 }}>
-            {this.props.events.error ? (
-              <ApiError style={{ textAlign: 'center' }} error={this.props.events.error} />
-            ) : null}
             <Tags
               location={this.props.navigation.state.params.location}
               allowedUsers={this.props.event[0].allowedUsers}
@@ -235,13 +231,15 @@ class EditEvent extends Component {
 }
 function actionsMapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    eventsActions: bindActionCreators(eventsActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function mapStateToProps(state, props) {
-  const { events, playlist, user } = state
+  const { events, playlist, user, error } = state
   const id = props.navigation.state.params.event
   return {
+    error,
     events,
     playlist,
     user,

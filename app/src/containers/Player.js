@@ -19,11 +19,6 @@ class Player extends Component {
     currentPosition: 0,
     selectedTrack: this.props.index || 0
   }
-  componentWillMount() {
-    const { playlistId } = this.props.event
-    const service = this.props.mtv ? '/mtv' : '/mpe'
-    this.props.playlistsActions.getPlaylistTracks(playlistId, service)
-  }
 
   setDuration(data) {
     this.setState({ totalLength: Math.floor(data.duration) })

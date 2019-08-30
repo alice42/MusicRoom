@@ -1,26 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Dimensions
-} from 'react-native'
+import { View, ScrollView, StyleSheet, Dimensions, Alert } from 'react-native'
 import { colors } from '../constants/colors'
 import styles from '../styles/containers/HomeContainer'
 import * as userActions from '../actions/userActions'
 import * as searchActions from '../actions/searchActions'
 import * as playlistsActions from '../actions/playlistsActions'
+import * as errorActions from '../actions/errorActions'
 import ListTracks from '../components/list/ListTracks'
 import RoundedButton from '../components/button/RoundedButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icons from 'react-native-vector-icons/MaterialIcons'
 import Loader from '../components/Loader'
-
 const { height } = Dimensions.get('window')
 
 class PlaylistContainer extends Component {
@@ -58,7 +50,14 @@ class PlaylistContainer extends Component {
 
     this.props.playlistsActions.getPlaylistTracks(playlistId, service)
   }
-
+  alert = () => {
+    return Alert.alert(
+      'MUSICROOM TRACKS',
+      'an error occured',
+      [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
+      { cancelable: false }
+    )
+  }
   render() {
     return (
       <View style={styles.wrapperBis}>
@@ -69,6 +68,7 @@ class PlaylistContainer extends Component {
             height: height - 240
           }}
         >
+          {this.props.error.errorTrack ? this.alert() : null}
           {this.props.playlist.currentPlaylist.isFetching ? (
             <View style={{ marginTop: height / 2 - 170 }}>
               <Loader />
@@ -104,15 +104,17 @@ function profileActionsMapDispatchToProps(dispatch) {
   return {
     userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch),
-    playlistsActions: bindActionCreators(playlistsActions, dispatch)
+    playlistsActions: bindActionCreators(playlistsActions, dispatch),
+    errorActions: bindActionCreators(errorActions, dispatch)
   }
 }
 function profileMapStateToProps(state) {
-  const { user, search, playlist } = state
+  const { user, search, playlist, error } = state
   return {
     user,
     search,
-    playlist
+    playlist,
+    error
   }
 }
 
