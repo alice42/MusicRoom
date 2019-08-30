@@ -128,7 +128,7 @@ router.post("/get-events", async (req, res) => {
       return res.status(500).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
-    if (!userTokens.deezer) {
+    if (!userTokens || !userTokens.deezer) {
       return res
         .status(500)
         .send({ error: "you dont have link your account to deezer" });

@@ -21,7 +21,7 @@ const mailNewPassword = user => {
 };
 
 const mailRecover = user => {
-  const validationUrl = `http://192.168.0.14:3001/api/user/new-password?token=${
+  const validationUrl = `http://192.168.0.10:3001/api/user/new-password?token=${
     user.tokenPassword
   }`;
   return {
@@ -35,7 +35,7 @@ const mailRecover = user => {
 };
 
 const mailWelcome = user => {
-  const validationUrl = `http://192.168.0.14:3001/api/user/account-validation?token=${
+  const validationUrl = `http://192.168.0.10:3001/api/user/account-validation?token=${
     user.tokenValidation
   }`;
   return {
