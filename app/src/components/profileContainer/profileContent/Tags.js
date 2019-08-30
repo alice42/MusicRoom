@@ -25,7 +25,12 @@ export default class TagsView extends React.Component {
     if (valueCheckRegex.test(inputvalue)) {
       tags.push(inputvalue)
       this.props.allowedUsers
-        ? this.props.eventsActions.updateEventRequest(this.props.event, 'allowedUsers', tags)
+        ? this.props.eventsActions.updateEventRequest(
+            this.props.event,
+            'allowedUsers',
+            tags,
+            this.props.location
+          )
         : this.props.actions.updateRequest(this.props.user.token, 'tags', tags)
     }
     this.setState({ inputvalue: '', addNewTag: false })
@@ -39,7 +44,12 @@ export default class TagsView extends React.Component {
       return value !== tag
     })
     this.props.allowedUsers
-      ? this.props.eventsActions.updateEventRequest(this.props.event, 'allowedUsers', newTags)
+      ? this.props.eventsActions.updateEventRequest(
+          this.props.event,
+          'allowedUsers',
+          newTags,
+          this.props.location
+        )
       : this.props.actions.updateRequest(this.props.user.token, 'tags', newTags)
   }
 

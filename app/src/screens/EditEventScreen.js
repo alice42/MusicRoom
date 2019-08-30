@@ -168,6 +168,7 @@ class EditEvent extends Component {
               <ApiError style={{ textAlign: 'center' }} error={this.props.events.error} />
             ) : null}
             <Tags
+              location={this.props.navigation.state.params.location}
               allowedUsers={this.props.event[0].allowedUsers}
               event={this.props.event[0].id}
               eventsActions={this.props.eventsActions}
