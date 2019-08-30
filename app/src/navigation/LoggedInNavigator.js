@@ -1,7 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
 import HomeContainer from '../containers/HomeContainer'
-import SettingsContainer from '../containers/SettingsContainer'
 import ProfileContainer from '../containers/ProfileContainer'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -91,13 +90,6 @@ const LoggedInTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: CustomTabBarIcon('home', 22)
-      }
-    },
-    Settings: {
-      screen: SettingsContainer,
-      navigationOptions: {
-        tabBarLabel: 'Settings',
-        tabBarIcon: CustomTabBarIcon('cogs', 22)
       }
     }
   },

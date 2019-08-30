@@ -73,6 +73,8 @@ export default class Restriction extends React.Component {
             <View>
               <Text style={styles.title}>location:</Text>
               <Map
+                onPressZoomOut={this.props.onPressZoomOut}
+                onPressZoomIn={this.props.onPressZoomIn}
                 maxDistance={this.props.maxDistance}
                 mapRegion={this.props.mapRegion}
                 latitude={this.props.latitude}

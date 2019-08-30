@@ -133,6 +133,40 @@ class EditEvent extends Component {
     }
   }
 
+  onPressZoomIn = () => {
+    region = {
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      latitudeDelta: this.state.latitudeDelta * 10,
+      longitudeDelta: this.state.longitudeDelta * 10
+    }
+    this.setState({
+      latitudeDelta: region.latitudeDelta,
+      longitudeDelta: region.longitudeDelta,
+      latitude: region.latitude,
+      longitude: region.longitude
+    })
+    this.onRegionChange(region, region.latitude, region.longitude)
+    // animateToRegion(region, 100)
+  }
+
+  onPressZoomOut = () => {
+    console.log('test')
+    region = {
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      latitudeDelta: this.state.latitudeDelta / 10,
+      longitudeDelta: this.state.longitudeDelta / 10
+    }
+    this.setState({
+      latitudeDelta: region.latitudeDelta,
+      longitudeDelta: region.longitudeDelta,
+      latitude: region.latitude,
+      longitude: region.longitude
+    })
+    this.onRegionChange(region, region.latitude, region.longitude)
+  }
+
   render() {
     const {
       isRestricted,
@@ -177,6 +211,8 @@ class EditEvent extends Component {
           </View>
         ) : null}
         <Restriction
+          onPressZoomOut={this.onPressZoomOut}
+          onPressZoomIn={this.onPressZoomIn}
           mapRegion={mapRegion}
           latitude={latitude}
           longitude={longitude}

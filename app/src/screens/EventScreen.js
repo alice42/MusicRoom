@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Dimensions } from 'react-native'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import * as eventsActions from '../actions/eventsActions'
@@ -9,7 +9,7 @@ import styles from '../styles/containers/HomeContainer'
 import PlaylistContainer from '../containers/PlaylistContainer'
 import Player from '../containers/Player'
 import * as playlistsActions from '../actions/playlistsActions'
-
+const { width } = Dimensions.get('window')
 class EventScreen extends Component {
   state = {
     modalVisible: false,
@@ -85,15 +85,27 @@ class EventScreen extends Component {
           </View>
         </Modal>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <Text style={stylesBis.heading}>{event.name}</Text>
-          <Text />
-          <TouchableOpacity onPress={() => this.handleOnPressEdit(event)} disabled={!canEdit}>
-            <Icon
-              name="edit"
-              size={20}
-              style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}
-            />
-          </TouchableOpacity>
+          <View
+            style={{
+              width: width - 30,
+              marginBottom: 'auto',
+              marginTop: 'auto',
+              color: colors.green02
+            }}
+          >
+            <Text ellipsizeMode="tail" numberOfLines={1} style={stylesBis.heading}>
+              {event.name}
+            </Text>
+          </View>
+          <View style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}>
+            <TouchableOpacity onPress={() => this.handleOnPressEdit(event)} disabled={!canEdit}>
+              <Icon
+                name="edit"
+                size={20}
+                style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
         <View>
           <PlaylistContainer

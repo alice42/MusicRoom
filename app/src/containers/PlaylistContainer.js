@@ -21,9 +21,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Icons from 'react-native-vector-icons/MaterialIcons'
 import Loader from '../components/Loader'
 
-import Player from './Player'
-
-const { width, height } = Dimensions.get('window')
+const { height } = Dimensions.get('window')
 
 class PlaylistContainer extends Component {
   handleDeleteTrack = track => {
@@ -47,15 +45,6 @@ class PlaylistContainer extends Component {
       />
     )
   }
-  // handleOnPressDelete = track => {
-  //   if (track) {
-  //     const { deezerId } = this.props.user
-  //     const { deezerToken } = this.props.user
-  //     const playlistId = this.props.playlist.playlistInfo.id
-  //     const trackId = track.id
-  //     this.props.playlistsActions.deleteTrack(playlistId, trackId, deezerId, deezerToken)
-  //   }
-  // }
   handleAddTrack = () => {
     this.props.navigation.navigate('Search', {
       playlist: this.props.playlistId,
@@ -77,10 +66,7 @@ class PlaylistContainer extends Component {
           style={{
             backgroundColor: colors.gray03,
             display: 'flex',
-            height:
-              this.props.event.playlistId && this.props.track && !this.props.visible
-                ? height - 360
-                : height - 240
+            height: height - 240
           }}
         >
           {this.props.playlist.currentPlaylist.isFetching ? (
@@ -91,20 +77,6 @@ class PlaylistContainer extends Component {
             this.renderPlaylistTracks()
           )}
         </ScrollView>
-        {/* <View style={{ borderTopColor: colors.green02, borderTopWidth: 2 }}>
-          {this.props.event.playlistId && this.props.track && !this.props.visible ? (
-            <Player
-              setModalVisible={this.props.setModalVisible}
-              image={false}
-              play={this.props.play}
-              event={this.props.event}
-              track={this.props.track}
-              index={this.props.index}
-              tracks={this.props.tracks}
-              backgroundColor={colors.green01}
-            />
-          ) : null}
-        </View> */}
         <View style={{ marginTop: 10, marginBottom: 20 }}>
           <RoundedButton
             text="add track"
