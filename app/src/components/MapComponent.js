@@ -21,18 +21,20 @@ export default class Map extends Component {
           followUserLocation={true}
           onMarkerDragEnd={this.props.onMapPress.bind(this)}
         >
-          <Icon
-            name="ios-remove-circle"
-            size={30}
-            color={colors.green02}
-            onPress={this.props.onPressZoomIn.bind(this)}
-          />
-          <Icon
-            name="ios-add-circle"
-            size={30}
-            color={colors.green02}
-            onPress={this.props.onPressZoomOut.bind(this)}
-          />
+          <View style={{ padding: 10 }}>
+            <Icon
+              name="ios-remove-circle"
+              size={30}
+              color={colors.green02}
+              onPress={this.props.onPressZoomIn.bind(this)}
+            />
+            <Icon
+              name="ios-add-circle"
+              size={30}
+              color={colors.green02}
+              onPress={this.props.onPressZoomOut.bind(this)}
+            />
+          </View>
           <MapView.Circle
             radius={this.props.maxDistance}
             center={{
