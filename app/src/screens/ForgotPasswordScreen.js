@@ -74,6 +74,7 @@ class ForgotPassword extends Component {
           text: 'OK',
           onPress: () => {
             this.props.navigation.goBack()
+            this.props.errorActions.validMail()
           }
         }
       ],

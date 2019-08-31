@@ -48,6 +48,13 @@ function reducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
+    case 'RECOVER_PASSWORD_EMAIL_SEND_VALID':
+      return {
+        ...state,
+        isEmailSend: false,
+        isFetching: false,
+        error: false
+      }
     case 'RECOVER_PASSWORD_EMAIL_SEND_FAILURE':
       return {
         ...state,
@@ -122,6 +129,15 @@ function reducer(state = initialState, action) {
         error: false,
         errorSignIn: false,
         signinSuccess: true,
+        isFetching: false
+      }
+    case 'SIGNIN_SUCCESS_VALID':
+      return {
+        ...state,
+        isEmailSend: false,
+        error: false,
+        errorSignIn: false,
+        signinSuccess: false,
         isFetching: false
       }
     case 'SIGNIN_FAILURE':

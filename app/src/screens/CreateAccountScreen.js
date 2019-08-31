@@ -108,7 +108,15 @@ class SignIn extends Component {
     return Alert.alert(
       'MUSICROOM ACCOUNT VALIDATION',
       'Check email to activate your account',
-      [{ text: 'OK', onPress: () => this.props.navigation.goBack() }],
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            this.props.navigation.goBack()
+            this.props.errorActions.validCreate()
+          }
+        }
+      ],
       { cancelable: false }
     )
   }

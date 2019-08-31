@@ -93,13 +93,15 @@ class EventScreen extends Component {
             </Text>
           </View>
           <View style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}>
-            <TouchableOpacity onPress={() => this.handleOnPressEdit(event)} disabled={!canEdit}>
-              <Icon
-                name="edit"
-                size={20}
-                style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}
-              />
-            </TouchableOpacity>
+            {canEdit ? (
+              <TouchableOpacity onPress={() => this.handleOnPressEdit(event)}>
+                <Icon
+                  name="edit"
+                  size={20}
+                  style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}
+                />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
         <View>

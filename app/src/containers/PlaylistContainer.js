@@ -53,7 +53,7 @@ class PlaylistContainer extends Component {
   alert = () => {
     return Alert.alert(
       'MUSICROOM TRACKS',
-      'an error occured',
+      `${this.props.error.errorTrack}`,
       [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
       { cancelable: false }
     )

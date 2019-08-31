@@ -67,7 +67,7 @@ class AllPlaylistsScreen extends Component {
   alert = () => {
     return Alert.alert(
       'MUSICROOM PLAYLISTS',
-      'an error occured',
+      `${this.props.error.errorPlaylists}`,
       [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
       { cancelable: false }
     )

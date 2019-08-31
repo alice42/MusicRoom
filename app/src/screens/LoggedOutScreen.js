@@ -49,7 +49,7 @@ class LoginScreen extends Component {
   alert = () => {
     return Alert.alert(
       'MUSICROOM',
-      'an error occured',
+      `${this.props.error.errorUser}`,
       [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
       { cancelable: false }
     )

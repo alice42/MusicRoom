@@ -66,7 +66,7 @@ class AllEventsScreen extends Component {
   alert = () => {
     return Alert.alert(
       'MUSICROOM EVENT',
-      'an error occured',
+      `${this.props.error.errorEvents}`,
       [{ text: 'OK', onPress: () => this.props.errorActions.deleteError() }],
       {
         cancelable: false
@@ -75,7 +75,7 @@ class AllEventsScreen extends Component {
   }
 
   render() {
-    return (
+    return this.state.location ? (
       <View style={styles.wrapper}>
         <View style={{ display: 'flex', flex: 1 }}>
           <Text style={stylesBis.heading}>ALL EVENTS</Text>
@@ -109,7 +109,7 @@ class AllEventsScreen extends Component {
           </View>
         </View>
       </View>
-    )
+    ) : null
   }
 }
 function actionsMapDispatchToProps(dispatch) {

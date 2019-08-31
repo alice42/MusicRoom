@@ -1,57 +1,50 @@
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  CameraRoll
-} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import NextArrowButton from "../components/button/NextArrowButton";
-import ListCameraRoll from "../components/list/ListCameraRoll";
-import { colors } from "../constants/colors";
-import styles from "../styles/screens/CameraRollScreen";
+import React, { Component } from 'react'
+import { View, Text, TouchableOpacity, ScrollView, CameraRoll } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
+import NextArrowButton from '../components/button/NextArrowButton'
+import ListCameraRoll from '../components/list/ListCameraRoll'
+import { colors } from '../constants/colors'
+import styles from '../styles/screens/CameraRollScreen'
 
 class CameraRollScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
-      <TouchableOpacity
-        style={styles.closeButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.closeButton} onPress={() => navigation.goBack()}>
         <Icon name="md-close" size={30} color={colors.lightBlack} />
       </TouchableOpacity>
     ),
     headerStyle: styles.headerStyle
-  });
+  })
 
   state = {
     photos: [],
-    uri: "",
+    uri: '',
     selectedPhoto: false
-  };
+  }
 
-  _isMounted = false;
+  _isMounted = false
 
   componentDidMount() {
-    this._isMounted = true;
+    this._isMounted = true
 
     CameraRoll.getPhotos({
       first: 20,
-      assetType: "Photos"
-    }).then(data => {
-      if (this._isMounted) {
-        this.setState({ photos: data.edges });
-      }
-    });
+      assetType: 'Photos'
+    })
+      .then(data => {
+        if (this._isMounted) {
+          this.setState({ photos: data.edges })
+        }
+      })
+      .catch(err => err)
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   renderListCameraRoll = () => {
-    const { photos, selectedPhoto, uri } = this.state;
+    const { photos, selectedPhoto, uri } = this.state
     return (
       <ListCameraRoll
         uri={uri}
@@ -59,31 +52,31 @@ class CameraRollScreen extends Component {
         selectedPhoto={selectedPhoto}
         handleSelected={this.selectImage}
       />
-    );
-  };
+    )
+  }
 
   selectImage = uriSelected => {
-    const { uri } = this.state;
+    const { uri } = this.state
     if (uri === uriSelected) {
       this.setState({
         selectedPhoto: false,
-        uri: ""
-      });
+        uri: ''
+      })
     } else {
       this.setState({
         selectedPhoto: true,
         uri: uriSelected
-      });
+      })
     }
-  };
+  }
 
   handleValidation = () => {
-    this.props.navigation.state.params.getSelected(this.state.uri);
-    this.props.navigation.goBack();
-  };
+    this.props.navigation.state.params.getSelected(this.state.uri)
+    this.props.navigation.goBack()
+  }
 
   render() {
-    const { selectedPhoto, uri } = this.state;
+    const { selectedPhoto, uri } = this.state
     return (
       <View style={styles.wrapper}>
         <Text style={styles.heading}>Camera Roll</Text>
@@ -103,8 +96,8 @@ class CameraRollScreen extends Component {
           </View>
         )}
       </View>
-    );
+    )
   }
 }
 
-export default CameraRollScreen;
+export default CameraRollScreen
