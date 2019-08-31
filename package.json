@@ -1,0 +1,8 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "scripts": {
+    "setup": "cp .env app/.env && cd api && npm install && cd ../app && npm install && npx react-native link",
+    "run-api": "cd api && npm run start"
+  }
+}

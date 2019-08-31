@@ -105,11 +105,13 @@ const onConnection = async socket => {
 };
 
 io.on("connection", onConnection);
+require("dotenv").config({ path: "../.env" });
 
 server.listen(port, () => {
   console.log(`-------------------------------`);
   console.log(`| API listening on port ${port}! |`);
   console.log(`-------------------------------`);
+  console.log(process.env.API_URL);
 });
 
 module.exports = {

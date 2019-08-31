@@ -1,151 +1,167 @@
-import { statusCodes, GoogleSignin } from 'react-native-google-signin'
-// const apiUrl = 'http://localhost:3001/api'
-const apiUrl = 'http://192.168.0.10:3001/api'
-const user = '/user'
-const signin = '/sign-in'
-const login = '/log-in'
-const fbLogin = '/facebook-log-in'
-const ggLogin = '/google-log-in'
-const recover = '/recover'
-const update = '/update-data'
-const updatePrivacy = '/update-privacy'
-const linkAccount = '/link-account'
-const unlinkAccount = '/unlink-account'
+import { statusCodes, GoogleSignin } from "react-native-google-signin";
+import Config from "react-native-config";
+
+const apiUrl = Config.API_URL;
+const api = "/api";
+const user = "/user";
+const signin = "/sign-in";
+const login = "/log-in";
+const fbLogin = "/facebook-log-in";
+const ggLogin = "/google-log-in";
+const recover = "/recover";
+const update = "/update-data";
+const updatePrivacy = "/update-privacy";
+const linkAccount = "/link-account";
+const unlinkAccount = "/unlink-account";
 
 export const basicFetch = async (method, url, config, data) => {
-  if (method === 'GET') {
+  if (method === "GET") {
     try {
-      const response = await fetch(url)
-      const result = await response.json()
-      return result
+      const response = await fetch(url);
+      const result = await response.json();
+      return result;
     } catch (err) {
-      throw err
+      throw err;
     }
-  } else if (method === 'POST') {
+  } else if (method === "POST") {
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
-      })
-      const result = await response.json()
-      return result
+      });
+      const result = await response.json();
+      return result;
     } catch (err) {
-      throw err
+      throw err;
     }
   }
-}
+};
 
 export const signinMethod = async ({ email, password }) => {
-  const url = `${apiUrl}${user}${signin}`
+  const url = `${apiUrl}${api}${user}${signin}`;
   try {
-    const response = await basicFetch('POST', url, {}, { email, password })
-    return response
+    const response = await basicFetch("POST", url, {}, { email, password });
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const loginClassic = async ({ email, password }) => {
-  const url = `${apiUrl}${user}${login}`
+  const url = `${apiUrl}${api}${user}${login}`;
   try {
-    const response = await basicFetch('POST', url, {}, { email, password })
-    return response
+    const response = await basicFetch("POST", url, {}, { email, password });
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const loginFacebook = async ({ email, userToken }) => {
-  const url = `${apiUrl}${user}${fbLogin}`
+  const url = `${apiUrl}${api}${user}${fbLogin}`;
   try {
-    const log = await basicFetch('POST', url, {}, { email, userToken })
-    return log
+    const log = await basicFetch("POST", url, {}, { email, userToken });
+    return log;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const loginGoogle = async response => {
-  const { email } = response.user
-  const userToken = response.idToken
-  const url = `${apiUrl}${user}${ggLogin}`
+  const { email } = response.user;
+  const userToken = response.idToken;
+  const url = `${apiUrl}${api}${user}${ggLogin}`;
   try {
-    const log = await basicFetch('POST', url, {}, { email, userToken })
-    return log
+    const log = await basicFetch("POST", url, {}, { email, userToken });
+    return log;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const recoverPassword = async email => {
-  const url = `${apiUrl}${user}${recover}`
+  const url = `${apiUrl}${api}${user}${recover}`;
   try {
-    const response = await basicFetch('POST', url, {}, { email })
-    return response
+    const response = await basicFetch("POST", url, {}, { email });
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const updateMethod = async ({ token, toChange, newValue }) => {
-  const url = `${apiUrl}${user}${update}`
+  const url = `${apiUrl}${api}${user}${update}`;
   try {
-    const response = await basicFetch('POST', url, {}, { token, toChange, newValue })
-    return response
+    const response = await basicFetch(
+      "POST",
+      url,
+      {},
+      { token, toChange, newValue }
+    );
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
-export const updatePrivacyMethod = async ({ token, privacyValue, dataType }) => {
-  const url = `${apiUrl}${user}${updatePrivacy}`
+export const updatePrivacyMethod = async ({
+  token,
+  privacyValue,
+  dataType
+}) => {
+  const url = `${apiUrl}${api}${user}${updatePrivacy}`;
   try {
-    const response = await basicFetch('POST', url, {}, { token, privacyValue, dataType })
-    return response
+    const response = await basicFetch(
+      "POST",
+      url,
+      {},
+      { token, privacyValue, dataType }
+    );
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const logoutMethod = async () => {
   try {
-    await GoogleSignin.revokeAccess()
-    await GoogleSignin.signOut()
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const searchTracksMethod = async query => {
-  const url = `${apiUrl}/alice/search`
+  const url = `${apiUrl}${api}/alice/search`;
   try {
-    const response = await basicFetch('POST', url, {}, { query })
-    return response.results.data
+    const response = await basicFetch("POST", url, {}, { query });
+    return response.results.data;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const linkAccountMethod = async query => {
-  const url = `${apiUrl}${user}${linkAccount}`
+  const url = `${apiUrl}${api}${user}${linkAccount}`;
   try {
-    const response = await basicFetch('POST', url, {}, query)
-    return response
+    const response = await basicFetch("POST", url, {}, query);
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export const unlinkAccountMethod = async query => {
-  const url = `${apiUrl}${user}${unlinkAccount}`
+  const url = `${apiUrl}${api}${user}${unlinkAccount}`;
   try {
-    const response = await basicFetch('POST', url, {}, query)
-    return response
+    const response = await basicFetch("POST", url, {}, query);
+    return response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};

@@ -94,8 +94,6 @@ router.post("/log-in", async (req, res) => {
 // login via facebook ( email, userToken )
 // https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#checktoken
 router.post("/facebook-log-in", async (req, res) => {
-  return res.status(500).send({ error: "Error test" });
-
   try {
     const database = res.database;
     const { email: userMail, userToken } = req.body;
