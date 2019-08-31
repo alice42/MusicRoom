@@ -29,7 +29,6 @@ const database = firebase.database();
 
 const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
-const deezerRoutes = require("./routes/deezer");
 const aliceRoutes = require("./routes/alice");
 const mtvRoutes = require("./routes/musicTrackVote");
 const mpeRoutes = require("./routes/musicPlaylistEditor");
