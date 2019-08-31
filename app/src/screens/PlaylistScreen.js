@@ -80,15 +80,27 @@ class PlaylistScreen extends Component {
           </View>
         </Modal>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <Text style={stylesBis.heading}>{event.name}</Text>
-          <Text />
-          <TouchableOpacity onPress={() => this.handleOnPressEdit(event)} disabled={!canEdit}>
-            <Icon
-              name="edit"
-              size={20}
-              style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}
-            />
-          </TouchableOpacity>
+          <View style={{ olor: colors.green02 }}>
+            <Text ellipsizeMode="tail" numberOfLines={1} style={stylesBis.heading}>
+              {event.name}
+            </Text>
+          </View>
+          <View style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}>
+            {canEdit ? (
+              <TouchableOpacity onPress={() => this.handleOnPressEdit(event)}>
+                <Icon
+                  name="edit"
+                  size={20}
+                  style={{
+                    marginBottom: 'auto',
+                    marginTop: 'auto',
+                    marginLeft: -7,
+                    color: colors.green02
+                  }}
+                />
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
         <View>
           <PlaylistContainer

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, ScrollView, CameraRoll } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, CameraRoll, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import NextArrowButton from '../components/button/NextArrowButton'
 import ListCameraRoll from '../components/list/ListCameraRoll'
@@ -36,7 +36,21 @@ class CameraRollScreen extends Component {
           this.setState({ photos: data.edges })
         }
       })
-      .catch(err => err)
+      .catch(error => {
+        Alert.alert(
+          'MUSICROOM LOCATION',
+          'You must enable access to camera roll to access this service',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.props.navigation.goBack()
+              }
+            }
+          ],
+          { cancelable: false }
+        )
+      })
   }
 
   componentWillUnmount() {

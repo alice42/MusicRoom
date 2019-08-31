@@ -9,7 +9,9 @@ import styles from '../styles/containers/HomeContainer'
 import PlaylistContainer from '../containers/PlaylistContainer'
 import Player from '../containers/Player'
 import * as playlistsActions from '../actions/playlistsActions'
+
 const { width } = Dimensions.get('window')
+
 class EventScreen extends Component {
   state = {
     modalVisible: false,
@@ -80,14 +82,7 @@ class EventScreen extends Component {
           </View>
         </Modal>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <View
-            style={{
-              width: width - 30,
-              marginBottom: 'auto',
-              marginTop: 'auto',
-              color: colors.green02
-            }}
-          >
+          <View style={{ olor: colors.green02 }}>
             <Text ellipsizeMode="tail" numberOfLines={1} style={stylesBis.heading}>
               {event.name}
             </Text>
@@ -98,7 +93,12 @@ class EventScreen extends Component {
                 <Icon
                   name="edit"
                   size={20}
-                  style={{ marginBottom: 'auto', marginTop: 'auto', color: colors.green02 }}
+                  style={{
+                    marginBottom: 'auto',
+                    marginTop: 'auto',
+                    marginLeft: -5,
+                    color: colors.green02
+                  }}
                 />
               </TouchableOpacity>
             ) : null}

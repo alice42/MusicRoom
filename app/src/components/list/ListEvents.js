@@ -56,7 +56,9 @@ export default class playlists extends Component {
               >
                 <View style={styles.container} />
                 <View style={{ marginLeft: 40, width: width - 110 }}>
-                  <Text style={styles.playlistTitle}>{event.name}</Text>
+                  <Text ellipsizeMode="tail" numberOfLines={1} style={styles.playlistTitle}>
+                    {event.name}
+                  </Text>
                 </View>
                 <View
                   style={{

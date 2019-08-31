@@ -17,7 +17,7 @@ class DeezerManager {
   connect(dispatchToken) {
     return new Promise((resolve, reject) => {
       DeezerRNManager.connect(decision => {
-        if (decision) {
+        if (decision === true) {
           this.getToken(dispatchToken)
         }
         decision ? resolve(decision) : reject(decision)

@@ -22,7 +22,9 @@ export default class DeleteTracktModal extends React.Component {
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styleModal.modal}>
             <View style={styleModal.modalContent}>
-              <Text style={styleModal.modalTextInvers}>{track.title}</Text>
+              <Text ellipsizeMode="tail" numberOfLines={2} style={styleModal.modalTextInvers}>
+                {track.title}
+              </Text>
               <Text style={styleModal.modalSubtextInvers}>this action can't be undone</Text>
               <View style={styleModal.modalTitle}>
                 <Text style={styleModal.modalText}>DELETE</Text>

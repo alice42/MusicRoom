@@ -18,17 +18,33 @@ class AllEventsScreen extends Component {
     location: null
   }
   componentWillMount() {
-    this.watchIDUser = navigator.geolocation.getCurrentPosition(position => {
-      let region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0,
-        longitudeDelta: 0
-      }
-      const location = region.latitude.toString().concat(' ', region.longitude.toString())
-      this.setState({ location })
-      this.props.eventsActions.getEvents(location)
-    })
+    this.watchIDUser = navigator.geolocation.getCurrentPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: 0,
+          longitudeDelta: 0
+        }
+        const location = region.latitude.toString().concat(' ', region.longitude.toString())
+        this.setState({ location })
+        this.props.eventsActions.getEvents(location)
+      },
+      () =>
+        Alert.alert(
+          'MUSICROOM LOCATION',
+          'You must enable location to access this service',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.props.navigation.goBack()
+              }
+            }
+          ],
+          { cancelable: false }
+        )
+    )
   }
 
   handleDeleteEvent = event => {
@@ -75,7 +91,7 @@ class AllEventsScreen extends Component {
   }
 
   render() {
-    return this.state.location ? (
+    return (
       <View style={styles.wrapper}>
         <View style={{ display: 'flex', flex: 1 }}>
           <Text style={stylesBis.heading}>ALL EVENTS</Text>
@@ -109,7 +125,7 @@ class AllEventsScreen extends Component {
           </View>
         </View>
       </View>
-    ) : null
+    )
   }
 }
 function actionsMapDispatchToProps(dispatch) {

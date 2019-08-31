@@ -18,8 +18,7 @@ const { width } = Dimensions.get('window')
 export default class playlists extends Component {
   handleOnPressAccess = playlist => {
     this.props.navigation.navigate('Playlist', {
-      playlist: playlist.id,
-      location: this.props.location
+      playlist: playlist.id
     })
   }
   handleOnPressDelete = playlist => {
@@ -62,7 +61,9 @@ export default class playlists extends Component {
               >
                 <View style={styles.container} />
                 <View style={{ marginLeft: 40, width: width - 110 }}>
-                  <Text style={styles.playlistTitle}>{playlist.name}</Text>
+                  <Text ellipsizeMode="tail" numberOfLines={1} style={styles.playlistTitle}>
+                    {playlist.name}
+                  </Text>
                 </View>
                 <View
                   style={{

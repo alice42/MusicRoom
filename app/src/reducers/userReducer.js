@@ -22,7 +22,10 @@ const initialState = {
   errorSignIn: null,
   errorRegister: null,
   signinSuccess: false,
-  isFetching: false
+  isFetching: false,
+  isFetchingFB: false,
+  isFetchingGG: false,
+  isFetchingDZ: false
 }
 
 function reducer(state = initialState, action) {
@@ -91,14 +94,32 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         error: false,
-        isFetching: true
+        isFetching: false,
+        isFetchingFB: true
       }
     case 'UNLINK_FACEBOOK_REQUEST':
       return {
         ...state,
         isEmailSend: false,
         error: false,
-        isFetching: true
+        isFetching: false,
+        isFetchingFB: true
+      }
+    case 'LINK_DEEZER_REQUEST':
+      return {
+        ...state,
+        isEmailSend: false,
+        error: false,
+        isFetching: false,
+        isFetchingDZ: true
+      }
+    case 'UNLINK_DEEZER_REQUEST':
+      return {
+        ...state,
+        isEmailSend: false,
+        error: false,
+        isFetching: false,
+        isFetchingDZ: true
       }
     case 'LOGIN_GOOGLE_REQUEST':
       return {
@@ -113,14 +134,16 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         error: false,
-        isFetching: true
+        isFetching: false,
+        isFetchingGG: true
       }
     case 'UNLINK_GOOGLE_REQUEST':
       return {
         ...state,
         isEmailSend: false,
         error: false,
-        isFetching: true
+        isFetching: false,
+        isFetchingGG: true
       }
     case 'SIGNIN_SUCCESS':
       return {
@@ -215,42 +238,83 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         data: { ...action.response },
-        isFetching: false
+        isFetchingFB: false
       }
     case 'UNLINK_FACEBOOK_SUCCESS':
       return {
         ...state,
         isEmailSend: false,
         data: { ...action.response },
-        isFetching: false
+        isFetching: false,
+        isFetchingFB: false
+      }
+    case 'UNLINK_FACEBOOK_FAILURE':
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingFB: false
+      }
+    case 'LINK_FACEBOOK_FAILURE':
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingFB: false
       }
     case 'LINK_GOOGLE_SUCCESS':
       return {
         ...state,
         isEmailSend: false,
         data: { ...action.response },
-        isFetching: false
+        isFetching: false,
+        isFetchingGG: false
       }
     case 'UNLINK_GOOGLE_SUCCESS':
       return {
         ...state,
         isEmailSend: false,
         data: { ...action.response },
-        isFetching: false
+        isFetching: false,
+        isFetchingGG: false
+      }
+    case 'LINK_GOOGLE_FAILURE':
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingGG: false
+      }
+    case 'UNLINK_GOOGLE_FAILURE':
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingGG: false
       }
     case 'LINK_DEEZER_SUCCESS':
       return {
         ...state,
         isEmailSend: false,
         data: { ...action.response },
-        isFetching: false
+        isFetching: false,
+        isFetchingDZ: false
       }
     case 'UNLINK_DEEZER_SUCCESS':
       return {
         ...state,
         isEmailSend: false,
         data: { ...action.response },
-        isFetching: false
+        isFetching: false,
+        isFetchingDZ: false
+      }
+    case 'LINK_DEEZER_FAILURE':
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingDZ: false
+      }
+    case 'UNLINK_DEEZER_FAILURE':
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingDZ: false
       }
     case 'LOGIN_FAILURE':
       return {

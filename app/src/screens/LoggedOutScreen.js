@@ -69,8 +69,8 @@ class LoginScreen extends Component {
               background={colors.white}
               onLoginFacebookPress={this.onLoginFacebookPress}
               onLoginGooglePress={this.onLoginGooglePress}
-              textFB="Continue with"
-              textG="Continue with"
+              textFB="Continue with Facebook"
+              textG="Continue with Google"
             />
             <RoundedButton
               text="Create Account"

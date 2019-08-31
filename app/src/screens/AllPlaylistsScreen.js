@@ -14,31 +14,16 @@ import Loader from '../components/Loader'
 const { height } = Dimensions.get('window')
 
 class AllPlaylistsScreen extends Component {
-  state = {
-    location: null
-  }
   componentWillMount() {
-    this.watchIDUser = navigator.geolocation.getCurrentPosition(position => {
-      let region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0,
-        longitudeDelta: 0
-      }
-      const location = region.latitude.toString().concat(' ', region.longitude.toString())
-      this.setState({ location })
-      this.props.playlistsActions.getPlaylists(location)
-    })
+    this.props.playlistsActions.getPlaylists()
   }
 
   handleDeletePlaylist = playlist => {
-    const { location } = this.state
-    this.props.playlistsActions.deletePlaylistRequest(playlist, location)
+    this.props.playlistsActions.deletePlaylistRequest(playlist)
   }
 
   handleCreatePlaylist = name => {
-    const { location } = this.state
-    this.props.playlistsActions.createPlaylistRequest(name, location)
+    this.props.playlistsActions.createPlaylistRequest(name)
   }
 
   handleCreatePlaylistRequest = () => {
@@ -47,20 +32,10 @@ class AllPlaylistsScreen extends Component {
     })
   }
 
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchIDUser)
-  }
-
   renderPlaylistslist = () => {
     const { list } = this.props.playlists
-    const { location } = this.state
     return (
-      <ListPlaylists
-        list={list}
-        location={location}
-        handleDeletePlaylist={this.handleDeletePlaylist}
-        {...this.props}
-      />
+      <ListPlaylists list={list} handleDeletePlaylist={this.handleDeletePlaylist} {...this.props} />
     )
   }
 

@@ -74,12 +74,22 @@ export default class ProfileContent extends React.Component {
             border={colors.green01}
             onLoginFacebookPress={this.onLoginFacebookPress}
             onLoginGooglePress={this.onLoginGooglePress}
-            textFB={facebook ? 'Unlink ' : 'Link '}
-            textG={google ? 'Unlink ' : 'Link '}
+            textFB={
+              this.props.user.isFetchingFB
+                ? 'LOADING...'
+                : facebook
+                ? 'Unlink Facebook '
+                : 'Link Facebook'
+            }
+            textG={
+              this.props.user.isFetchingGG ? 'LOADING...' : google ? 'Unlink Google' : 'Link Google'
+            }
             privacyButton={true}
           />
           <RoundedButton
-            text={deezer ? 'Unlink Deezer' : 'Link Deezer'}
+            text={
+              this.props.user.isFetchingDZ ? 'LOADING...' : deezer ? 'Unlink Deezer' : 'Link Deezer'
+            }
             textColor={colors.white}
             background={colors.green01}
             border={colors.green01}
