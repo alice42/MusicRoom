@@ -10,6 +10,7 @@ import NavBarButton from '../components/button/NavBarButton'
 import * as userActions from '../actions/userActions'
 import * as errorActions from '../actions/errorActions'
 import styles from '../styles/screens/ForgotPasswordScreen'
+import Loader from '../components/Loader'
 
 class ForgotPassword extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -53,11 +54,6 @@ class ForgotPassword extends Component {
     }
   }
 
-  apiError = () => {
-    const { error } = this.props.user
-    return <Text style={styles.errorMessage}>{error}</Text>
-  }
-
   errorEmail = () => {
     const { validForm, validEmail } = this.state
     if (!validForm) {
@@ -69,20 +65,43 @@ class ForgotPassword extends Component {
     }
   }
 
+  alertOk = () => {
+    return Alert.alert(
+      'MUSICROOM PASSWORD RECOVERY',
+      'Check email to recover your password',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            this.props.navigation.goBack()
+          }
+        }
+      ],
+      { cancelable: false }
+    )
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-        <View style={styles.forgotWrapper}>
-          <Text style={styles.forgotPasswordHeading}>Forgot your password?</Text>
-          <Text style={styles.forgotPasswordSubheading}>Enter your email to find your account</Text>
-          {this.errorEmail()}
-          <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
-          <NextArrowButton
-            handleOnPress={this.onRecoverPress}
-            color={colors.green01}
-            background={colors.white}
-          />
-        </View>
+        {this.props.user.isFetching ? (
+          <Loader />
+        ) : (
+          <View style={styles.forgotWrapper}>
+            {this.props.user.isEmailSend ? this.alertOk() : null}
+            <Text style={styles.forgotPasswordHeading}>Forgot your password?</Text>
+            <Text style={styles.forgotPasswordSubheading}>
+              Enter your email to find your account
+            </Text>
+            {this.errorEmail()}
+            <InputField labelText="EMAIL" onChangeText={this.handleEmailChange} />
+            <NextArrowButton
+              handleOnPress={this.onRecoverPress}
+              color={colors.green01}
+              background={colors.white}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
     )
   }
