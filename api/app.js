@@ -29,7 +29,6 @@ const database = firebase.database();
 
 const indexRoute = require("./routes/index");
 const userRoutes = require("./routes/user");
-const deezerRoutes = require("./routes/deezer");
 const aliceRoutes = require("./routes/alice");
 const mtvRoutes = require("./routes/musicTrackVote");
 const mpeRoutes = require("./routes/musicPlaylistEditor");
@@ -106,11 +105,13 @@ const onConnection = async socket => {
 };
 
 io.on("connection", onConnection);
+require("dotenv").config({ path: "../.env" });
 
 server.listen(port, () => {
   console.log(`-------------------------------`);
   console.log(`| API listening on port ${port}! |`);
   console.log(`-------------------------------`);
+  console.log(process.env.API_URL);
 });
 
 module.exports = {

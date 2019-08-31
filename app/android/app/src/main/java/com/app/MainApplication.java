@@ -3,6 +3,8 @@ package com.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeConfigPackage(),
+            new ReactSliderPackage(),
             new MapsPackage(),
             new RNCWebViewPackage(),
             new ReactVideoPackage(),

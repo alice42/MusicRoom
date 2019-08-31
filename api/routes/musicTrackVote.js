@@ -95,7 +95,6 @@ const getEventsAvailable = (events, location, id, idCorrespondance) => {
       return true;
     })
     .map(getEventData(id, idCorrespondance));
-  // console.log(rt);
   return rt;
 };
 
@@ -128,7 +127,7 @@ router.post("/get-events", async (req, res) => {
       return res.status(500).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
-    if (!userTokens.deezer) {
+    if (!userTokens || !userTokens.deezer) {
       return res
         .status(500)
         .send({ error: "you dont have link your account to deezer" });
@@ -204,7 +203,6 @@ router.post("/delete-event", async (req, res) => {
   try {
     const database = res.database;
     const { token, eventId, location } = req.body;
-    // console.log({ token, eventId, location });
     if (!location) {
       return res
         .status(500)
@@ -257,8 +255,6 @@ router.post("/update-data", async (req, res) => {
         .status(500)
         .send({ error: "you must give your location to use this feature" });
     }
-    // console.log(location, req.ip.split(`:`).pop());
-    // console.log({ token, eventId, toChange, newValue, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -278,7 +274,6 @@ router.post("/update-data", async (req, res) => {
     if (toChange.indexOf("restriction.") === 0) {
       const restrictionKey = toChange.split("restriction.")[1];
       const newRestriction = { ...restriction, [restrictionKey]: newValue };
-      //   console.log(restrictionKey, newValue);
       await updateEvent(database, eventId, { restriction: newRestriction });
     } else if (toChange === "allowedUsers") {
       let usersId;
@@ -294,8 +289,6 @@ router.post("/update-data", async (req, res) => {
         });
         usersId = await Promise.all(usersIdPromises);
         usersIdUniq = [...new Set(usersId)];
-
-        // console.log(usersIdUniq);
       } catch (userError) {
         return res.status(500).send({ error: "a user given doesnt exist" });
       }
@@ -319,7 +312,6 @@ router.post("/get-tracks", async (req, res) => {
   try {
     const database = res.database;
     const { token, playlistId } = req.body;
-    // console.log({ token, playlistId, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
 
@@ -342,8 +334,6 @@ router.post("/get-tracks", async (req, res) => {
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
     const { votes } = await findEventBy(database, "playlistId", playlistId);
 
-    // console.log(tracks.tracks.data);
-    // const events = await findEvents(database);
     return res.status(200).send(getTracksWithVotes(tracks.tracks.data, votes));
   } catch (err) {
     console.log("INTER ERROR", err.message);
@@ -355,7 +345,6 @@ router.post("/add-track", async (req, res) => {
   try {
     const database = res.database;
     const { token, playlistId, trackId } = req.body;
-    // console.log({ token, playlistId, trackId, location });
 
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
@@ -376,8 +365,6 @@ router.post("/add-track", async (req, res) => {
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
     const { votes } = await findEventBy(database, "playlistId", playlistId);
 
-    // console.log(tracks.tracks.data);
-    // const events = await findEvents(database);
     return res.status(200).send(getTracksWithVotes(tracks.tracks.data, votes));
   } catch (err) {
     console.log("INTER ERROR", err.message);
@@ -389,7 +376,6 @@ router.post("/vote-track", async (req, res) => {
   try {
     const database = res.database;
     const { token, eventId, trackId, value } = req.body;
-    // console.log({ token, eventId, trackId, value, location });
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -415,8 +401,6 @@ router.post("/vote-track", async (req, res) => {
     });
 
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
-    // console.log(tracks.tracks.data);
-    // const events = await findEvents(database);
     return res
       .status(200)
       .send(getTracksWithVotes(tracks.tracks.data, newVotes));
