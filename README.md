@@ -1,5 +1,10 @@
 #MUSICROOM
 
+## Requirements
+
+- node >= 11.4.0
+- xcode >= 10.1
+
 ## Quick Start
 
 1. Clone the project: `git clone https://github.com/alice42/MusicRoom.git && cd MusicRoom`

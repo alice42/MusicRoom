@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const { getSessions } = require("../helpers/firebaseSession.helpers");
-const { findUserBy, getAllUsers } = require("../helpers/firebaseUsers.helpers");
+const { getSessions } = require("../../helpers/firebaseSession.helpers");
+const {
+  findUserBy,
+  getAllUsers
+} = require("../../helpers/firebaseUsers.helpers");
 const {
   isDeezerTokenValid,
   createNewPlaylist,
@@ -9,15 +10,15 @@ const {
   addTrackToPlaylist,
   removeTrackToPlaylist,
   setPlaylistToCollaborative
-} = require("../helpers/deezer.helpers");
+} = require("../../helpers/deezer.helpers");
 const {
   findPlaylists,
   insertPlaylist,
   updatePlaylist,
   findPlaylistBy,
   deletePlaylist
-} = require("../helpers/firebasePlaylists.helpers");
-const { getPlaylistAvailable } = require("../helpers/playlist.helpers");
+} = require("../../helpers/firebasePlaylists.helpers");
+const { getPlaylistAvailable } = require("../../helpers/playlist.helpers");
 
 const { findKey } = require("lodash");
 const md5 = require("blueimp-md5");
@@ -33,7 +34,7 @@ const getTracksData = tracks => {
   return rt;
 };
 
-router.post("/get-playlists", async (req, res) => {
+async function getPlaylists(req, res) {
   try {
     const database = res.database;
     const { token } = req.body;
@@ -61,9 +62,10 @@ router.post("/get-playlists", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/create-playlist", async (req, res) => {
+//   router.post("/create-playlist", async (req, res) => {
+async function createPlaylist(req, res) {
   try {
     const database = res.database;
     const { token, name } = req.body;
@@ -101,9 +103,10 @@ router.post("/create-playlist", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/update-data", async (req, res) => {
+//   router.post("/update-data", async (req, res) => {
+async function updateData(req, res) {
   try {
     const database = res.database;
     const allowedKey = ["name", "privacy", "allowedUsers"];
@@ -158,9 +161,10 @@ router.post("/update-data", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/delete-playlist", async (req, res) => {
+//   router.post("/delete-playlist", async (req, res) => {
+async function deletePlaylistMPE(req, res) {
   try {
     const database = res.database;
     const { token, playlistId } = req.body;
@@ -190,9 +194,10 @@ router.post("/delete-playlist", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/get-tracks", async (req, res) => {
+//   router.post("/get-tracks", async (req, res) => {
+async function getTracks(req, res) {
   try {
     const database = res.database;
     const { token, playlistId } = req.body;
@@ -221,9 +226,10 @@ router.post("/get-tracks", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/add-track", async (req, res) => {
+//   router.post("/add-track", async (req, res) => {
+async function addTrack(req, res) {
   try {
     const database = res.database;
     const { token, playlistId, trackId } = req.body;
@@ -260,9 +266,11 @@ router.post("/add-track", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/remove-track", async (req, res) => {
+//   router.post("/remove-track", async (req, res) => {
+
+async function removeTrack(req, res) {
   try {
     const database = res.database;
     const { token, playlistId, trackId } = req.body;
@@ -299,6 +307,18 @@ router.post("/remove-track", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-module.exports = router;
+const asyncWrapper = fct => (req, res) => {
+  fct(req, res).then();
+};
+
+module.exports = {
+  getPlaylists: asyncWrapper(getPlaylists),
+  createPlaylist: asyncWrapper(createPlaylist),
+  deletePlaylist: asyncWrapper(deletePlaylistMPE),
+  updatePlaylistData: asyncWrapper(updateData),
+  getPlaylistTracks: asyncWrapper(getTracks),
+  addPlaylistTrack: asyncWrapper(addTrack),
+  removePlaylistTrack: asyncWrapper(removeTrack)
+};
