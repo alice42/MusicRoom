@@ -1,84 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import * as playlistsActions from '../actions/playlistsActions'
 import styles from '../styles/containers/HomeContainer'
 import PlaylistContainer from '../containers/PlaylistContainer'
-import Player from '../containers/Player'
 
 class PlaylistScreen extends Component {
-  state = {
-    modalVisible: false,
-    track: null,
-    index: 0,
-    tracks: null
-  }
-
-  // componentWillMount() {
-  //   const { playlistId } = this.props.choosenPlaylist[0]
-  //   this.props.playlistsActions.getPlaylistTracks(playlistId, '/mpe')
-  // }
-
   handleOnPressEdit = event => {
     const { location } = this.props.navigation.state.params
     this.props.navigation.navigate('EditPlaylist', { event: event.id, location: location })
   }
 
-  setModalVisible = visible => {
-    this.setState({ modalVisible: visible })
-  }
-
-  play = (index, track, tracks) => {
-    this.setModalVisible(true)
-    this.setState({ track: track, index, tracks })
-  }
-
-  onBackImage = index => {
-    const { tracks } = this.state
-    this.setState({
-      track: tracks[this.state.index === 0 ? this.state.tracks.length - 1 : this.state.index - 1],
-      index: this.state.index === 0 ? this.state.tracks.length - 1 : this.state.index - 1
-    })
-  }
-  onForwardImage = index => {
-    const { tracks } = this.state
-    this.setState({
-      track: tracks[this.state.index === this.state.tracks.length - 1 ? 0 : index + 1],
-      index: this.state.index === this.state.tracks.length - 1 ? 0 : index + 1
-    })
-  }
-
   render() {
     const event = this.props.choosenPlaylist[0]
     const { canEdit } = event
-    const { track, index, tracks } = this.state
     return (
       <View style={styles.wrapper}>
-        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
-          <View style={styleModal.modal}>
-            <TouchableOpacity
-              style={styleModal.close}
-              onPress={() => this.setState({ modalVisible: false })}
-            >
-              <Icon name="close" size={26} style={{ color: colors.white }} />
-            </TouchableOpacity>
-            {event.playlistId ? (
-              <Player
-                mpe={true}
-                image={true}
-                play={this.play}
-                event={event}
-                track={track}
-                index={index}
-                tracks={tracks}
-                backgroundColor={'transparent'}
-              />
-            ) : null}
-          </View>
-        </Modal>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
           <View style={{ olor: colors.green02 }}>
             <Text ellipsizeMode="tail" numberOfLines={1} style={stylesBis.heading}>
@@ -105,13 +45,7 @@ class PlaylistScreen extends Component {
         <View>
           <PlaylistContainer
             location={this.props.navigation.state.params.location}
-            setModalVisible={this.setModalVisible}
-            visible={this.state.visible}
-            play={this.play}
             event={event}
-            track={track}
-            index={index}
-            tracks={tracks}
             mpe={true}
             handleVote={this.handleVote}
             playlistId={event.playlistId}
@@ -178,27 +112,5 @@ const stylesBis = StyleSheet.create({
     fontWeight: '700',
     color: colors.green01,
     marginTop: 2
-  }
-})
-
-const styleModal = StyleSheet.create({
-  modal: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    marginTop: 40,
-    backgroundColor: 'rgba(0, 0, 0, 0.85)'
-  },
-  // modalContent: {
-  //   width: 300,
-  //   marginBottom: -65,
-  //   height: 510
-  // },
-  close: {
-    marginRight: 'auto',
-    marginLeft: 10,
-    marginTop: -60,
-    marginBottom: -50
   }
 })

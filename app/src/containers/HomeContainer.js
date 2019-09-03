@@ -29,7 +29,14 @@ class HomeContainer extends Component {
             }}
           >
             <Text style={[styles.title, { color: colors.green02, marginTop: 45 }]}>PLAYLISTS</Text>
-            <View style={{ marginTop: 110 }}>
+            <View
+              style={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginBottom: 20
+              }}
+            >
               <NextArrowButton
                 handleOnPress={this.onPlaylistsPress}
                 color={colors.green01}
@@ -46,7 +53,14 @@ class HomeContainer extends Component {
             }}
           >
             <Text style={[styles.title, { color: colors.green01, marginTop: 45 }]}>EVENTS</Text>
-            <View style={{ marginTop: 110 }}>
+            <View
+              style={{
+                marginBottom: 20,
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'flex-end'
+              }}
+            >
               <NextArrowButton
                 handleOnPress={this.onEventsPress}
                 color={colors.green02}

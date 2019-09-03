@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Alert } from 'react-native'
+import { ScrollView, Alert } from 'react-native'
 import * as userActions from '../actions/userActions'
 import * as errorActions from '../actions/errorActions'
 import ProfileHeader from '../components/profileContainer/ProfileHeader'
@@ -20,11 +20,11 @@ class ProfileContainer extends Component {
   }
   render() {
     return (
-      <View style={styles.wrapper}>
+      <ScrollView style={styles.wrapper}>
         {this.props.error.errorUser ? this.alert() : null}
         <ProfileHeaderConnected navigation={this.props.navigation} />
         <ProfileContentConnected navigation={this.props.navigation} />
-      </View>
+      </ScrollView>
     )
   }
 }

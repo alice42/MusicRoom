@@ -13,9 +13,25 @@ import RoundedButton from '../components/button/RoundedButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icons from 'react-native-vector-icons/MaterialIcons'
 import Loader from '../components/Loader'
+import Player from './Player'
 const { height } = Dimensions.get('window')
 
 class PlaylistContainer extends Component {
+  state = {
+    modalVisible: false,
+    track: null,
+    index: 0,
+    tracks: this.props.playlist.currentPlaylist
+  }
+  setModalVisible = visible => {
+    this.setState({ modalVisible: visible })
+  }
+
+  play = (index, track, tracks) => {
+    this.setModalVisible(true)
+    this.setState({ track: track, index, tracks })
+  }
+
   handleDeleteTrack = track => {
     const service = this.props.mtv ? '/mtv' : '/mpe'
     const trackId = track.id
@@ -25,12 +41,13 @@ class PlaylistContainer extends Component {
   }
   renderPlaylistTracks = () => {
     const { list } = this.props.playlist.currentPlaylist
+
     return (
       <ListTracksConnected
         list={list}
         buttonPlay={true}
         buttonDel={true}
-        play={this.props.play}
+        play={this.play}
         mtv={this.props.mtv}
         handleVote={this.props.handleVote}
         handleDeleteTrack={this.handleDeleteTrack}
@@ -59,13 +76,15 @@ class PlaylistContainer extends Component {
     )
   }
   render() {
+    const { event } = this.props
+    const { track, index, tracks, modalVisible } = this.state
     return (
       <View style={styles.wrapperBis}>
         <ScrollView
           style={{
             backgroundColor: colors.gray03,
             display: 'flex',
-            height: height - 240
+            height: modalVisible ? height - 440 : height - 255
           }}
         >
           {this.props.error.errorTrack ? this.alert() : null}
@@ -77,6 +96,21 @@ class PlaylistContainer extends Component {
             this.renderPlaylistTracks()
           )}
         </ScrollView>
+        <View style={{ borderTopColor: colors.green02, borderTopWidth: 2 }}>
+          {event.playlistId && tracks && track && modalVisible ? (
+            <Player
+              modalVisible={this.state.modalVisible}
+              setModalVisible={this.setModalVisible}
+              image={false}
+              play={this.play}
+              event={event}
+              track={track}
+              index={index}
+              tracks={tracks}
+              backgroundColor={colors.green01}
+            />
+          ) : null}
+        </View>
         <View style={{ marginTop: 10, marginBottom: 20 }}>
           <RoundedButton
             text="add track"
@@ -150,5 +184,26 @@ const stylesBis = StyleSheet.create({
     fontWeight: '700',
     color: colors.green01,
     marginTop: 2
+  }
+})
+const styleModal = StyleSheet.create({
+  modal: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginTop: 40,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)'
+  },
+  // modalContent: {
+  //   width: 300,
+  //   marginBottom: -65,
+  //   height: 510
+  // },
+  close: {
+    marginRight: 'auto',
+    marginLeft: 10,
+    marginTop: -60,
+    marginBottom: -50
   }
 })
