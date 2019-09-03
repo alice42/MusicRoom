@@ -57,10 +57,25 @@ const insertUser = (payload, database) => {
   });
 };
 
+const getProfileData = user => {
+  return {
+    email: user.email,
+    name: user.name || "",
+    firstname: user.firstname || "",
+    avatarUri: user.avatarUri || "",
+    privacy: user.privacy || {},
+    tags: user.tags || [],
+    deezer: !!(user.token || {}).deezer,
+    facebook: !!(user.token || {}).facebook,
+    google: !!(user.token || {}).google
+  };
+};
+
 module.exports = {
   findUserBy,
   updatetUser,
   updatetUserNode,
   insertUser,
-  getAllUsers
+  getAllUsers,
+  getProfileData
 };

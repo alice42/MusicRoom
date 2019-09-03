@@ -1,6 +1,10 @@
+"use strict";
+
+var SwaggerExpress = require("swagger-express-mw");
 const express = require("express");
+const app = express();
+require("dotenv").config({ path: "../.env" });
 const logger = require("morgan");
-const http = require("http");
 const firebase = require("firebase");
 const sendmail = require("sendmail")({
   logger: {
@@ -15,7 +19,7 @@ const sendmail = require("sendmail")({
 // https://firebase.google.com/docs/database/web/read-and-write?authuser=0
 // https://console.firebase.google.com/project/musicroom-c656a/database/musicroom-c656a/data/
 
-const config = {
+const firebaseConfig = {
   apiKey: "AIzaSyBO4CiYBH2ktxx0o-UXVAnC36YQtGUAzOY",
   authDomain: "musicroom-c656a.firebaseapp.com",
   databaseURL: "https://musicroom-c656a.firebaseio.com",
@@ -24,46 +28,49 @@ const config = {
   messagingSenderId: "1004678495915"
 };
 
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+module.exports = app; // for testing
 
-const indexRoute = require("./routes/index");
-const userRoutes = require("./routes/user");
-const aliceRoutes = require("./routes/alice");
-const mtvRoutes = require("./routes/musicTrackVote");
-const mpeRoutes = require("./routes/musicPlaylistEditor");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./api/swagger/swagger.yaml");
 
-const app = express();
-const port = "3001";
-
-app.use(express.urlencoded({ extended: true }));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(logger("dev"));
 app.use(express.json());
-
-app.use((req, res, next) => {
+app.use(express.urlencoded({ extended: false }));
+app.use((_, res, next) => {
   res.database = database;
   res.mail = sendmail;
   return next();
 });
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+var config = {
+  appRoot: __dirname // required config
+};
 
-app.use("/", indexRoute);
-app.use("/api/user", userRoutes);
-app.use("/api/mtv", mtvRoutes);
-app.use("/api/mpe", mpeRoutes);
-app.use("/api/alice", aliceRoutes);
+SwaggerExpress.create(config, function(err, swaggerExpress) {
+  if (err) {
+    throw err;
+  }
 
-app.set("port", port);
-app.set("trust proxy", true);
+  // install middleware
+  swaggerExpress.register(app);
 
+  var port = 3001;
+
+  app.listen(port, () => {
+    console.log(`-------------------------------`);
+    console.log(`| API listening on port ${port}! |`);
+    console.log(`-------------------------------`);
+  });
+});
+
+const http = require("http");
 const server = http.createServer(app);
-
 const io = require("socket.io")(server);
 
-const { getAllUsers } = require("./helpers/firebaseUsers.helpers");
-const { getPlaylistAvailable } = require("./helpers/playlist.helpers");
 const { getSessions } = require("./helpers/firebaseSession.helpers");
 
 const { findKey } = require("lodash");
@@ -105,15 +112,3 @@ const onConnection = async socket => {
 };
 
 io.on("connection", onConnection);
-require("dotenv").config({ path: "../.env" });
-
-server.listen(port, () => {
-  console.log(`-------------------------------`);
-  console.log(`| API listening on port ${port}! |`);
-  console.log(`-------------------------------`);
-  console.log(process.env.API_URL);
-});
-
-module.exports = {
-  server
-};

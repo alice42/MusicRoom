@@ -1,0 +1,1068 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:3001
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  # - application/x-www-form-urlencoded
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /api/user/log-in:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: login
+    post:
+      tags:
+        - User
+      # description: Route to classic log in
+      # used as the method name of the controller
+      operationId: classicLogin
+      parameters:
+        - in: body
+          name: body
+          # required: true
+          schema:
+            $ref: "#/definitions/LoginInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/LoginResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/facebook-log-in":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: login
+    post:
+      tags:
+        - User
+      # description: Route to facebook log in
+      # used as the method name of the controller
+      operationId: facebookLogin
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/SocialLoginInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/LoginResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/google-login-in":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: login
+    post:
+      tags:
+        - User
+      # description: Route to google log in
+      # used as the method name of the controller
+      operationId: googleLogin
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/SocialLoginInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/LoginResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/recover":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to recover account
+      # used as the method name of the controller
+      operationId: recover
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/RecoverInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/new-password":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to create new password
+      # used as the method name of the controller
+      operationId: newPassword
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/TokenInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/sign-in":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to create an account
+      # used as the method name of the controller
+      operationId: signIn
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/LoginInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/account-validation":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to validate new account
+      # used as the method name of the controller
+      operationId: accountValidation
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/TokenInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/update-data":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: updateData
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateUserDataInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/update-privacy":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: updatePrivacy
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/UpdatePrivacyInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/link-account":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: linkAccount
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/LinkAccountInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/unlink-account":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - User
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: unlinkAccount
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/UnlinkAccountInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/get-events":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: getEvents
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/GetEventInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Events"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/create-event":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: createEvent
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/CreateEventInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Events"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/delete-event":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: deleteEvent
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/DeleteEventInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Events"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/update-data":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: UpdateData
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateEventDataInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Events"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/get-tracks":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: getTracks
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/GetTracksInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Tracks"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/add-track":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: addTrack
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/AddTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/vote-track":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: voteTrack
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/VoteTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/delete-track":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: deleteTrack
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/DeleteTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  # dddddddddddd
+  "/api/mpe/get-playlists":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: getPlaylists
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/GetPlaylistInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Playlists"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mpe/create-playlist":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: createPlaylist
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/CreatePlaylistInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Playlists"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mpe/delete-playlist":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: deletePlaylist
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/DeletePlaylistInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Playlists"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mpe/update-data":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: updatePlaylistData
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/UpdatePlaylistDataInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Playlists"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mpe/get-tracks":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: getPlaylistTracks
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/GetTracksInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Tracks"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mpe/add-track":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: addPlaylistTrack
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/AddTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mpe/delete-track":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mpe
+    post:
+      tags:
+        - Music Playlist Editor
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: deletePlaylistTrack
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/DeleteTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/alice/search":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: deezer
+    post:
+      tags:
+        - Deezer
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: search
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/SearchTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SearchTrackResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  # dddddddddddd
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  UnlinkAccountInput:
+    required:
+      - token
+      - type
+    properties:
+      token:
+        type: string
+      type:
+        type: string
+  LinkAccountInput:
+    required:
+      - token
+      - type
+      - key
+    properties:
+      token:
+        type: string
+      type:
+        type: string
+      key:
+        type: string
+  UpdatePrivacyInput:
+    required:
+      - token
+      - dataType
+      - privacyValue
+    properties:
+      token:
+        type: string
+      dataType:
+        type: string
+      privacyValue:
+        type: string
+  UpdateUserDataInput:
+    required:
+      - token
+      - toChange
+      - newValue
+    properties:
+      token:
+        type: string
+      toChange:
+        type: string
+      newValue:
+        type: string
+  RecoverInput:
+    required:
+      - email
+    properties:
+      email:
+        type: string
+  LoginInput:
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  SocialLoginInput:
+    required:
+      - email
+      - userToken
+    properties:
+      email:
+        type: string
+      userToken:
+        type: string
+  LoginResponse:
+    properties:
+      sessionId:
+        type: string
+      user:
+        $ref: "#/definitions/User"
+  User:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      firstname:
+        type: string
+      avatarUri:
+        type: string
+      deezer:
+        type: boolean
+      facebook:
+        type: boolean
+      google:
+        type: boolean
+      tags:
+        type: array
+        items:
+          type: string
+      privacy:
+        type: object
+  Events:
+    type: array
+    items:
+      $ref: "#/definitions/Event"
+  Event:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      canEdit:
+        type: boolean
+      playlistId:
+        type: string
+      restriction:
+        $ref: "#/definitions/Restriction"
+      allowedUsers:
+        type: array
+        items:
+          type: string
+      privacy:
+        type: object
+  Restriction:
+    properties:
+      isRestricted:
+        type: boolean
+      location:
+        type: string
+      maxDistance:
+        type: integer
+      startDate:
+        type: integer
+      endDate:
+        type: integer
+  TokenInput:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  GetEventInput:
+    required:
+      - token
+      - location
+    properties:
+      token:
+        type: string
+      location:
+        type: string
+  CreateEventInput:
+    required:
+      - token
+      - location
+      - name
+    properties:
+      token:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+  DeleteEventInput:
+    required:
+      - token
+      - location
+      - eventId
+    properties:
+      token:
+        type: string
+      location:
+        type: string
+      eventId:
+        type: string
+  UpdateEventDataInput:
+    required:
+      - token
+      - toChange
+      - newValue
+      - eventId
+      - location
+    properties:
+      token:
+        type: string
+      toChange:
+        type: string
+      newValue:
+        type: string
+      eventId:
+        type: string
+      location:
+        type: string
+  Track:
+    properties:
+      id:
+        type: string
+      albumCover:
+        type: string
+      artistName:
+        type: string
+      previewUrl:
+        type: string
+      title:
+        type: string
+      numberOfVote:
+        type: number
+  Tracks:
+    type: array
+    items:
+      $ref: "#/definitions/Track"
+  GetTracksInput:
+    required:
+      - token
+      - playlistId
+    properties:
+      token:
+        type: string
+      playlistId:
+        type: string
+  AddTrackInput:
+    required:
+      - token
+      - playlistId
+      - trackId
+    properties:
+      token:
+        type: string
+      playlistId:
+        type: string
+      trackId:
+        type: string
+  DeleteTrackInput:
+    required:
+      - token
+      - playlistId
+      - trackId
+    properties:
+      token:
+        type: string
+      playlistId:
+        type: string
+      trackId:
+        type: string
+  VoteTrackInput:
+    required:
+      - token
+      - playlistId
+      - trackId
+      - value
+    properties:
+      token:
+        type: string
+      playlistId:
+        type: string
+      trackId:
+        type: string
+      value:
+        type: integer
+  Playlists:
+    type: array
+    items:
+      $ref: "#/definitions/Playlist"
+  Playlist:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      canEdit:
+        type: boolean
+      playlistId:
+        type: string
+      allowedUsers:
+        type: array
+        items:
+          type: string
+      privacy:
+        type: object
+  GetPlaylistInput:
+    required:
+      - token
+    properties:
+      token:
+        type: string
+  CreatePlaylistInput:
+    required:
+      - token
+      - name
+    properties:
+      token:
+        type: string
+      name:
+        type: string
+  DeletePlaylistInput:
+    required:
+      - token
+      - playlistId
+    properties:
+      token:
+        type: string
+      playlistId:
+        type: string
+  UpdatePlaylistDataInput:
+    required:
+      - token
+      - toChange
+      - newValue
+      - playlistId
+    properties:
+      token:
+        type: string
+      toChange:
+        type: string
+      newValue:
+        type: string
+      playlistId:
+        type: string
+  SearchTrackInput:
+    required:
+      - query
+    properties:
+      query:
+        type: string
+  SearchTrackResponse:
+    properties:
+      message:
+        type: string
+      query:
+        type: string
+      results:
+        type: object
+  SuccessResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - error
+    properties:
+      error:
+        type: string

@@ -1,14 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const { findUserBy, getAllUsers } = require("../helpers/firebaseUsers.helpers");
+const {
+  findUserBy,
+  getAllUsers
+} = require("../../helpers/firebaseUsers.helpers");
 const {
   findEvents,
   insertEvent,
   updateEvent,
   findEventBy,
   deleteEvent
-} = require("../helpers/firebaseEvents.helpers");
-const { getSessions } = require("../helpers/firebaseSession.helpers");
+} = require("../../helpers/firebaseEvents.helpers");
+const { getSessions } = require("../../helpers/firebaseSession.helpers");
 const { findKey } = require("lodash");
 const {
   isDeezerTokenValid,
@@ -17,14 +18,8 @@ const {
   addTrackToPlaylist,
   removeTrackToPlaylist,
   setPlaylistToCollaborative
-} = require("../helpers/deezer.helpers");
+} = require("../../helpers/deezer.helpers");
 const md5 = require("blueimp-md5");
-
-const checkPoint = (a, b, x, y, r) => {
-  var dist_points = (a - x) * (a - x) + (b - y) * (b - y);
-  r *= r;
-  return dist_points < r;
-};
 
 const measureDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6378.137;
@@ -112,7 +107,7 @@ const getEventData = (id, idCorrespondance) => event => {
   };
 };
 
-router.post("/get-events", async (req, res) => {
+async function getEvents(req, res) {
   try {
     const database = res.database;
     const { token, location } = req.body;
@@ -145,9 +140,9 @@ router.post("/get-events", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/create-event", async (req, res) => {
+async function createEvent(req, res) {
   try {
     const database = res.database;
     const { token, name, location } = req.body;
@@ -197,9 +192,9 @@ router.post("/create-event", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/delete-event", async (req, res) => {
+async function deleteEventMTV(req, res) {
   try {
     const database = res.database;
     const { token, eventId, location } = req.body;
@@ -234,9 +229,9 @@ router.post("/delete-event", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/update-data", async (req, res) => {
+async function updateData(req, res) {
   try {
     const database = res.database;
     const allowedKey = [
@@ -306,9 +301,9 @@ router.post("/update-data", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/get-tracks", async (req, res) => {
+async function getTracks(req, res) {
   try {
     const database = res.database;
     const { token, playlistId } = req.body;
@@ -339,9 +334,9 @@ router.post("/get-tracks", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/add-track", async (req, res) => {
+async function addTrack(req, res) {
   try {
     const database = res.database;
     const { token, playlistId, trackId } = req.body;
@@ -370,9 +365,9 @@ router.post("/add-track", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/vote-track", async (req, res) => {
+async function voteTrack(req, res) {
   try {
     const database = res.database;
     const { token, eventId, trackId, value } = req.body;
@@ -408,9 +403,9 @@ router.post("/vote-track", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-router.post("/remove-track", async (req, res) => {
+async function removeTrack(req, res) {
   try {
     const database = res.database;
     const { token, playlistId, trackId } = req.body;
@@ -440,6 +435,19 @@ router.post("/remove-track", async (req, res) => {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
-});
+}
 
-module.exports = router;
+const asyncWrapper = fct => (req, res) => {
+  fct(req, res).then();
+};
+
+module.exports = {
+  getEvents: asyncWrapper(getEvents),
+  createEvent: asyncWrapper(createEvent),
+  deleteEvent: asyncWrapper(deleteEventMTV),
+  updateData: asyncWrapper(updateData),
+  getTracks: asyncWrapper(getTracks),
+  addTrack: asyncWrapper(addTrack),
+  voteTrack: asyncWrapper(voteTrack),
+  removeTrack: asyncWrapper(removeTrack)
+};
