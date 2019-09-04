@@ -305,21 +305,26 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/get-events":
+  "/api/mtv/events":
     # binds a127 app logic to a route
     x-swagger-router-controller: mtv
-    post:
+    get:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: getEvents
       parameters:
-        - in: body
-          name: body
+        - in: query
+          name: location
+          type: string
+          description: latitude and longitude seperated by an escape
           required: true
-          schema:
-            $ref: "#/definitions/GetEventInput"
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
       responses:
         "200":
           description: Success
@@ -331,7 +336,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/create-event":
+  "/api/mtv/event":
     # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     post:
@@ -341,6 +346,11 @@ paths:
       # used as the method name of the controller
       operationId: createEvent
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -357,16 +367,18 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/delete-event":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mtv
-    post:
+    delete:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: deleteEvent
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -383,16 +395,18 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/update-data":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mtv
-    post:
+    patch:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: UpdateData
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -409,33 +423,37 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/get-tracks":
+  "/api/mtv/tracks":
     # binds a127 app logic to a route
     x-swagger-router-controller: mtv
-    post:
+    get:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: getTracks
       parameters:
-        - in: body
-          name: body
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
           required: true
-          schema:
-            $ref: "#/definitions/GetTracksInput"
+        - in: query
+          name: playlistId
+          type: string
+          required: true
       responses:
         "200":
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/Tracks"
+            $ref: "#/definitions/TracksMTV"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/add-track":
+  "/api/mtv/track":
     # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     post:
@@ -445,6 +463,11 @@ paths:
       # used as the method name of the controller
       operationId: addTrack
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -455,48 +478,24 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/TracksMTV"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/vote-track":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mtv
-    post:
-      tags:
-        - Music Track Vote
-      # description: Route to update simple user data
-      # used as the method name of the controller
-      operationId: voteTrack
-      parameters:
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/VoteTrackInput"
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/User"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/delete-track":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mtv
-    post:
+    delete:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: deleteTrack
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -507,28 +506,59 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/TracksMTV"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/mtv/track/vote":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: mtv
+    post:
+      tags:
+        - Music Track Vote
+      # description: Route to update simple user data
+      # used as the method name of the controller
+      operationId: voteTrack
+      parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/VoteTrackInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/TracksMTV"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   # dddddddddddd
-  "/api/mpe/get-playlists":
+  "/api/mpe/playlists":
     # binds a127 app logic to a route
     x-swagger-router-controller: mpe
-    post:
+    get:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: getPlaylists
       parameters:
-        - in: body
-          name: body
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
           required: true
-          schema:
-            $ref: "#/definitions/GetPlaylistInput"
       responses:
         "200":
           description: Success
@@ -540,7 +570,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/create-playlist":
+  "/api/mpe/playlist":
     # binds a127 app logic to a route
     x-swagger-router-controller: mpe
     post:
@@ -550,6 +580,11 @@ paths:
       # used as the method name of the controller
       operationId: createPlaylist
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -566,16 +601,18 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/delete-playlist":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mpe
-    post:
+    delete:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: deletePlaylist
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -592,16 +629,18 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/update-data":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mpe
-    post:
+    patch:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: updatePlaylistData
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -618,33 +657,37 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/get-tracks":
+  "/api/mpe/tracks":
     # binds a127 app logic to a route
     x-swagger-router-controller: mpe
-    post:
+    get:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: getPlaylistTracks
       parameters:
-        - in: body
-          name: body
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
           required: true
-          schema:
-            $ref: "#/definitions/GetTracksInput"
+        - in: query
+          name: playlistId
+          type: string
+          required: true
       responses:
         "200":
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/Tracks"
+            $ref: "#/definitions/TracksMPE"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/add-track":
+  "/api/mpe/track":
     # binds a127 app logic to a route
     x-swagger-router-controller: mpe
     post:
@@ -654,6 +697,11 @@ paths:
       # used as the method name of the controller
       operationId: addPlaylistTrack
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -664,16 +712,13 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/TracksMPE"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/delete-track":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: mpe
-    post:
+    delete:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
@@ -690,27 +735,26 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/TracksMPE"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  "/api/alice/search":
+  "/api/deezer/search":
     # binds a127 app logic to a route
     x-swagger-router-controller: deezer
-    post:
+    get:
       tags:
         - Deezer
       # description: Route to update simple user data
       # used as the method name of the controller
       operationId: search
       parameters:
-        - in: body
-          name: body
+        - in: query
+          name: query
+          type: string
           required: true
-          schema:
-            $ref: "#/definitions/SearchTrackInput"
       responses:
         "200":
           description: Success
@@ -864,49 +908,31 @@ definitions:
     properties:
       message:
         type: string
-  GetEventInput:
-    required:
-      - token
-      - location
-    properties:
-      token:
-        type: string
-      location:
-        type: string
   CreateEventInput:
     required:
-      - token
       - location
       - name
     properties:
-      token:
-        type: string
       location:
         type: string
       name:
         type: string
   DeleteEventInput:
     required:
-      - token
       - location
       - eventId
     properties:
-      token:
-        type: string
       location:
         type: string
       eventId:
         type: string
   UpdateEventDataInput:
     required:
-      - token
       - toChange
       - newValue
       - eventId
       - location
     properties:
-      token:
-        type: string
       toChange:
         type: string
       newValue:
@@ -915,7 +941,19 @@ definitions:
         type: string
       location:
         type: string
-  Track:
+  TrackMPE:
+    properties:
+      id:
+        type: string
+      albumCover:
+        type: string
+      artistName:
+        type: string
+      previewUrl:
+        type: string
+      title:
+        type: string
+  TrackMTV:
     properties:
       id:
         type: string
@@ -929,52 +967,38 @@ definitions:
         type: string
       numberOfVote:
         type: number
-  Tracks:
+  TracksMPE:
     type: array
     items:
-      $ref: "#/definitions/Track"
-  GetTracksInput:
-    required:
-      - token
-      - playlistId
-    properties:
-      token:
-        type: string
-      playlistId:
-        type: string
+      $ref: "#/definitions/TrackMPE"
+  TracksMTV:
+    type: array
+    items:
+      $ref: "#/definitions/TrackMTV"
   AddTrackInput:
     required:
-      - token
       - playlistId
       - trackId
     properties:
-      token:
-        type: string
       playlistId:
         type: string
       trackId:
         type: string
   DeleteTrackInput:
     required:
-      - token
       - playlistId
       - trackId
     properties:
-      token:
-        type: string
       playlistId:
         type: string
       trackId:
         type: string
   VoteTrackInput:
     required:
-      - token
       - playlistId
       - trackId
       - value
     properties:
-      token:
-        type: string
       playlistId:
         type: string
       trackId:
@@ -1001,50 +1025,29 @@ definitions:
           type: string
       privacy:
         type: object
-  GetPlaylistInput:
-    required:
-      - token
-    properties:
-      token:
-        type: string
   CreatePlaylistInput:
     required:
-      - token
       - name
     properties:
-      token:
-        type: string
       name:
         type: string
   DeletePlaylistInput:
     required:
-      - token
       - playlistId
     properties:
-      token:
-        type: string
       playlistId:
         type: string
   UpdatePlaylistDataInput:
     required:
-      - token
       - toChange
       - newValue
       - playlistId
     properties:
-      token:
-        type: string
       toChange:
         type: string
       newValue:
         type: string
       playlistId:
-        type: string
-  SearchTrackInput:
-    required:
-      - query
-    properties:
-      query:
         type: string
   SearchTrackResponse:
     properties:

@@ -107,10 +107,19 @@ const getEventData = (id, idCorrespondance) => event => {
   };
 };
 
+const getValuesFromParams = obj => {
+  const copy = { ...obj };
+  for (var key in copy) {
+    copy[key] = copy[key].value;
+  }
+  return copy;
+};
 async function getEvents(req, res) {
   try {
     const database = res.database;
-    const { token, location } = req.body;
+    const { "X-SessionID": token, location } = getValuesFromParams(
+      req.swagger.params
+    );
     if (!location) {
       return res
         .status(500)
@@ -145,7 +154,8 @@ async function getEvents(req, res) {
 async function createEvent(req, res) {
   try {
     const database = res.database;
-    const { token, name, location } = req.body;
+    const { name, location } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     if (!location) {
       return res
         .status(500)
@@ -197,7 +207,8 @@ async function createEvent(req, res) {
 async function deleteEventMTV(req, res) {
   try {
     const database = res.database;
-    const { token, eventId, location } = req.body;
+    const { eventId, location } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     if (!location) {
       return res
         .status(500)
@@ -244,7 +255,8 @@ async function updateData(req, res) {
       "restriction.location",
       "restriction.maxDistance"
     ];
-    const { token, eventId, toChange, newValue, location } = req.body;
+    const { eventId, toChange, newValue, location } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     if (!location) {
       return res
         .status(500)
@@ -306,7 +318,9 @@ async function updateData(req, res) {
 async function getTracks(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId } = req.body;
+    const { "X-SessionID": token, playlistId } = getValuesFromParams(
+      req.swagger.params
+    );
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
 
@@ -339,7 +353,8 @@ async function getTracks(req, res) {
 async function addTrack(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId, trackId } = req.body;
+    const { playlistId, trackId } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
 
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
@@ -370,7 +385,8 @@ async function addTrack(req, res) {
 async function voteTrack(req, res) {
   try {
     const database = res.database;
-    const { token, eventId, trackId, value } = req.body;
+    const { eventId, trackId, value } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -408,7 +424,8 @@ async function voteTrack(req, res) {
 async function removeTrack(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId, trackId } = req.body;
+    const { playlistId, trackId } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
 
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);

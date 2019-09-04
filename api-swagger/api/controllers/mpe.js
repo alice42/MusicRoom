@@ -34,10 +34,18 @@ const getTracksData = tracks => {
   return rt;
 };
 
+const getValuesFromParams = obj => {
+  const copy = { ...obj };
+  for (var key in copy) {
+    copy[key] = copy[key].value;
+  }
+  return copy;
+};
+
 async function getPlaylists(req, res) {
   try {
     const database = res.database;
-    const { token } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -68,7 +76,8 @@ async function getPlaylists(req, res) {
 async function createPlaylist(req, res) {
   try {
     const database = res.database;
-    const { token, name } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+    const { name } = req.body;
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -110,7 +119,8 @@ async function updateData(req, res) {
   try {
     const database = res.database;
     const allowedKey = ["name", "privacy", "allowedUsers"];
-    const { token, playlistId, toChange, newValue } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+    const { playlistId, toChange, newValue } = req.body;
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -167,7 +177,8 @@ async function updateData(req, res) {
 async function deletePlaylistMPE(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+    const { playlistId } = req.body;
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -200,7 +211,9 @@ async function deletePlaylistMPE(req, res) {
 async function getTracks(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId } = req.body;
+    const { "X-SessionID": token, playlistId } = getValuesFromParams(
+      req.swagger.params
+    );
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
 
@@ -232,7 +245,8 @@ async function getTracks(req, res) {
 async function addTrack(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId, trackId } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+    const { playlistId, trackId } = req.body;
 
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
@@ -273,7 +287,8 @@ async function addTrack(req, res) {
 async function removeTrack(req, res) {
   try {
     const database = res.database;
-    const { token, playlistId, trackId } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+    const { playlistId, trackId } = req.body;
 
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
