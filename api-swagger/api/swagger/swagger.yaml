@@ -1,46 +1,35 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Hello World App
-# during dev, should point to your local machine
+  title: MusicRoomAPI
 host: localhost:3001
-# basePath prefixes all resource paths
 basePath: /
-#
 schemes:
   # tip: remove http to make production-grade
   - http
-  - https
-# format of bodies a client can send (Content-Type)
 consumes:
   - application/json
-  # - application/x-www-form-urlencoded
-# format of the responses to the client (Accepts)
 produces:
   - application/json
 paths:
-  /api/user/log-in:
-    # binds a127 app logic to a route
+  "/api/user/log-in":
     x-swagger-router-controller: login
     post:
       tags:
         - User
       # description: Route to classic log in
-      # used as the method name of the controller
       operationId: classicLogin
       parameters:
         - in: body
           name: body
-          # required: true
+          required: true
           schema:
             $ref: "#/definitions/LoginInput"
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/LoginResponse"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -52,7 +41,6 @@ paths:
       tags:
         - User
       # description: Route to facebook log in
-      # used as the method name of the controller
       operationId: facebookLogin
       parameters:
         - in: body
@@ -64,21 +52,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/LoginResponse"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/google-login-in":
-    # binds a127 app logic to a route
     x-swagger-router-controller: login
     post:
       tags:
         - User
       # description: Route to google log in
-      # used as the method name of the controller
       operationId: googleLogin
       parameters:
         - in: body
@@ -90,73 +74,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/LoginResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/recover":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: user
-    post:
-      tags:
-        - User
-      # description: Route to recover account
-      # used as the method name of the controller
-      operationId: recover
-      parameters:
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/RecoverInput"
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/SuccessResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/new-password":
-    # binds a127 app logic to a route
-    x-swagger-router-controller: user
-    post:
-      tags:
-        - User
-      # description: Route to create new password
-      # used as the method name of the controller
-      operationId: newPassword
-      parameters:
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/TokenInput"
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/SuccessResponse"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/sign-in":
-    # binds a127 app logic to a route
     x-swagger-router-controller: user
     post:
       tags:
         - User
       # description: Route to create an account
-      # used as the method name of the controller
       operationId: signIn
       parameters:
         - in: body
@@ -168,49 +96,90 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/SuccessResponse"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/account-validation":
-    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    get:
+      tags:
+        - User
+      # description: Route to validate new account
+      operationId: accountValidation
+      parameters:
+        - in: query
+          name: token
+          type: string
+          description: token can be found in your mails
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/recover":
     x-swagger-router-controller: user
     post:
       tags:
         - User
-      # description: Route to validate new account
-      # used as the method name of the controller
-      operationId: accountValidation
+      # description: Route to recover account
+      operationId: recover
       parameters:
         - in: body
           name: body
           required: true
           schema:
-            $ref: "#/definitions/TokenInput"
+            $ref: "#/definitions/RecoverInput"
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/SuccessResponse"
-        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/api/user/new-password":
+    x-swagger-router-controller: user
+    get:
+      tags:
+        - User
+      # description: Route to create new password
+      operationId: newPassword
+      parameters:
+        - in: query
+          name: token
+          type: string
+          description: token can be found in your mails
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/update-data":
-    # binds a127 app logic to a route
     x-swagger-router-controller: user
     post:
       tags:
         - User
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: updateData
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -220,23 +189,24 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/User"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/update-privacy":
-    # binds a127 app logic to a route
     x-swagger-router-controller: user
     post:
       tags:
         - User
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: updatePrivacy
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -246,23 +216,24 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/User"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/link-account":
-    # binds a127 app logic to a route
     x-swagger-router-controller: user
     post:
       tags:
         - User
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: linkAccount
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -272,23 +243,24 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/User"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/user/unlink-account":
-    # binds a127 app logic to a route
     x-swagger-router-controller: user
     post:
       tags:
         - User
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: unlinkAccount
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -298,21 +270,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/User"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mtv/events":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     get:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: getEvents
       parameters:
         - in: query
@@ -329,21 +297,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Events"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mtv/event":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     post:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: createEvent
       parameters:
         - in: header
@@ -360,9 +324,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Events"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -371,7 +333,6 @@ paths:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: deleteEvent
       parameters:
         - in: header
@@ -388,9 +349,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Events"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -399,7 +358,6 @@ paths:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: UpdateData
       parameters:
         - in: header
@@ -416,21 +374,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Events"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mtv/tracks":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     get:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: getTracks
       parameters:
         - in: header
@@ -446,21 +400,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMTV"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mtv/track":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     post:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: addTrack
       parameters:
         - in: header
@@ -477,9 +427,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMTV"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -488,7 +436,6 @@ paths:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: deleteTrack
       parameters:
         - in: header
@@ -505,21 +452,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMTV"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mtv/track/vote":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mtv
     post:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: voteTrack
       parameters:
         - in: header
@@ -536,22 +479,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMTV"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  # dddddddddddd
   "/api/mpe/playlists":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mpe
     get:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: getPlaylists
       parameters:
         - in: header
@@ -563,21 +501,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Playlists"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mpe/playlist":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mpe
     post:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: createPlaylist
       parameters:
         - in: header
@@ -594,9 +528,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Playlists"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -605,7 +537,6 @@ paths:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: deletePlaylist
       parameters:
         - in: header
@@ -622,9 +553,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Playlists"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -633,7 +562,6 @@ paths:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: updatePlaylistData
       parameters:
         - in: header
@@ -650,21 +578,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Playlists"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mpe/tracks":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mpe
     get:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: getPlaylistTracks
       parameters:
         - in: header
@@ -680,21 +604,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMPE"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/mpe/track":
-    # binds a127 app logic to a route
     x-swagger-router-controller: mpe
     post:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: addPlaylistTrack
       parameters:
         - in: header
@@ -711,9 +631,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMPE"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -722,9 +640,13 @@ paths:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: deletePlaylistTrack
       parameters:
+        - in: header
+          name: X-SessionID
+          type: string
+          description: your sessionId here
+          required: true
         - in: body
           name: body
           required: true
@@ -734,21 +656,17 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/TracksMPE"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
   "/api/deezer/search":
-    # binds a127 app logic to a route
     x-swagger-router-controller: deezer
     get:
       tags:
         - Deezer
       # description: Route to update simple user data
-      # used as the method name of the controller
       operationId: search
       parameters:
         - in: query
@@ -759,59 +677,44 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/SearchTrackResponse"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  # dddddddddddd
   /swagger:
     x-swagger-pipe: swagger_raw
-# complex objects have schema definitions
+
 definitions:
   UnlinkAccountInput:
     required:
-      - token
       - type
     properties:
-      token:
-        type: string
       type:
         type: string
   LinkAccountInput:
     required:
-      - token
       - type
       - key
     properties:
-      token:
-        type: string
       type:
         type: string
       key:
         type: string
   UpdatePrivacyInput:
     required:
-      - token
       - dataType
       - privacyValue
     properties:
-      token:
-        type: string
       dataType:
         type: string
       privacyValue:
         type: string
   UpdateUserDataInput:
     required:
-      - token
       - toChange
       - newValue
     properties:
-      token:
-        type: string
       toChange:
         type: string
       newValue:
@@ -902,12 +805,6 @@ definitions:
         type: integer
       endDate:
         type: integer
-  TokenInput:
-    required:
-      - message
-    properties:
-      message:
-        type: string
   CreateEventInput:
     required:
       - location
