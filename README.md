@@ -23,6 +23,7 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 
 ## API
 
-- [ ] On social login, attach token if account exists
-- [ ] On playlist operation, verify sockets
+- [x] On social login, attach token if account exists
 - [ ] Move firebase token/password into .env
+- [ ] Fix mail 500
+- [ ] On playlist operation, verify sockets
