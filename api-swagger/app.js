@@ -23,16 +23,16 @@ const YAML = require("yamljs");
 // https://console.firebase.google.com/project/musicroom-c656a/database/musicroom-c656a/data/
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBO4CiYBH2ktxx0o-UXVAnC36YQtGUAzOY",
-  authDomain: "musicroom-c656a.firebaseapp.com",
-  databaseURL: "https://musicroom-c656a.firebaseio.com",
-  projectId: "musicroom-c656a",
-  storageBucket: "musicroom-c656a.appspot.com",
-  messagingSenderId: "1004678495915"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
 };
 
 const swaggerConfig = {
-  appRoot: __dirname // required config
+  appRoot: __dirname
 };
 
 SwaggerExpress.create(swaggerConfig, (err, swaggerExpress) => {

@@ -60,7 +60,7 @@ async function facebookLogin(req, res) {
       await insertUser(payload, database);
     } else if (user && !user.token.facebookToken) {
       await updatetUserNode(
-        _id,
+        user._id,
         "token",
         { facebookToken: facebookTokenValid },
         database
@@ -100,7 +100,7 @@ async function googleLogin(req, res) {
       await insertUser(payload, database);
     } else if (user && !user.token.googleToken) {
       await updatetUserNode(
-        _id,
+        user._id,
         "token",
         { googleToken: googleTokenValid },
         database
