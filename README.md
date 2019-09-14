@@ -1,4 +1,4 @@
-#MUSICROOM
+# MUSICROOM
 
 ## Requirements
 
@@ -18,3 +18,13 @@
 ## Important
 
 if you change the `.env` file don't forget to run `npm run setup` and rebuild the project in Xcode
+
+# TODO LIST
+
+## API
+
+- [x] On social login, attach token if account exists
+- [x] Move firebase token/password into .env
+- [ ] Fix mail 500
+- [ ] On playlist operation, verify sockets
+- [ ] Do real patch ( { key: value } )

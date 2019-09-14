@@ -58,9 +58,19 @@ async function facebookLogin(req, res) {
         signInType: "facebook"
       };
       await insertUser(payload, database);
+    } else if (user && !user.token.facebookToken) {
+      await updatetUserNode(
+        user._id,
+        "token",
+        { facebookToken: facebookTokenValid },
+        database
+      );
     }
     const sessionId = await createSession(database, user._id);
-    return res.status(200).send({ sessionId });
+    return res.status(200).send({
+      sessionId,
+      user: getProfileData(user)
+    });
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -80,6 +90,7 @@ async function googleLogin(req, res) {
       return res.status(403).send({ error: "error with token" });
     }
     const user = await findUserBy("email", email, database);
+    // verify if facebook email is the same in case of exists
     if (!user) {
       payload = {
         email,
@@ -87,9 +98,19 @@ async function googleLogin(req, res) {
         signInType: "google"
       };
       await insertUser(payload, database);
+    } else if (user && !user.token.googleToken) {
+      await updatetUserNode(
+        user._id,
+        "token",
+        { googleToken: googleTokenValid },
+        database
+      );
     }
     const sessionId = await createSession(database, user._id);
-    return res.status(200).send({ sessionId });
+    return res.status(200).send({
+      sessionId,
+      user: getProfileData(user)
+    });
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });

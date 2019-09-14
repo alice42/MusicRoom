@@ -10,15 +10,18 @@ const searchDeezer = query => {
     });
 };
 
+const getValuesFromParams = obj => {
+  const copy = { ...obj };
+  for (var key in copy) {
+    copy[key] = copy[key].value;
+  }
+  return copy;
+};
+
 async function search(req, res) {
   try {
-    const { query } = req.body;
+    const { query } = getValuesFromParams(req.swagger.params);
     const results = await searchDeezer(query);
-    console.log({
-      message: `Track ${query} received on /alice/search`,
-      query,
-      results
-    });
     return res.status(200).send({
       message: `Track ${query} received on /alice/search`,
       query,

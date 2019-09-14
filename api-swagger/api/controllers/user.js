@@ -19,6 +19,14 @@ const { getSessions } = require("../../helpers/firebaseSession.helpers");
 const createHash = () =>
   [...Array(36)].map(() => Math.random().toString(36)[3]).join("");
 
+const getValuesFromParams = obj => {
+  const copy = { ...obj };
+  for (var key in copy) {
+    copy[key] = copy[key].value;
+  }
+  return copy;
+};
+
 async function recover(req, res) {
   try {
     const { email: userMail } = req.body;
@@ -46,10 +54,14 @@ async function newPassword(req, res) {
   try {
     const { token } = req.query;
     const database = res.database;
+    console.log(token);
     const user = await findUserBy("tokenPassword", token, database);
+    console.log(user);
     if (user) {
       const { email } = Object.values(user)[0];
+      console.log(email);
       const newPassword = createHash();
+      console.log(newPassword);
       await updatetUser(
         user._id,
         {
@@ -88,7 +100,7 @@ async function signIn(req, res) {
     const payload = {
       email,
       password: md5(password),
-      // tokenValidation, // TO AVOID MAIL CONFIRMATION
+      tokenValidation,
       signInType: "classic"
     };
     await insertUser(payload, database);
@@ -122,21 +134,14 @@ async function accountValidation(req, res) {
   }
 }
 
-// set new password ( key, pass, passAgain )
-async function newPassword(req, res) {
-  try {
-  } catch (err) {
-    console.log("INTER ERROR", err.message);
-    return res.status(500).send({ error: "internal server error" });
-  }
-}
-
 // set new information ( key, informations )
 async function updateData(req, res) {
   try {
     const database = res.database;
     const allowedKey = ["email", "name", "firstname", "tags", "avatarUri"];
-    const { token, toChange, newValue } = req.body;
+    const { toChange, newValue } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+
     if (allowedKey.indexOf(toChange) === -1) {
       return res
         .status(500)
@@ -173,7 +178,9 @@ async function updatePrivacy(req, res) {
       "avatarUri",
       "networks"
     ];
-    const { token, privacyValue, dataType } = req.body;
+    const { privacyValue, dataType } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+
     if (allowedKey.indexOf(dataType) === -1) {
       return res
         .status(500)
@@ -203,7 +210,9 @@ async function updatePrivacy(req, res) {
 async function linkAccount(req, res) {
   try {
     const database = res.database;
-    const { token, type, key } = req.body;
+    const { type, key } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+
     const allowedKey = ["facebook", "google", "deezer"];
     if (allowedKey.indexOf(type) === -1) {
       return res
@@ -229,7 +238,9 @@ async function linkAccount(req, res) {
 async function unlinkAccount(req, res) {
   try {
     const database = res.database;
-    const { token, type } = req.body;
+    const { type } = req.body;
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
+
     const allowedKey = ["facebook", "google", "deezer"];
     if (allowedKey.indexOf(type) === -1) {
       return res
@@ -257,7 +268,6 @@ const asyncWrapper = fct => (req, res) => {
 
 module.exports = {
   recover: asyncWrapper(recover),
-  newPassword: asyncWrapper(newPassword),
   signIn: asyncWrapper(signIn),
   accountValidation: asyncWrapper(accountValidation),
   newPassword: asyncWrapper(newPassword),
