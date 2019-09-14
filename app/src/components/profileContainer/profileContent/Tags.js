@@ -28,10 +28,10 @@ export default class TagsView extends React.Component {
         ? this.props.eventsActions.updateEventRequest(
             this.props.event,
             'allowedUsers',
-            tags,
+            tags.join(','),
             this.props.location
           )
-        : this.props.actions.updateRequest(this.props.user.token, 'tags', tags)
+        : this.props.actions.updateRequest(this.props.user.token, 'tags', tags.join(','))
     }
     this.setState({ inputvalue: '', addNewTag: false })
   }
@@ -47,10 +47,10 @@ export default class TagsView extends React.Component {
       ? this.props.eventsActions.updateEventRequest(
           this.props.event,
           'allowedUsers',
-          newTags,
+          newTags.join(','),
           this.props.location
         )
-      : this.props.actions.updateRequest(this.props.user.token, 'tags', newTags)
+      : this.props.actions.updateRequest(this.props.user.token, 'tags', newTags.join(','))
   }
 
   handlePrivacy = (privacyValue, dataType) => {

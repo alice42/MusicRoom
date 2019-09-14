@@ -1,6 +1,6 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "0.0.1"
+  version: '0.0.1'
   title: MusicRoomAPI
 host: localhost:3001
 basePath: /
@@ -12,7 +12,7 @@ consumes:
 produces:
   - application/json
 paths:
-  "/api/user/log-in":
+  '/api/user/log-in':
     x-swagger-router-controller: login
     post:
       tags:
@@ -24,17 +24,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/LoginInput"
+            $ref: '#/definitions/LoginInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/LoginResponse"
+            $ref: '#/definitions/LoginResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/facebook-log-in":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/facebook-log-in':
     # binds a127 app logic to a route
     x-swagger-router-controller: login
     post:
@@ -47,17 +47,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/SocialLoginInput"
+            $ref: '#/definitions/SocialLoginInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/LoginResponse"
+            $ref: '#/definitions/LoginResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/google-login-in":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/google-log-in':
     x-swagger-router-controller: login
     post:
       tags:
@@ -69,17 +69,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/SocialLoginInput"
+            $ref: '#/definitions/SocialLoginInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/LoginResponse"
+            $ref: '#/definitions/LoginResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/sign-in":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/sign-in':
     x-swagger-router-controller: user
     post:
       tags:
@@ -91,17 +91,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/LoginInput"
+            $ref: '#/definitions/LoginInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/SuccessResponse"
+            $ref: '#/definitions/SuccessResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/account-validation":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/account-validation':
     x-swagger-router-controller: user
     get:
       tags:
@@ -115,15 +115,15 @@ paths:
           description: token can be found in your mails
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/SuccessResponse"
+            $ref: '#/definitions/SuccessResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/recover":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/recover':
     x-swagger-router-controller: user
     post:
       tags:
@@ -135,17 +135,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/RecoverInput"
+            $ref: '#/definitions/RecoverInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/SuccessResponse"
+            $ref: '#/definitions/SuccessResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/new-password":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/new-password':
     x-swagger-router-controller: user
     get:
       tags:
@@ -159,15 +159,15 @@ paths:
           description: token can be found in your mails
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/SuccessResponse"
+            $ref: '#/definitions/SuccessResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/update-data":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/update-data':
     x-swagger-router-controller: user
     post:
       tags:
@@ -184,17 +184,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/UpdateUserDataInput"
+            $ref: '#/definitions/UpdateUserDataInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/User"
+            $ref: '#/definitions/User'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/update-privacy":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/update-privacy':
     x-swagger-router-controller: user
     post:
       tags:
@@ -211,17 +211,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/UpdatePrivacyInput"
+            $ref: '#/definitions/UpdatePrivacyInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/User"
+            $ref: '#/definitions/User'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/link-account":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/link-account':
     x-swagger-router-controller: user
     post:
       tags:
@@ -238,17 +238,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/LinkAccountInput"
+            $ref: '#/definitions/LinkAccountInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/User"
+            $ref: '#/definitions/User'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/user/unlink-account":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/user/unlink-account':
     x-swagger-router-controller: user
     post:
       tags:
@@ -265,17 +265,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/UnlinkAccountInput"
+            $ref: '#/definitions/UnlinkAccountInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/User"
+            $ref: '#/definitions/User'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/events":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mtv/events':
     x-swagger-router-controller: mtv
     get:
       tags:
@@ -294,15 +294,15 @@ paths:
           description: your sessionId here
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Events"
+            $ref: '#/definitions/Events'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/event":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mtv/event':
     x-swagger-router-controller: mtv
     post:
       tags:
@@ -319,16 +319,16 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/CreateEventInput"
+            $ref: '#/definitions/CreateEventInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Events"
+            $ref: '#/definitions/Events'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
     delete:
       tags:
         - Music Track Vote
@@ -344,21 +344,21 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/DeleteEventInput"
+            $ref: '#/definitions/DeleteEventInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Events"
+            $ref: '#/definitions/Events'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
     patch:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      operationId: UpdateData
+      operationId: updateData
       parameters:
         - in: header
           name: X-SessionID
@@ -369,17 +369,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/UpdateEventDataInput"
+            $ref: '#/definitions/UpdateEventDataInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Events"
+            $ref: '#/definitions/Events'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/tracks":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mtv/tracks':
     x-swagger-router-controller: mtv
     get:
       tags:
@@ -397,15 +397,15 @@ paths:
           type: string
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMTV"
+            $ref: '#/definitions/TracksMTV'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/track":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mtv/track':
     x-swagger-router-controller: mtv
     post:
       tags:
@@ -422,21 +422,21 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/AddTrackInput"
+            $ref: '#/definitions/AddTrackInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMTV"
+            $ref: '#/definitions/TracksMTV'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
     delete:
       tags:
         - Music Track Vote
       # description: Route to update simple user data
-      operationId: deleteTrack
+      operationId: removeTrack
       parameters:
         - in: header
           name: X-SessionID
@@ -447,17 +447,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/DeleteTrackInput"
+            $ref: '#/definitions/DeleteTrackInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMTV"
+            $ref: '#/definitions/TracksMTV'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mtv/track/vote":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mtv/track/vote':
     x-swagger-router-controller: mtv
     post:
       tags:
@@ -474,17 +474,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/VoteTrackInput"
+            $ref: '#/definitions/VoteTrackInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMTV"
+            $ref: '#/definitions/TracksMTV'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/playlists":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mpe/playlists':
     x-swagger-router-controller: mpe
     get:
       tags:
@@ -498,15 +498,15 @@ paths:
           description: your sessionId here
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Playlists"
+            $ref: '#/definitions/Playlists'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/playlist":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mpe/playlist':
     x-swagger-router-controller: mpe
     post:
       tags:
@@ -523,16 +523,16 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/CreatePlaylistInput"
+            $ref: '#/definitions/CreatePlaylistInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Playlists"
+            $ref: '#/definitions/Playlists'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
     delete:
       tags:
         - Music Playlist Editor
@@ -548,16 +548,16 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/DeletePlaylistInput"
+            $ref: '#/definitions/DeletePlaylistInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Playlists"
+            $ref: '#/definitions/Playlists'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
     patch:
       tags:
         - Music Playlist Editor
@@ -573,17 +573,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/UpdatePlaylistDataInput"
+            $ref: '#/definitions/UpdatePlaylistDataInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/Playlists"
+            $ref: '#/definitions/Playlists'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/tracks":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mpe/tracks':
     x-swagger-router-controller: mpe
     get:
       tags:
@@ -601,15 +601,15 @@ paths:
           type: string
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMPE"
+            $ref: '#/definitions/TracksMPE'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/mpe/track":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/mpe/track':
     x-swagger-router-controller: mpe
     post:
       tags:
@@ -626,21 +626,21 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/AddTrackInput"
+            $ref: '#/definitions/AddTrackInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMPE"
+            $ref: '#/definitions/TracksMPE'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
     delete:
       tags:
         - Music Playlist Editor
       # description: Route to update simple user data
-      operationId: deletePlaylistTrack
+      operationId: removePlaylistTrack
       parameters:
         - in: header
           name: X-SessionID
@@ -651,17 +651,17 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/DeleteTrackInput"
+            $ref: '#/definitions/DeleteTrackInput'
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/TracksMPE"
+            $ref: '#/definitions/TracksMPE'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  "/api/deezer/search":
+            $ref: '#/definitions/ErrorResponse'
+  '/api/deezer/search':
     x-swagger-router-controller: deezer
     get:
       tags:
@@ -674,14 +674,14 @@ paths:
           type: string
           required: true
       responses:
-        "200":
+        '200':
           description: Success
           schema:
-            $ref: "#/definitions/SearchTrackResponse"
+            $ref: '#/definitions/SearchTrackResponse'
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -748,7 +748,7 @@ definitions:
       sessionId:
         type: string
       user:
-        $ref: "#/definitions/User"
+        $ref: '#/definitions/User'
   User:
     properties:
       email:
@@ -774,7 +774,7 @@ definitions:
   Events:
     type: array
     items:
-      $ref: "#/definitions/Event"
+      $ref: '#/definitions/Event'
   Event:
     properties:
       id:
@@ -784,15 +784,15 @@ definitions:
       canEdit:
         type: boolean
       playlistId:
-        type: string
+        type: number
       restriction:
-        $ref: "#/definitions/Restriction"
+        $ref: '#/definitions/Restriction'
       allowedUsers:
         type: array
         items:
           type: string
       privacy:
-        type: object
+        type: string
   Restriction:
     properties:
       isRestricted:
@@ -841,7 +841,7 @@ definitions:
   TrackMPE:
     properties:
       id:
-        type: string
+        type: number
       albumCover:
         type: string
       artistName:
@@ -853,7 +853,7 @@ definitions:
   TrackMTV:
     properties:
       id:
-        type: string
+        type: number
       albumCover:
         type: string
       artistName:
@@ -867,45 +867,45 @@ definitions:
   TracksMPE:
     type: array
     items:
-      $ref: "#/definitions/TrackMPE"
+      $ref: '#/definitions/TrackMPE'
   TracksMTV:
     type: array
     items:
-      $ref: "#/definitions/TrackMTV"
+      $ref: '#/definitions/TrackMTV'
   AddTrackInput:
     required:
       - playlistId
       - trackId
     properties:
       playlistId:
-        type: string
+        type: number
       trackId:
-        type: string
+        type: number
   DeleteTrackInput:
     required:
       - playlistId
       - trackId
     properties:
       playlistId:
-        type: string
+        type: number
       trackId:
-        type: string
+        type: number
   VoteTrackInput:
     required:
-      - playlistId
+      - eventId
       - trackId
       - value
     properties:
-      playlistId:
+      eventId:
         type: string
       trackId:
-        type: string
+        type: number
       value:
         type: integer
   Playlists:
     type: array
     items:
-      $ref: "#/definitions/Playlist"
+      $ref: '#/definitions/Playlist'
   Playlist:
     properties:
       id:
@@ -915,13 +915,13 @@ definitions:
       canEdit:
         type: boolean
       playlistId:
-        type: string
+        type: number
       allowedUsers:
         type: array
         items:
           type: string
       privacy:
-        type: object
+        type: string
   CreatePlaylistInput:
     required:
       - name

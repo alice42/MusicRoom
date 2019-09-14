@@ -79,6 +79,7 @@ function* loginGoogleSaga(action) {
     if (googleInformation === 'cancelled') {
       yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: null })
     } else {
+      console.log('SAGA', googleInformation)
       const response = yield call(loginGoogle, googleInformation)
       if (response.error) {
         yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: response.error })

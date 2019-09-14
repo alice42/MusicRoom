@@ -23,6 +23,16 @@ export function updatePlaylistRequest(id, toChange, newValue, location) {
   }
 }
 
+export function updateEventRequest(id, toChange, newValue, location) {
+  return {
+    type: 'SERVICE_MPE_PLAYLISTS_UPDATE_DATA_REQUEST',
+    id,
+    toChange,
+    newValue,
+    location
+  }
+}
+
 export function deletePlaylistRequest(playlistId, location) {
   return {
     type: 'DELETE_PLAYLIST_REQUEST',
