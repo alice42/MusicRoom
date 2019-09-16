@@ -20,8 +20,8 @@
 
 /**
   Describes the callback for fetchDeferredAppLink.
- @param url the url representing the deferred App Link
- @param error the error during the request, if any
+ - Parameter url: the url representing the deferred App Link
+ - Parameter error: the error during the request, if any
 
 
  The url may also have a fb_click_time_utc query parameter that
@@ -32,7 +32,7 @@ typedef void (^FBSDKDeferredAppLinkHandler)(NSURL *url, NSError *error);
 
 /**
   Describes the callback for fetchOrganicDeferredAppLink.
- @param url the url representing the deferred App Link
+ - Parameter url: the url representing the deferred App Link
  */
 typedef void (^FBSDKDeferredAppInviteHandler)(NSURL *url);
 
@@ -49,7 +49,7 @@ typedef void (^FBSDKDeferredAppInviteHandler)(NSURL *url);
  data (this will only return a valid URL once, and future calls will result in a nil URL
  value in the callback).
 
- @param handler the handler to be invoked if there is deferred App Link data
+ - Parameter handler: the handler to be invoked if there is deferred App Link data
 
 
  The handler may contain an NSError instance to capture any errors. In the
@@ -63,10 +63,10 @@ typedef void (^FBSDKDeferredAppInviteHandler)(NSURL *url);
 
 /**
 
-@warning This method is no longer available and will always return NO.
+- Warning:This method is no longer available and will always return NO.
  */
 + (BOOL)fetchDeferredAppInvite:(FBSDKDeferredAppInviteHandler)handler
-DEPRECATED_MSG_ATTRIBUTE("This method is no longer available.");
+__attribute__((deprecated("This method is no longer available.")));;
 
 /*
   Call this method to fetch promotion code from the url, if it's present. This function
@@ -75,9 +75,9 @@ DEPRECATED_MSG_ATTRIBUTE("This method is no longer available.");
  Note: This throws an exception if Bolts.framework is not linked. Add '[BFURL class]' in intialize method
  of your AppDelegate.
 
- @param url App Link url that was passed to the app.
+ - Parameter url: App Link url that was passed to the app.
 
- @return Promotion code string.
+ - Returns: Promotion code string.
 
 
  Call this method to fetch App Invite Promotion Code from applink if present.

@@ -21,12 +21,11 @@
 #import <FBSDKShareKit/FBSDKCameraEffectArguments.h>
 #import <FBSDKShareKit/FBSDKCameraEffectTextures.h>
 #import <FBSDKShareKit/FBSDKSharingContent.h>
-#import <FBSDKShareKit/FBSDKSharingScheme.h>
 
 /**
  A model for content to share with a Facebook camera effect.
  */
-@interface FBSDKShareCameraEffectContent : NSObject <FBSDKSharingContent, FBSDKSharingScheme>
+@interface FBSDKShareCameraEffectContent : NSObject <FBSDKSharingContent>
 
 /**
  ID of the camera effect to use.
@@ -45,8 +44,8 @@
 
 /**
  Compares the receiver to another camera effect content.
- @param content The other content
- @return YES if the receiver's values are equal to the other content's values; otherwise NO
+ - Parameter content: The other content
+ - Returns: YES if the receiver's values are equal to the other content's values; otherwise NO
  */
 - (BOOL)isEqualToShareCameraEffectContent:(FBSDKShareCameraEffectContent *)content;
 

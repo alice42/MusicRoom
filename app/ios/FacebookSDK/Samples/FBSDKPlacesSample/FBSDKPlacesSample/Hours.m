@@ -20,15 +20,8 @@
 
 @implementation Hours
 
-+ (NSArray<Hours *> *)hourRangesForArray:(NSArray *)hoursArray
++ (NSArray<Hours *> *)hourRangesForDictionary:(NSDictionary *)dictionary
 {
-  // GraphAPI serializes this to an array of key/value pairs, which are easier for us to
-  // parse out if we put them back into a dictionary.
-  NSMutableDictionary *hoursDictionary = [NSMutableDictionary new];
-  [hoursArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-    [hoursDictionary addEntriesFromDictionary:@{obj[@"key"] : obj[@"value"]}];
-  }];
-
   NSArray *days = @[@"sun", @"mon", @"tue", @"wed", @"thu", @"fri", @"sat"];
 
   NSMutableArray *hourRanges = [NSMutableArray new];
@@ -37,9 +30,9 @@
     for (NSInteger rangeIndex = 1; rangeIndex <= 2; rangeIndex++) {
       NSString *rangeOpenKey = [NSString stringWithFormat:@"%@_%li_open", days[dayIndex], (long)rangeIndex];
       NSString *rangeCloseKey = [NSString stringWithFormat:@"%@_%li_close", days[dayIndex], (long)rangeIndex];
-      if (hoursDictionary[rangeOpenKey] && hoursDictionary[rangeCloseKey]) {
-        NSArray *openingTimeComponents = [hoursDictionary[rangeOpenKey] componentsSeparatedByString:@":"];
-        NSArray *closingTimeComponents = [hoursDictionary[rangeCloseKey] componentsSeparatedByString:@":"];
+      if (dictionary[rangeOpenKey] && dictionary[rangeCloseKey]) {
+        NSArray *openingTimeComponents = [dictionary[rangeOpenKey] componentsSeparatedByString:@":"];
+        NSArray *closingTimeComponents = [dictionary[rangeCloseKey] componentsSeparatedByString:@":"];
 
         Hours *hours = [[Hours alloc] initWithWeekday:(dayIndex + 1)
                                           openingHour:[openingTimeComponents[0] integerValue]

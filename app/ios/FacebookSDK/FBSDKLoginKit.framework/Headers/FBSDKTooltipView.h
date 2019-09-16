@@ -81,18 +81,18 @@ typedef NS_ENUM(NSUInteger, FBSDKTooltipColorStyle)
 /**
   Designated initializer.
 
- @param tagline First part of the label, that will be highlighted with different color. Can be nil.
+ - Parameter tagline: First part of the label, that will be highlighted with different color. Can be nil.
 
- @param message Main message to display.
+ - Parameter message: Main message to display.
 
- @param colorStyle Color style to use for tooltip.
+ - Parameter colorStyle: Color style to use for tooltip.
 
 
 
  If you need to show a tooltip for login, consider using the `FBSDKLoginTooltipView` view.
 
 
- @see FBSDKLoginTooltipView
+- See:FBSDKLoginTooltipView
  */
 - (instancetype)initWithTagline:(NSString *)tagline message:(NSString *)message colorStyle:(FBSDKTooltipColorStyle)colorStyle;
 
@@ -100,7 +100,7 @@ typedef NS_ENUM(NSUInteger, FBSDKTooltipColorStyle)
   Show tooltip at the top or at the bottom of given view.
  Tooltip will be added to anchorView.window.rootViewController.view
 
- @param anchorView view to show at, must be already added to window view hierarchy, in order to decide
+ - Parameter anchorView: view to show at, must be already added to window view hierarchy, in order to decide
  where tooltip will be shown. (If there's not enough space at the top of the anchorView in window bounds -
  tooltip will be shown at the bottom of it)
 
@@ -115,11 +115,11 @@ typedef NS_ENUM(NSUInteger, FBSDKTooltipColorStyle)
 /**
   Adds tooltip to given view, with given position and arrow direction.
 
- @param view View to be used as superview.
+ - Parameter view: View to be used as superview.
 
- @param arrowPosition Point in view's cordinates, where arrow will be pointing
+ - Parameter arrowPosition: Point in view's cordinates, where arrow will be pointing
 
- @param arrowDirection whenever arrow should be pointing up (message bubble is below the arrow) or
+ - Parameter arrowDirection: whenever arrow should be pointing up (message bubble is below the arrow) or
  down (message bubble is above the arrow).
  */
 - (void)presentInView:(UIView *)view withArrowPosition:(CGPoint)arrowPosition direction:(FBSDKTooltipViewArrowDirection)arrowDirection;

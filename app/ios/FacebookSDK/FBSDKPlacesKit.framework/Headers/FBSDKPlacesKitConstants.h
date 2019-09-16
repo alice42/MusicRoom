@@ -29,44 +29,56 @@
 /**
  Field Key for information about the Place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyAbout;
+extern NSString *const FBSDKPlacesFieldKeyAbout;
 
 /**
  Field Key for AppLinks for the Place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyAppLinks;
+extern NSString *const FBSDKPlacesFieldKeyAppLinks;
 
 /**
  Field Key for the Place's categories.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyCategories;
+extern NSString *const FBSDKPlacesFieldKeyCategories;
 
 /**
  Field Key for the number of checkins at the Place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyCheckins;
+extern NSString *const FBSDKPlacesFieldKeyCheckins;
+
+/**
+ Field Key for the OpenGraphContext of the place, including friends who were at this
+ place, or who liked to its page. This field requires authentication with a user token.
+ An error will be thrown if this field is requested using a client token.
+ */
+extern NSString *const FBSDKPlacesFieldKeyContext;
 
 /**
  Field Key for the confidence level for a current place estimate candidate.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyConfidence;
+extern NSString *const FBSDKPlacesFieldKeyConfidence;
 
 /**
  Field Key for the Place's cover photo. Note that this is not the actual photo data,
  but rather URLs and other metadata.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyCoverPhoto;
+extern NSString *const FBSDKPlacesFieldKeyCoverPhoto;
 
 /**
  Field Key for the description of the Place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyDescription;
+extern NSString *const FBSDKPlacesFieldKeyDescription;
 
 /**
  Field Key for the social sentence and like count information for this place. This is
  the same information used for the Like button.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyEngagement;
+extern NSString *const FBSDKPlacesFieldKeyEngagement;
+
+/**
+ Field Key for the number of people who like the place.
+ */
+extern NSString *const FBSDKPlacesFieldKeyFanCount;
 
 /**
  Field Key for hour ranges for when the Place is open. Each day can have two different
@@ -78,205 +90,200 @@ FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyEngagement;
  a single opening range of 5 PM to 9:15 PM on Mondays. You can find an example of hours
  being parsed out in the Sample App.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyHours;
+extern NSString *const FBSDKPlacesFieldKeyHours;
 
 /**
  Field Key for a value indicating whether this place is always open.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyIsAlwaysOpen;
+extern NSString *const FBSDKPlacesFieldKeyIsAlwaysOpen;
 
 /**
  Field Key for a value indicating whether this place is permanently closed.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyIsPermanentlyClosed;
+extern NSString *const FBSDKPlacesFieldKeyIsPermanentlyClosed;
 
 /**
  Pages with a large number of followers can be manually verified by Facebook as having an
  authentic identity. This field indicates whether the page is verified by this process.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyIsVerified;
+extern NSString *const FBSDKPlacesFieldKeyIsVerified;
 
 /**
  Field Key for address and latitude/longitude information for the place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyLocation;
+extern NSString *const FBSDKPlacesFieldKeyLocation;
 
 /**
  Field Key for a link to Place's Facebook page.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyLink;
+extern NSString *const FBSDKPlacesFieldKeyLink;
 
 /**
  Field Key for the name of the place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyName;
+extern NSString *const FBSDKPlacesFieldKeyName;
 
 /**
  Field Key for the overall page rating based on rating surveys from users on a scale
  from 1-5. This value is normalized, and is not guaranteed to be a strict average of
  user ratings.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyOverallStarRating;
-
-/**
- Field Key for the Facebook Page information.
- */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyPage;
+extern NSString *const FBSDKPlacesFieldKeyOverallStarRating;
 
 /**
  Field Key for PageParking information for the Place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyParking;
+extern NSString *const FBSDKPlacesFieldKeyParking;
 
 /**
  Field Key for available payment options.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyPaymentOptions;
+extern NSString *const FBSDKPlacesFieldKeyPaymentOptions;
 
 /**
  Field Key for the unique Facebook ID of the place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyPlaceID;
+extern NSString *const FBSDKPlacesFieldKeyPlaceID;
 
 /**
  Field Key for the Place's phone number.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyPhone;
+extern NSString *const FBSDKPlacesFieldKeyPhone;
 
 /**
  Field Key for the Place's photos. Note that this is not the actual photo data, but
  rather URLs and other metadata.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyPhotos;
+extern NSString *const FBSDKPlacesFieldKeyPhotos;
 
 /**
  Field Key for the price range of the business, expressed as a string. Applicable to
  Restaurants or Nightlife. Can be one of $ (0-10), $$ (10-30), $$$ (30-50), $$$$ (50+),
  or Unspecified.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyPriceRange;
+extern NSString *const FBSDKPlacesFieldKeyPriceRange;
 
 /**
  Field Key for the Place's profile photo. Note that this is not the actual photo data,
  but rather URLs and other metadata.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyProfilePhoto;
+extern NSString *const FBSDKPlacesFieldKeyProfilePhoto;
 
 /**
  Field Key for the number of ratings for the place.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyRatingCount;
+extern NSString *const FBSDKPlacesFieldKeyRatingCount;
 
 /**
  Field Key for restaurant services e.g: delivery, takeout.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyRestaurantServices;
+extern NSString *const FBSDKPlacesFieldKeyRestaurantServices;
 
 /**
  Field Key for restaurant specialties.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyRestaurantSpecialties;
+extern NSString *const FBSDKPlacesFieldKeyRestaurantSpecialties;
 
 /**
  Field Key for the address in a single line.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeySingleLineAddress;
+extern NSString *const FBSDKPlacesFieldKeySingleLineAddress;
 
 /**
  Field Key for the string of the Place's website URL.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyWebsite;
+extern NSString *const FBSDKPlacesFieldKeyWebsite;
 
 /**
  Field Key for the Workflows.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesFieldKeyWorkflows;
+extern NSString *const FBSDKPlacesFieldKeyWorkflows;
 
 /**
  Response Key for the place's city field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyCity;
+extern NSString *const FBSDKPlacesResponseKeyCity;
 
 /**
  Response Key for the place's city ID field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyCityID;
+extern NSString *const FBSDKPlacesResponseKeyCityID;
 
 /**
  Response Key for the place's country field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyCountry;
+extern NSString *const FBSDKPlacesResponseKeyCountry;
 
 /**
  Response Key for the place's country code field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyCountryCode;
+extern NSString *const FBSDKPlacesResponseKeyCountryCode;
 
 /**
  Response Key for the place's latitude field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyLatitude;
+extern NSString *const FBSDKPlacesResponseKeyLatitude;
 
 /**
  Response Key for the place's longitude field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyLongitude;
+extern NSString *const FBSDKPlacesResponseKeyLongitude;
 
 /**
  Response Key for the place's region field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyRegion;
+extern NSString *const FBSDKPlacesResponseKeyRegion;
 
 /**
  Response Key for the place's region ID field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyRegionID;
+extern NSString *const FBSDKPlacesResponseKeyRegionID;
 
 /**
  Response Key for the place's state field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyState;
+extern NSString *const FBSDKPlacesResponseKeyState;
 
 /**
  Response Key for the place's street field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyStreet;
+extern NSString *const FBSDKPlacesResponseKeyStreet;
 
 /**
  Response Key for the place's zip code field.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyZip;
+extern NSString *const FBSDKPlacesResponseKeyZip;
 
 /**
  Response Key for the categories that this place matched.
  To be used on the search request if the categories parameter is specified.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyMatchedCategories;
+extern NSString *const FBSDKPlacesResponseKeyMatchedCategories;
 
 /**
  Response Key for the photo source dictionary.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyPhotoSource;
+extern NSString *const FBSDKPlacesResponseKeyPhotoSource;
 
 /**
  Response Key for response data.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyData;
+extern NSString *const FBSDKPlacesResponseKeyData;
 
 /**
  Response Key for a URL.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesResponseKeyUrl;
+extern NSString *const FBSDKPlacesResponseKeyUrl;
 
 /**
  Parameter Key for the current place summary.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesParameterKeySummary;
+extern NSString *const FBSDKPlacesParameterKeySummary;
 
 /**
  Summary Key for the current place tracking ID.
  */
-FOUNDATION_EXPORT NSString *const FBSDKPlacesSummaryKeyTracking;
+extern NSString *const FBSDKPlacesSummaryKeyTracking;
 
 /**
  The level of confidence the Facebook SDK has that a Place is the correct one for the

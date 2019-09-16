@@ -18,109 +18,88 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AKFError.h"
-
 NS_ASSUME_NONNULL_BEGIN
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-
-/**
- The AccountKit error domain for server errors (underlying errors).
- */
-FOUNDATION_EXPORT NSErrorDomain const AKFServerErrorDomain;
-
-#else
 
 /**
   The AccountKit error domain for server errors (underlying errors).
  */
-FOUNDATION_EXPORT NSString *const AKFServerErrorDomain;
-
-#endif
-
-#ifndef NS_ERROR_ENUM
-#define NS_ERROR_ENUM(_domain, _name) \
-enum _name: NSInteger _name; \
-enum __attribute__((ns_error_domain(_domain))) _name: NSInteger
-#endif
+extern NSString *const AKFServerErrorDomain;
 
 /**
  AKFServerErrorCode
 
- Detail error codes for server errors.
+  Detail error codes for server errors.
  */
-typedef NS_ERROR_ENUM(AKFServerErrorDomain, AKFServerErrorCode)
+typedef NS_ENUM(NSInteger, AKFServerErrorCode)
 {
   /**
-   An invalid parameter value was found.
+    An invalid parameter value was found.
 
 
-   The SDK does not know how to handle this parameter value from the server.
+ The SDK does not know how to handle this parameter value from the server.
    */
-  AKFServerErrorInvalidParameterValue = 201,
-
-  AKFInvalidServerParameterValueError DEPRECATED_MSG_ATTRIBUTE("use AKFServerErrorInvalidParameterValue instead") = AKFServerErrorInvalidParameterValue,
+  AKFInvalidServerParameterValueError = 201,
 };
 
 /**
- AKFLoginRequestError
+ AKFLoginRequestInvalidatedErrorCode
 
- Detail error codes for login request invalidated errors.
+  Detail error codes for login request invalidated errors.
  */
-typedef NS_ERROR_ENUM(AKFErrorDomain, AKFLoginRequestError)
+typedef NS_ENUM(NSInteger, AKFLoginRequestInvalidatedErrorCode)
 {
   /**
-   The request has expired without completing.
+    The request has expired without completing.
    */
-  AKFLoginRequestErrorExpired = 301,
+  AKFLoginRequestExpiredError = 301,
 };
 
 /**
- AKFInvalidParameterError
+ AKFInvalidParameterValueErrorCode
 
   Detail error codes for invalid parameter errors.
  */
-typedef NS_ERROR_ENUM(AKFErrorDomain, AKFParameterError)
+typedef NS_ENUM(NSInteger, AKFInvalidParameterValueErrorCode)
 {
   /**
     The email address value is invalid.
    */
-  AKFParameterErrorEmailAddress = 401,
+  AKFInvalidEmailAddressError = 401,
 
   /**
     The phone number value is invalid.
    */
-  AKFParameterErrorPhoneNumber = 402,
+  AKFInvalidPhoneNumberError = 402,
 
   /**
     The value is not of the appropriate type for NSCoding.
    */
-  AKFParameterErrorCodingValue = 403,
+  AKFInvalidCodingValueError = 403,
 
   /**
     No valid access token is available.
    */
-  AKFParameterErrorAccessToken = 404,
+  AKFInvalidAccessTokenError = 404,
 
   /**
     The key for account preferences is invalid.
    */
-  AKFParameterErrorAccountPreferenceKey = 405,
+  AKFInvalidAccountPreferenceKeyError = 405,
 
   /**
     The value for account preferences is invalid.
    */
-  AKFParameterErrorAccountPreferenceValue = 406,
+  AKFInvalidAccountPreferenceValueError = 406,
 
   /**
     The operation was not successful.
    */
-  AKFParameterErrorOperationNotSuccessful = 407,
+  AKFOperationNotSuccessful = 407,
 
   /**
     The provided UIManager is not valid
    */
-  AKFParameterErrorUIManager = 408,
+  AKFInvalidUIManager = 408,
 };
 
 /**
@@ -128,38 +107,9 @@ typedef NS_ERROR_ENUM(AKFErrorDomain, AKFParameterError)
 
   Detail error codes for server response errors.
  */
-typedef NS_ERROR_ENUM(AKFErrorDomain, AKFServerResponseError)
-{
-  AKFServerResponseErrorInvalidConfirmationCode = 15003,
-};
-
-
-/**
- Deprecated
- */
-typedef NS_ENUM(NSInteger, AKFLoginRequestInvalidatedErrorCode)
-{
-  AKFLoginRequestExpiredError DEPRECATED_MSG_ATTRIBUTE("use AKFLoginRequestErrorExpired instead") = 301,
-} DEPRECATED_MSG_ATTRIBUTE("use AKFLoginRequestError instead");
-
-/**
- Deprecated
- */
-typedef NS_ENUM(NSInteger, AKFInvalidParameterValueErrorCode)
-{
-  AKFInvalidEmailAddressError DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorEmailAddress instead") = 401,
-  AKFInvalidPhoneNumberError DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorPhoneNumber instead") = 402,
-  AKFInvalidCodingValueError DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorCodingValue instead") = 403,
-  AKFInvalidAccessTokenError DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorAccessToken instead") = 404,
-  AKFInvalidAccountPreferenceKeyError DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorAccountPreferenceKey instead") = 405,
-  AKFInvalidAccountPreferenceValueError DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorAccountPreferenceValue instead") = 406,
-  AKFOperationNotSuccessful DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorOperationNotSuccessful instead") = 407,
-  AKFInvalidUIManager DEPRECATED_MSG_ATTRIBUTE("use AKFParameterErrorUIManager instead") = 408,
-} DEPRECATED_MSG_ATTRIBUTE("use AKFInvalidParameterError instead");
-
 typedef NS_ENUM(NSInteger, AKFServerResponseErrorCode)
 {
-  AKFServerResponseErrorCodeInvalidConfirmationCode  DEPRECATED_MSG_ATTRIBUTE("use AKFServerResponseErrorInvalidConfirmationCode instead") = 15003,
-} DEPRECATED_MSG_ATTRIBUTE("use AKFServerResponseError instead");
+  AKFServerResponseErrorCodeInvalidConfirmationCode = 15003,
+};
 
 NS_ASSUME_NONNULL_END

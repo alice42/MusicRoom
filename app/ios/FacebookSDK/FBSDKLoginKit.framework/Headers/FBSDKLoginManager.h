@@ -24,8 +24,8 @@
 
 /**
   Describes the call back to the FBSDKLoginManager
- @param result the result of the authorization
- @param error the authorization error, if any.
+ - Parameter result: the result of the authorization
+ - Parameter error: the authorization error, if any.
  */
 typedef void (^FBSDKLoginManagerRequestTokenHandler)(FBSDKLoginManagerLoginResult *result, NSError *error);
 
@@ -111,10 +111,6 @@ typedef NS_ENUM(NSUInteger, FBSDKLoginBehavior)
 @interface FBSDKLoginManager : NSObject
 
 /**
- Auth type
- */
-@property (strong, nonatomic) NSString *authType;
-/**
   the default audience.
 
  you should set this if you intend to ask for publish permissions.
@@ -128,25 +124,25 @@ typedef NS_ENUM(NSUInteger, FBSDKLoginBehavior)
 
 /**
 
-@warning use logInWithReadPermissions:fromViewController:handler: instead
+- Warning:use logInWithReadPermissions:fromViewController:handler: instead
  */
 - (void)logInWithReadPermissions:(NSArray *)permissions handler:(FBSDKLoginManagerRequestTokenHandler)handler
-DEPRECATED_MSG_ATTRIBUTE("use logInWithReadPermissions:fromViewController:handler: instead");
+__attribute__ ((deprecated("use logInWithReadPermissions:fromViewController:handler: instead")));
 
 /**
 
-@warning use logInWithPublishPermissions:fromViewController:handler: instead
+- Warning:use logInWithPublishPermissions:fromViewController:handler: instead
  */
 - (void)logInWithPublishPermissions:(NSArray *)permissions handler:(FBSDKLoginManagerRequestTokenHandler)handler
-DEPRECATED_MSG_ATTRIBUTE("use logInWithPublishPermissions:fromViewController:handler: instead");
+__attribute__ ((deprecated("use logInWithPublishPermissions:fromViewController:handler: instead")));
 
 /**
   Logs the user in or authorizes additional permissions.
- @param permissions the optional array of permissions. Note this is converted to NSSet and is only
+ - Parameter permissions: the optional array of permissions. Note this is converted to NSSet and is only
   an NSArray for the convenience of literal syntax.
- @param fromViewController the view controller to present from. If nil, the topmost view controller will be
+ - Parameter fromViewController: the view controller to present from. If nil, the topmost view controller will be
   automatically determined as best as possible.
- @param handler the callback.
+ - Parameter handler: the callback.
 
  Use this method when asking for read permissions. You should only ask for permissions when they
   are needed and explain the value to the user. You can inspect the result.declinedPermissions to also
@@ -164,11 +160,11 @@ DEPRECATED_MSG_ATTRIBUTE("use logInWithPublishPermissions:fromViewController:han
 
 /**
   Logs the user in or authorizes additional permissions.
- @param permissions the optional array of permissions. Note this is converted to NSSet and is only
+ - Parameter permissions: the optional array of permissions. Note this is converted to NSSet and is only
  an NSArray for the convenience of literal syntax.
- @param fromViewController the view controller to present from. If nil, the topmost view controller will be
+ - Parameter fromViewController: the view controller to present from. If nil, the topmost view controller will be
  automatically determined as best as possible.
- @param handler the callback.
+ - Parameter handler: the callback.
 
  Use this method when asking for publish permissions. You should only ask for permissions when they
  are needed and explain the value to the user. You can inspect the result.declinedPermissions to also
@@ -184,21 +180,6 @@ DEPRECATED_MSG_ATTRIBUTE("use logInWithPublishPermissions:fromViewController:han
                  fromViewController:(UIViewController *)fromViewController
                             handler:(FBSDKLoginManagerRequestTokenHandler)handler;
 
-
-/**
-  Requests user's permission to reathorize application's data access, after it has expired due to inactivity.
- @param fromViewController the view controller to present from. If nil, the topmost view controller will be
- automatically determined as best as possible.
- @param handler the callback.
- Use this method when you need to reathorize your app's access to user data via Graph API, after such an access has expired.
- You should provide as much context to the user as possible as to why you need to reauthorize the access, the scope of
- access being reathorized, and what added value your app provides when the access is reathorized.
- You can inspect the result.declinedPermissions to also provide more information to the user if they decline permissions.
- This method will present UI the user. You typically should call this if `[FBSDKAccessToken isDataAccessExpired]` returns true.
- */
-- (void)reauthorizeDataAccess:(UIViewController *)fromViewController
-                            handler:(FBSDKLoginManagerRequestTokenHandler)handler;
-
 /**
   Logs the user out
 
@@ -211,7 +192,7 @@ DEPRECATED_MSG_ATTRIBUTE("use logInWithPublishPermissions:fromViewController:han
 
   Issues an asynchronous renewCredentialsForAccount call to the device's Facebook account store.
 
- @param handler The completion handler to call when the renewal is completed. This can be invoked on an arbitrary thread.
+ - Parameter handler: The completion handler to call when the renewal is completed. This can be invoked on an arbitrary thread.
 
 
  This can be used to explicitly renew account credentials and is provided as a convenience wrapper around

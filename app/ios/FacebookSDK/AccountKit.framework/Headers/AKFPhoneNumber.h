@@ -28,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
   This is the designated initializer.
 
- @param countryCode the country code for the phone number
- @param phoneNumber the remaining portion of the phone number
+ - Parameter countryCode: the country code for the phone number
+ - Parameter phoneNumber: the remaining portion of the phone number
 
 
  While it is safe to provide any characters for the `countryCode` and `phoneNumber`, the values should only
@@ -70,7 +70,7 @@ NS_DESIGNATED_INITIALIZER;
 /**
   Compares the receiver to another phone number
 
- @param phoneNumber the phone number to compare to
+ - Parameter phoneNumber: the phone number to compare to
  */
 - (BOOL)isEqualToPhoneNumber:(AKFPhoneNumber *)phoneNumber;
 

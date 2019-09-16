@@ -19,6 +19,7 @@
 #import <Foundation/Foundation.h>
 
 #import <FBSDKCoreKit/FBSDKCopying.h>
+#import <FBSDKCoreKit/FBSDKMacros.h>
 
 /**
  NS_ENUM(NSUInteger, FBSDKAppGroupPrivacy)
@@ -35,7 +36,7 @@ typedef NS_ENUM(NSUInteger, FBSDKAppGroupPrivacy)
 /**
   Converts an FBSDKAppGroupPrivacy to an NSString.
  */
-FOUNDATION_EXPORT NSString *NSStringFromFBSDKAppGroupPrivacy(FBSDKAppGroupPrivacy privacy);
+FBSDK_EXTERN NSString *NSStringFromFBSDKAppGroupPrivacy(FBSDKAppGroupPrivacy privacy);
 
 /**
   A model for creating an app group.
@@ -59,8 +60,8 @@ FOUNDATION_EXPORT NSString *NSStringFromFBSDKAppGroupPrivacy(FBSDKAppGroupPrivac
 
 /**
   Compares the receiver to another app group content.
- @param content The other content
- @return YES if the receiver's values are equal to the other content's values; otherwise NO
+ - Parameter content: The other content
+ - Returns: YES if the receiver's values are equal to the other content's values; otherwise NO
  */
 - (BOOL)isEqualToAppGroupContent:(FBSDKAppGroupContent *)content;
 

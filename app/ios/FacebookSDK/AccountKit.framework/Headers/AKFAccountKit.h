@@ -97,8 +97,8 @@ NS_DESIGNATED_INITIALIZER;
 /**
   Returns a view controller to be presented to initiate an email login.
 
- @param email the email to be used for login.
- @param state the state for the login request.
+ - Parameter email: the email to be used for login.
+ - Parameter state: the state for the login request.
  */
 - (UIViewController<AKFViewController> *)viewControllerForEmailLoginWithEmail:(nullable NSString *)email
                                                                         state:(nullable NSString *)state;
@@ -111,8 +111,8 @@ NS_DESIGNATED_INITIALIZER;
 /**
   Returns a view controller to be presented to initiate a phone login.
 
- @param phoneNumber the phone number to be used for login.
- @param state the state for the login request.
+ - Parameter phoneNumber: the phone number to be used for login.
+ - Parameter state: the state for the login request.
  */
 - (UIViewController<AKFViewController> *)viewControllerForPhoneLoginWithPhoneNumber:(nullable AKFPhoneNumber *)phoneNumber
                                                                               state:(nullable NSString *)state;

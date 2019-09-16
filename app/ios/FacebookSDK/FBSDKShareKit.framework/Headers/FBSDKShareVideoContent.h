@@ -29,21 +29,20 @@
 
 /**
   The photo that represents the video.
- @return The photo
+ - Returns: The photo
  */
-@property (nonatomic, copy) FBSDKSharePhoto *previewPhoto
-DEPRECATED_MSG_ATTRIBUTE("Use `video.previewPhoto`");
+@property (nonatomic, copy) FBSDKSharePhoto *previewPhoto;
 
 /**
   The video to be shared.
- @return The video
+ - Returns: The video
  */
 @property (nonatomic, copy) FBSDKShareVideo *video;
 
 /**
   Compares the receiver to another video content.
- @param content The other content
- @return YES if the receiver's values are equal to the other content's values; otherwise NO
+ - Parameter content: The other content
+ - Returns: YES if the receiver's values are equal to the other content's values; otherwise NO
  */
 - (BOOL)isEqualToShareVideoContent:(FBSDKShareVideoContent *)content;
 

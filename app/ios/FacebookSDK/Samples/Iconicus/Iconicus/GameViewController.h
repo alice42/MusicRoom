@@ -18,7 +18,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Bolts/Bolts.h>
+
 #import <FBSDKShareKit/FBSDKShareKit.h>
 
 #import "BoardView.h"
@@ -27,12 +28,12 @@
 @interface GameViewController : UIViewController <BoardViewDelegate>
 
 @property (nonatomic, strong) IBOutlet BoardView *boardView;
-@property (nonatomic, strong) IBOutlet FBSDKAppLinkReturnToRefererView *returnToRefererView;
+@property (nonatomic, strong) IBOutlet BFAppLinkReturnToRefererView *returnToRefererView;
 @property (nonatomic, strong) IBOutlet FBSDKSendButton *sendButton;
 @property (nonatomic, strong) IBOutlet FBSDKShareButton *shareButton;
 @property (nonatomic, strong) IBOutlet TileContainerView *tileContainerView;
 
-- (BOOL)loadGameFromAppLinkURL:(FBSDKURL *)appLinkURL;
+- (BOOL)loadGameFromAppLinkURL:(BFURL *)appLinkURL;
 - (BOOL)loadGameFromStringRepresentationWithData:(NSString *)data locked:(NSString *)locked;
 
 - (IBAction)copyGameURL:(id)sender;

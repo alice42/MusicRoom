@@ -27,14 +27,14 @@
 
 /**
   Media to be shared.
- @return Array of the media (FBSDKSharePhoto or FBSDKShareVideo)
+ - Returns: Array of the media (FBSDKSharePhoto or FBSDKShareVideo)
  */
 @property (nonatomic, copy) NSArray *media;
 
 /**
   Compares the receiver to another media content.
- @param content The other content
- @return YES if the receiver's values are equal to the other content's values; otherwise NO
+ - Parameter content: The other content
+ - Returns: YES if the receiver's values are equal to the other content's values; otherwise NO
  */
 - (BOOL)isEqualToShareMediaContent:(FBSDKShareMediaContent *)content;
 

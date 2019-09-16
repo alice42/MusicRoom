@@ -18,6 +18,8 @@
 
 #import "AppDelegate.h"
 
+#import <Bolts/Bolts.h>
+
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import <FBSDKShareKit/FBSDKShareKit.h>
@@ -30,7 +32,7 @@
 
 + (void)initialize
 {
-  [FBSDKAppLinkReturnToRefererView class];
+  [BFAppLinkReturnToRefererView class];
   [FBSDKSendButton class];
   [FBSDKShareButton class];
 }
@@ -85,7 +87,7 @@
 
 - (BOOL)_handleAppLink:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
-  FBSDKURL *appLinkURL = [FBSDKURL URLWithInboundURL:url sourceApplication:sourceApplication];
+  BFURL *appLinkURL = [BFURL URLWithInboundURL:url sourceApplication:sourceApplication];
   NSURL *inputURL = appLinkURL.inputURL;
   return ([inputURL.scheme.lowercaseString isEqualToString:@"iconicus"] &&
           [inputURL.host.lowercaseString isEqualToString:@"game"] &&

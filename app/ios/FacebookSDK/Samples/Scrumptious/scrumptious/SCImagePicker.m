@@ -1,27 +1,28 @@
-/*
- * Copyright 2010-present Facebook.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
+//
+// You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
+// copy, modify, and distribute this software in source code or binary form for use
+// in connection with the web services and APIs provided by Facebook.
+//
+// As with any software that integrates with the Facebook platform, your use of
+// this software is subject to the Facebook Developer Principles and Policies
+// [http://developers.facebook.com/policy/]. This copyright notice shall be
+// included in all copies or substantial portions of the software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "SCImagePicker.h"
 
-@interface SCImagePicker () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SCImagePicker () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *actionSheet;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIPopoverController *popoverController;
 @property (nonatomic, assign) CGRect rect;
-@property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) UIViewController *viewController;
 @end
 
@@ -55,72 +56,11 @@
 
 #pragma mark - Public API
 
-- (void)presentFromRect:(CGRect)rect inView:(UIView *)view
+- (void)presentFromRect:(CGRect)rect withViewController:(UIViewController *)viewController
 {
     self.rect = rect;
-    self.view = view;
-    [self _presentActionSheet];
-}
-
-- (void)presentWithViewController:(UIViewController *)viewController
-{
     self.viewController = viewController;
     [self _presentActionSheet];
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSAssert1(actionSheet == self.actionSheet, @"Unexpected actionSheet: %@", actionSheet);
-    self.actionSheet = nil;
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        [self.delegate imagePickerDidCancel:self];
-    } else {
-        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-        self.imagePickerController = imagePickerController;
-        imagePickerController.delegate = self;
-        switch (buttonIndex) {
-            case 0:{
-#if TARGET_IPHONE_SIMULATOR
-                // If its the simulator, camera is no good
-                [[[UIAlertView alloc] initWithTitle:@"Camera not supported in simulator."
-                                            message:@"(>'_')>"
-                                           delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil] show];
-                self.imagePickerController = nil;
-                [self.delegate imagePickerDidCancel:self];
-                return;
-#else
-                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-#endif
-                break;
-            }
-            case 1:{
-                imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                break;
-            }
-            default:{
-                NSAssert1(NO, @"Unexpected button index: %li", (long)buttonIndex);
-                break;
-            }
-        }
-        if (imagePickerController) {
-            UIView *view = self.view;
-            if (view) {
-                UIPopoverController *popoverController = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
-                self.popoverController = popoverController;
-                [popoverController presentPopoverFromRect:self.rect
-                                                   inView:view
-                                 permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                 animated:YES];
-            } else {
-                imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-                [self.viewController presentViewController:imagePickerController animated:YES completion:NULL];
-            }
-        }
-    }
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -141,16 +81,47 @@
 
 - (void)_presentActionSheet
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:
-                                  @"Take Photo",
-                                  @"Choose Existing",
-                                  nil];
-    self.actionSheet = actionSheet;
-    [actionSheet showInView:self.view ?: self.viewController.view];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIAlertAction *takePhotoAction = [UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
+            [self _presentImagePickerControllerWithSourceType:UIImagePickerControllerSourceTypeCamera];
+        }];
+        [alertController addAction:takePhotoAction];
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIAlertAction *chooseExistingAction = [UIAlertAction actionWithTitle:@"Choose Existing" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
+            [self _presentImagePickerControllerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        }];
+        [alertController addAction:chooseExistingAction];
+    }
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:NULL];
+        [alertController addAction:cancelAction];
+    }
+    [self _presentViewController:alertController];
+}
+
+- (void)_presentImagePickerControllerWithSourceType:(UIImagePickerControllerSourceType)sourceType
+{
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController = imagePickerController;
+    imagePickerController.delegate = self;
+    imagePickerController.sourceType = sourceType;
+    [self _presentViewController:imagePickerController];
+}
+
+- (void)_presentViewController:(UIViewController *)viewController
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        viewController.modalPresentationStyle = UIModalPresentationPopover;
+    }
+    [self.viewController presentViewController:viewController animated:YES completion:NULL];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIPopoverPresentationController *presentationController =
+        [viewController popoverPresentationController];
+        presentationController.sourceView = self.viewController.view;
+        presentationController.sourceRect = self.rect;
+    }
 }
 
 @end

@@ -40,7 +40,6 @@
  A controller class that implements default behavior for a BFAppLinkReturnToRefererView, including
  the ability to display the view above the navigation bar for navigation-based apps.
  */
-NS_EXTENSION_UNAVAILABLE_IOS("Not available in app extension")
 @interface BFAppLinkReturnToRefererController : NSObject <BFAppLinkReturnToRefererViewDelegate>
 
 /*!

@@ -28,15 +28,15 @@
 
 /**
  Sets the image for a texture key.
- @param image The UIImage for the texture
- @param key The key for the texture
+ - Parameter image: The UIImage for the texture
+ - Parameter name: The key for the texture
  */
 - (void)setImage:(UIImage *)image forKey:(NSString *)key;
 
 /**
  Gets the image for a texture key.
- @param key The key for the texture
- @return The texture UIImage or nil
+ - Parameter name: The key for the texture
+ - Returns: The texture UIImage or nil
  */
 - (UIImage *)imageForKey:(NSString *)key;
 
