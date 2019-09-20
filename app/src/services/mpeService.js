@@ -12,8 +12,8 @@ const addTrack = '/track'
 const deletePlaylist = '/playlist'
 const removeTrack = '/track'
 
-export const getPlaylistsMethod = async ({ location, token }) => {
-  const url = `${apiUrl}${api}${mpe}${getPlaylists}?location=${location}`
+export const getPlaylistsMethod = async ({ token }) => {
+  const url = `${apiUrl}${api}${mpe}${getPlaylists}`
   try {
     const response = await basicFetch('GET', url, {
       headers: {

@@ -98,6 +98,9 @@ async function signIn(req, res) {
       email,
       password: md5(password),
       tokenValidation,
+      token: {
+        chat: 'croute'
+      },
       signInType: 'classic'
     }
     await insertUser(payload, database)

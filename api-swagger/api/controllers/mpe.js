@@ -48,7 +48,8 @@ async function getPlaylists(req, res) {
     if (!id) {
       return res.status(500).send({ error: 'token not valid' })
     }
-    const { token: userTokens } = await findUserBy('_id', id, database)
+    const tt = await findUserBy('_id', id, database)
+    const { token: userTokens } = tt
     if (!userTokens.deezer) {
       return res.status(500).send({ error: 'you dont have link your account to deezer' })
     }

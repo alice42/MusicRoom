@@ -89,7 +89,7 @@ export default class TagsView extends React.Component {
           <Text style={styles.tagsText}>
             {this.props.allowedUsers ? 'Your allowed friends' : 'Your music tastes'}
           </Text>
-          {tagsPrivacy ? (
+          {!this.props.allowedUsers ? (
             <PrivacyModal
               styleIcon={styles.privacyIcon}
               dataType={'tags'}
