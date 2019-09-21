@@ -100,7 +100,6 @@ export const addtrackToPlaylistMethodMpe = async ({ trackId, playlistId, token }
 export const deletePlaylistMethod = async ({ playlistId, token }) => {
   const url = `${apiUrl}${api}${mpe}${deletePlaylist}`
   try {
-    console.log(playlistId, token)
     const response = await basicFetch(
       'DELETE',
       url,
@@ -120,7 +119,6 @@ export const deletePlaylistMethod = async ({ playlistId, token }) => {
 export const removeTrackMethodMpe = async ({ playlistId, trackId, token }) => {
   const url = `${apiUrl}${api}${mpe}${removeTrack}`
   try {
-    console.log(playlistId, trackId, token)
     const response = await basicFetch(
       'DELETE',
       url,
@@ -131,7 +129,6 @@ export const removeTrackMethodMpe = async ({ playlistId, trackId, token }) => {
       },
       { playlistId, trackId }
     )
-    console.log(response)
     return response
   } catch (err) {
     throw err

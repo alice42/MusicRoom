@@ -206,14 +206,7 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         token: action.response.sessionId,
-        data: {
-          ...state.data,
-          email: action.response.user.email,
-          firstname: action.response.user.givenName,
-          name: action.response.user.familyName,
-          avatarUri: action.response.user.photo,
-          google: true
-        },
+        data: { ...action.response.user },
         errorRegister: null,
         isFetching: false
       }
@@ -222,14 +215,7 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         token: action.response.sessionId,
-        data: {
-          ...state.data,
-          email: action.response.user.email,
-          firstname: action.response.user.firstname,
-          name: action.response.user.lastname,
-          avatarUri: action.response.user.avatarUri,
-          facebook: true
-        },
+        data: { ...action.response.user },
         errorRegister: null,
         isFetching: false
       }

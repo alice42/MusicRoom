@@ -59,10 +59,11 @@ async function facebookLogin(req, res) {
     } else if (user && user.token && !user.token.facebook) {
       await updatetUserNode(user._id, 'token', { facebook: facebookTokenValid }, database)
     }
-    const sessionId = await createSession(database, user._id)
+    const realUser = await findUserBy('email', email, database)
+    const sessionId = await createSession(database, realUser._id)
     return res.status(200).send({
       sessionId,
-      user: getProfileData(user)
+      user: getProfileData(realUser)
     })
   } catch (err) {
     console.log('INTER ERROR', err.message)
@@ -94,10 +95,11 @@ async function googleLogin(req, res) {
     } else if (user && user.token && !user.token.google) {
       await updatetUserNode(user._id, 'token', { google: googleTokenValid }, database)
     }
-    const sessionId = await createSession(database, user._id)
+    const realUser = await findUserBy('email', email, database)
+    const sessionId = await createSession(database, realUser._id)
     return res.status(200).send({
       sessionId,
-      user: getProfileData(user)
+      user: getProfileData(realUser)
     })
   } catch (err) {
     console.log('INTER ERROR', err.message)

@@ -63,7 +63,7 @@ function* loginFacebookSaga(action) {
       yield put({
         type: 'LOGIN_SUCCESS_FACEBOOK',
         response: {
-          user: facebookInformation,
+          user: response.user,
           sessionId: response.sessionId
         }
       })
@@ -79,7 +79,6 @@ function* loginGoogleSaga(action) {
     if (googleInformation === 'cancelled') {
       yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: null })
     } else {
-      console.log('SAGA', googleInformation)
       const response = yield call(loginGoogle, googleInformation)
       if (response.error) {
         yield put({ type: 'LOGIN_GOOGLE_FAILURE', error: response.error })
@@ -87,7 +86,7 @@ function* loginGoogleSaga(action) {
         yield put({
           type: 'LOGIN_SUCCESS_GOOGLE',
           response: {
-            user: googleInformation.user,
+            user: response.user,
             sessionId: response.sessionId
           }
         })

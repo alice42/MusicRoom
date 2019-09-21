@@ -101,7 +101,6 @@ export const addtrackToPlaylistMethodMtv = async ({ trackId, playlistId, token, 
 export const votetMethod = async ({ trackId, eventId, value, token }) => {
   const url = `${apiUrl}${api}${mtv}${voteTrack}`
   try {
-    console.log(trackId, eventId, value, token)
     const response = await basicFetch(
       'POST',
       url,
@@ -140,7 +139,6 @@ export const deleteEventMethod = async ({ eventId, token, location }) => {
 export const removeTrackMethodMtv = async ({ playlistId, trackId, token, location }) => {
   const url = `${apiUrl}${api}${mtv}${removeTrack}`
   try {
-    console.log('SERVICE', playlistId, trackId, token, location)
     const response = await basicFetch(
       'DELETE',
       url,

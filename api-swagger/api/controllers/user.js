@@ -33,7 +33,7 @@ async function recover(req, res) {
 
     const database = res.database
     const user = await findUserBy('email', email, database)
-    if (user && user.signInType === 'classic') {
+    if (user) {
       const tokenPassword = `${md5(email)}${createHash()}`
       await updatetUser(user._id, { email, tokenPassword }, database)
       await sendEmail(mailRecover({ email, tokenPassword }), res.mail)
@@ -52,14 +52,10 @@ async function newPassword(req, res) {
   try {
     const { token } = req.query
     const database = res.database
-    console.log(token)
     const user = await findUserBy('tokenPassword', token, database)
-    console.log(user)
     if (user) {
       const { email } = user
-      console.log(email)
       const newPassword = createHash()
-      console.log(newPassword)
       await updatetUser(
         user._id,
         {
@@ -119,7 +115,6 @@ async function accountValidation(req, res) {
     const database = res.database
     const user = await findUserBy('tokenValidation', token, database)
     if (user) {
-      console.log('USER', user)
       const { email } = user
       await updatetUser(user._id, { email, tokenValidation: null }, database)
       await sendEmail(mailAccountValid({ email }), res.mail)
@@ -145,23 +140,25 @@ async function updateData(req, res) {
       return res.status(500).send({ error: 'you cant change this information' })
     }
     const sessions = await getSessions(database)
+    console.log('SESSION', sessions)
     const id = findKey(sessions, sessionToken => sessionToken === token)
+    console.log('ID', id, !id)
     if (!id) {
       return res.status(500).send({ error: 'token not valid' })
     }
-    const { _id } = await findUserBy('_id', id, database)
-    await updatetUser(
-      _id,
-      {
-        [toChange]:
-          toChange === 'email'
-            ? newValue.toLowerCase()
-            : toChange === 'tags'
-            ? newValue.split(',')
-            : newValue
-      },
-      database
-    )
+    const debug = await findUserBy('_id', id, database)
+    const { _id } = debug
+    const obj = {
+      [toChange]:
+        toChange === 'email'
+          ? newValue.toLowerCase()
+          : toChange === 'tags'
+          ? newValue === ''
+            ? []
+            : newValue.split(',')
+          : newValue
+    }
+    await updatetUser(_id, obj, database)
     const user = await findUserBy('_id', id, database)
     return res.status(200).send(getProfileData(user))
   } catch (err) {

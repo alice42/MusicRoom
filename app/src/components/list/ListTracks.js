@@ -88,7 +88,11 @@ export default class Comments extends Component {
                 </View>
                 <View style={{ justifyContent: 'center', width: width - 180 }}>
                   <Text style={styles.trackTitle}>{track.title}</Text>
-                  <Text style={styles.trackTitleName}>{track.artistName}</Text>
+                  {buttonPlay ? (
+                    <Text style={styles.trackTitleName}>{track.artistName}</Text>
+                  ) : (
+                    <Text style={styles.trackTitleName}>{track.artist.name}</Text>
+                  )}
                 </View>
                 <View
                   style={{

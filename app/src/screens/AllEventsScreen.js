@@ -91,6 +91,7 @@ class AllEventsScreen extends Component {
   }
 
   render() {
+    console.log(this.props.error.errorEvents)
     return (
       <View style={styles.wrapper}>
         <View style={{ display: 'flex', flex: 1 }}>

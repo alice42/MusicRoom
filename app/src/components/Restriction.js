@@ -53,22 +53,25 @@ export default class Restriction extends React.Component {
                 onPress={() => this.showDateTimePicker('start')}
               />
             </View>
-            <View style={styles.contentInfo}>
-              <Text style={styles.title}>End Date: </Text>
-              <Text>{endDate ? endDate : 'none'}</Text>
-              <Icon
-                name="edit"
-                size={20}
-                color={colors.green01}
-                onPress={() => this.showDateTimePicker('end')}
-              />
-            </View>
+            {startDate !== endDate ? (
+              <View style={styles.contentInfo}>
+                <Text style={styles.title}>End Date: </Text>
+                <Text>{endDate ? endDate : 'none'}</Text>
+                <Icon
+                  name="edit"
+                  size={20}
+                  color={colors.green01}
+                  onPress={() => this.showDateTimePicker('end')}
+                />
+              </View>
+            ) : null}
 
             <DateTimePicker
               mode={'datetime'}
               isVisible={this.state.isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
               onCancel={this.hideDateTimePicker}
+              minimumDate={new Date(startDate)}
             />
             <View>
               <Text style={styles.title}>location:</Text>
@@ -93,7 +96,7 @@ export default class Restriction extends React.Component {
               onSlidingComplete={this.props.handleMaxDistance}
               style={{ height: 40 }}
               minimumValue={0}
-              step={10}
+              step={1}
               maximumValue={1000}
               minimumTrackTintColor={colors.green02}
               maximumTrackTintColor={colors.gray02}

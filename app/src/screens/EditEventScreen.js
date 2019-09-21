@@ -81,6 +81,7 @@ class EditEvent extends Component {
   }
 
   handlePrivacy = privacyValue => {
+    console.log(this.props)
     this.setState({ privacyOption: !privacyValue })
     const { id } = this.props.event[0]
     const { location } = this.props.navigation.state.params
@@ -124,13 +125,14 @@ class EditEvent extends Component {
         location
       )
     } else if (whichDate === 'end') {
+      console.log('END')
       this.setState({ endDate: date.toLocaleString() })
       this.props.eventsActions.updateEventRequest(
         id,
         'restriction.endDate',
-        new Date(date).getTime()
-      ),
+        new Date(date).getTime(),
         location
+      )
     }
   }
 

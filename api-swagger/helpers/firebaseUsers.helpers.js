@@ -45,7 +45,6 @@ const updatetUserNode = (id, node, payload, database) => {
 }
 
 const insertUser = (payload, database) => {
-  console.log('TEST')
   return new Promise((resolve, reject) => {
     const _id = md5(payload.email + new Date().getTime())
     database.ref(`users/${_id}`).set({ _id, ...payload }, err => {

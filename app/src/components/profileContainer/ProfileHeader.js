@@ -37,7 +37,7 @@ export default class ProfileHeader extends Component {
             </View>
           </View>
         </View>
-        <Image style={[styles.avatar]} source={require('../../constants/avatar.png')} />
+        {/* <Image style={[styles.avatar]} source={require('../../constants/avatar.png')} /> */}
         <Image
           style={[styles.avatar]}
           source={avatarUri ? { uri: avatarUri } : require('../../constants/avatar.png')}

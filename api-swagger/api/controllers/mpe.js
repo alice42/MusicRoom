@@ -128,7 +128,7 @@ async function updateData(req, res) {
     if (toChange === 'allowedUsers') {
       let usersId
       try {
-        usersIdPromises = newValue.split(',').map(async userMail => {
+        usersIdPromises = (newValue === '' ? [] : newValue.split(',')).map(async userMail => {
           const { _id } = await findUserBy('email', userMail.toLowerCase(), database)
           if (_id === undefined) throw Error('user doesnt exist')
           return _id
