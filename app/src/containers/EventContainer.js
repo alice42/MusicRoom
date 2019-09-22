@@ -16,7 +16,7 @@ import Loader from '../components/Loader'
 import Player from './Player'
 const { height } = Dimensions.get('window')
 
-class PlaylistContainer extends Component {
+class EventContainer extends Component {
   state = {
     modalVisible: false,
     track: null,
@@ -33,11 +33,11 @@ class PlaylistContainer extends Component {
   }
 
   handleDeleteTrack = track => {
-    const service = '/mpe'
+    const service ='/mtv'
     const trackId = track.id
     const { location } = this.props
     const { playlistId } = this.props.event
-    this.props.playlistsActions.removeTrackMpe(playlistId, trackId, service, location)
+    this.props.playlistsActions.removeTrackMtv(playlistId, trackId, service, location)
   }
   renderPlaylistTracks = () => {
     const { list } = this.props.playlist.currentPlaylist
@@ -57,15 +57,15 @@ class PlaylistContainer extends Component {
   handleAddTrack = () => {
     this.props.navigation.navigate('Search', {
       playlist: this.props.playlistId,
-      service: '/mpe'
+      service:'/mtv'
     })
   }
 
   componentWillMount() {
     const { playlistId } = this.props.event
-    const service = '/mpe'
+    const service ='/mtv'
 
-    this.props.playlistsActions.getPlaylistTracksMpe(playlistId, service)
+    this.props.playlistsActions.getPlaylistTracksMtv(playlistId, service)
   }
   alert = () => {
     return Alert.alert(
@@ -160,7 +160,7 @@ const ListTracksConnected = connect(
 export default connect(
   profileMapStateToProps,
   profileActionsMapDispatchToProps
-)(PlaylistContainer)
+)(EventContainer)
 
 const stylesBis = StyleSheet.create({
   wrapper: {

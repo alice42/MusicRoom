@@ -41,9 +41,20 @@ export function deletePlaylistRequest(playlistId, location) {
   }
 }
 
-export function removeTrack(playlistId, trackId, service, location) {
+export function removeTrackMpe(playlistId, trackId, service, location) {
   return {
-    type: 'REMOVE_TRACK_TO_PLAYLIST_REQUEST',
+    type: 'REMOVE_TRACK_TO_PLAYLIST_REQUEST_MPE',
+    playlistId,
+    trackId,
+    service,
+    location
+  }
+}
+
+
+export function removeTrackMtv(playlistId, trackId, service, location) {
+  return {
+    type: 'REMOVE_TRACK_TO_PLAYLIST_REQUEST_MTV',
     playlistId,
     trackId,
     service,
@@ -52,7 +63,7 @@ export function removeTrack(playlistId, trackId, service, location) {
 }
 ///
 
-export function getPlaylistTracks(playlistId, service) {
+export function getPlaylistTracksMpe(playlistId, service) {
   return {
     type: 'SET_PLAYLIST_ID',
     playlistId,
@@ -60,9 +71,26 @@ export function getPlaylistTracks(playlistId, service) {
   }
 }
 
-export function addtrackToPlaylist(trackId, playlistId, service) {
+export function getPlaylistTracksMtv(playlistId, service) {
   return {
-    type: 'ADD_TRACK_TO_PLAYLIST_REQUEST',
+    type: 'SET_PLAYLIST_ID',
+    playlistId,
+    service
+  }
+}
+
+export function addtrackToPlaylistMpe(trackId, playlistId, service) {
+  return {
+    type: 'ADD_TRACK_TO_PLAYLIST_REQUEST_MPE',
+    trackId,
+    playlistId,
+    service
+  }
+}
+
+export function addtrackToPlaylistMtv(trackId, playlistId, service) {
+  return {
+    type: 'ADD_TRACK_TO_PLAYLIST_REQUEST_MTV',
     trackId,
     playlistId,
     service

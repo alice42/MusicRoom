@@ -111,7 +111,7 @@ export default class Comments extends Component {
                         size={18}
                         style={{
                           color: colors.white,
-                          marginLeft: -20
+                          marginLeft: 15
                         }}
                       />
                     </TouchableOpacity>

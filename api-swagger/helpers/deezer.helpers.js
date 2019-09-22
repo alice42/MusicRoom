@@ -45,6 +45,7 @@ const getPlaylistTracks = (id, deezerToken) => {
 const addTrackToPlaylist = (trackId, playlistId, token) => {
   const songs = trackId;
   const url = `https://api.deezer.com/playlist/${playlistId}/tracks?access_token=${token}&request_method=post&songs=${songs}`;
+  console.log("URL", url)
   return fetch(url).then(response => {
     return response.json();
   });

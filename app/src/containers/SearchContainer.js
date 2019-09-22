@@ -12,7 +12,12 @@ import styles from '../styles/containers/HomeContainer'
 class SearchContainer extends Component {
   test = track => {
     const { playlist, service } = this.props.navigation.state.params
-    this.props.playlistsActions.addtrackToPlaylist(track.id, playlist, service)
+    console.log("SERACH", service)
+    if (service === '/mpe'){
+      this.props.playlistsActions.addtrackToPlaylistMpe(track.id, playlist, service)
+    }else if (service === '/mtv'){
+      this.props.playlistsActions.addtrackToPlaylistMtv(track.id, playlist, service)
+    }
     this.props.navigation.goBack()
   }
   alert = () => {

@@ -21,7 +21,7 @@ const { findKey } = require('lodash')
 const md5 = require('blueimp-md5')
 
 const getTracksData = tracks => {
-  const rt = tracks.map(track => ({
+  const rt = tracks.map(track => console.log("TRACKS", track) || ({
     id: track.id,
     albumCover: track.album.cover,
     artistName: track.artist.name,
@@ -268,6 +268,7 @@ async function removeTrack(req, res) {
       return res.status(500).send({ error: 'your token deezer is invalid' })
     }
     const { _id: InternalPlaylistId } = await findPlaylistBy(database, 'playlistId', playlistId)
+    console.log("TRACK ID", trackId, playlistId, userTokens.deezer)
     await removeTrackToPlaylist(trackId, playlistId, userTokens.deezer)
 
     await updatePlaylist(database, InternalPlaylistId, {
@@ -275,6 +276,7 @@ async function removeTrack(req, res) {
     })
 
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer)
+    // console.log("TRACKS API",getTracksData(tracks.tracks.data))
     return res.status(200).send(getTracksData(tracks.tracks.data))
   } catch (err) {
     console.log('INTER ERROR', err.message)

@@ -6,7 +6,7 @@ import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import * as eventsActions from '../actions/eventsActions'
 import styles from '../styles/containers/HomeContainer'
-import PlaylistContainer from '../containers/PlaylistContainer'
+import EventContainer from '../containers/EventContainer'
 import * as playlistsActions from '../actions/playlistsActions'
 
 class EventScreen extends Component {
@@ -49,7 +49,7 @@ class EventScreen extends Component {
           </View>
         </View>
         <View>
-          <PlaylistContainer
+          <EventContainer
             location={this.props.navigation.state.params.location}
             event={event}
             mtv={true}

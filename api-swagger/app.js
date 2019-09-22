@@ -114,7 +114,7 @@ const onConnection = db => async socket => {
     db.ref('playlists').on('child_changed', snapshot => {
       socket.emit('UPDATED_PLAYLIST', {
         type: 'UPDATED_PLAYLIST',
-        data: { id: snapshot.val()._id }
+        data: { id: snapshot.val().playlistId }
       })
     })
   } else {

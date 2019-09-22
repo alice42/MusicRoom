@@ -26,11 +26,11 @@ const createSocketChannel = socket =>
     };
     socket.on("SERVICE_MPE_GET_PLAYLISTS_REQUEST_SUCCESS", handler);
     socket.on("GET_PLAYLIST", handler);
-    socket.on("UPDATED_PLAYLIST", handler);
+    socket.on("UPDATED_PLAYLIST_MPE", handler);
     return () => {
       socket.off("SERVICE_MPE_GET_PLAYLISTS_REQUEST_SUCCESS", handler);
       socket.off("GET_PLAYLIST", handler);
-      socket.off("UPDATED_PLAYLIST", handler);
+      socket.off("UPDATED_PLAYLIST_MPE", handler);
     };
   });
 
