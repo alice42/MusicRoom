@@ -1,5 +1,10 @@
 const md5 = require('blueimp-md5')
-const { findUserBy, getProfileData, insertUser } = require('../../helpers/firebaseUsers.helpers')
+const {
+  findUserBy,
+  getProfileData,
+  insertUser,
+  updatetUserNode
+} = require('../../helpers/firebaseUsers.helpers')
 const { createSession } = require('../../helpers/firebaseSession.helpers')
 const { isFacebookTokenValid } = require('../../helpers/facebook.helpers')
 const { isGoogleTokenValid } = require('../../helpers/google.helpers')

@@ -1,25 +1,25 @@
-import { StyleSheet } from "react-native";
-import { colors } from "../../../constants/colors";
+import { StyleSheet } from 'react-native'
+import { colors } from '../../../constants/colors'
 
 const styles = StyleSheet.create({
   wrapper: {
-    display: "flex",
+    display: 'flex',
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 12,
     paddingBottom: 12,
     borderRadius: 40,
     borderWidth: 1,
-    marginBottom: 15,
-    alignItems: "center"
+    marginBottom: 10,
+    alignItems: 'center'
   },
   buttonTextWrapper: {
-    flexDirection: "row",
-    justifyContent: "center"
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   buttonText: {
-    width: "100%",
-    textAlign: "center"
+    width: '100%',
+    textAlign: 'center'
   }
-});
-export default styles;
+})
+export default styles

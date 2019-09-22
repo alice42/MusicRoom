@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   //Header
   headerProfile: {
     backgroundColor: colors.green01,
-    height: 140
+    height: 120
   },
   headerProfileContent: {
     padding: 50
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   editAvatarButton: {
     alignSelf: 'center',
     marginLeft: 80,
-    marginTop: 30,
+    marginTop: 15,
     backgroundColor: colors.green01,
     alignItems: 'center',
     justifyContent: 'center',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 70
+    marginTop: 50
   },
   //ProfileContent
   containerWrapper: {
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   contentProfileText: {
     marginLeft: 20,
     fontSize: 30,
+    marginBottom: -5,
     color: colors.green01,
     fontWeight: '300'
   },

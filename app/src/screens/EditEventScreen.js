@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -81,7 +81,6 @@ class EditEvent extends Component {
   }
 
   handlePrivacy = privacyValue => {
-    console.log(this.props)
     this.setState({ privacyOption: !privacyValue })
     const { id } = this.props.event[0]
     const { location } = this.props.navigation.state.params
@@ -125,7 +124,6 @@ class EditEvent extends Component {
         location
       )
     } else if (whichDate === 'end') {
-      console.log('END')
       this.setState({ endDate: date.toLocaleString() })
       this.props.eventsActions.updateEventRequest(
         id,
@@ -181,7 +179,7 @@ class EditEvent extends Component {
     } = this.state
     const { name } = this.props.event[0]
     return this.props.event ? (
-      <View style={styles.wrapper}>
+      <ScrollView style={styles.wrapper}>
         <Text style={styles.heading}>Edit an event</Text>
         <View style={styles.content}>
           <View style={styles.inputWrapper}>
@@ -227,7 +225,7 @@ class EditEvent extends Component {
           onMapPress={this.onMapPress}
           onRegionChange={this.onRegionChange}
         />
-      </View>
+      </ScrollView>
     ) : null
   }
 }
