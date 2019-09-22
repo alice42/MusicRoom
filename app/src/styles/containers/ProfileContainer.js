@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
   },
   editAvatarButton: {
     alignSelf: 'center',
-    marginLeft: 90,
-    marginTop: 30,
+    marginLeft: 95,
+    marginTop: 20,
     backgroundColor: colors.green01,
     alignItems: 'center',
     justifyContent: 'center',
