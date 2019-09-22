@@ -50,6 +50,7 @@ class EventScreen extends Component {
         </View>
         <View>
           <EventContainer
+            canEdit={canEdit}
             location={this.props.navigation.state.params.location}
             event={event}
             mtv={true}

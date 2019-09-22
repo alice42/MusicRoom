@@ -97,7 +97,6 @@ function* getPlaylistTracksMpe(action) {
   try {
     const socketPlaylistId = action && action.response && action.response.id
     const playlistId = yield select(state => state.playlist.currentPlaylist.id)
-    console.log("SAGA", playlistId, socketPlaylistId, playlistId && (!socketPlaylistId || socketPlaylistId === playlistId))
     if (playlistId && (!socketPlaylistId || socketPlaylistId === playlistId)) {
       const token = yield select(state => state.user.token)
       const service = action.service
@@ -124,7 +123,6 @@ function* getPlaylistTracksMtv(action) {
   try {
     const socketPlaylistId = action && action.response && action.response.id
     const playlistId = yield select(state => state.playlist.currentPlaylist.id)
-    console.log("SAGA", playlistId, socketPlaylistId, playlistId && (!socketPlaylistId || socketPlaylistId === playlistId))
     if (playlistId && (!socketPlaylistId || socketPlaylistId === playlistId)) {
       const token = yield select(state => state.user.token)
       const service = action.service
@@ -157,9 +155,7 @@ function* addtrackToPlaylistMpe(action) {
       playlistId,
       location
     }
-    console.log("TEST")
     const response = yield call(addtrackToPlaylistMethodMpe, payload)
-    console.log(response)
     if (response.error) {
       throw Error(response.error)
     } else {
@@ -242,7 +238,6 @@ function* removeTrackRequestMtv(action) {
 function* setPlaylistId(action) {
   try {
     const playlist = yield select(state => state.playlist.currentPlaylist)
-    console.log(action.service)
     if (action.service === '/mpe'){
     yield put({
       type: 'GET_PLAYLIST_TRACKS_REQUEST_MPE',

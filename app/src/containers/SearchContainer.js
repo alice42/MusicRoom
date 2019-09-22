@@ -12,7 +12,6 @@ import styles from '../styles/containers/HomeContainer'
 class SearchContainer extends Component {
   test = track => {
     const { playlist, service } = this.props.navigation.state.params
-    console.log("SERACH", service)
     if (service === '/mpe'){
       this.props.playlistsActions.addtrackToPlaylistMpe(track.id, playlist, service)
     }else if (service === '/mtv'){

@@ -44,6 +44,7 @@ class PlaylistScreen extends Component {
         </View>
         <View>
           <PlaylistContainer
+            canEdit={canEdit}
             location={this.props.navigation.state.params.location}
             event={event}
             mpe={true}

@@ -44,6 +44,7 @@ class PlaylistContainer extends Component {
 
     return (
       <ListTracksConnected
+        canEdit={this.props.canEdit}
         list={list}
         buttonPlay={true}
         buttonDel={true}
