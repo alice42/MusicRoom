@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
   },
   editAvatarButton: {
     alignSelf: 'center',
-    marginLeft: 80,
-    marginTop: 15,
+    marginLeft: 90,
+    marginTop: 30,
     backgroundColor: colors.green01,
     alignItems: 'center',
     justifyContent: 'center',
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   contentProfileText: {
     marginLeft: 20,
     fontSize: 30,
-    marginBottom: -5,
+    marginBottom: -10,
     color: colors.green01,
     fontWeight: '300'
   },
