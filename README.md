@@ -70,8 +70,8 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 - [ ] Add friends in user profil
 - [x] update wording in service section
 - [x] add no event/playlist if empty
-- [ ] dezoom on map crash the app
-- [ ] its hard to drag the position
+- [x] dezoom on map crash the app
+- [x] its hard to drag the position
 - [ ] console.log to remove
 - [ ] mtv add right to add/remove tracks only if canEdit
 - [ ] think to bonus arguments

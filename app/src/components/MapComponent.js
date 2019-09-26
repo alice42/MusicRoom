@@ -10,8 +10,8 @@ export default class Map extends Component {
       <View style={{ height: 170 }}>
         <MapView
           initialRegion={{
-            latitude: this.props.latitude,
-            longitude: this.props.longitude,
+            latitude: this.props.latitude ,
+            longitude: this.props.longitude ,
             latitudeDelta: 0.00922 * 2.5,
             longitudeDelta: 0.00421 * 2.5
           }}
@@ -19,16 +19,19 @@ export default class Map extends Component {
           region={this.props.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          onMarkerDragEnd={this.props.onMapPress.bind(this)}
+          zoomTapEnabled={false}
+          onLongPress={this.props.onMapPress.bind(this)}
         >
-          <View style={{ padding: 10 }}>
+          <View style={{ padding: 10, width: 30}}>
             <Icon
+            style={{width: 30}}
               name="ios-remove-circle"
               size={30}
               color={colors.green02}
               onPress={this.props.onPressZoomIn.bind(this)}
             />
             <Icon
+            style={{width: 30}}
               name="ios-add-circle"
               size={30}
               color={colors.green02}
@@ -45,7 +48,7 @@ export default class Map extends Component {
             fillColor={`rgba(0, 131, 136, 0.5)`}
           />
           <MapView.Marker
-            draggable
+            // draggable
             coordinate={{
               latitude: this.props.latitude,
               longitude: this.props.longitude

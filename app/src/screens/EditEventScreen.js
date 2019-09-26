@@ -32,10 +32,17 @@ class EditEvent extends Component {
     longitude: parseFloat(this.props.event[0].restriction.location.split(' ')[1]),
     mapRegion: null,
     latitudeDelta: 0.00922 * 2.5,
-    longitudeDelta: 0.00421 * 2.5
+    longitudeDelta: 0.00421 * 2.5,
+    zoom: 0,
+    marker: false,
+    markerCoord: {
+      longitude: null,
+      latitude: null
+    }
   }
 
   onMapPress = e => {
+    this.setState({ markerCoord: e.nativeEvent.coordinate})
     let region = {
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
@@ -135,6 +142,8 @@ class EditEvent extends Component {
   }
 
   onPressZoomIn = () => {
+    if (this.state.zoom > -3){
+      this.setState({zoom: this.state.zoom-1})
     region = {
       latitude: this.state.latitude,
       longitude: this.state.longitude,
@@ -148,9 +157,12 @@ class EditEvent extends Component {
       longitude: region.longitude
     })
     this.onRegionChange(region, region.latitude, region.longitude)
+    }
   }
 
   onPressZoomOut = () => {
+    if (this.state.zoom <= 4){
+    this.setState({zoom: this.state.zoom+1})
     region = {
       latitude: this.state.latitude,
       longitude: this.state.longitude,
@@ -164,6 +176,7 @@ class EditEvent extends Component {
       longitude: region.longitude
     })
     this.onRegionChange(region, region.latitude, region.longitude)
+    }
   }
 
   render() {
@@ -207,6 +220,9 @@ class EditEvent extends Component {
           </View>
         ) : null}
         <Restriction
+          markerCoord={this.state.markerCoord}
+          marker={this.state.marker}
+          zoom={this.state.zoom}
           onPressZoomOut={this.onPressZoomOut}
           onPressZoomIn={this.onPressZoomIn}
           mapRegion={mapRegion}
