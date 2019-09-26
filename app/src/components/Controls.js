@@ -1,17 +1,10 @@
 import React, { Component } from 'react'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 class Controls extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <TouchableOpacity
-          activeOpacity={0.0}
-          onPress={this.props.onPressShuffle}
-        >
-          <Image source={require('../img/ic_shuffle_white.png')} />
-        </TouchableOpacity> */}
         <View style={{ width: 40 }} />
         <TouchableOpacity onPress={this.props.onBack}>
           <Image source={require('../img/ic_skip_previous_white_36pt.png')} />

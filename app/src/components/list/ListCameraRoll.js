@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableHighlight, Image } from "react-native";
+import { View, TouchableHighlight, Image } from "react-native";
 import { colors } from "../../constants/colors";
 import styles from "../../styles/components/list/ListCameraRoll";
 

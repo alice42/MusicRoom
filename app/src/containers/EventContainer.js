@@ -113,6 +113,7 @@ class EventContainer extends Component {
           ) : null}
         </View>
         <View style={{ marginTop: 10, marginBottom: 20 }}>
+          {this.props.canEdit ? 
           <RoundedButton
             text="add track"
             textColor={colors.white}
@@ -129,7 +130,7 @@ class EventContainer extends Component {
               </View>
             }
             handleOnPress={this.handleAddTrack}
-          />
+          /> : null}
         </View>
       </View>
     )

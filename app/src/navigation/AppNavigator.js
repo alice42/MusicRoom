@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  createStackNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import { connect } from "react-redux";
 import LoggedOutScreen from "../screens/LoggedOutScreen";
 import LogInScreen from "../screens/LogInScreen";
@@ -24,7 +21,7 @@ export const AppNavigator = createStackNavigator({
   ForgotPassword: { screen: ForgotPasswordScreen }
 });
 
-const AppWithNavigationState = ({ dispatch, nav }) => <AppNavigator />;
+const AppWithNavigationState = () => <AppNavigator />;
 const mapStateToProps = state => ({
   nav: state.nav
 });

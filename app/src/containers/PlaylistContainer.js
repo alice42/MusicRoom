@@ -78,7 +78,6 @@ class PlaylistContainer extends Component {
   render() {
     const { event } = this.props
     const { track, index, tracks, modalVisible } = this.state
-    console.log()
     return (
       <View style={styles.wrapperBis}>
         <ScrollView

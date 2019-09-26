@@ -1,36 +1,24 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import {
   View,
   Text,
-  TouchableOpacity,
   Dimensions,
   ScrollView
 } from 'react-native'
 import { colors } from '../../constants/colors'
 import styles from '../../styles/containers/HomeContainer'
-import RadioInput from '../input/RadioInput'
 import RoundedButton from '../button/RoundedButton'
-import * as userActions from '../../actions/userActions'
-import ListPlaylists from '../list/ListPlaylists'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icons from 'react-native-vector-icons/MaterialIcons'
-
-const { width, height } = Dimensions.get('window')
 
 export default class HomeContainer extends Component {
   handleAddTrack = () => {
     this.props.navigation.navigate('Search')
   }
-  apiError = () => {
-    const { error } = this.props.user
-    return <Text style={styles.errorMessage}>{error}</Text>
-  }
+
   render() {
     return (
       <View style={styles.wrapper}>
-        {this.apiError()}
         <Text style={styles.subHeading}>Your playlists</Text>
         <ScrollView style={{ backgroundColor: colors.gray03 }}>
           {this.props.renderPlaylists()}

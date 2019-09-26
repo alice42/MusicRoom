@@ -1,8 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import PrivacyModal from './PrivacyModal'
 import EditableInput from '../../../components/input/EditableInput'
-import { colors } from '../../../constants/colors'
 import styles from '../../../styles/containers/ProfileContainer'
 
 export default class UserInfos extends React.Component {

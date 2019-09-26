@@ -8,8 +8,6 @@ import EditableInput from '../components/input/EditableInput'
 import * as playlistsActions from '../actions/playlistsActions'
 import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
-import Restriction from '../components/Restriction'
-import ApiError from '../components/ApiError'
 
 class EditPlaylist extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -65,9 +63,6 @@ class EditPlaylist extends Component {
         </View>
         {!privacyOption ? (
           <View style={{ paddingTop: 15, paddingBottom: 5 }}>
-            {this.props.events.error ? (
-              <ApiError style={{ textAlign: 'center' }} error={this.props.events.error} />
-            ) : null}
             <Tags
               allowedUsers={this.props.event[0].allowedUsers}
               event={this.props.event[0].id}

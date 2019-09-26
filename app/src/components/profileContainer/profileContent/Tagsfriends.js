@@ -6,7 +6,7 @@ import PrivacyModal from './PrivacyModal'
 import { colors } from '../../../constants/colors'
 import styles from '../../../styles/containers/ProfileContainer'
 
-export default class TagsView extends React.Component {
+export default class friendsView extends React.Component {
   state = {
     inputvalue: '',
     addNewTag: false
@@ -18,39 +18,21 @@ export default class TagsView extends React.Component {
 
   onPressValidNewTag = () => {
     const { inputvalue } = this.state
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
+    const {friends} = this.props.user.data
     const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(inputvalue)) {
-      tags.push(inputvalue)
-      this.props.allowedUsers
-        ? this.props.eventsActions.updateEventRequest(
-            this.props.event,
-            'allowedUsers',
-            tags.join(','),
-            this.props.location
-          )
-        : this.props.actions.updateRequest(this.props.user.token, 'tags', tags.join(','))
+      friends.push(inputvalue)
+      this.props.actions.updateRequest(this.props.user.token, 'friends', friends.join(','))
     }
     this.setState({ inputvalue: '', addNewTag: false })
   }
 
-  onPressDeleteTag = tag => {
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
-    var newTags = tags.filter(function(value) {
-      return value !== tag
+  onPressDeleteTag = friend => {
+    const {friends} = this.props.user.data
+    var newfriends = friends.filter(function(value) {
+      return value !== friend
     })
-    this.props.allowedUsers
-      ? this.props.eventsActions.updateEventRequest(
-          this.props.event,
-          'allowedUsers',
-          newTags.join(','),
-          this.props.location
-        )
-      : this.props.actions.updateRequest(this.props.user.token, 'tags', newTags.join(','))
+    this.props.actions.updateRequest(this.props.user.token, 'friends', newfriends.join(','))
   }
 
   handlePrivacy = (privacyValue, dataType) => {
@@ -58,19 +40,16 @@ export default class TagsView extends React.Component {
     this.props.actions.updatePrivacyRequest(token, privacyValue, dataType)
   }
 
-  allTags() {
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
-    return tags.map((tag, i) => {
+  allfriends() {
+    const {friends} = this.props.user.data
+    return friends.map((tag, i) => {
       return (
         <TagButton
           onPressDeleteTag={() => {
-            this.onPressDeleteTag(tag)
+            this.onPressDeleteTag(friend)
           }}
           key={i}
-          title={tag}
-          allowedUsers={this.props.allowedUsers ? true : false}
+          title={friend}
         />
       )
     })
@@ -82,28 +61,24 @@ export default class TagsView extends React.Component {
 
   render() {
     const { inputvalue, addNewTag } = this.state
-    const tagsPrivacy = this.props.allowedUsers ? null : this.props.user.data.privacy.tags
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
+    const {friends} = this.props.user.data
+    const friendsPrivacy = this.props.user.data.privacy.friends
     return (
       <View>
         <View style={styles.tagsTitleWrapper}>
           <Text style={styles.tagsText}>
-            {this.props.allowedUsers ? 'Your allowed friends' : 'Your music tastes'}
+           Your friends
           </Text>
-          {!this.props.allowedUsers ? (
             <PrivacyModal
               styleIcon={styles.privacyIcon}
-              dataType={'tags'}
+              dataType={'friends'}
               onChangePrivacy={this.handlePrivacy}
-              dataPrivacy={tagsPrivacy}
+              dataPrivacy={friendsPrivacy}
             />
-          ) : null}
         </View>
         <SafeAreaView>
           <ScrollView
-            style={[stylesBis.tagsScrollView, {height: this.props.allowedUsers ? this.props.allowedUsersEvent ? 90 : 200 : 200}]}
+            style={stylesBis.tagsScrollView }
           >
             <View style={styles.tagsContainer}>
               <AddTagButton
@@ -114,8 +89,8 @@ export default class TagsView extends React.Component {
                 onPressAdd={this.onPressAdd}
                 allowedUsers={this.props.allowedUsers ? true : false}
               />
-              {tags.length !== 0 ? null : <Text style={{ fontStyle: "italic", color: colors.gray01, marginLeft:15 }}>Add a new { this.props.allowedUsers ? 'friend!' : 'tag!'}</Text>}
-              {this.allTags()}
+              {friends.length !== 0 ? null : <Text style={{ fontStyle: "italic", color: colors.gray01, marginLeft:15 }}>Add a new friend!</Text>}
+              {this.allfriends()}
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -126,6 +101,7 @@ export default class TagsView extends React.Component {
 
 const stylesBis = StyleSheet.create({
   tagsScrollView: {
+    height: 200,
     display: 'flex',
     backgroundColor: colors.green02,
     margin: 10,

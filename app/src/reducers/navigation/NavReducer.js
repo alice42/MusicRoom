@@ -1,5 +1,3 @@
-import { combineReducers } from "redux";
-import { NavigationActions } from "react-navigation";
 import { AppNavigator } from "../../navigation/AppNavigator";
 
 const router = AppNavigator.router;

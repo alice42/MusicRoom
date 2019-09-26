@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import { colors } from '../../constants/colors'
+import { View, TextInput, TouchableOpacity } from 'react-native'
 import styles from '../../styles/components/input/EditableInput'
 
 export default class EditableInput extends Component {

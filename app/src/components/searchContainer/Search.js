@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Text, ScrollView, SafeAreaView, Dimensions } from 'react-native'
-import { colors } from '../../constants/colors'
+import { View, Text, Dimensions } from 'react-native'
 import * as userActions from '../../actions/userActions'
 import * as searchActions from '../../actions/searchActions'
 import ListTracks from '../list/ListTracks'
@@ -10,10 +9,6 @@ import SearchBar from '../input/SearchBar'
 import Loader from '../Loader'
 
 class Search extends Component {
-  apiError = () => {
-    const { error } = this.props.user
-    return <Text style={{ color: 'red' }}>{error}</Text>
-  }
 
   render() {
     const screenHeight = Dimensions.get('window').height

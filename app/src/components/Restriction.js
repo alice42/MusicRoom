@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Switch, Button, Slider } from 'react-native'
+import { View, Text, StyleSheet, Switch, Slider } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'

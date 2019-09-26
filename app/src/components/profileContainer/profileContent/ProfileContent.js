@@ -1,18 +1,14 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import UserInfos from './UserInfos'
+import { View } from 'react-native'
 import Tags from './Tags'
-import Networks from './Networks'
-import { colors } from '../../../constants/colors'
-import styles from '../../../styles/containers/ProfileContainer'
+import Tagsfriends from './Tagsfriends'
 
 export default class ProfileContent extends React.Component {
   render() {
     return (
-      <View>
-        <UserInfos {...this.props} />
+      <View style={{marginTop: 20}}>
         <Tags {...this.props} />
-        <Networks {...this.props} />
+        <Tagsfriends {...this.props} />
       </View>
     )
   }

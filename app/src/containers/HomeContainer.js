@@ -5,7 +5,6 @@ import { View, Text, StyleSheet } from 'react-native'
 import { colors } from '../constants/colors'
 import NextArrowButton from '../components/button/NextArrowButton'
 import * as userActions from '../actions/userActions'
-import Icon from 'react-native-vector-icons/FontAwesome'
 
 class HomeContainer extends Component {
   onPlaylistsPress = () => {

@@ -23,10 +23,6 @@ class Player extends Component {
     this.setState({ totalLength: Math.floor(data.duration) })
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log("NEXT", nextProps)
-  }
-
   setTime(data) {
     this.setState({ currentPosition: Math.floor(data.currentTime) })
     if (this.state.currentPosition === this.state.totalLength && this.state.totalLength) {
@@ -52,10 +48,7 @@ class Player extends Component {
   }
 
   render() {
-    const { tracks } = this.props
     const track = this.props.tracks[this.state.selectedTrack] || 0
-    console.log(this.props.tracks, tracks)
-
     return track ? (
       <View style={{ backgroundColor: colors.green01, padding: 15 }}>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

@@ -2,6 +2,7 @@ import React from 'react'
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
 import HomeContainer from '../containers/HomeContainer'
 import ProfileContainer from '../containers/ProfileContainer'
+import SettingsContainer from '../containers/SettingsContainer'
 import { colors } from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import CameraRollScreen from '../screens/CameraRollScreen'
@@ -70,6 +71,32 @@ ProfileTab.navigationOptions = ({ navigation }) => {
   }
 }
 
+const SettingsTab = createStackNavigator(
+  {
+    SettingsContainer: {
+      screen: SettingsContainer,
+      navigationOptions: {
+        header: null
+      }
+    }
+  },
+  {
+    mode: 'modal'
+  }
+)
+
+SettingsTab.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true
+  if (navigation.state.index > 0) {
+    tabBarVisible = false
+  }
+
+  return {
+    tabBarVisible
+  }
+}
+
+
 const CustomTabBarIcon = (name, size) => {
   const icon = ({ tintColor }) => <Icon name={name} size={size} color={tintColor} />
 
@@ -90,6 +117,13 @@ const LoggedInTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: CustomTabBarIcon('home', 22)
+      }
+    },
+    Settings: {
+      screen: SettingsTab,
+      navigationOptions: {
+        tabBarLabel: 'Settings',
+        tabBarIcon: CustomTabBarIcon('cogs', 22)
       }
     }
   },

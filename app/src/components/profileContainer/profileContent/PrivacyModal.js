@@ -1,7 +1,6 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Modal, Picker, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, Modal, Picker} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { colors } from '../../../constants/colors'
 import styles from '../../../styles/containers/ProfileContainer'
 
 export default class PrivacyModal extends React.Component {

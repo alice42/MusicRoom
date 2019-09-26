@@ -3,21 +3,15 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   ScrollView,
   StyleSheet,
-  DatePickerIOS
 } from 'react-native'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../constants/colors'
 import InputField from '../components/input/InputField'
-import RadioInput from '../components/input/RadioInput'
 import RoundedButton from '../components/button/RoundedButton'
-import * as userActions from '../actions/userActions'
-import Privacy from '../components/playlist/Privacy'
 
 class CreateEvent extends Component {
   static navigationOptions = ({ navigation }) => ({

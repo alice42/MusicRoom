@@ -67,12 +67,12 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 - [x] Fix mail 500
 - [x] On playlist operation, verify sockets
 - [ ] ~~Do real patch ( { key: value } )~~
-- [ ] Add friends in user profil
+- [x] Add friends in user profil
 - [x] update wording in service section
 - [x] add no event/playlist if empty
 - [x] dezoom on map crash the app
 - [x] its hard to drag the position
-- [ ] console.log to remove
-- [ ] mtv add right to add/remove tracks only if canEdit
+- [x] console.log to remove
+- [x] mtv add right to add/remove tracks only if canEdit
 - [ ] think to bonus arguments
 - [x] source player when new/removed tracks

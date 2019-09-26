@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { PropTypes } from "prop-types";
-import { View, Text, Easing, Animated, StyleSheet } from "react-native";
+import { View, Easing, Animated, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors } from "../../constants/colors";
-// import styles from "../../styles/components/input/RadioInput";
 
 export default class RadioInput extends Component {
   state = {

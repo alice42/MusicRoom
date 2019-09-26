@@ -3,21 +3,15 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   ScrollView,
   StyleSheet,
-  DatePickerIOS
 } from 'react-native'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { colors } from '../constants/colors'
 import InputField from '../components/input/InputField'
-import RadioInput from '../components/input/RadioInput'
 import RoundedButton from '../components/button/RoundedButton'
-import * as userActions from '../actions/userActions'
-import Privacy from '../components/playlist/Privacy'
 
 class CreatePlaylist extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -78,16 +72,6 @@ class CreatePlaylist extends Component {
                 color={colors.green01}
               />
             </View>
-            {/* <View>
-              <Text style={styles.privacyHeading}>Pick a date for your playlist</Text>
-              <DatePickerIOS date={this.state.chosenDate} onDateChange={this.setDate} />
-            </View> */}
-            {/* <Privacy
-              privacyOption={this.state.privacyOption}
-              selectPrivacyOption={this.selectPrivacyOption}
-              collabOption={this.state.collabOption}
-              selectCollabOption={this.selectCollabOption}
-            /> */}
           </View>
         </ScrollView>
         <View style={styles.createButton}>

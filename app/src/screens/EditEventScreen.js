@@ -10,7 +10,6 @@ import * as errorActions from '../actions/errorActions'
 import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
 import Restriction from '../components/Restriction'
-import ApiError from '../components/ApiError'
 
 class EditEvent extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -213,6 +212,7 @@ class EditEvent extends Component {
             <Tags
               location={this.props.navigation.state.params.location}
               allowedUsers={this.props.event[0].allowedUsers}
+              allowedUsersEvent={true}
               event={this.props.event[0].id}
               eventsActions={this.props.eventsActions}
             />
