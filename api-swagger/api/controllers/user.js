@@ -140,9 +140,7 @@ async function updateData(req, res) {
       return res.status(500).send({ error: 'you cant change this information' })
     }
     const sessions = await getSessions(database)
-    console.log('SESSION', sessions)
     const id = findKey(sessions, sessionToken => sessionToken === token)
-    console.log('ID', id, !id)
     if (!id) {
       return res.status(500).send({ error: 'token not valid' })
     }

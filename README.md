@@ -68,8 +68,8 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 - [x] On playlist operation, verify sockets
 - [ ] ~~Do real patch ( { key: value } )~~
 - [ ] Add friends in user profil
-- [ ] update wording in service section
-- [ ] add no event/playlist if empty
+- [x] update wording in service section
+- [x] add no event/playlist if empty
 - [ ] dezoom on map crash the app
 - [ ] its hard to drag the position
 - [ ] console.log to remove

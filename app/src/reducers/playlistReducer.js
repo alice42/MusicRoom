@@ -36,7 +36,7 @@ const reducer = (state = initialState, action) => {
     case 'REMOVE_TRACK_FROM_PLAYLIST_SUCCESS':
       return {
         ...state,
-        currentPlaylist: { ...state.currentPlaylist,list: [...action.results], isFetching: false },
+        currentPlaylist: { ...state.currentPlaylist, list: [...action.results], isFetching: false },
         isFetching: false
       }
     case 'ADD_TRACK_TO_PLAYLIST_SUCCESS':

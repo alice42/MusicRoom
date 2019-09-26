@@ -13,7 +13,7 @@ import { SwipeRow } from 'react-native-swipe-list-view'
 import DeletePlaylistModal from '../playlist/DeletePlaylistModal'
 import { colors } from '../../constants/colors'
 
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 export default class playlists extends Component {
   handleOnPressAccess = event => {
@@ -26,7 +26,11 @@ export default class playlists extends Component {
   renderplaylists() {
     const { list } = this.props
     return (
-      <FlatList
+      list.length === 0 ? 
+        <View style={styles.viewNoEvent}>
+          <Text style={styles.textNoEvent}>No events created</Text>
+        </View>
+        : <FlatList
         style={styles.root}
         data={list}
         extraData={this.props}
@@ -87,6 +91,18 @@ export default class playlists extends Component {
 }
 
 const styles = StyleSheet.create({
+  viewNoEvent:{
+    width: width,
+    height: height,
+    padding: 70,
+    alignItems: 'center',
+  },
+  textNoEvent: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.green01,
+    marginTop: 2
+  },
   root: {
     backgroundColor: '#ffffff'
   },

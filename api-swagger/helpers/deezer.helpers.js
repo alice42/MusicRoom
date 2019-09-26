@@ -53,7 +53,9 @@ const addTrackToPlaylist = (trackId, playlistId, token) => {
 const removeTrackToPlaylist = (trackId, playlistId, token) => {
   const songs = trackId;
   const url = `https://api.deezer.com/playlist/${playlistId}/tracks?access_token=${token}&request_method=delete&songs=${songs}`;
+  console.log('URL', url)
   return fetch(url).then(response => {
+    // response.json().then(console.log)
     return response.json();
   });
 };

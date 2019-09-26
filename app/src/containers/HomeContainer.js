@@ -28,7 +28,7 @@ class HomeContainer extends Component {
               borderTopRightRadius: 30
             }}
           >
-            <Text style={[styles.title, { color: colors.green02, marginTop: 45 }]}>PLAYLISTS</Text>
+            <Text style={[styles.title, { color: colors.green02, marginTop: 45 }]}>MUSIC PLAYLISTS EDITOR</Text>
             <View
               style={{
                 flex: 1,
@@ -52,7 +52,7 @@ class HomeContainer extends Component {
               borderBottomRightRadius: 30
             }}
           >
-            <Text style={[styles.title, { color: colors.green01, marginTop: 45 }]}>EVENTS</Text>
+            <Text style={[styles.title, { color: colors.green01, marginTop: 45 }]}>MUSIC TRACK VOTE</Text>
             <View
               style={{
                 marginBottom: 20,

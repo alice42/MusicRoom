@@ -4,15 +4,20 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { FlatList, View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native'
 import { SwipeRow } from 'react-native-swipe-list-view'
 import { colors } from '../../constants/colors'
-
+const { width, height } = Dimensions.get('window')
 export default class Comments extends Component {
   handleOnPressDelete = track => {
     this.props.handleDeleteTrack(track)
   }
   render() {
-    const { width } = Dimensions.get('window')
+    const { width, height } = Dimensions.get('window')
     const { list, buttonPlay, buttonAdd, mtv, canEdit } = this.props
     return (
+      list.length === 0 ? 
+      <View style={styles.viewNoEvent}>
+        <Text style={styles.textNoEvent}>No tracks</Text>
+      </View>
+      :
       <FlatList
         style={styles.root}
         data={list}
@@ -147,6 +152,18 @@ const styles = StyleSheet.create({
   // root: {
   //   backgroundColor: '#ffffff'
   // },
+  viewNoEvent:{
+    width: width,
+    height: height,
+    padding: 70,
+    alignItems: 'center',
+  },
+  textNoEvent: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.green01,
+    marginTop: 2
+  },
   container: {
     paddingLeft: 19,
     paddingRight: 16,
