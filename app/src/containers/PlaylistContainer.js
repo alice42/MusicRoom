@@ -21,7 +21,6 @@ class PlaylistContainer extends Component {
     modalVisible: false,
     track: null,
     index: 0,
-    tracks: this.props.playlist.currentPlaylist
   }
   setModalVisible = visible => {
     this.setState({ modalVisible: visible })
@@ -65,9 +64,9 @@ class PlaylistContainer extends Component {
   componentWillMount() {
     const { playlistId } = this.props.event
     const service = '/mpe'
-
     this.props.playlistsActions.getPlaylistTracksMpe(playlistId, service)
   }
+
   alert = () => {
     return Alert.alert(
       'MUSICROOM TRACKS',
@@ -79,6 +78,7 @@ class PlaylistContainer extends Component {
   render() {
     const { event } = this.props
     const { track, index, tracks, modalVisible } = this.state
+    console.log()
     return (
       <View style={styles.wrapperBis}>
         <ScrollView
@@ -107,7 +107,7 @@ class PlaylistContainer extends Component {
               event={event}
               track={track}
               index={index}
-              tracks={tracks}
+              tracks={this.props.playlist.currentPlaylist.list}
               backgroundColor={colors.green01}
             />
           ) : null}

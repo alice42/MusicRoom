@@ -75,4 +75,4 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 - [ ] console.log to remove
 - [ ] mtv add right to add/remove tracks only if canEdit
 - [ ] think to bonus arguments
-- [ ] source player when new/removed tracks
+- [x] source player when new/removed tracks

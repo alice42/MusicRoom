@@ -50,7 +50,6 @@ const getTracksWithVotes = (tracks, votes) => {
   tracksWithVote.sort((a, b) =>
     b.numberOfVote < a.numberOfVote ? -1 : b.numberOfVote > a.numberOfVote ? 1 : 0
   )
-  console.log('VIOTE', tracksWithVote)
   return tracksWithVote
 }
 const getEventsAvailable = (events, location, id, idCorrespondance) => {

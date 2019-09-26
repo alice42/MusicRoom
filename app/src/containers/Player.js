@@ -14,12 +14,17 @@ import { colors } from '../constants/colors'
 class Player extends Component {
   state = {
     paused: false,
-    totalLength: 0,
-    currentPosition: 0,
+    totalLength: null,
+    currentPosition: null,
     selectedTrack: this.props.index
   }
+
   setDuration(data) {
     this.setState({ totalLength: Math.floor(data.duration) })
+  }
+
+  componentWillReceiveProps(nextProps){
+    console.log("NEXT", nextProps)
   }
 
   setTime(data) {
@@ -47,7 +52,10 @@ class Player extends Component {
   }
 
   render() {
-    const track = this.props.tracks[this.state.selectedTrack]
+    const { tracks } = this.props
+    const track = this.props.tracks[this.state.selectedTrack] || 0
+    console.log(this.props.tracks, tracks)
+
     return track ? (
       <View style={{ backgroundColor: colors.green01, padding: 15 }}>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
