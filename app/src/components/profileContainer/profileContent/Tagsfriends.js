@@ -42,7 +42,7 @@ export default class friendsView extends React.Component {
 
   allfriends() {
     const {friends} = this.props.user.data
-    return friends.map((tag, i) => {
+    return friends.map((friend, i) => {
       return (
         <TagButton
           onPressDeleteTag={() => {
@@ -87,7 +87,7 @@ export default class friendsView extends React.Component {
                 handleInput={this.handleInput}
                 onPressValidNewTag={this.onPressValidNewTag}
                 onPressAdd={this.onPressAdd}
-                allowedUsers={this.props.allowedUsers ? true : false}
+                allowedUsers={ true }
               />
               {friends.length !== 0 ? null : <Text style={{ fontStyle: "italic", color: colors.gray01, marginLeft:15 }}>Add a new friend!</Text>}
               {this.allfriends()}
