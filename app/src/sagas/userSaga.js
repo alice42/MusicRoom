@@ -255,6 +255,7 @@ function* updateUserSaga(action) {
       newValue
     }
     const response = yield call(updateMethod, payload)
+    console.log('SAGA', response)
     if (response.error) {
       yield put({ type: 'UPDATE_FAILURE', error: response.error })
     } else {

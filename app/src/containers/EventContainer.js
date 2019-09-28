@@ -55,6 +55,7 @@ class EventContainer extends Component {
       />
     )
   }
+  
   handleAddTrack = () => {
     this.props.navigation.navigate('Search', {
       playlist: this.props.playlistId,
@@ -107,7 +108,7 @@ class EventContainer extends Component {
               event={event}
               track={track}
               index={index}
-              tracks={tracks}
+              tracks={this.props.playlist.currentPlaylist.list}
               backgroundColor={colors.green01}
             />
           ) : null}

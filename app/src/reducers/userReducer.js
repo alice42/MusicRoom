@@ -177,7 +177,7 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         token: action.response.sessionId,
-        data: { ...state.data, ...action.response.user },
+        data: {  ...action.response.user },
         errorLogIn: null,
         isFetching: false
       }
@@ -207,7 +207,7 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         token: action.response.sessionId,
-        data: {...state.data, ...action.response.user },
+        data: { ...action.response.user },
         errorRegister: null,
         isFetching: false
       }
@@ -216,7 +216,7 @@ function reducer(state = initialState, action) {
         ...state,
         isEmailSend: false,
         token: action.response.sessionId,
-        data: { ...state.data, ...action.response.user },
+        data: {  ...action.response.user },
         errorRegister: null,
         isFetching: false
       }
@@ -224,14 +224,14 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetchingFB: false
       }
     case 'UNLINK_FACEBOOK_SUCCESS':
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetching: false,
         isFetchingFB: false
       }
@@ -251,7 +251,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetching: false,
         isFetchingGG: false
       }
@@ -259,7 +259,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetching: false,
         isFetchingGG: false
       }
@@ -279,7 +279,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetching: false,
         isFetchingDZ: false
       }
@@ -287,7 +287,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetching: false,
         isFetchingDZ: false
       }
@@ -315,7 +315,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, ...action.response },
+        data: {  ...action.response },
         isFetching: false
       }
     case 'UPDATE_FAILURE':
@@ -343,7 +343,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         isEmailSend: false,
-        data: { ...state.data, followers: action.results },
+        data: {  followers: action.results },
         isFetching: false
       }
     case 'LOGOUT':

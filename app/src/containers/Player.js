@@ -19,6 +19,9 @@ class Player extends Component {
     selectedTrack: this.props.index
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({selectedTrack: nextProps.index})
+  }
   setDuration(data) {
     this.setState({ totalLength: Math.floor(data.duration) })
   }
@@ -48,7 +51,7 @@ class Player extends Component {
   }
 
   render() {
-    const track = this.props.tracks[this.state.selectedTrack] || 0
+    const track = this.props.tracks[this.state.selectedTrack]
     return track ? (
       <View style={{ backgroundColor: colors.green01, padding: 15 }}>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -109,7 +112,7 @@ class Player extends Component {
         </TouchableOpacity>
         <View style={{ backgroundColor: colors.green01, padding: 32 }}>
           <Text style={styleModal.modalText}>{this.props.event.name}</Text>
-          <TouchableOpacity onPress={() => this.replay()}>
+          <TouchableOpacity onPress={() => this.props.replay()}>
             <Icon name={'repeat'} size={35} style={styleModal.modalIcon} />
           </TouchableOpacity>
         </View>

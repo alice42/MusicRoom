@@ -28,7 +28,7 @@ class PlaylistContainer extends Component {
 
   play = (index, track, tracks) => {
     this.setModalVisible(true)
-    this.setState({ track: track, index, tracks })
+    this.setState({track, index, tracks })
   }
 
   handleDeleteTrack = track => {

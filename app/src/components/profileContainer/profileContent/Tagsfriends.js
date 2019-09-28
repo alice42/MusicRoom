@@ -18,7 +18,7 @@ export default class friendsView extends React.Component {
 
   onPressValidNewTag = () => {
     const { inputvalue } = this.state
-    const {friends} = this.props.user.data
+    const friends = [...this.props.user.data.friends]
     const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(inputvalue)) {
       friends.push(inputvalue)
@@ -42,6 +42,7 @@ export default class friendsView extends React.Component {
 
   allfriends() {
     const {friends} = this.props.user.data
+    console.log("TEST", friends)
     return friends.map((friend, i) => {
       return (
         <TagButton
@@ -62,6 +63,7 @@ export default class friendsView extends React.Component {
   render() {
     const { inputvalue, addNewTag } = this.state
     const {friends} = this.props.user.data
+    console.log(friends)
     const friendsPrivacy = this.props.user.data.privacy.friends
     return (
       <View>
