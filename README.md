@@ -74,5 +74,8 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 - [x] its hard to drag the position
 - [x] console.log to remove
 - [x] mtv add right to add/remove tracks only if canEdit
-- [ ] think to bonus arguments
 - [x] source player when new/removed tracks
+- [ ] [MTV/MPE] when playlist is played, play button on tracks do nothing
+- [ ] [MTV] when I add new track, if I click on next, the track is not in "playlist"
+- [ ] user social, when add friends fail, friends are still here
+- [ ] think to bonus arguments
