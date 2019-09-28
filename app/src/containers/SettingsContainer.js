@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Alert, View } from 'react-native'
+import { Alert, View, ScrollView } from 'react-native'
 import * as userActions from '../actions/userActions'
 import * as errorActions from '../actions/errorActions'
 import styles from "../styles/containers/SettingsContainer";
-import UserInfos from '../components/profileContainer/profileContent/UserInfos'
+import Tagsfriends from '../components/profileContainer/profileContent/Tagsfriends'
 import Networks from '../components/profileContainer/profileContent/Networks'
 
 class SettingsContainer extends Component {
@@ -19,13 +19,13 @@ class SettingsContainer extends Component {
   }
   render() {
     return (
-        <View style={styles.wrapper}>
+        <ScrollView style={styles.wrapper}>
         <View style={styles.containerWrapper}>
-        {this.props.error.errorUser ? this.alert() : null}
-        <UserInfos {...this.props} />
+        {/* {this.props.error.errorUser ? this.alert() : null} */}
+        <Tagsfriends {...this.props} />
         <Networks {...this.props} />
       </View>
-      </View>
+      </ScrollView>
     )
   }
 }

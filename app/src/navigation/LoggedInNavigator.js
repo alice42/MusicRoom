@@ -122,8 +122,8 @@ const LoggedInTabNavigator = createBottomTabNavigator(
     Settings: {
       screen: SettingsTab,
       navigationOptions: {
-        tabBarLabel: 'Settings',
-        tabBarIcon: CustomTabBarIcon('cogs', 22)
+        tabBarLabel: 'Social',
+        tabBarIcon: CustomTabBarIcon('heart', 22)
       }
     }
   },
