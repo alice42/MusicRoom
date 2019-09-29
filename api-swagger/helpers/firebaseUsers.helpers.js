@@ -57,7 +57,7 @@ const insertUser = (payload, database) => {
   });
 };
 
-const getProfileData = user => {
+const getProfileData = (user, idCorrespondance) => {
   return {
     email: user.email,
     name: user.name || "",
@@ -65,7 +65,7 @@ const getProfileData = user => {
     avatarUri: user.avatarUri || "",
     privacy: user.privacy || {},
     tags: user.tags || [],
-    friends: user.friends || [],
+    friends: (user.friends || []).map(id => idCorrespondance[id].email),
     deezer: !!(user.token || {}).deezer,
     facebook: !!(user.token || {}).facebook,
     google: !!(user.token || {}).google

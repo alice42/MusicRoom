@@ -12,7 +12,8 @@ const {
   updatetUser,
   insertUser,
   updatetUserNode,
-  getProfileData
+  getProfileData,
+  getAllUsers
 } = require("../../helpers/firebaseUsers.helpers");
 const { getSessions } = require("../../helpers/firebaseSession.helpers");
 
@@ -194,7 +195,8 @@ async function updateData(req, res) {
       await updatetUser(_id, obj, database);
     }
     const user = await findUserBy("_id", id, database);
-    return res.status(200).send(getProfileData(user));
+    const idCorrespondance = await getAllUsers(database);
+    return res.status(200).send(getProfileData(user, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -237,7 +239,8 @@ async function updatePrivacy(req, res) {
       database
     );
     const user = await findUserBy("_id", id, database);
-    return res.status(200).send(getProfileData(user));
+    const idCorrespondance = await getAllUsers(database);
+    return res.status(200).send(getProfileData(user, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -265,7 +268,8 @@ async function linkAccount(req, res) {
     const { _id } = await findUserBy("_id", id, database);
     await updatetUserNode(_id, "token", { [type]: key }, database);
     const user = await findUserBy("_id", id, database);
-    return res.status(200).send(getProfileData(user));
+    const idCorrespondance = await getAllUsers(database);
+    return res.status(200).send(getProfileData(user, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -293,7 +297,8 @@ async function unlinkAccount(req, res) {
     const { _id } = await findUserBy("_id", id, database);
     await updatetUserNode(_id, "token", { [type]: false }, database);
     const user = await findUserBy("_id", id, database);
-    return res.status(200).send(getProfileData(user));
+    const idCorrespondance = await getAllUsers(database);
+    return res.status(200).send(getProfileData(user, idCorrespondance));
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
