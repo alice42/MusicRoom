@@ -3,6 +3,7 @@ const getPlaylistData = (id, idCorrespondance) => playlist => {
     id: playlist._id,
     name: playlist.name,
     canEdit: playlist.owner === id,
+    canInteract: canInteract(id, playlist.editability),
     playlistId: playlist.playlistId,
     visibility: {
       privacy: playlist.visibility.privacy,
@@ -17,6 +18,13 @@ const getPlaylistData = (id, idCorrespondance) => playlist => {
       )
     }
   };
+};
+
+const canInteract = (id, editability) => {
+  return (
+    editability.privacy === "public" ||
+    (editability.allowedUsers || []).find(id)
+  );
 };
 
 const getPlaylistAvailable = (playlists, id, idCorrespondance) => {
