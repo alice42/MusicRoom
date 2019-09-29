@@ -43,6 +43,7 @@ class PlaylistContainer extends Component {
 
     return (
       <ListTracksConnected
+        canInteract={this.props.canInteract}
         canEdit={this.props.canEdit}
         list={list}
         buttonPlay={true}

@@ -11,7 +11,7 @@ export default class Comments extends Component {
   }
   render() {
     const { width, height } = Dimensions.get('window')
-    const { list, buttonPlay, buttonAdd, mtv, canEdit } = this.props
+    const { list, buttonPlay, buttonAdd, mtv, canEdit, canInteract } = this.props
     return (
       list.length === 0 ? 
       <View style={styles.viewNoEvent}>
@@ -32,7 +32,7 @@ export default class Comments extends Component {
           const track = item.item
           const cover = track.albumCover || track.album.cover
           return (
-            <SwipeRow disableRightSwipe disableLeftSwipe={canEdit ? false: true} rightOpenValue={-55}>
+            <SwipeRow disableRightSwipe disableLeftSwipe={canEdit ? false : canInteract ? false : true} rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
                 <DeleteTrackModal
@@ -116,7 +116,7 @@ export default class Comments extends Component {
                         size={18}
                         style={{
                           color: colors.white,
-                          marginLeft: -15
+                          marginLeft: 20
                         }}
                       />
                     </TouchableOpacity>

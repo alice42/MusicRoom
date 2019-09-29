@@ -43,7 +43,7 @@ export default class playlists extends Component {
         renderItem={item => {
           const event = item.item
           return (
-            <SwipeRow disableRightSwipe rightOpenValue={-55}>
+            <SwipeRow disableRightSwipe disableLeftSwipe={event.canEdit ? false: true} rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
                 <DeletePlaylistModal event={event} handleOnPressDelete={this.handleOnPressDelete} />

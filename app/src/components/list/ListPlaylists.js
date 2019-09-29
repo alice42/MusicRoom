@@ -46,7 +46,7 @@ export default class playlists extends Component {
         renderItem={item => {
           const playlist = item.item
           return (
-            <SwipeRow disableRightSwipe rightOpenValue={-55}>
+            <SwipeRow disableRightSwipe disableLeftSwipe={playlist.canEdit ? false: true}  rightOpenValue={-55}>
               <View style={styles.standaloneRowBack}>
                 <Text style={styles.backTextWhite}>Left</Text>
                 <DeletePlaylistModal
