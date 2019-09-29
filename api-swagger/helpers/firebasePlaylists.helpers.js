@@ -21,15 +21,18 @@ const insertPlaylist = (database, payload) => {
   });
 };
 
-const updatePlaylist = (database, id, payload) => {
+const updatePlaylist = (database, path, value) => {
+  const key = path.pop();
   return new Promise((resolve, reject) => {
-    database.ref(`playlists/${id}`).update(payload, err => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
+    database
+      .ref(`playlists/${path.join("/")}`)
+      .update({ [key]: value }, err => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
   });
 };
 
