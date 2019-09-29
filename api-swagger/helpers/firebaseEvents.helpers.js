@@ -33,9 +33,11 @@ const findEventBy = (database, key, value) => {
   });
 };
 
-const updateEvent = (database, id, payload) => {
+const updateEvent = (database, path, value) => {
+  const key = path.pop();
   return new Promise((resolve, reject) => {
-    database.ref(`events/${id}`).update(payload, err => {
+    console.log(`events/${path.join("/")}`, { [key]: value });
+    database.ref(`events/${path.join("/")}`).update({ [key]: value }, err => {
       if (err) {
         reject(err);
       } else {
