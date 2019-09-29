@@ -38,7 +38,7 @@ const measureDistance = (lat1, lon1, lat2, lon2) => {
 
 const getTracksWithVotes = (tracks, votes) => {
   const votesByTrack = {};
-  Object.entries(votes).forEach(([id, value]) => {
+  Object.entries(votes || {}).forEach(([id, value]) => {
     const [trackId, userId] = id.split("_");
     votesByTrack[trackId] = votesByTrack[trackId]
       ? votesByTrack[trackId] + value
@@ -73,23 +73,6 @@ const getEventsAvailable = (events, id, idCorrespondance) => {
         ? false
         : true
     )
-    // .filter(event => {
-    //   if (event.owner === id) return true;
-    //   if (event.restriction.isRestricted === true) {
-    //     const [a, b] = location.split(" ");
-    //     const [x, y] = event.restriction.location.split(" ");
-    //     if (measureDistance(a, b, x, y) > event.restriction.maxDistance) {
-    //       return false;
-    //     }
-    //     if (tme > event.endTime || tme < event.startTime) {
-    //       return false;
-    //     }
-    //     if (!location) {
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // })
     .map(getEventData(id, idCorrespondance));
   return rt;
 };
@@ -133,14 +116,7 @@ const getValuesFromParams = obj => {
 async function getEvents(req, res) {
   try {
     const database = res.database;
-    const { "X-SessionID": token, location } = getValuesFromParams(
-      req.swagger.params
-    );
-    if (!location) {
-      return res
-        .status(500)
-        .send({ error: "you must give your location to use this feature" });
-    }
+    const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -226,13 +202,8 @@ async function createEvent(req, res) {
 async function deleteEventMTV(req, res) {
   try {
     const database = res.database;
-    const { eventId, location } = req.body;
+    const { eventId } = req.body;
     const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
-    if (!location) {
-      return res
-        .status(500)
-        .send({ error: "you must give your location to use this feature" });
-    }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -276,13 +247,8 @@ async function updateData(req, res) {
       "visibility.privacy",
       "visibility.allowedUsers"
     ];
-    const { eventId, toChange, newValue, location } = req.body;
+    const { eventId, toChange, newValue } = req.body;
     const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
-    if (!location) {
-      return res
-        .status(500)
-        .send({ error: "you must give your location to use this feature" });
-    }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
@@ -408,7 +374,12 @@ async function addTrack(req, res) {
 async function voteTrack(req, res) {
   try {
     const database = res.database;
-    const { eventId, trackId, value } = req.body;
+    const { eventId, trackId, value, location } = req.body;
+    if (!location) {
+      return res
+        .status(500)
+        .send({ error: "you must give your location to use this feature" });
+    }
     const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
@@ -425,9 +396,29 @@ async function voteTrack(req, res) {
     if (!validToken) {
       return res.status(500).send({ error: "your token deezer is invalid" });
     }
-    const { votes, playlistId } = await findEventBy(database, "_id", eventId);
+    const { votes, playlistId, vote, owner } = await findEventBy(
+      database,
+      "_id",
+      eventId
+    );
+    const { restriction } = vote;
+    let canVote = true;
+    if (restriction.isRestricted === true && event.owner !== id) {
+      const [a, b] = location.split(" ");
+      const [x, y] = restriction.location.split(" ");
+      if (measureDistance(a, b, x, y) > restriction.maxDistance) {
+        canVote = false;
+      }
+      if (tme > event.endTime || tme < event.startTime) {
+        canVote = false;
+      }
+    }
+    if (canVote === false) {
+      return res.status(500).send({ error: "you cant vote" });
+    }
+
     const newVotes = {
-      ...votes,
+      ...(votes || {}),
       [`${trackId}_${id}`]: value === 1 ? 1 : value === -1 ? -1 : 0
     };
     await updateEvent(database, [eventId, "votes"], newVotes);
