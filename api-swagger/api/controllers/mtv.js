@@ -247,7 +247,8 @@ async function updateData(req, res) {
       "visibility.privacy",
       "visibility.allowedUsers"
     ];
-    const { eventId, toChange, newValue } = req.body;
+    const { eventId, toChange, newValue} = req.body;
+    console.log("CALL", toChange, newValue)
     const { "X-SessionID": token } = getValuesFromParams(req.swagger.params);
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
@@ -326,7 +327,7 @@ async function getTracks(req, res) {
 
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
     const ev = await findEventBy(database, "playlistId", Number(playlistId));
-
+    console.log("API", ev,)
     return res
       .status(200)
       .send(getTracksWithVotes(tracks.tracks.data, ev.votes));

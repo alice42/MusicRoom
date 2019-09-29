@@ -9,6 +9,8 @@ import * as eventsActions from '../actions/eventsActions'
 import * as errorActions from '../actions/errorActions'
 import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
+import Rights from '../components/playlist/Rights'
+import Votes from '../components/profileContainer/profileContent/Votes'
 import Restriction from '../components/Restriction'
 
 class EditEvent extends Component {
@@ -22,13 +24,14 @@ class EditEvent extends Component {
   })
 
   state = {
-    privacyOption: this.props.event[0].privacy === 'public' ? true : false,
-    isRestricted: this.props.event[0].restriction.isRestricted,
-    maxDistance: parseInt(this.props.event[0].restriction.maxDistance),
-    startDate: new Date(this.props.event[0].restriction.startDate).toLocaleString(),
-    endDate: new Date(this.props.event[0].restriction.endDate).toLocaleString(),
-    latitude: parseFloat(this.props.event[0].restriction.location.split(' ')[0]),
-    longitude: parseFloat(this.props.event[0].restriction.location.split(' ')[1]),
+    privacyOption: this.props.event[0].visibility.privacy === 'public' ? true : false,
+    privacyOptionVote: this.props.event[0].vote.privacy === 'public' ? true : false,
+    isRestricted: this.props.event[0].vote.restriction.isRestricted,
+    maxDistance: parseInt(this.props.event[0].vote.restriction.maxDistance),
+    startDate: new Date(this.props.event[0].vote.restriction.startDate).toLocaleString(),
+    endDate: new Date(this.props.event[0].vote.restriction.endDate).toLocaleString(),
+    latitude: parseFloat(this.props.event[0].vote.restriction.location.split(' ')[0]),
+    longitude: parseFloat(this.props.event[0].vote.restriction.location.split(' ')[1]),
     mapRegion: null,
     latitudeDelta: 0.00922 * 2.5,
     longitudeDelta: 0.00421 * 2.5,
@@ -49,9 +52,10 @@ class EditEvent extends Component {
       longitudeDelta: 0
     }
     const { id } = this.props.event[0]
+    this.setState({latitude: region.latitude, longitude: region.longitude})
     const { location } = this.props.navigation.state.params
     const locationEvent = region.latitude.toString().concat(' ', region.longitude.toString())
-    this.props.eventsActions.updateEventRequest(id, 'restriction.location', locationEvent, location)
+    this.props.eventsActions.updateEventRequest(id, 'vote.restriction.location', locationEvent, location)
     this.onRegionChange(region, region.latitude, region.longitude)
   }
 
@@ -68,8 +72,10 @@ class EditEvent extends Component {
   }
 
   componentWillMount() {
-    const { privacy } = this.props.event[0]
+    const { privacy } = this.props.event[0].visibility
     this.setState({ privacy: privacy === 'public' })
+    // const  privacyVote = this.props.event[0].vote.privacy
+    // this.setState({ privacyVote: privacyVote === 'public' })
   }
 
   showDateTimePicker = () => {
@@ -91,7 +97,15 @@ class EditEvent extends Component {
     const { id } = this.props.event[0]
     const { location } = this.props.navigation.state.params
     const privacy = this.state.privacyOption ? 'private' : 'public'
-    this.props.eventsActions.updateEventRequest(id, 'privacy', privacy, location)
+    this.props.eventsActions.updateEventRequest(id, 'visibility.privacy', privacy, location)
+  }
+
+  handlePrivacyVote = privacyValue => {
+    this.setState({ privacyOptionVote: !privacyValue })
+    const { id } = this.props.event[0]
+    const { location } = this.props.navigation.state.params
+    const privacy = this.state.privacyOptionVote ? 'private' : 'public'
+    this.props.eventsActions.updateEventRequest(id, 'vote.privacy', privacy, location)
   }
 
   handleRestriction = isRestricted => {
@@ -100,7 +114,7 @@ class EditEvent extends Component {
     const { location } = this.props.navigation.state.params
     this.props.eventsActions.updateEventRequest(
       id,
-      'restriction.isRestricted',
+      'vote.restriction.isRestricted',
       !this.state.isRestricted,
       location
     )
@@ -112,7 +126,7 @@ class EditEvent extends Component {
     const { location } = this.props.navigation.state.params
     this.props.eventsActions.updateEventRequest(
       id,
-      'restriction.maxDistance',
+      'vote.restriction.maxDistance',
       maxDistance,
       location
     )
@@ -125,7 +139,7 @@ class EditEvent extends Component {
       this.setState({ startDate: date.toLocaleString() })
       this.props.eventsActions.updateEventRequest(
         id,
-        'restriction.startDate',
+        'vote.restriction.startDate',
         new Date(date).getTime(),
         location
       )
@@ -133,7 +147,7 @@ class EditEvent extends Component {
       this.setState({ endDate: date.toLocaleString() })
       this.props.eventsActions.updateEventRequest(
         id,
-        'restriction.endDate',
+        'vote.restriction.endDate',
         new Date(date).getTime(),
         location
       )
@@ -182,6 +196,7 @@ class EditEvent extends Component {
     const {
       isRestricted,
       privacyOption,
+      privacyOptionVote,
       maxDistance,
       startDate,
       endDate,
@@ -211,12 +226,25 @@ class EditEvent extends Component {
           <View style={{ paddingTop: 15, paddingBottom: 5 }}>
             <Tags
               location={this.props.navigation.state.params.location}
-              allowedUsers={this.props.event[0].allowedUsers}
+              allowedUsers={this.props.event[0].visibility.allowedUsers}
               allowedUsersEvent={true}
               event={this.props.event[0].id}
               eventsActions={this.props.eventsActions}
             />
-            <View style={styles.divider} />
+          </View>
+        ) : null}
+        <View style={styles.divider} />
+          <Rights privacyOption={privacyOptionVote} selectPrivacyOption={this.handlePrivacyVote} />
+         {!privacyOptionVote ? (
+          <View style={{ paddingTop: 15, paddingBottom: 5 }}>
+            <Votes
+              location={this.props.navigation.state.params.location}
+              allowedUsers={this.props.event[0].vote.allowedUsers}
+              allowedUsersEvent={true}
+              event={this.props.event[0].id}
+              eventsActions={this.props.eventsActions}
+            />
+            <View style={styles.divider1} />
           </View>
         ) : null}
         <Restriction
@@ -319,6 +347,15 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   divider: {
+    borderBottomWidth: 4,
+    borderBottomColor: colors.green02,
+    height: 1,
+    flex: 1,
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20
+  },
+  divider1: {
     borderBottomWidth: 1,
     borderBottomColor: colors.gray06,
     height: 1,

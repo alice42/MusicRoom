@@ -20,11 +20,14 @@ class EditPlaylist extends Component {
   })
 
   state = {
-    privacyOption: this.props.event[0].privacy === 'public' ? true : false
+    privacyOption: this.props.event[0].privacy === 'public' ? true : false,
+    // privacyOptionVote: this.props.event[0].vote.privacy === 'public' ? true : false
   }
   componentWillMount() {
     const { privacy } = this.props.event[0]
     this.setState({ privacy: privacy === 'public' })
+    // const { privacy } = this.props.event[0].vote
+    // this.setState({ privacyVote: privacy === 'public' })
   }
 
   handleNameEdit = name => {
@@ -41,8 +44,17 @@ class EditPlaylist extends Component {
     this.props.playlistsActions.updatePlaylistRequest(id, 'privacy', privacy, location)
   }
 
+  // handlePrivacyVote = privacyVoteValue => {
+  //   this.setState({ privacyOptionVote: !privacyVoteValue })
+  //   const { id } = this.props.event[0]
+  //   const { location } = this.props.navigation.state.params
+  //   const privacy = this.state.privacyOptionVote ? 'private' : 'public'
+  //   this.props.playlistsActions.updatePlaylistRequest(id, '??privacy', privacy, location)
+  // }
+
   render() {
     const { privacyOption } = this.state
+    // const { privacyOptionVote } = this.state
     const { name } = this.props.event[0]
     return this.props.event ? (
       <View style={styles.wrapper}>

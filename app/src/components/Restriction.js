@@ -53,7 +53,7 @@ export default class Restriction extends React.Component {
                 onPress={() => this.showDateTimePicker('start')}
               />
             </View>
-            {startDate !== endDate ? (
+  
               <View style={styles.contentInfo}>
                 <Text style={styles.title}>End Date: </Text>
                 <Text>{endDate ? endDate : 'none'}</Text>
@@ -64,7 +64,7 @@ export default class Restriction extends React.Component {
                   onPress={() => this.showDateTimePicker('end')}
                 />
               </View>
-            ) : null}
+        
 
             <DateTimePicker
               mode={'datetime'}
@@ -76,7 +76,7 @@ export default class Restriction extends React.Component {
             <View>
               <Text style={styles.title}>location:</Text>
               <Map
-              markerCoord={this.props.markerCoord}
+                markerCoord={this.props.markerCoord}
                 marker={this.props.marker}
                 onPressZoomOut={this.props.onPressZoomOut}
                 onPressZoomIn={this.props.onPressZoomIn}

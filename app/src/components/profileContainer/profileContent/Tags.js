@@ -27,7 +27,7 @@ export default class TagsView extends React.Component {
       this.props.allowedUsers
         ? this.props.eventsActions.updateEventRequest(
             this.props.event,
-            'allowedUsers',
+            'visibility.allowedUsers',
             tags.join(','),
             this.props.location
           )
@@ -46,7 +46,7 @@ export default class TagsView extends React.Component {
     this.props.allowedUsers
       ? this.props.eventsActions.updateEventRequest(
           this.props.event,
-          'allowedUsers',
+          'visibility.allowedUsers',
           newTags.join(','),
           this.props.location
         )
@@ -90,7 +90,7 @@ export default class TagsView extends React.Component {
       <View>
         <View style={styles.tagsTitleWrapper}>
           <Text style={styles.tagsText}>
-            {this.props.allowedUsers ? 'Your allowed friends' : 'Your music tastes'}
+            {this.props.allowedUsers ? 'Who can see?' : 'Your music tastes'}
           </Text>
           {!this.props.allowedUsers ? (
             <PrivacyModal

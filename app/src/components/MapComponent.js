@@ -19,7 +19,6 @@ export default class Map extends Component {
           region={this.props.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          zoomTapEnabled={false}
           onLongPress={this.props.onMapPress.bind(this)}
         >
           <View style={{ padding: 10, width: 30}}>

@@ -30,7 +30,7 @@ export default class playlists extends Component {
     return (
       list.length === 0 ? 
         <View style={styles.viewNoEvent}>
-          <Text style={styles.textNoEvent}>No playlist created</Text>
+          <Text style={styles.textNoEvent}>No playlists created</Text>
         </View>
         :
       <FlatList

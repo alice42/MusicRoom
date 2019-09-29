@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, TouchableHighlight, StyleSheet, Switch } from 'react-native'
 import { colors } from '../../constants/colors'
 
-export default class Privacy extends Component {
+export default class Rights extends Component {
   selectPrivacyOption = privacyOption => {
     this.props.selectPrivacyOption(privacyOption)
   }
@@ -11,7 +11,7 @@ export default class Privacy extends Component {
     const { privacyOption } = this.props
     return (
       <View style={styles.privacyOptions}>
-        <Text style={styles.title}>VISIBILITY:</Text>
+         <Text style={styles.title}>VOTES:</Text>
         <TouchableHighlight
           onPress={() => this.selectPrivacyOption(privacyOption)}
           style={styles.privacyOptionItem}
@@ -21,8 +21,8 @@ export default class Privacy extends Component {
             <Text style={styles.privacyOptionTitle}>{privacyOption ? 'Public' : 'Private'}</Text>
             <Text style={styles.privacyOptionDescription}>
               {privacyOption
-                ? 'Visible to everyone'
-                : 'Only you and your allowed friends can seen this playlist'}
+                ? 'Everyone can vote on this playlist'
+                : 'Only you and your allowed friends can vote on this playlist'}
             </Text>
             <View style={styles.privacyRadioInput}>
               <Switch
@@ -72,6 +72,14 @@ const styles = StyleSheet.create({
     right: 0
   },
   divider: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray06,
+    height: 1,
+    flex: 1,
+    marginLeft: 20,
+    marginRight: 20
+  },
+   divider: {
     borderBottomWidth: 1,
     borderBottomColor: colors.gray06,
     height: 1,

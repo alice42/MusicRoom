@@ -6,7 +6,7 @@ import PrivacyModal from './PrivacyModal'
 import { colors } from '../../../constants/colors'
 import styles from '../../../styles/containers/ProfileContainer'
 
-export default class friendsView extends React.Component {
+export default class TagsView extends React.Component {
   state = {
     inputvalue: '',
     addNewTag: false
@@ -18,38 +18,39 @@ export default class friendsView extends React.Component {
 
   onPressValidNewTag = () => {
     const { inputvalue } = this.state
-    const friends = [...this.props.user.data.friends]
+    const tags = [...this.props.allowedUsers]
     const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(inputvalue)) {
-      friends.push(inputvalue)
-      this.props.actions.updateRequest(this.props.user.token, 'friends', friends.join(','))
+      tags.push(inputvalue)
+        this.props.eventsActions.updateEventRequest(this.props.event, 'vote.allowedUsers', tags.join(','), this.props.location)
     }
     this.setState({ inputvalue: '', addNewTag: false })
   }
 
-  onPressDeleteTag = friend => {
-    const {friends} = this.props.user.data
-    var newfriends = friends.filter(function(value) {
-      return value !== friend
+  onPressDeleteTag = tag => {
+    const tags = [...this.props.allowedUsers]
+    var newTags = tags.filter(function(value) {
+      return value !== tag
     })
-    this.props.actions.updateRequest(this.props.user.token, 'friends', newfriends.join(','))
+     this.props.eventsActions.updateEventRequest(this.props.event, 'vote.allowedUsers', newTags.join(','), this.props.location)
   }
 
   handlePrivacy = (privacyValue, dataType) => {
     const { token } = this.props.user
-    this.props.actions.updatePrivacyRequest(token, privacyValue, dataType)
+    this.props.eventsActions.updatePrivacyRequest(token, privacyValue, dataType)
   }
 
-  allfriends() {
-    const {friends} = this.props.user.data
-    return friends.map((friend, i) => {
+  allTags() {
+    const tags = [...this.props.allowedUsers]
+    return tags.map((tag, i) => {
       return (
         <TagButton
           onPressDeleteTag={() => {
-            this.onPressDeleteTag(friend)
+            this.onPressDeleteTag(tag)
           }}
           key={i}
-          title={friend}
+          title={tag}
+          allowedUsers={this.props.allowedUsers ? true : false}
         />
       )
     })
@@ -61,24 +62,26 @@ export default class friendsView extends React.Component {
 
   render() {
     const { inputvalue, addNewTag } = this.state
-    const {friends} = this.props.user.data
-    const friendsPrivacy = this.props.user.data.privacy.friends
+    const tagsPrivacy = this.props.allowedUsers ? null : this.props.user.data.privacy.tags
+    const tags = [...this.props.allowedUsers]
     return (
       <View>
         <View style={styles.tagsTitleWrapper}>
           <Text style={styles.tagsText}>
-           Your friends
+            {this.props.allowedUsers ? 'Who can vote?' : 'Who can edit?'}
           </Text>
+          {!this.props.allowedUsers ? (
             <PrivacyModal
               styleIcon={styles.privacyIcon}
-              dataType={'friends'}
+              dataType={'vote.allowedUsers'}
               onChangePrivacy={this.handlePrivacy}
-              dataPrivacy={friendsPrivacy}
+              dataPrivacy={tagsPrivacy}
             />
+          ) : null}
         </View>
         <SafeAreaView>
           <ScrollView
-            style={stylesBis.tagsScrollView }
+            style={[stylesBis.tagsScrollView, {height: this.props.allowedUsers ? this.props.allowedUsersEvent ? 90 : 200 : 200}]}
           >
             <View style={styles.tagsContainer}>
               <AddTagButton
@@ -87,10 +90,10 @@ export default class friendsView extends React.Component {
                 handleInput={this.handleInput}
                 onPressValidNewTag={this.onPressValidNewTag}
                 onPressAdd={this.onPressAdd}
-                allowedUsers={ true }
+                allowedUsers={this.props.allowedUsers ? true : false}
               />
-              {friends.length !== 0 ? null : <Text style={{ fontStyle: "italic", color: colors.gray01, marginLeft:15 }}>Add a new friend!</Text>}
-              {this.allfriends()}
+              {tags.length !== 0 ? null : <Text style={{ fontStyle: "italic", color: colors.gray01, marginLeft:15 }}>Add a new { this.props.allowedUsers ? 'friend!' : 'tag!'}</Text>}
+              {this.allTags()}
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -101,7 +104,6 @@ export default class friendsView extends React.Component {
 
 const stylesBis = StyleSheet.create({
   tagsScrollView: {
-    height: 200,
     display: 'flex',
     backgroundColor: colors.green02,
     margin: 10,
