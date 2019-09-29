@@ -71,13 +71,14 @@ function* updateEventsSaga(action) {
 
 function* vote(action) {
   try {
-    const { trackId, eventId, value } = action
+    const { trackId, eventId, value, location } = action
     const token = yield select(state => state.user.token)
     const payload = {
       trackId,
       eventId,
       value,
-      token
+      token,
+      location
     }
     const response = yield call(votetMethod, payload)
     if (response.error) {

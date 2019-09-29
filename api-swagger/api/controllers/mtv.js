@@ -404,6 +404,9 @@ async function voteTrack(req, res) {
     );
     const { restriction } = vote;
     let canVote = true;
+    if (vote.privacy === "private" && !(vote.allowedUsers || []).find(userId => userId === id) ){
+      canVote= false
+    }
     if (restriction.isRestricted === true && event.owner !== id) {
       const [a, b] = location.split(" ");
       const [x, y] = restriction.location.split(" ");

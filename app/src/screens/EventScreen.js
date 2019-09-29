@@ -16,8 +16,9 @@ class EventScreen extends Component {
   }
 
   handleVote = (track, value) => {
+    const { location } = this.props.navigation.state.params
     const event = this.props.event[0]
-    this.props.eventsActions.vote(track.id, event.id, value)
+    this.props.eventsActions.vote(track.id, event.id, value, location)
   }
 
   render() {

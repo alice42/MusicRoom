@@ -20,6 +20,7 @@ export const getPlaylistsMethod = async ({ token }) => {
         'X-SessionID': token
       }
     })
+    console.log("RESPONSE PLAY", response)
     return response
   } catch (err) {
     throw err
@@ -72,6 +73,7 @@ export const getPlaylistTracksMethodMpe = async ({ token, playlistId }) => {
         'X-SessionID': token
       }
     })
+    console.log("RESPONSE", response)
     return response
   } catch (err) {
     throw err

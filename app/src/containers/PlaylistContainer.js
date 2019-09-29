@@ -112,6 +112,7 @@ class PlaylistContainer extends Component {
           ) : null}
         </View>
         <View style={{ marginTop: 10, marginBottom: 20 }}>
+          {event.canInteract ? 
           <RoundedButton
             text="add track"
             textColor={colors.white}
@@ -128,7 +129,7 @@ class PlaylistContainer extends Component {
               </View>
             }
             handleOnPress={this.handleAddTrack}
-          />
+          /> : null }
         </View>
       </View>
     )

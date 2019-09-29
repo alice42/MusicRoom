@@ -16,7 +16,8 @@ class PlaylistScreen extends Component {
 
   render() {
     const event = this.props.choosenPlaylist[0]
-    const { canEdit } = event
+    const { canEdit, canInteract } = event
+    console.log("CAN INTERACT", canInteract)
     return (
       <View style={styles.wrapper}>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -44,6 +45,7 @@ class PlaylistScreen extends Component {
         </View>
         <View>
           <PlaylistContainer
+            canInteract={canInteract}
             canEdit={canEdit}
             location={this.props.navigation.state.params.location}
             event={event}

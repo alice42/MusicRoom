@@ -23,12 +23,13 @@ export function updateEventRequest(id, toChange, newValue, location) {
   }
 }
 
-export function vote(trackId, eventId, value) {
+export function vote(trackId, eventId, value, location) {
   return {
     type: 'VOTE_REQUEST',
     trackId,
     eventId,
-    value
+    value,
+    location
   }
 }
 

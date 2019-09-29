@@ -63,6 +63,7 @@ function* updatePlaylistsSaga(action) {
       newValue
     }
     const response = yield call(updatePlaylistMethod, payload)
+    console.log("TEST", response)
     if (response.error) {
       throw Error(response.error)
     } else {

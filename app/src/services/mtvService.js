@@ -98,7 +98,7 @@ export const addtrackToPlaylistMethodMtv = async ({ trackId, playlistId, token, 
   }
 }
 
-export const votetMethod = async ({ trackId, eventId, value, token }) => {
+export const votetMethod = async ({ trackId, eventId, value, token, location }) => {
   const url = `${apiUrl}${api}${mtv}${voteTrack}`
   try {
     const response = await basicFetch(
@@ -109,7 +109,7 @@ export const votetMethod = async ({ trackId, eventId, value, token }) => {
           'X-SessionID': token
         }
       },
-      { trackId, eventId, value }
+      { trackId, eventId, value, location }
     )
     return response
   } catch (err) {

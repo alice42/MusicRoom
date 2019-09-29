@@ -161,6 +161,7 @@ async function updateData(req, res) {
             return _id;
           }
         );
+        
         usersId = await Promise.all(usersIdPromises);
         newVal = [...new Set(usersId)];
       } catch (userError) {
@@ -278,9 +279,10 @@ async function addTrack(req, res) {
     const {
       _id: InternalPlaylistId,
       playlistToken,
-      editability
+      editability,
+      owner
     } = await findPlaylistBy(database, "playlistId", playlistId);
-    if (!canInteract(id, editability)) {
+    if (owner !== id && !canInteract(id, editability)) {
       return res
         .status(500)
         .send({ error: "you dont have rights to interact" });
@@ -327,9 +329,10 @@ async function removeTrack(req, res) {
     const {
       _id: InternalPlaylistId,
       playlistToken,
-      editability
+      editability,
+      owner
     } = await findPlaylistBy(database, "playlistId", playlistId);
-    if (!canInteract(id, editability)) {
+    if (owner !== id && !canInteract(id, editability)) {
       return res
         .status(500)
         .send({ error: "you dont have rights to interact" });
