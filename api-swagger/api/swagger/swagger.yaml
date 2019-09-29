@@ -283,11 +283,6 @@ paths:
       # description: Route to update simple user data
       operationId: getEvents
       parameters:
-        - in: query
-          name: location
-          type: string
-          description: latitude and longitude seperated by an escape
-          required: true
         - in: header
           name: X-SessionID
           type: string
@@ -830,11 +825,8 @@ definitions:
         type: string
   DeleteEventInput:
     required:
-      - location
       - eventId
     properties:
-      location:
-        type: string
       eventId:
         type: string
   UpdateEventDataInput:
@@ -842,15 +834,12 @@ definitions:
       - toChange
       - newValue
       - eventId
-      - location
     properties:
       toChange:
         type: string
       newValue:
         type: string
       eventId:
-        type: string
-      location:
         type: string
   TrackMPE:
     properties:
@@ -909,6 +898,7 @@ definitions:
       - eventId
       - trackId
       - value
+      - location
     properties:
       eventId:
         type: string
@@ -916,6 +906,8 @@ definitions:
         type: number
       value:
         type: integer
+      location:
+        type: string
   Playlists:
     type: array
     items:

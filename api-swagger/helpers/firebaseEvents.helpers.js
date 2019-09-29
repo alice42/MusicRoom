@@ -36,7 +36,6 @@ const findEventBy = (database, key, value) => {
 const updateEvent = (database, path, value) => {
   const key = path.pop();
   return new Promise((resolve, reject) => {
-    console.log(`events/${path.join("/")}`, { [key]: value });
     database.ref(`events/${path.join("/")}`).update({ [key]: value }, err => {
       if (err) {
         reject(err);
