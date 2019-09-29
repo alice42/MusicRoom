@@ -928,6 +928,8 @@ definitions:
         type: string
       canEdit:
         type: boolean
+      canInteract:
+        type: boolean
       playlistId:
         type: number
       visibility:

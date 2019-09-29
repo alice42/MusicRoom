@@ -18,7 +18,10 @@ const {
   findPlaylistBy,
   deletePlaylist
 } = require("../../helpers/firebasePlaylists.helpers");
-const { getPlaylistAvailable } = require("../../helpers/playlist.helpers");
+const {
+  getPlaylistAvailable,
+  canInteract
+} = require("../../helpers/playlist.helpers");
 
 const { findKey } = require("lodash");
 const md5 = require("blueimp-md5");
@@ -256,24 +259,32 @@ async function addTrack(req, res) {
 
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
+    // not log ?
     if (!id) {
       return res.status(500).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
+    // no deezer token ?
     if (!userTokens.deezer) {
       return res
         .status(500)
         .send({ error: "you dont have link your account to deezer" });
     }
     const validToken = await isDeezerTokenValid(userTokens.deezer);
+    // no valid deezer token ?
     if (!validToken) {
       return res.status(500).send({ error: "your token deezer is invalid" });
     }
-    const { _id: InternalPlaylistId, playlistToken } = await findPlaylistBy(
-      database,
-      "playlistId",
-      playlistId
-    );
+    const {
+      _id: InternalPlaylistId,
+      playlistToken,
+      editability
+    } = await findPlaylistBy(database, "playlistId", playlistId);
+    if (!canInteract(id, editability)) {
+      return res
+        .status(500)
+        .send({ error: "you dont have rights to interact" });
+    }
     await addTrackToPlaylist(trackId, playlistId, playlistToken);
 
     await updatePlaylist(
@@ -313,11 +324,16 @@ async function removeTrack(req, res) {
     if (!validToken) {
       return res.status(500).send({ error: "your token deezer is invalid" });
     }
-    const { _id: InternalPlaylistId, playlistToken } = await findPlaylistBy(
-      database,
-      "playlistId",
-      playlistId
-    );
+    const {
+      _id: InternalPlaylistId,
+      playlistToken,
+      editability
+    } = await findPlaylistBy(database, "playlistId", playlistId);
+    if (!canInteract(id, editability)) {
+      return res
+        .status(500)
+        .send({ error: "you dont have rights to interact" });
+    }
     await removeTrackToPlaylist(trackId, playlistId, playlistToken);
 
     await updatePlaylist(
