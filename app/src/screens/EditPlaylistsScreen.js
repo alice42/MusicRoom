@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -8,6 +8,8 @@ import EditableInput from '../components/input/EditableInput'
 import * as playlistsActions from '../actions/playlistsActions'
 import Privacy from '../components/playlist/Privacy'
 import Tags from '../components/profileContainer/profileContent/Tags'
+import EditRights from '../components/playlist/EditRights'
+import Editability from '../components/profileContainer/profileContent/Editability'
 
 class EditPlaylist extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -20,14 +22,14 @@ class EditPlaylist extends Component {
   })
 
   state = {
-    privacyOption: this.props.event[0].privacy === 'public' ? true : false,
-    // privacyOptionVote: this.props.event[0].vote.privacy === 'public' ? true : false
+    privacyOption: this.props.event[0].visibility.privacy === 'public' ? true : false,
+    privacyOptionEditability: this.props.event[0].editability.privacy === 'public' ? true : false
   }
   componentWillMount() {
-    const { privacy } = this.props.event[0]
+    const { privacy } = this.props.event[0].visibility
     this.setState({ privacy: privacy === 'public' })
-    // const { privacy } = this.props.event[0].vote
-    // this.setState({ privacyVote: privacy === 'public' })
+    const  privacyEditability = this.props.event[0].editability.privacy
+    this.setState({ privacyEditability: privacyEditability  === 'public' })
   }
 
   handleNameEdit = name => {
@@ -41,23 +43,23 @@ class EditPlaylist extends Component {
     const { id } = this.props.event[0]
     const { location } = this.props.navigation.state.params
     const privacy = this.state.privacyOption ? 'private' : 'public'
-    this.props.playlistsActions.updatePlaylistRequest(id, 'privacy', privacy, location)
+    this.props.playlistsActions.updatePlaylistRequest(id, 'visibility.privacy', privacy, location)
   }
 
-  // handlePrivacyVote = privacyVoteValue => {
-  //   this.setState({ privacyOptionVote: !privacyVoteValue })
-  //   const { id } = this.props.event[0]
-  //   const { location } = this.props.navigation.state.params
-  //   const privacy = this.state.privacyOptionVote ? 'private' : 'public'
-  //   this.props.playlistsActions.updatePlaylistRequest(id, '??privacy', privacy, location)
-  // }
+  handlePrivacyEditability = privacyEditabilityValue => {
+    this.setState({ privacyOptionEditability: !privacyEditabilityValue })
+    const { id } = this.props.event[0]
+    const { location } = this.props.navigation.state.params
+    const privacy = this.state.privacyOptionEditability ? 'private' : 'public'
+    this.props.playlistsActions.updatePlaylistRequest(id, 'editability.privacy', privacy, location)
+  }
 
   render() {
     const { privacyOption } = this.state
-    // const { privacyOptionVote } = this.state
+    const { privacyOptionEditability } = this.state
     const { name } = this.props.event[0]
     return this.props.event ? (
-      <View style={styles.wrapper}>
+      <ScrollView style={styles.wrapper}>
         <Text style={styles.heading}>Edit an playlist</Text>
         <View style={styles.content}>
           <View style={styles.inputWrapper}>
@@ -76,14 +78,24 @@ class EditPlaylist extends Component {
         {!privacyOption ? (
           <View style={{ paddingTop: 15, paddingBottom: 5 }}>
             <Tags
-              allowedUsers={this.props.event[0].allowedUsers}
+              allowedUsers={this.props.event[0].visibility.allowedUsers}
               event={this.props.event[0].id}
               eventsActions={this.props.playlistsActions}
             />
-            <View style={styles.divider} />
           </View>
         ) : null}
-      </View>
+        <View style={styles.divider} />
+          <EditRights privacyOption={privacyOptionEditability} selectPrivacyOption={this.handlePrivacyEditability} />
+        {!privacyOptionEditability ? (
+          <View style={{ paddingTop: 15, paddingBottom: 5 }}>
+            <Editability
+              allowedUsers={this.props.event[0].editability.allowedUsers}
+              event={this.props.event[0].id}
+              eventsActions={this.props.playlistsActions}
+            />
+          </View>
+        ) : null}
+      </ScrollView>
     ) : null
   }
 }
@@ -159,6 +171,15 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   divider: {
+    borderBottomWidth: 4,
+    borderBottomColor: colors.green02,
+    height: 1,
+    flex: 1,
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20
+  },
+  divider1: {
     borderBottomWidth: 1,
     borderBottomColor: colors.gray06,
     height: 1,

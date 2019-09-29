@@ -68,7 +68,6 @@ async function getPlaylists(req, res) {
       .status(200)
       .send(getPlaylistAvailable(playlists, id, idCorrespondance));
   } catch (err) {
-    console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
   }
 }

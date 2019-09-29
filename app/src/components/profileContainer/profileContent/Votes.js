@@ -81,7 +81,7 @@ export default class TagsView extends React.Component {
         </View>
         <SafeAreaView>
           <ScrollView
-            style={[stylesBis.tagsScrollView, {height: this.props.allowedUsers ? this.props.allowedUsersEvent ? 90 : 200 : 200}]}
+            style={[stylesBis.tagsScrollView, {height: 200}]}
           >
             <View style={styles.tagsContainer}>
               <AddTagButton

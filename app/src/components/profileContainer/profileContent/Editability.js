@@ -18,50 +18,30 @@ export default class TagsView extends React.Component {
 
   onPressValidNewTag = () => {
     const { inputvalue } = this.state
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
+    const tags = [...this.props.allowedUsers]
     const valueCheckRegex = /(?=.*[a-zA-Z])/
     if (valueCheckRegex.test(inputvalue)) {
       tags.push(inputvalue)
-      this.props.allowedUsers
-        ? this.props.eventsActions.updateEventRequest(
-            this.props.event,
-            'visibility.allowedUsers',
-            tags.join(','),
-            this.props.location
-          )
-        : this.props.actions.updateRequest(this.props.user.token, 'tags', tags.join(','))
+        this.props.eventsActions.updateEventRequest(this.props.event, 'editability.allowedUsers', tags.join(','), this.props.location)
     }
     this.setState({ inputvalue: '', addNewTag: false })
   }
 
   onPressDeleteTag = tag => {
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
+    const tags = [...this.props.allowedUsers]
     var newTags = tags.filter(function(value) {
       return value !== tag
     })
-    this.props.allowedUsers
-      ? this.props.eventsActions.updateEventRequest(
-          this.props.event,
-          'visibility.allowedUsers',
-          newTags.join(','),
-          this.props.location
-        )
-      : this.props.actions.updateRequest(this.props.user.token, 'tags', newTags.join(','))
+     this.props.eventsActions.updateEventRequest(this.props.event, 'editability.allowedUsers', newTags.join(','), this.props.location)
   }
 
   handlePrivacy = (privacyValue, dataType) => {
     const { token } = this.props.user
-    this.props.actions.updatePrivacyRequest(token, privacyValue, dataType)
+    this.props.eventsActions.updatePrivacyRequest(token, privacyValue, dataType)
   }
 
   allTags() {
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
+    const tags = [...this.props.allowedUsers]
     return tags.map((tag, i) => {
       return (
         <TagButton
@@ -83,19 +63,17 @@ export default class TagsView extends React.Component {
   render() {
     const { inputvalue, addNewTag } = this.state
     const tagsPrivacy = this.props.allowedUsers ? null : this.props.user.data.privacy.tags
-    const tags = this.props.allowedUsers
-      ? [...this.props.allowedUsers]
-      : [...this.props.user.data.tags]
+    const tags = [...this.props.allowedUsers]
     return (
       <View>
         <View style={styles.tagsTitleWrapper}>
           <Text style={styles.tagsText}>
-            {this.props.allowedUsers ? 'Who can see?' : 'Your music tastes'}
+           Who can edit?
           </Text>
           {!this.props.allowedUsers ? (
             <PrivacyModal
               styleIcon={styles.privacyIcon}
-              dataType={'tags'}
+              dataType={'editability.allowedUsers'}
               onChangePrivacy={this.handlePrivacy}
               dataPrivacy={tagsPrivacy}
             />
