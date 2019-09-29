@@ -68,7 +68,8 @@ const getEventsAvailable = (events, id, idCorrespondance) => {
       event.visibility.privacy === "private" &&
       !(
         event.owner === id ||
-        (event.visibility.allowedUsers || []).indexOf(id) !== -1
+        (event.visibility.allowedUsers || []).indexOf(id) !== -1 ||
+        (event.vote.allowedUsers || []).indexOf(id) !== -1
       )
         ? false
         : true
@@ -255,7 +256,7 @@ async function updateData(req, res) {
     if (!id) {
       return res.status(500).send({ error: "token not valid" });
     }
-    const { owner, restriction } = await findEventBy(database, "_id", eventId);
+    const { owner } = await findEventBy(database, "_id", eventId);
     if (owner !== id) {
       return res
         .status(500)

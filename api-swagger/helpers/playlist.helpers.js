@@ -2,22 +2,31 @@ const getPlaylistData = (id, idCorrespondance) => playlist => {
   return {
     id: playlist._id,
     name: playlist.name,
-    privacy: playlist.privacy,
     canEdit: playlist.owner === id,
     playlistId: playlist.playlistId,
-    allowedUsers: (playlist.allowedUsers || []).map(
-      id => idCorrespondance[id].email
-    )
+    visibility: {
+      privacy: playlist.visibility.privacy,
+      allowedUsers: (playlist.visibility.allowedUsers || []).map(
+        id => idCorrespondance[id].email
+      )
+    },
+    editability: {
+      privacy: playlist.editability.privacy,
+      allowedUsers: (playlist.editability.allowedUsers || []).map(
+        id => idCorrespondance[id].email
+      )
+    }
   };
 };
 
 const getPlaylistAvailable = (playlists, id, idCorrespondance) => {
   const rt = playlists
     .filter(playlist =>
-      playlist.privacy === "private" &&
+      playlist.visibility.privacy === "private" &&
       !(
         playlist.owner === id ||
-        (playlist.allowedUsers || []).indexOf(id) !== -1
+        (playlist.visibility.allowedUsers || []).indexOf(id) !== -1 ||
+        (playlist.editability.allowedUsers || []).indexOf(id) !== -1
       )
         ? false
         : true

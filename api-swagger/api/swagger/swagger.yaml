@@ -784,6 +784,14 @@ definitions:
         $ref: "#/definitions/Visibility"
       vote:
         $ref: "#/definitions/Vote"
+  Editability:
+    properties:
+      privacy:
+        type: string
+      allowedUsers:
+        type: array
+        items:
+          type: string
   Visibility:
     properties:
       privacy:
@@ -922,12 +930,10 @@ definitions:
         type: boolean
       playlistId:
         type: number
-      allowedUsers:
-        type: array
-        items:
-          type: string
-      privacy:
-        type: string
+      visibility:
+        $ref: "#/definitions/Visibility"
+      editability:
+        $ref: "#/definitions/Editability"
   CreatePlaylistInput:
     required:
       - name
