@@ -78,4 +78,9 @@ if you change the `.env` file don't forget to run `npm run setup` and rebuild th
 - [x] [MTV/MPE] when playlist is played, play button on tracks do nothing
 - [x] [MTV] when I add new track, if I click on next, the track is not in "playlist"
 - [x] user social, when add friends fail, friends are still here
-- [ ] think to bonus arguments
+- [ ] empty reducers ( state > ALL ) on logout
+
+# BONUS
+- [x] run on school mac
+- [/] almost rest HATEOAS ( limite by swagger ( openAPI ) 2.0 )
+
