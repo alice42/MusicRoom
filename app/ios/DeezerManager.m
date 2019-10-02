@@ -15,6 +15,7 @@ RCT_EXPORT_METHOD(connect:(RCTResponseSenderBlock)callback) {
   [permissionsArray addObject:DeezerConnectPermissionBasicAccess];
 
   [permissionsArray addObject:DeezerConnectPermissionManageLibrary];
+  [permissionsArray addObject:DeezerConnectPermissionDeleteLibrary];
   [permissionsArray addObject:DeezerConnectPermissionOfflineAccess];
   
   [permissionsArray addObject:DeezerConnectPermissionListeningHistory];

@@ -327,7 +327,6 @@ async function getTracks(req, res) {
 
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
     const ev = await findEventBy(database, "playlistId", Number(playlistId));
-    console.log("API", ev);
     return res
       .status(200)
       .send(getTracksWithVotes(tracks.tracks.data, ev.votes));
@@ -403,17 +402,19 @@ async function voteTrack(req, res) {
       eventId
     );
     const { restriction } = vote;
+    const { endDate, startDate } = restriction
     let canVote = true;
     if (vote.privacy === "private" && !(vote.allowedUsers || []).find(userId => userId === id) ){
       canVote= false
     }
-    if (restriction.isRestricted === true && event.owner !== id) {
+    if (restriction.isRestricted === 'true' && owner !== id) {
+      const tme = new Date().getTime()
       const [a, b] = location.split(" ");
       const [x, y] = restriction.location.split(" ");
       if (measureDistance(a, b, x, y) > restriction.maxDistance) {
         canVote = false;
       }
-      if (tme > event.endTime || tme < event.startTime) {
+      if (tme > Number(endDate) || tme < Number(startDate)) {
         canVote = false;
       }
     }
