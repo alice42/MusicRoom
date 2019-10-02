@@ -27,6 +27,8 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.error,
         isFetching: false
       }
+    case 'LOGOUT':
+      return initialState 
     default:
       return state
   }

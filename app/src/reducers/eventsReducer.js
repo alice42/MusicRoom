@@ -51,6 +51,8 @@ const reducer = (state = initialState, action) => {
         list: [...state.list],
         isFetching: false
       }
+    case 'LOGOUT':
+      return initialState
     default:
       return state
   }

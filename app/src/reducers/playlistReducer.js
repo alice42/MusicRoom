@@ -95,6 +95,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentPlaylist: { ...state.currentPlaylist, list: [...action.results], isFetching: false }
       }
+    case 'LOGOUT':
+      return initialState
     default:
       return state
   }

@@ -285,6 +285,8 @@ const reducer = (state = initialState, action) => {
         errorTrack: false,
         errorPlaylists: false
       }
+    case 'LOGOUT':
+      return initialState
     default:
       return state
   }
