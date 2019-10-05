@@ -52,18 +52,18 @@ async function getPlaylists(req, res) {
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const tt = await findUserBy("_id", id, database);
     const { token: userTokens } = tt;
     if (!userTokens.deezer) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you dont have link your account to deezer" });
     }
     const validToken = await isDeezerTokenValid(userTokens.deezer);
     if (!validToken) {
-      return res.status(500).send({ error: "your token deezer is invalid" });
+      return res.status(403).send({ error: "your token deezer is invalid" });
     }
     const playlists = await findPlaylists(database);
     const idCorrespondance = await getAllUsers(database);
@@ -84,12 +84,12 @@ async function createPlaylist(req, res) {
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { _id, token: userTokens } = await findUserBy("_id", id, database);
     const validToken = await isDeezerTokenValid(userTokens.deezer);
     if (!validToken) {
-      return res.status(500).send({ error: "your token deezer is invalid" });
+      return res.status(403).send({ error: "your token deezer is invalid" });
     }
     playlist = await createNewPlaylist(
       "playlist_MPE_" + md5(name),
@@ -133,17 +133,17 @@ async function updateData(req, res) {
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { owner } = await findPlaylistBy(database, "_id", playlistId);
     if (owner !== id) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you are not authorized to edit this playlist" });
     }
     if (allowedKey.indexOf(toChange) === -1) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you cant change this information" });
     }
     let newVal = newValue;
@@ -165,7 +165,7 @@ async function updateData(req, res) {
         usersId = await Promise.all(usersIdPromises);
         newVal = [...new Set(usersId)];
       } catch (userError) {
-        return res.status(500).send({ error: "a user given doesnt exist" });
+        return res.status(403).send({ error: "a user given doesnt exist" });
       }
     }
     await updatePlaylist(
@@ -193,18 +193,18 @@ async function deletePlaylistMPE(req, res) {
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { owner } = await findPlaylistBy(database, "_id", playlistId);
     if (owner !== id) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you are not authorized to delete this playlist" });
     }
     const { _id, token: userTokens } = await findUserBy("_id", id, database);
     const validToken = await isDeezerTokenValid(userTokens.deezer);
     if (!validToken) {
-      return res.status(500).send({ error: "your token deezer is invalid" });
+      return res.status(403).send({ error: "your token deezer is invalid" });
     }
     await deletePlaylist(database, playlistId);
     const playlists = await findPlaylists(database);
@@ -229,19 +229,19 @@ async function getTracks(req, res) {
     const id = findKey(sessions, sessionToken => sessionToken === token);
 
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
 
     if (!userTokens.deezer) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you dont have link your account to deezer" });
     }
     const validToken = await isDeezerTokenValid(userTokens.deezer);
 
     if (!validToken) {
-      return res.status(500).send({ error: "your token deezer is invalid" });
+      return res.status(403).send({ error: "your token deezer is invalid" });
     }
 
     const tracks = await getPlaylistTracks(playlistId, userTokens.deezer);
@@ -262,19 +262,19 @@ async function addTrack(req, res) {
     const id = findKey(sessions, sessionToken => sessionToken === token);
     // not log ?
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
     // no deezer token ?
     if (!userTokens.deezer) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you dont have link your account to deezer" });
     }
     const validToken = await isDeezerTokenValid(userTokens.deezer);
     // no valid deezer token ?
     if (!validToken) {
-      return res.status(500).send({ error: "your token deezer is invalid" });
+      return res.status(403).send({ error: "your token deezer is invalid" });
     }
     const {
       _id: InternalPlaylistId,
@@ -284,7 +284,7 @@ async function addTrack(req, res) {
     } = await findPlaylistBy(database, "playlistId", playlistId);
     if (owner !== id && !canInteract(id, editability)) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you dont have rights to interact" });
     }
     await addTrackToPlaylist(trackId, playlistId, playlistToken);
@@ -314,17 +314,17 @@ async function removeTrack(req, res) {
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { token: userTokens } = await findUserBy("_id", id, database);
     if (!userTokens.deezer) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you dont have link your account to deezer" });
     }
     const validToken = await isDeezerTokenValid(userTokens.deezer);
     if (!validToken) {
-      return res.status(500).send({ error: "your token deezer is invalid" });
+      return res.status(403).send({ error: "your token deezer is invalid" });
     }
     const {
       _id: InternalPlaylistId,
@@ -334,7 +334,7 @@ async function removeTrack(req, res) {
     } = await findPlaylistBy(database, "playlistId", playlistId);
     if (owner !== id && !canInteract(id, editability)) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you dont have rights to interact" });
     }
     await removeTrackToPlaylist(trackId, playlistId, playlistToken);

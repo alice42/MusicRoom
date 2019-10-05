@@ -39,11 +39,16 @@ async function recover(req, res) {
       const tokenPassword = `${md5(email)}${createHash()}`;
       await updatetUser(user._id, { email, tokenPassword }, database);
       await sendEmail(mailRecover({ email, tokenPassword }), res.mail);
+
+      return res.status(200).send({
+        message:
+          "if there is an account with this email, you will receive a mail to reconnect you"
+      });
+    } else {
+      return res.status(403).send({
+        message: "No account found"
+      });
     }
-    return res.status(200).send({
-      message:
-        "if there is an account with this email, you will receive a mail to reconnect you"
-    });
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -73,10 +78,15 @@ async function newPassword(req, res) {
         mailNewPassword({ email, password: newPassword }),
         res.mail
       );
+      return res.status(200).send({
+        message: "Password reset. A new password was send to your mail."
+      });
+    } else {
+      return res.status(403).send({
+        message: "No account found"
+      });
     }
-    return res.status(200).send({
-      message: "Password reset. A new password was send to your mail."
-    });
+
   } catch (err) {
     console.log("INTER ERROR", err.message);
     return res.status(500).send({ error: "internal server error" });
@@ -126,7 +136,7 @@ async function accountValidation(req, res) {
       await sendEmail(mailAccountValid({ email }), res.mail);
       return res.status(200).send({ message: "Account Validated!" });
     }
-    return res.status(400).send({ error: "no user found with this token" });
+    return res.status(403).send({ error: "no user found with this token" });
     // throw Error("not yet implemented");
   } catch (err) {
     console.log("INTER ERROR", err.message);
@@ -151,13 +161,13 @@ async function updateData(req, res) {
 
     if (allowedKey.indexOf(toChange) === -1) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you cant change this information" });
     }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const debug = await findUserBy("_id", id, database);
     const { _id } = debug;
@@ -178,7 +188,7 @@ async function updateData(req, res) {
         usersId = await Promise.all(usersIdPromises);
         usersIdUniq = [...new Set(usersId)];
       } catch (userError) {
-        return res.status(500).send({ error: "a user given doesnt exist" });
+        return res.status(403).send({ error: "a user given doesnt exist" });
       }
       await updatetUser(_id, { [toChange]: usersIdUniq }, database);
     } else {
@@ -187,10 +197,10 @@ async function updateData(req, res) {
           toChange === "email"
             ? newValue.toLowerCase()
             : toChange === "tags"
-            ? newValue === ""
-              ? []
-              : newValue.split(",")
-            : newValue
+              ? newValue === ""
+                ? []
+                : newValue.split(",")
+              : newValue
       };
       await updatetUser(_id, obj, database);
     }
@@ -221,13 +231,13 @@ async function updatePrivacy(req, res) {
 
     if (allowedKey.indexOf(dataType) === -1) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you cant change this information" });
     }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { _id } = await findUserBy("_id", id, database);
     await updatetUserNode(
@@ -257,13 +267,13 @@ async function linkAccount(req, res) {
     const allowedKey = ["facebook", "google", "deezer"];
     if (allowedKey.indexOf(type) === -1) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you cant change this kind of account" });
     }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(401).send({ error: "token not valid" });
     }
     const { _id } = await findUserBy("_id", id, database);
     await updatetUserNode(_id, "token", { [type]: key }, database);
@@ -286,13 +296,13 @@ async function unlinkAccount(req, res) {
     const allowedKey = ["facebook", "google", "deezer"];
     if (allowedKey.indexOf(type) === -1) {
       return res
-        .status(500)
+        .status(403)
         .send({ error: "you cant change this kind of account" });
     }
     const sessions = await getSessions(database);
     const id = findKey(sessions, sessionToken => sessionToken === token);
     if (!id) {
-      return res.status(500).send({ error: "token not valid" });
+      return res.status(403).send({ error: "token not valid" });
     }
     const { _id } = await findUserBy("_id", id, database);
     await updatetUserNode(_id, "token", { [type]: false }, database);
