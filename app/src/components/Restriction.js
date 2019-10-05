@@ -53,25 +53,25 @@ export default class Restriction extends React.Component {
                 onPress={() => this.showDateTimePicker('start')}
               />
             </View>
-  
-              <View style={styles.contentInfo}>
-                <Text style={styles.title}>End Date: </Text>
-                <Text>{endDate ? endDate : 'none'}</Text>
-                <Icon
-                  name="edit"
-                  size={20}
-                  color={colors.green01}
-                  onPress={() => this.showDateTimePicker('end')}
-                />
-              </View>
-        
+
+            <View style={styles.contentInfo}>
+              <Text style={styles.title}>End Date: </Text>
+              <Text>{endDate ? endDate : 'none'}</Text>
+              <Icon
+                name="edit"
+                size={20}
+                color={colors.green01}
+                onPress={() => this.showDateTimePicker('end')}
+              />
+            </View>
+
 
             <DateTimePicker
               mode={'datetime'}
               isVisible={this.state.isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
               onCancel={this.hideDateTimePicker}
-              minimumDate={new Date(startDate)}
+              date={new Date(this.state.whichDate === "end" ? endDate : startDate)}
             />
             <View>
               <Text style={styles.title}>location:</Text>
