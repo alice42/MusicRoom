@@ -13,7 +13,7 @@ export default class Comments extends Component {
     const { width, height } = Dimensions.get('window')
     const { list, buttonPlay, buttonAdd, mtv, canEdit, canInteract } = this.props
     return (
-      list.length === 0 ? 
+      list && list.length === 0 ? 
       <View style={styles.viewNoEvent}>
         <Text style={styles.textNoEvent}>No tracks</Text>
       </View>
@@ -89,7 +89,8 @@ export default class Comments extends Component {
                       </View>
                     </View>
                   ) : null}
-                  <Image style={styles.image} source={{ uri: `${cover}` }} />
+                  {cover ? 
+                  <Image style={styles.image} source={{ uri: `${cover}` }} /> : null }
                 </View>
                 <View style={{ justifyContent: 'center', width: width - 180 }}>
                   <Text style={styles.trackTitle}>{track.title}</Text>
