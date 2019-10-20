@@ -96,24 +96,24 @@ const onConnection = db => async socket => {
   if (id) {
     console.log('New user connected', id)
     db.ref('playlists').on('child_removed', () => {
-      socket.emit('GET_PLAYLIST', {
-        type: 'GET_PLAYLIST',
+      socket.emit('GET_PLAYLIST_MPE', {
+        type: 'GET_PLAYLIST_MPE',
         data: {}
       })
     })
 
     db.ref('playlists').on('child_added', snapshot => {
       if (snapshot.val().createdAt > date) {
-        socket.emit('GET_PLAYLIST', {
-          type: 'GET_PLAYLIST',
+        socket.emit('GET_PLAYLIST_MPE', {
+          type: 'GET_PLAYLIST_MPE',
           data: {}
         })
       }
     })
 
     db.ref('playlists').on('child_changed', snapshot => {
-      socket.emit('UPDATED_PLAYLIST', {
-        type: 'UPDATED_PLAYLIST',
+      socket.emit('UPDATED_PLAYLIST_MPE', {
+        type: 'UPDATED_PLAYLIST_MPE',
         data: { id: snapshot.val().playlistId }
       })
     })
